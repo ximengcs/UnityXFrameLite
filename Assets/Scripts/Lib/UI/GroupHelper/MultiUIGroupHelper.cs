@@ -12,10 +12,6 @@ namespace UnityXFrameLib.UI
         private HashSet<int> m_Opening;
         private HashSet<int> m_Closing;
 
-        public MultiUIGroupHelper(IUIGroupHelperEffect openEffect, IUIGroupHelperEffect closeEffect) : base(openEffect, closeEffect)
-        {
-        }
-
         protected override void OnInit()
         {
             base.OnInit();

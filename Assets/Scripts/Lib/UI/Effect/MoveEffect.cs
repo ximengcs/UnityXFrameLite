@@ -20,11 +20,13 @@ namespace UnityXFrameLib.UI
             Rand
         }
 
+        private bool m_IsOpen;
         private Direct m_Direct;
         private Dictionary<int, Tween> m_Anims;
 
-        public MoveEffect(Direct direct)
+        public MoveEffect(Direct direct, bool open)
         {
+            m_IsOpen = open;
             m_Direct = direct;
             m_Anims = new Dictionary<int, Tween>();
         }
@@ -63,10 +65,18 @@ namespace UnityXFrameLib.UI
                     break;
             }
 
+            if (!m_IsOpen)
+            {
+                Vector2 tmp = start;
+                start = end;
+                end = tmp;
+            }
+
             ui.Root.anchoredPosition = start;
             m_Anims.Add(key, ui.Root.DOAnchoredPos(end, 0.3f).OnComplete(() =>
             {
                 onComplete?.Invoke();
+                ui.Root.anchoredPosition = start;
                 m_Anims.Remove(key);
             }));
         }

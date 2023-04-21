@@ -9,10 +9,6 @@ namespace UnityXFrameLib.UI
     {
         private IUI m_CurOpenUI;
 
-        public OnlyOneUIGroupHelper(IUIGroupHelperEffect openEffect, IUIGroupHelperEffect closeEffect) : base(openEffect, closeEffect)
-        {
-        }
-
         protected override void OnInit()
         {
             base.OnInit();

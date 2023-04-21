@@ -1,4 +1,5 @@
-﻿using UnityXFrame.Core.UIs;
+﻿using XFrame.Core;
+using UnityXFrame.Core.UIs;
 
 namespace UnityXFrameLib.UI
 {
@@ -10,10 +11,15 @@ namespace UnityXFrameLib.UI
         protected IUIGroupHelperEffect m_OpenEffect;
         protected IUIGroupHelperEffect m_CloseEffect;
 
-        public UIGroupHelperInEffect(IUIGroupHelperEffect openEffect, IUIGroupHelperEffect closeEffect)
+        protected override void OnInit()
         {
-            m_OpenEffect = openEffect;
-            m_CloseEffect = closeEffect;
+            base.OnInit();
+        }
+
+        public void SetEffect(IUIGroupHelperEffect open, IUIGroupHelperEffect close)
+        {
+            m_OpenEffect = open;
+            m_CloseEffect = close;
         }
     }
 }
