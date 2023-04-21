@@ -40,14 +40,14 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         /// <param name="type">辅助器类型</param>
         /// <param name="onReady">辅助器就绪事件</param>
-        void AddHelper(Type type, OnUIGroupHelperReady onReady);
+        void AddHelper(Type type, OnUIGroupHelperReady onReady = null);
 
         /// <summary>
         /// 添加组辅助器
         /// </summary>
         /// <typeparam name="T">辅助器类型</typeparam>
         /// <param name="onReady">辅助器就绪事件</param>
-        void AddHelper<T>(OnUIGroupHelperReady<T> onReady) where T : IUIGroupHelper;
+        void AddHelper<T>(OnUIGroupHelperReady<T> onReady = null) where T : IUIGroupHelper;
 
         /// <summary>
         /// 添加组辅助器

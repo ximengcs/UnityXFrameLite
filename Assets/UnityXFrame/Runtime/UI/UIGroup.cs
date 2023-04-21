@@ -202,7 +202,7 @@ namespace UnityXFrame.Core.UIs
             UIModule.SetLayer(m_Root, ui, layer);
         }
 
-        public void AddHelper(Type type, OnUIGroupHelperReady onReady)
+        public void AddHelper(Type type, OnUIGroupHelperReady onReady = null)
         {
             InnerAddHelper((IUIGroupHelper)Activator.CreateInstance(type), onReady);
         }
@@ -212,7 +212,7 @@ namespace UnityXFrame.Core.UIs
             InnerAddHelper(helper, null);
         }
 
-        public void AddHelper<T>(OnUIGroupHelperReady<T> onReady) where T : IUIGroupHelper
+        public void AddHelper<T>(OnUIGroupHelperReady<T> onReady = null) where T : IUIGroupHelper
         {
             AddHelper(typeof(T), (helper) => { onReady?.Invoke((T)helper); });
         }
