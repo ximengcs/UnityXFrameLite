@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
+using XFrame.Module.Rand;
 using UnityXFrame.Core.UIs;
 using System.Collections.Generic;
 
@@ -20,14 +21,18 @@ namespace UnityXFrameLib.UI
             Rand
         }
 
+        private float m_Dur;
         private bool m_IsOpen;
         private Direct m_Direct;
+        private bool m_CompleteReset;
         private Dictionary<int, Tween> m_Anims;
 
-        public MoveEffect(Direct direct, bool open)
+        public MoveEffect(Direct direct, bool open, bool completeRest, float duration = 0.2f)
         {
             m_IsOpen = open;
             m_Direct = direct;
+            m_Dur = duration;
+            m_CompleteReset = completeRest;
             m_Anims = new Dictionary<int, Tween>();
         }
 
@@ -36,8 +41,10 @@ namespace UnityXFrameLib.UI
             int key = ui.GetHashCode();
             Vector2 start;
             Vector2 end;
-
-            switch (m_Direct)
+            Direct direct = m_Direct;
+            if (m_Direct == Direct.Rand)
+                direct = RandModule.Inst.RandEnum(Direct.Rand);
+            switch (direct)
             {
                 case Direct.FromLeft:
                     start = new Vector2(-ui.Root.sizeDelta.x, 0);
@@ -73,12 +80,20 @@ namespace UnityXFrameLib.UI
             }
 
             ui.Root.anchoredPosition = start;
-            m_Anims.Add(key, ui.Root.DOAnchoredPos(end, 0.3f).OnComplete(() =>
+            Tween tween = ui.Root.DOAnchoredPos(end, m_Dur);
+            tween.OnComplete(() =>
             {
                 onComplete?.Invoke();
-                ui.Root.anchoredPosition = start;
                 m_Anims.Remove(key);
-            }));
+            });
+            if (m_CompleteReset)
+            {
+                tween.OnKill(() =>
+                {
+                    ui.Root.anchoredPosition = start;
+                });
+            }
+            m_Anims.Add(key, tween);
         }
 
         public void Kill(IUI ui)

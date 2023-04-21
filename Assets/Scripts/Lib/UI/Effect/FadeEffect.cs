@@ -58,8 +58,7 @@ namespace UnityXFrameLib.UI
             CanvasGroup canvasGroup = ui.Root.GetComponent<CanvasGroup>();
             if (canvasGroup == null)
                 canvasGroup = ui.Root.gameObject.AddComponent<CanvasGroup>();
-            if (canvasGroup.alpha == m_Target)
-                canvasGroup.alpha = m_Start;
+            canvasGroup.alpha = m_Start;
             return canvasGroup;
         }
     }

@@ -38,8 +38,7 @@ namespace UnityXFrameLib.UI
         public void Do(IUI ui, Action onComplete)
         {
             int key = ui.GetHashCode();
-            if (ui.Root.localScale == m_Target)
-                ui.Root.localScale = m_Start;
+            ui.Root.localScale = m_Start;
             m_Anims.Add(key, ui.Root.DOScale(m_Target, m_Dur).OnComplete(() =>
             {
                 onComplete?.Invoke();

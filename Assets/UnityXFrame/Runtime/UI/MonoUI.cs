@@ -177,9 +177,9 @@ namespace UnityXFrame.Core.UIs
             return m_Container.GetCom(type, id);
         }
 
-        public T AddCom<T>(OnComReady onReady = null) where T : ICom
+        public T AddCom<T>(OnComReady<T> onReady = null) where T : ICom
         {
-            return m_Container.AddCom<T>(onReady);
+            return m_Container.AddCom(onReady);
         }
 
         public ICom AddCom(ICom com, int id = 0, OnComReady onReady = null)
@@ -187,9 +187,9 @@ namespace UnityXFrame.Core.UIs
             return m_Container.AddCom(com, id, onReady);
         }
 
-        public T AddCom<T>(int id, OnComReady onReady = null) where T : ICom
+        public T AddCom<T>(int id, OnComReady<T> onReady = null) where T : ICom
         {
-            return m_Container.AddCom<T>(id, onReady);
+            return m_Container.AddCom(id, onReady);
         }
 
         public ICom AddCom(Type type, OnComReady onReady = null)
@@ -202,14 +202,14 @@ namespace UnityXFrame.Core.UIs
             return m_Container.AddCom(type, id, onReady);
         }
 
-        public T GetOrAddCom<T>(OnComReady onReady = null) where T : ICom
+        public T GetOrAddCom<T>(OnComReady<T> onReady = null) where T : ICom
         {
-            return m_Container.GetOrAddCom<T>(onReady);
+            return m_Container.GetOrAddCom(onReady);
         }
 
-        public T GetOrAddCom<T>(int id = 0, OnComReady onReady = null) where T : ICom
+        public T GetOrAddCom<T>(int id = 0, OnComReady<T> onReady = null) where T : ICom
         {
-            return m_Container.GetOrAddCom<T>(id, onReady);
+            return m_Container.GetOrAddCom(id, onReady);
         }
 
         public ICom GetOrAddCom(Type type, OnComReady onReady = null)
