@@ -2,6 +2,7 @@
 using UnityXFrame.Core.Audios;
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.UIs;
+using UnityXFrameLib.Improve;
 using UnityXFrameLib.UI;
 
 namespace Game.Test
@@ -22,7 +23,7 @@ namespace Game.Test
                 {
                     //helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
                     helper.SetEffect(
-                        new MoveEffect(MoveEffect.Direct.Rand, true, false), 
+                        new MoveEffect(MoveEffect.Direct.Rand, true, false),
                         new MoveEffect(MoveEffect.Direct.Rand, false, true));
                     //helper.SetEffect(new ScaleEffect(Vector2.one), new ScaleEffect(Vector2.one, Vector2.zero));
                     //helper.SetEffect(new FadeEffect(1, 0.5f), new FadeEffect(1, 0, 0.5f));
@@ -53,6 +54,12 @@ namespace Game.Test
             {
                 UIModule.Inst.Close<DialogUI>(2);
                 AudioModule.Inst.PlayAsync("a2.wav");
+            }
+            if (DebugGUI.Button("GC"))
+            {
+                GCModule.Inst.Request()
+                    .OnComplete(() => Debug.LogWarning("Complete GC"))
+                    .Start();
             }
         }
 

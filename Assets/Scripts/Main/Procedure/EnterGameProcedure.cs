@@ -1,4 +1,6 @@
-﻿using XFrame.Modules.Procedure;
+﻿using XFrame.Core;
+using UnityXFrameLib.Improve;
+using XFrame.Modules.Procedure;
 using XFrame.Modules.Diagnotics;
 
 namespace Game.Core.Procedure
@@ -9,6 +11,7 @@ namespace Game.Core.Procedure
         {
             base.OnEnter();
             Log.Debug("EnterGameProcedure");
+            Entry.AddModule<GCModule>();
         }
     }
 }
