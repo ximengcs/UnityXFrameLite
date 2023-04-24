@@ -16,10 +16,8 @@ namespace UnityXFrame.Core.UIs
                 return;
 
             bool find = false;
-            Transform[] list = new Transform[root.childCount];
-            Vector3[] positions = new Vector3[root.childCount];
-
             int curIndex = 0;
+            Transform[] list = new Transform[root.childCount];
             for (int i = 0; i < list.Length; i++, curIndex++)
             {
                 Transform child = root.GetChild(i);
@@ -27,7 +25,6 @@ namespace UnityXFrame.Core.UIs
                 {
                     find = true;
                     list[layer] = child;
-                    positions[layer] = child.position;
                     if (layer != curIndex)
                         curIndex--;
                 }
@@ -36,16 +33,14 @@ namespace UnityXFrame.Core.UIs
                     if (layer == curIndex)
                         curIndex++;
                     list[curIndex] = child;
-                    positions[curIndex] = child.position;
                 }
             }
 
-            root.DetachChildren();
             for (int i = 0; i < list.Length; i++)
             {
                 Transform child = list[i];
-                child.SetParent(root);
-                child.position = positions[i];
+                if (child.GetSiblingIndex() != i)
+                    child.SetSiblingIndex(i);
             }
         }
     }

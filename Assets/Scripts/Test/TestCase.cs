@@ -33,12 +33,25 @@ namespace Game.Test
                 UIModule.Inst.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0.2f, 0, 0, 1));
-                }, true);
+                }, true, 1);
                 AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Close Dialog 1"))
             {
-                UIModule.Inst.Close<DialogUI>();
+                UIModule.Inst.Close<DialogUI>(1);
+                AudioModule.Inst.PlayAsync("a2.wav");
+            }
+            if (DebugGUI.Button("Open Dialog 2"))
+            {
+                UIModule.Inst.Open<DialogUI>((ui) =>
+                {
+                    ui.SetData(new Color(0, 0.2f, 0, 1));
+                }, true, 2);
+                AudioModule.Inst.PlayAsync("a1.wav");
+            }
+            if (DebugGUI.Button("Close Dialog 2"))
+            {
+                UIModule.Inst.Close<DialogUI>(2);
                 AudioModule.Inst.PlayAsync("a2.wav");
             }
         }
