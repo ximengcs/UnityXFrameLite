@@ -19,8 +19,8 @@ namespace UnityXFrameLib.Improve
         private void InnerToMunal()
         {
 #if !UNITY_EDITOR
-            if (GarbageCollector.GCMode != GarbageCollector.Mode.Manual)
-                GarbageCollector.GCMode = GarbageCollector.Mode.Manual;
+            if (UnityEngine.Scripting.GarbageCollector.GCMode != UnityEngine.Scripting.GarbageCollector.Mode.Manual)
+                UnityEngine.Scripting.GarbageCollector.GCMode = UnityEngine.Scripting.GarbageCollector.Mode.Manual;
 #endif
         }
     }
