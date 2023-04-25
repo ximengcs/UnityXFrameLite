@@ -23,13 +23,13 @@ namespace UnityXFrame.Core
 
         public ITask BeforeHandle()
         {
-            return new EmptyTask();
+            return TaskModule.Inst.GetOrNew<EmptyTask>();
         }
 
         public ITask AfterHandle()
         {
             InnerConfigLog();
-            return new EmptyTask();
+            return TaskModule.Inst.GetOrNew<EmptyTask>();
         }
 
         private void InnerConfigLog()
