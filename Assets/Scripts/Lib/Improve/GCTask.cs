@@ -8,11 +8,13 @@ namespace UnityXFrameLib.Improve
     public class GCTask : ProActionTask
     {
         private float m_Pro;
+        private Stopwatch m_Watch;
 
         protected override void OnInit()
         {
             base.OnInit();
             m_Pro = 0;
+            m_Watch = new Stopwatch();
             Add(InnerStart);
         }
 
@@ -21,11 +23,10 @@ namespace UnityXFrameLib.Improve
 #if UNITY_EDITOR
             return MAX_PRO;
 #else
-            Stopwatch sw = Stopwatch.StartNew();
+            m_Watch.Restart();
             bool finish = !GarbageCollector.CollectIncremental();
-            sw.Stop();
-            UnityEngine.Debug.LogWarning("gc " + sw.ElapsedMilliseconds + " " + finish + " " + m_Pro);
-            if (finish || sw.ElapsedMilliseconds == 0)
+            m_Watch.Stop();
+            if (finish || m_Watch.ElapsedMilliseconds == 0)
                 return MAX_PRO;
 
             InnerFakePro();
