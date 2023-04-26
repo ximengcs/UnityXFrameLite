@@ -7,6 +7,7 @@ using XFrame.Modules.Times;
 using XFrame.Modules.XType;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -159,7 +160,10 @@ namespace UnityXFrame.Core.Diagnotics
 
         private string InnerCalculateFps()
         {
-            return string.Format("FPS {0:F2}", 1 / Time.deltaTime);
+            float fps = 1 / Time.deltaTime;
+            if (fps < 58)
+                Log.Debug("Debugger", $"Fps is {fps}");
+            return string.Format("FPS {0:F2}", fps);
         }
 
         private void InternalDrawHelpWindow(int windowId)
