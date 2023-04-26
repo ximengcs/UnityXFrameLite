@@ -35,19 +35,20 @@ namespace UnityXFrame.Core.Diagnotics
         private List<WindowInfo> m_Windows;
         private WindowInfo m_Current;
 
+        private Vector2 m_ScrollPos;
+        private bool m_ShowFps;
         private TweenModule m_TweenModule;
         private HashSet<int> m_TipNewMsg;
         private bool m_AlwaysTip;
         private string m_Tip;
         private CDTimer m_Timer;
-
+        private string m_EnterText;
         private EventSystem m_EventSytem;
 
         private const string TITLE = "Console";
         private const int TIP_CD_KEY = 0;
         private const int TIP_CD = 3;
         #endregion
-
         public void SetTip(IDebugWindow from, string content, string color = null)
         {
             if (!string.IsNullOrEmpty(color))
@@ -66,6 +67,7 @@ namespace UnityXFrame.Core.Diagnotics
         protected override void OnInit(object data)
         {
             base.OnInit(data);
+            m_ShowFps = false;
             m_OnGUIInit = false;
             Skin = Init.Inst.Data.DebuggerSkin;
             m_CloseButtonStyle = Skin.customStyles[0];
@@ -93,6 +95,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_Timer.Record(TIP_CD_KEY, TIP_CD);
             m_TipNewMsg = new HashSet<int>();
 
+            m_EnterText = TITLE;
             m_Windows = new List<WindowInfo>();
             InternalLoadInst();
 
@@ -140,16 +143,25 @@ namespace UnityXFrame.Core.Diagnotics
             }
             else
             {
-                string title = TITLE;
+                string title = m_EnterText;
                 if (m_TipNewMsg.Count > 0)
                     title = $"<color=#FF0000>{title}</color>";
                 if (GUILayout.Button(title, m_EnterButtonStyle))
                     m_IsOpen = true;
             }
+
+            if (m_ShowFps)
+                m_EnterText = InnerCalculateFps();
+            else
+                m_EnterText = TITLE;
         }
         #endregion
 
-        private Vector2 scrollPos;
+        private string InnerCalculateFps()
+        {
+            return string.Format("FPS {0:F2}", 1 / Time.deltaTime);
+        }
+
         private void InternalDrawHelpWindow(int windowId)
         {
             if (m_HelpWindowStyle.fixedHeight < m_RootRect.height)
@@ -160,7 +172,7 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
-            scrollPos = DebugGUI.BeginScrollView(scrollPos);
+            m_ScrollPos = DebugGUI.BeginScrollView(m_ScrollPos);
             GUILayout.Box(m_Current.HelpInfo);
             GUILayout.EndScrollView();
         }
@@ -253,6 +265,11 @@ namespace UnityXFrame.Core.Diagnotics
         private void InternalDrawRootWindow(int windowId)
         {
             GUILayout.BeginHorizontal();
+            if (m_ShowFps)
+                DebugGUI.Label(InnerCalculateFps());
+            else
+                DebugGUI.Label("Fps");
+            m_ShowFps = DebugGUI.Power(m_ShowFps);
             GUILayout.FlexibleSpace();
             GUILayout.Label(TITLE, m_TitleStyle);
             GUILayout.FlexibleSpace();

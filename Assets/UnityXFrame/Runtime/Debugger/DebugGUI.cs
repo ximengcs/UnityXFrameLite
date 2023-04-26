@@ -6,6 +6,7 @@ namespace UnityXFrame.Core.Diagnotics
     public static class DebugGUI
     {
         public static DebugStyle Style;
+        private static string[] m_PowerText = new string[] { "On", "Off" };
         private static Dictionary<int, string> s_FloatTexts = new Dictionary<int, string>();
 
         public static void Progress(float value)
@@ -76,6 +77,11 @@ namespace UnityXFrame.Core.Diagnotics
         public static int Toolbar(int selectId, string[] texts, params GUILayoutOption[] options)
         {
             return GUILayout.Toolbar(selectId, texts, Style.Toolbar, options);
+        }
+
+        public static bool Power(bool on)
+        {
+            return Toolbar(on ? 0 : 1, m_PowerText) == 0;
         }
     }
 }
