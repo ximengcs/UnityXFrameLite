@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityXFrame.Core.UIs;
+using UnityXFrameLib.Localize;
 using XFrame.Modules.Event;
 using XFrame.Modules.Local;
 
@@ -18,13 +19,12 @@ namespace Game.Test
             m_Transform.Find("BackGround").GetComponent<Image>().color = GetData<Color>();
 
             m_Title = m_Transform.Find("Text").GetComponent<TextMeshProUGUI>();
-            LocalizeModule.Inst.Event.Listen(LanguageChangeEvent.EventId, InnerLangChange);
-            LocalizeModule.Inst.Lang = Language.English;
+            LocalizeExt.RegisterLocalText(m_Title, InnerLangChange);
         }
 
-        private void InnerLangChange(XEvent e)
+        private void InnerLangChange(TextMeshProUGUI textCom)
         {
-            m_Title.text = LocalizeModule.Inst.GetValue(1);
+            textCom.text = LocalizeModule.Inst.GetValue(1);
         }
     }
 }

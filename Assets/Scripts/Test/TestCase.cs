@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Scripting;
 using UnityXFrame.Core.Audios;
@@ -39,6 +40,7 @@ namespace Game.Test
 
             if (DebugGUI.Button("Init Group1"))
             {
+                UIModule.Inst.GetOrNewGroup("Test");
                 UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
                 {
                     helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
@@ -66,6 +68,10 @@ namespace Game.Test
                 {
                     helper.SetEffect(new FadeEffect(1, 0.5f), new FadeEffect(1, 0, 0.5f));
                 });
+            }
+            if (DebugGUI.Button("Open Setting"))
+            {
+                UIModule.Inst.Open<SettingUI>("Test", null, true);
             }
             if (DebugGUI.Button("Open Dialog 1"))
             {
@@ -99,12 +105,13 @@ namespace Game.Test
                     .OnComplete(() => Log.Debug("Complete GC"))
                     .Start();
             }
-            if (DebugGUI.Button("Test"))
+            if (DebugGUI.Button("To English"))
             {
-                if (LocalizeModule.Inst.Lang == Language.English)
-                    LocalizeModule.Inst.Lang = Language.ChineseSimplified;
-                else
-                    LocalizeModule.Inst.Lang = Language.English;
+                LocalizeModule.Inst.Lang = Language.English;
+            }
+            if (DebugGUI.Button("To Chinese"))
+            {
+                LocalizeModule.Inst.Lang = Language.ChineseSimplified;
             }
         }
 
