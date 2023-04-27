@@ -3,10 +3,13 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using UnityXFrame.Core.Audios;
 using UnityXFrame.Core.Diagnotics;
+using UnityXFrame.Core.Resource;
 using UnityXFrame.Core.UIs;
 using UnityXFrameLib.Improve;
 using UnityXFrameLib.UI;
 using XFrame.Core;
+using XFrame.Modules.Diagnotics;
+using XFrame.Modules.Resource;
 
 namespace Game.Test
 {
@@ -24,6 +27,15 @@ namespace Game.Test
         {
             DebugGUI.Label("Test UI");
             m_Time = DebugGUI.FloatField(m_Time);
+            if (DebugGUI.Button("Test Init GameObject"))
+            {
+                var sw = System.Diagnostics.Stopwatch.StartNew();
+                GameObject prefab = NativeResModule.Inst.Load<GameObject>("Data/Prefab/Test.prefab");
+                GameObject.Instantiate(prefab);
+                sw.Stop();
+                Log.Debug("Debugger", sw.ElapsedMilliseconds);
+            }
+
             if (DebugGUI.Button("Init Group1"))
             {
                 UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
@@ -83,8 +95,13 @@ namespace Game.Test
             if (DebugGUI.Button("GC"))
             {
                 GCModule.Inst.Request()
-                    .OnComplete(() => Debug.LogWarning("Complete GC"))
+                    .OnComplete(() => Log.Debug("Complete GC"))
                     .Start();
+            }
+            if (DebugGUI.Button("Test"))
+            {
+                Log.Debug(NativeResModule.Inst.GetHashCode());
+                Log.Debug(ResModule.Inst.GetHashCode());
             }
         }
 

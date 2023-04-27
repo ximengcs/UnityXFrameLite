@@ -9,9 +9,12 @@ namespace UnityXFrame.Core.Resource
     [XModule]
     public partial class NativeResModule : ResModule
     {
+        public new static NativeResModule Inst { get; private set; }
+
         protected override void OnInit(object data)
         {
             Id = 1;
+            Inst = this;
             InnerSetHelper(typeof(ResourcesHelper));
         }
     }

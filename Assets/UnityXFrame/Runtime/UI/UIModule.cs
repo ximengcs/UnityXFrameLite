@@ -381,7 +381,7 @@ namespace UnityXFrame.Core.UIs
                 string uiPath = $"{Constant.UI_RES_PATH}/{uiType.Name}.prefab";
 
                 if (useNavtive)
-                    prefab = Entry.GetModule<NativeResModule>().Load<GameObject>(uiPath);
+                    prefab = NativeResModule.Inst.Load<GameObject>(uiPath);
                 else
                     prefab = ResModule.Inst.Load<GameObject>(uiPath);
 
