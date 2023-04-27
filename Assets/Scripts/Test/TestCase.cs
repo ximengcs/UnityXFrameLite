@@ -9,6 +9,7 @@ using UnityXFrameLib.Improve;
 using UnityXFrameLib.UI;
 using XFrame.Core;
 using XFrame.Modules.Diagnotics;
+using XFrame.Modules.Local;
 using XFrame.Modules.Resource;
 
 namespace Game.Test
@@ -100,8 +101,10 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                Log.Debug(NativeResModule.Inst.GetHashCode());
-                Log.Debug(ResModule.Inst.GetHashCode());
+                if (LocalizeModule.Inst.Lang == Language.English)
+                    LocalizeModule.Inst.Lang = Language.ChineseSimplified;
+                else
+                    LocalizeModule.Inst.Lang = Language.English;
             }
         }
 

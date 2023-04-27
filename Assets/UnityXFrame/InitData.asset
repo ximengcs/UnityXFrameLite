@@ -19,7 +19,7 @@ MonoBehaviour:
   ArchivePath: C:/Users/XM/AppData/LocalLow/DefaultCompany/UnityXFrameLite\archive
   JsonSerializer: UnityXFrame.Core.Serialize.JsonSerializeHelper
   DownloadHelper: UnityXFrame.Core.Download.DownloadHelper
-  LocalizeFile: {fileID: 0}
+  LocalizeFile: {fileID: 4900000, guid: f144eb5d7b5017d4e97ea644cf26587c, type: 3}
   DebuggerSkin: {fileID: 11400000, guid: ffe8f91b25724e54f837080896d8454f, type: 2}
   LogMark:
   - Key: XFrame

@@ -17,8 +17,6 @@ namespace UnityXFrame.Core
             XConfig.ArchivePath = Constant.ArchivePath;
             XConfig.DefaultJsonSerializer = data.JsonSerializer;
             XConfig.DefaultDownloadHelper = data.DownloadHelper;
-            if (data.LocalizeFile != null)
-                XConfig.LocalizeFile = data.LocalizeFile.text;
         }
 
         public ITask BeforeHandle()

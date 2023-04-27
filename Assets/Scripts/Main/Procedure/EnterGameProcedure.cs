@@ -1,7 +1,11 @@
 ﻿using XFrame.Core;
+using UnityEngine;
+using UnityXFrame.Core;
+using XFrame.Modules.Local;
 using UnityXFrameLib.Improve;
 using XFrame.Modules.Procedure;
 using XFrame.Modules.Diagnotics;
+using UnityXFrame.Core.Resource;
 
 namespace Game.Core.Procedure
 {
@@ -11,6 +15,9 @@ namespace Game.Core.Procedure
         {
             base.OnEnter();
             Log.Debug("EnterGameProcedure");
+
+            string langFile = NativeResModule.Inst.Load<TextAsset>(Constant.LANG_FILE_PATH).text;
+            LocalizeModule.Inst.Parse(langFile);
             Entry.AddModule<GCModule>();
         }
     }
