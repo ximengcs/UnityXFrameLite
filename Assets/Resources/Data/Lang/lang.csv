@@ -1,5 +1,6 @@
-None,English,ChineseSimplified,Japanese
-1,Test1,测试1,テスト（する）1
-2,Test2,测试2,テスト（する）2
-3,Test3,测试3,テスト（する）3
-4,English,简体中文,日本語
+﻿None,English,ChineseSimplified,Japanese,Korean
+1,Test1,测试1,テスト（する）1,테스트1
+2,Test2,测试2,テスト（する）2,테스트2
+3,Test3,测试3,テスト（する）3,테스트3
+4,English,简体中文,日本語,한어
+5,Setting,设置,せっち,설치
