@@ -10,7 +10,6 @@ namespace UnityXFrame.Core
         public void EnterHandle()
         {
             InitData data = Init.Inst.Data;
-            XConfig.Lang = data.Language;
             XConfig.Entrance = data.Entrance;
             XConfig.DefaultRes = data.ResMode;
             XConfig.DefaultLogger = data.Logger;

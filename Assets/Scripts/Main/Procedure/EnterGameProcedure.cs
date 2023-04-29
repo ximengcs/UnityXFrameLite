@@ -6,6 +6,7 @@ using UnityXFrameLib.Improve;
 using XFrame.Modules.Procedure;
 using XFrame.Modules.Diagnotics;
 using UnityXFrame.Core.Resource;
+using Game.Test;
 
 namespace Game.Core.Procedure
 {

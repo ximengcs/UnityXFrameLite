@@ -105,13 +105,9 @@ namespace Game.Test
                     .OnComplete(() => Log.Debug("Complete GC"))
                     .Start();
             }
-            if (DebugGUI.Button("To English"))
+            if (DebugGUI.Button("Test"))
             {
-                LocalizeModule.Inst.Lang = Language.English;
-            }
-            if (DebugGUI.Button("To Chinese"))
-            {
-                LocalizeModule.Inst.Lang = Language.ChineseSimplified;
+                Log.Debug(SettingData.Inst.Lang.Value);
             }
         }
 

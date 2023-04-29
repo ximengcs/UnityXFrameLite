@@ -24,12 +24,14 @@ namespace Game.Test
             m_Dropdown.SetFonts(m_Fonts);
             m_Dropdown.AddOptions(m_Options);
             m_Dropdown.onValueChanged.AddListener(InnerChangeHandler);
+            m_Dropdown.value = m_Languages.IndexOf(LocalizeModule.Inst.Lang);
             LocalizeExt.RegisterLocalText(m_Title, InnerSetTitle);
         }
 
         private void InnerSetTitle(TextMeshProUGUI textCom)
         {
             textCom.text = LocalizeModule.Inst.GetValue(5);
+            m_Dropdown.captionText.font = textCom.font;
         }
 
         private void InnerInitLanguage()
@@ -52,7 +54,7 @@ namespace Game.Test
 
         private void InnerChangeHandler(int select)
         {
-            LocalizeModule.Inst.Lang = m_Languages[select];
+            SettingData.Inst.Lang.Value = m_Languages[select];
         }
     }
 }

@@ -4,6 +4,7 @@ using XFrame.Modules.Event;
 using XFrame.Modules.Local;
 using UnityXFrame.Core.Resource;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UnityXFrameLib.Localize
 {
@@ -19,7 +20,7 @@ namespace UnityXFrameLib.Localize
 
             XEventHandler langChangeHandler = (e) =>
             {
-                textCom.font = LoadFont(LocalizeModule.Inst.Lang);
+                textCom.font = LoadFont(LocalizeModule.Inst.Lang, Language.English);
                 handler?.Invoke(textCom);
             };
             LocalizeModule.Inst.Event.Listen(LanguageChangeEvent.EventId, langChangeHandler);
@@ -40,6 +41,14 @@ namespace UnityXFrameLib.Localize
         public static TMP_FontAsset LoadFont(Language lang)
         {
             return NativeResModule.Inst.Load<TMP_FontAsset>($"Fonts & Materials/{lang}");
+        }
+
+        public static TMP_FontAsset LoadFont(Language lang, Language defaultLang)
+        {
+            TMP_FontAsset font = LoadFont(lang);
+            if (font == null)
+                font = LoadFont(defaultLang);
+            return font;
         }
     }
 }
