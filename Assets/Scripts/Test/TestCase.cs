@@ -107,7 +107,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                Log.Debug(SettingData.Inst.Lang.Value);
+                Log.Debug(GUI.skin.font.name);
             }
         }
 
