@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using XFrame.Modules.Entities;
 using XFrame.Modules.Resource;
 using UnityXFrame.Core.Entities;
+using XFrame.Modules.XType;
 
 namespace UnityXFrame.Core.SceneUIs
 {
@@ -65,7 +66,7 @@ namespace UnityXFrame.Core.SceneUIs
                 return;
             }
 
-            if (TypeUtility.HasAttribute<OnlyOneOpenAttribute>(ui))
+            if (TypeModule.Inst.HasAttribute<OnlyOneOpenAttribute>(ui.GetType()))
             {
                 if (m_CurOneOpen != null)
                     m_OnlyOneOpens.Add(m_CurOneOpen);
@@ -134,7 +135,7 @@ namespace UnityXFrame.Core.SceneUIs
         {
             Transform tf;
             GameObjectCom com = entity.GetCom<GameObjectCom>();
-            if (TypeUtility.HasAttribute<NoneInteractiveAttribute>(uiType))
+            if (TypeModule.Inst.HasAttribute<NoneInteractiveAttribute>(uiType))
             {
                 tf = com.Tf.Find("NotInterActUI");
                 if (tf == null)
@@ -166,7 +167,7 @@ namespace UnityXFrame.Core.SceneUIs
         private void InnerInitLayer(ISceneUI ui, GameObject unityInst)
         {
             RectTransform tf = unityInst.GetComponent<RectTransform>();
-            SceneUILayer layer = TypeUtility.GetAttribute<SceneUILayer>(ui);
+            SceneUILayer layer = TypeModule.Inst.GetAttribute<SceneUILayer>(ui.GetType());
             Vector3 pos = tf.anchoredPosition3D;
             pos.z = layer != null ? -layer.Layer : 0;
             tf.anchoredPosition3D = pos;

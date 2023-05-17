@@ -94,7 +94,7 @@ namespace UnityXFrame.Core.UIs
             });
         }
 
-        void IContainer.OnInit(int id, object master, OnContainerReady onReady)
+        void IContainer.OnInit(int id, object master, OnDataProviderReady onReady)
         {
             m_Container = new Container();
             m_Container.OnInit(id, master, null);
@@ -143,9 +143,16 @@ namespace UnityXFrame.Core.UIs
                 m_Group?.SetUILayer(this, Layer);
         }
 
+        int IPoolObject.PoolKey => 0;
+
         void IPoolObject.OnCreate()
         {
             OnCreateFromPool();
+        }
+
+        void IPoolObject.OnRequest()
+        {
+            OnRequestFromPool();
         }
 
         void IPoolObject.OnRelease()
@@ -164,6 +171,7 @@ namespace UnityXFrame.Core.UIs
         protected virtual void OnOpen() { }
         protected virtual void OnClose() { }
         protected virtual void OnCreateFromPool() { }
+        protected virtual void OnRequestFromPool() { }
         protected virtual void OnDestroyFromPool() { }
         protected virtual void OnReleaseFromPool() { }
 
@@ -177,47 +185,47 @@ namespace UnityXFrame.Core.UIs
             return m_Container.GetCom(type, id);
         }
 
-        public T AddCom<T>(OnComReady<T> onReady = null) where T : ICom
+        public T AddCom<T>(OnDataProviderReady onReady = null) where T : ICom
         {
-            return m_Container.AddCom(onReady);
+            return m_Container.AddCom<T>(onReady);
         }
 
-        public ICom AddCom(ICom com, int id = 0, OnComReady onReady = null)
+        public ICom AddCom(ICom com, int id = 0, OnDataProviderReady onReady = null)
         {
             return m_Container.AddCom(com, id, onReady);
         }
 
-        public T AddCom<T>(int id, OnComReady<T> onReady = null) where T : ICom
+        public T AddCom<T>(int id, OnDataProviderReady onReady = null) where T : ICom
         {
-            return m_Container.AddCom(id, onReady);
+            return m_Container.AddCom<T>(id, onReady);
         }
 
-        public ICom AddCom(Type type, OnComReady onReady = null)
+        public ICom AddCom(Type type, OnDataProviderReady onReady = null)
         {
             return m_Container.AddCom(type, onReady);
         }
 
-        public ICom AddCom(Type type, int id = 0, OnComReady onReady = null)
+        public ICom AddCom(Type type, int id = 0, OnDataProviderReady onReady = null)
         {
             return m_Container.AddCom(type, id, onReady);
         }
 
-        public T GetOrAddCom<T>(OnComReady<T> onReady = null) where T : ICom
+        public T GetOrAddCom<T>(OnDataProviderReady onReady = null) where T : ICom
         {
-            return m_Container.GetOrAddCom(onReady);
+            return m_Container.GetOrAddCom<T>(onReady);
         }
 
-        public T GetOrAddCom<T>(int id = 0, OnComReady<T> onReady = null) where T : ICom
+        public T GetOrAddCom<T>(int id = 0, OnDataProviderReady onReady = null) where T : ICom
         {
-            return m_Container.GetOrAddCom(id, onReady);
+            return m_Container.GetOrAddCom<T>(id, onReady);
         }
 
-        public ICom GetOrAddCom(Type type, OnComReady onReady = null)
+        public ICom GetOrAddCom(Type type, OnDataProviderReady onReady = null)
         {
             return m_Container.GetOrAddCom(type, onReady);
         }
 
-        public ICom GetOrAddCom(Type type, int id = 0, OnComReady onReady = null)
+        public ICom GetOrAddCom(Type type, int id = 0, OnDataProviderReady onReady = null)
         {
             return m_Container.GetOrAddCom(type, id, onReady);
         }
@@ -235,11 +243,6 @@ namespace UnityXFrame.Core.UIs
         public void ClearCom()
         {
             m_Container.ClearCom();
-        }
-
-        public void DispatchCom(OnComReady handle)
-        {
-            m_Container.DispatchCom(handle);
         }
 
         public void SetData<T>(T value)
@@ -262,11 +265,11 @@ namespace UnityXFrame.Core.UIs
             return m_Container.GetData<T>(name);
         }
 
-        public void Dispose()
+        public void ClearData()
         {
-            m_Container.Dispose();
+            m_Container.ClearData();
         }
-
+        
         public IEnumerator<ICom> GetEnumerator()
         {
             return m_Container.GetEnumerator();

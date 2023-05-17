@@ -65,7 +65,6 @@ namespace UnityXFrame.Core.UIs
                 node.Value.OnDestroy();
                 node = node.Next;
             }
-            m_GroupList.Dispose();
             m_GroupList = null;
         }
         #endregion

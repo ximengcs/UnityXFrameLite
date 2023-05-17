@@ -40,7 +40,6 @@ namespace UnityXFrame.Core.Audios
                 group?.Remove(realAudio);
                 realAudio.SetGroup(this);
                 m_Audios.Add(audio);
-                realAudio.OnDispose(() => Remove(audio));
             }
 
             public void Remove(IAudio audio)

@@ -155,11 +155,8 @@ namespace UnityXFrame.Core.Audios
         private Audio InnerCreateAudio(string name)
         {
             AudioClip clip = ResModule.Inst.Load<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
-            if (m_AudioPool.Require(out Audio audio))
-                audio.OnInit(m_Root, m_MainGroup, clip);
-            else
-                audio.Clip = clip;
-            audio.OnDispose(() => m_AudioPool.Release(audio));
+            Audio audio = m_AudioPool.Require();
+            audio.OnInit(m_Root, m_MainGroup, clip);
             return audio;
         }
 
@@ -172,12 +169,9 @@ namespace UnityXFrame.Core.Audios
                 if (clip == null)
                     return;
 
-                if (m_AudioPool.Require(out Audio audio))
-                    audio.OnInit(m_Root, m_MainGroup, clip);
-                else
-                    audio.Clip = clip;
+                Audio audio = m_AudioPool.Require();
+                audio.OnInit(m_Root, m_MainGroup, clip);
                 task.Data = audio;
-                audio.OnDispose(() => m_AudioPool.Release(audio));
             });
             task.Add(loadTask).Start();
             return task;

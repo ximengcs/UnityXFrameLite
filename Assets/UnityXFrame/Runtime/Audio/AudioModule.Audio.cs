@@ -14,11 +14,8 @@ namespace UnityXFrame.Core.Audios
             private AudioSource m_Source;
             private float m_Volume;
 
-            private float m_DefaultVolume;
             private BolActionTask m_WaitTask;
             private Group m_Group;
-
-            private Action m_OnDispose;
 
             public AudioClip Clip
             {
@@ -46,11 +43,9 @@ namespace UnityXFrame.Core.Audios
             public void OnInit(Transform root, AudioMixerGroup group, AudioClip clip)
             {
                 m_Volume = 1.0f;
-                m_Inst = new GameObject(clip.name);
+                m_Inst.name = clip.name;
                 m_Inst.transform.SetParent(root);
-                m_Source = m_Inst.AddComponent<AudioSource>();
                 m_Source.outputAudioMixerGroup = group;
-                m_DefaultVolume = m_Source.volume;
                 Clip = clip;
             }
 
@@ -77,9 +72,8 @@ namespace UnityXFrame.Core.Audios
                     {
                         m_WaitTask = null;
                         callback?.Invoke();
-                        m_OnDispose?.Invoke();
-                    })
-                    .Start();
+                        Stop();
+                    }).Start();
             }
 
             public void PlayLoop()
@@ -92,19 +86,21 @@ namespace UnityXFrame.Core.Audios
             public void Stop()
             {
                 m_Source.Stop();
-                m_OnDispose?.Invoke();
+                PoolModule.Inst.GetOrNew<Audio>().Release(this);
+                m_Group.Remove(this);
             }
 
-            public void OnDispose(Action callback)
-            {
-                m_OnDispose += callback;
-            }
+            int IPoolObject.PoolKey => 0;
 
             void IPoolObject.OnCreate()
             {
-                m_Inst?.SetActive(true);
-                if (m_Source != null)
-                    m_Source.volume = m_DefaultVolume;
+                m_Inst = new GameObject("Audio");
+                m_Source = m_Inst.AddComponent<AudioSource>();
+            }
+
+            void IPoolObject.OnRequest()
+            {
+                m_Inst.SetActive(true);
             }
 
             void IPoolObject.OnDelete()
@@ -125,7 +121,6 @@ namespace UnityXFrame.Core.Audios
 
                 m_Group = null;
                 m_Inst.SetActive(false);
-                m_OnDispose = null;
             }
 
             private void InnerUpdateSourceVolume()

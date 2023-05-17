@@ -2,6 +2,7 @@ using XFrame.Core;
 using UnityEngine;
 using XFrame.Modules.Archives;
 using UnityXFrame.Core.Diagnotics;
+using XFrame.Modules.Config;
 
 namespace UnityXFrame.Core
 {
@@ -11,6 +12,7 @@ namespace UnityXFrame.Core
 
         private void Awake()
         {
+            XConfig.UseClassModule = new string[] { "Assembly-CSharp", "UnityXFrame", "UnityXFrameLib"};
             Entry.Init();
         }
 

@@ -111,23 +111,24 @@ namespace UnityXFrame.Core.UIs
 
         void IUI.OnOpen()
         {
-            DispatchCom((com) =>
+            foreach (ICom com in this)
             {
                 UICom uiCom = com as UICom;
                 if (uiCom != null)
                     uiCom.OnOpen();
-            });
+            }
             OnOpen();
         }
 
         void IUI.OnClose()
         {
-            DispatchCom((com) =>
+            foreach (ICom com in this)
             {
                 UICom uiCom = com as UICom;
                 if (uiCom != null)
                     uiCom.OnClose();
-            });
+            }
+
             OnClose();
         }
 
