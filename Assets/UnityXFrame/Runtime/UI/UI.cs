@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using XFrame.Collections;
+using XFrame.Modules.Event;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Diagnotics;
-using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core.UIs
 {

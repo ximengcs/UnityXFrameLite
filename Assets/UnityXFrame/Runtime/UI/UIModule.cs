@@ -6,6 +6,7 @@ using XFrame.Modules.Pools;
 using XFrame.Modules.XType;
 using System.Collections.Generic;
 using XFrame.Modules.Containers;
+using UnityEngine.Profiling;
 
 namespace UnityXFrame.Core.UIs
 {

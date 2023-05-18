@@ -12,14 +12,8 @@ namespace UnityXFrame.Core.UIs
             m_CommonCom = GetOrAddCom<UICommonCom>();
         }
 
-        protected internal virtual void OnOpen()
-        {
+        protected internal virtual void OnOpen() { }
 
-        }
-
-        protected internal virtual void OnClose()
-        {
-
-        }
+        protected internal virtual void OnClose() { }
     }
 }

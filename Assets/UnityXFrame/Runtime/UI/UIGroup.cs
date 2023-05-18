@@ -113,6 +113,7 @@ namespace UnityXFrame.Core.UIs
             else
             {
                 ui.OnClose();
+                ui.Active = false;
             }
         }
 
@@ -133,6 +134,7 @@ namespace UnityXFrame.Core.UIs
             else
             {
                 ui.OnOpen();
+                ui.Active = true;
             }
         }
 
