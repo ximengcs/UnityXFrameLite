@@ -5,6 +5,7 @@ using XFrame.Modules.Pools;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
+using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -78,22 +79,6 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
-        void IUI.OnGroupChange(IUIGroup newGroup)
-        {
-            m_Group = newGroup as UIGroup;
-        }
-
-        void IUI.OnInit(int id, OnUIReady onReady)
-        {
-            IContainer thisContainer = this;
-            thisContainer.OnInit(id, this, (c) =>
-            {
-                onReady?.Invoke(this);
-                m_Root = GetData<GameObject>();
-                m_Transform = m_Root.GetComponent<RectTransform>();
-            });
-        }
-
         void IContainer.OnInit(int id, object master, OnDataProviderReady onReady)
         {
             m_Container = new Container();
@@ -136,14 +121,9 @@ namespace UnityXFrame.Core.UIs
             OnClose();
         }
 
-        void IUI.SetLayer(int layer, bool refresh)
-        {
-            Layer = layer;
-            if (refresh)
-                m_Group?.SetUILayer(this, Layer);
-        }
-
         int IPoolObject.PoolKey => 0;
+
+        public IEventSystem Event => throw new NotImplementedException();
 
         void IPoolObject.OnCreate()
         {

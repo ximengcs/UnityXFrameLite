@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using XFrame.Modules.Pools;
 
 namespace UnityXFrame.Core.UIs
 {

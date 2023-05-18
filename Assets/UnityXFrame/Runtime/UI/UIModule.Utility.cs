@@ -12,8 +12,9 @@ namespace UnityXFrame.Core.UIs
         internal static void SetLayer(Transform root, IUIElement element, int layer)
         {
             Transform check = root.GetChild(layer);
-            if (check.name == GetInstName(element))
+            if (check.name == element.Name)
                 return;
+            Debug.LogWarning(check.name + " " + element.Name);
 
             bool find = false;
             int curIndex = 0;

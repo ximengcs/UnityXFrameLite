@@ -1,5 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using UnityXFrame.Core.Resource;
+using XFrame.Modules.Pools;
+using XFrame.Modules.Resource;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -12,5 +15,6 @@ namespace UnityXFrame.Core.UIs
                 return (IUI)Activator.CreateInstance(uiType);
             }
         }
+
     }
 }

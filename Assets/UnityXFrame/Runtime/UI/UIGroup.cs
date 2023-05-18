@@ -7,11 +7,34 @@ namespace UnityXFrame.Core.UIs
 {
     public partial class UIGroup : IUIGroup
     {
+        internal struct UIInfo
+        {
+            public IUI UI;
+            public int Index;
+
+            public UIInfo(IUI uI, int index)
+            {
+                UI = uI;
+                Index = index;
+            }
+
+            public override bool Equals(object obj)
+            {
+                UIInfo info = (UIInfo)obj;
+                return UI.Equals(info.UI);
+            }
+
+            public override int GetHashCode()
+            {
+                return UI.GetHashCode();
+            }
+        }
+
         private int m_Layer;
         private GameObject m_Inst;
         private Transform m_Root;
         private CanvasGroup m_CanvasGroup;
-        private XLinkList<IUI> m_UIs;
+        private XLinkList<UIInfo> m_UIs;
         private XLinkList<IUIGroupHelper> m_UIHelper;
 
         public string Name { get; }
@@ -38,7 +61,7 @@ namespace UnityXFrame.Core.UIs
             Layer = layer;
             m_Inst = root;
             m_Root = root.transform;
-            m_UIs = new XLinkList<IUI>();
+            m_UIs = new XLinkList<UIInfo>();
             m_UIHelper = new XLinkList<IUIGroupHelper>();
             m_CanvasGroup = root.GetComponent<CanvasGroup>();
 
@@ -66,6 +89,11 @@ namespace UnityXFrame.Core.UIs
             m_Inst.gameObject.SetActive(false);
         }
 
+        internal int CheckLayer(IUI ui)
+        {
+            return 0;
+        }
+
         void IUIGroup.CloseUI(IUI ui)
         {
             if (m_UIHelper != null && m_UIHelper.Count > 0)
@@ -83,7 +111,6 @@ namespace UnityXFrame.Core.UIs
             else
             {
                 ui.OnClose();
-                ui.Active = false;
             }
         }
 
@@ -103,7 +130,6 @@ namespace UnityXFrame.Core.UIs
             }
             else
             {
-                ui.Active = true;
                 ui.OnOpen();
             }
         }
@@ -118,10 +144,10 @@ namespace UnityXFrame.Core.UIs
         {
             if (IsOpen)
             {
-                XLinkNode<IUI> node = m_UIs.First;
+                XLinkNode<UIInfo> node = m_UIs.First;
                 while (node != null)
                 {
-                    IUI ui = node.Value;
+                    IUI ui = node.Value.UI;
                     if (m_UIHelper != null && m_UIHelper.Count > 0)
                     {
                         foreach (XLinkNode<IUIGroupHelper> helperNode in m_UIHelper)
@@ -144,10 +170,10 @@ namespace UnityXFrame.Core.UIs
 
         void IUIGroup.OnDestroy()
         {
-            XLinkNode<IUI> node = m_UIs.First;
+            XLinkNode<UIInfo> node = m_UIs.First;
             while (node != null)
             {
-                IUI ui = node.Value;
+                IUI ui = node.Value.UI;
                 if (m_UIHelper != null && m_UIHelper.Count > 0)
                 {
                     foreach (XLinkNode<IUIGroupHelper> helperNode in m_UIHelper)
@@ -167,31 +193,55 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
+        private void InnerRefreshLayer()
+        {
+            int index = 0;
+            foreach (XLinkNode<UIInfo> node in m_UIs)
+            {
+                UIInfo info = node.Value;
+                info.Index = index++;
+                node.Value = info;
+                UIModule.SetLayer(m_Root, info.UI, info.Index);
+            }
+        }
+
         void IUIGroup.AddUI(IUI ui)
         {
+            if (ui.Group != null)
+            {
+                UIGroup old = (UIGroup)ui.Group;
+                foreach (XLinkNode<UIInfo> node in old.m_UIs)
+                {
+                    if (node.Value.UI == ui)
+                    {
+                        node.Delete();
+                        break;
+                    }
+                }
+                old.InnerRefreshLayer();
+            }
+
             ui.Root.SetParent(m_Root, false);
-            m_UIs.AddFirst(ui);
-            ui.SetLayer(m_UIs.Count - 1, false);
+            ((UI)ui).Group = this;
+            m_UIs.AddLast(new UIInfo(ui, 0));
+            InnerRefreshLayer();
         }
 
         void IUIGroup.RemoveUI(IUI ui)
         {
             ui.Root.SetParent(null, false);
-
-            bool reach = false;
-            XLinkNode<IUI> node = m_UIs.First;
-            while (node != null)
+            if (ui.Group != null)
             {
-                IUI other = node.Value;
-                if (reach)
-                    ui.SetLayer(other.Layer - 1, false);
-
-                if (other == ui)
+                UIGroup old = (UIGroup)ui.Group;
+                foreach (XLinkNode<UIInfo> node in old.m_UIs)
                 {
-                    node.Delete();
-                    reach = true;
+                    if (node.Value.UI == ui)
+                    {
+                        node.Delete();
+                        break;
+                    }
                 }
-                node = node.Next;
+                old.InnerRefreshLayer();
             }
         }
 
@@ -202,19 +252,19 @@ namespace UnityXFrame.Core.UIs
             UIModule.SetLayer(m_Root, ui, layer);
         }
 
-        public void AddHelper(Type type, OnUIGroupHelperReady onReady = null)
+        public void AddHelper(Type type)
         {
-            InnerAddHelper((IUIGroupHelper)Activator.CreateInstance(type), onReady);
+            InnerAddHelper((IUIGroupHelper)Activator.CreateInstance(type));
         }
 
         public void AddHelper(IUIGroupHelper helper)
         {
-            InnerAddHelper(helper, null);
+            InnerAddHelper(helper);
         }
 
-        public void AddHelper<T>(OnUIGroupHelperReady<T> onReady = null) where T : IUIGroupHelper
+        public void AddHelper<T>() where T : IUIGroupHelper
         {
-            AddHelper(typeof(T), (helper) => { onReady?.Invoke((T)helper); });
+            AddHelper(typeof(T));
         }
 
         public void RemoveHelper<T>() where T : IUIGroupHelper
@@ -227,10 +277,9 @@ namespace UnityXFrame.Core.UIs
             InnerRemoveHelper(type);
         }
 
-        private void InnerAddHelper(IUIGroupHelper helper, OnUIGroupHelperReady onReady)
+        private void InnerAddHelper(IUIGroupHelper helper)
         {
             m_UIHelper.AddLast(helper);
-            onReady?.Invoke(helper);
             helper.OnInit(this);
         }
 

@@ -9,6 +9,7 @@ using UnityXFrame.Core.UIs;
 using UnityXFrameLib.Improve;
 using UnityXFrameLib.UI;
 using XFrame.Core;
+using XFrame.Modules.Archives;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Local;
 using XFrame.Modules.Resource;
@@ -41,33 +42,33 @@ namespace Game.Test
             if (DebugGUI.Button("Init Group1"))
             {
                 UIModule.Inst.GetOrNewGroup("Test");
-                UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
-                {
-                    helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
-                });
+                //UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
+                //{
+                //    helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
+                //});
             }
             if (DebugGUI.Button("Init Group2"))
             {
-                UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
-                {
-                    helper.SetEffect(
-                        new MoveEffect(MoveEffect.Direct.Rand, true, false, m_Time),
-                        new MoveEffect(MoveEffect.Direct.Rand, false, true, m_Time));
-                });
+                //UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
+                //{
+                //    helper.SetEffect(
+                //        new MoveEffect(MoveEffect.Direct.Rand, true, false, m_Time),
+                //        new MoveEffect(MoveEffect.Direct.Rand, false, true, m_Time));
+                //});
             }
             if (DebugGUI.Button("Init Group3"))
             {
-                UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
-                {
-                    helper.SetEffect(new ScaleEffect(Vector2.one), new ScaleEffect(Vector2.one, Vector2.zero));
-                });
+                //UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
+                //{
+                //    helper.SetEffect(new ScaleEffect(Vector2.one), new ScaleEffect(Vector2.one, Vector2.zero));
+                //});
             }
             if (DebugGUI.Button("Init Group4"))
             {
-                UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
-                {
-                    helper.SetEffect(new FadeEffect(1, 0.5f), new FadeEffect(1, 0, 0.5f));
-                });
+                //UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
+                //{
+                //    helper.SetEffect(new FadeEffect(1, 0.5f), new FadeEffect(1, 0, 0.5f));
+                //});
             }
             if (DebugGUI.Button("Open Setting"))
             {
@@ -79,7 +80,7 @@ namespace Game.Test
                 {
                     ui.SetData(new Color(0.2f, 0, 0, 1));
                 }, true, 1);
-                AudioModule.Inst.PlayAsync("a1.wav");
+                //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Open Dialog 2"))
             {
@@ -107,7 +108,16 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                Log.Debug(GUI.skin.font.name);
+                CsvArchive csv = ArchiveModule.Inst.GetOrNew<CsvArchive>("test_archive");
+                if (csv.Data.Row > 0)
+                {
+                    Debug.LogWarning(csv.Data.Get(0)[0]);
+                }
+                else
+                {
+                    Debug.LogWarning("col" + csv.Data.Column);
+                    csv.Data.Add()[0] = "1";
+                }
             }
         }
 

@@ -8,13 +8,13 @@ namespace UnityXFrame.Core.UIs
     {
         public struct Enumerator : IEnumerator<IUI>
         {
-            private IEnumerator<XLinkNode<IUI>> m_ListIt;
+            private IEnumerator<XLinkNode<UIInfo>> m_ListIt;
 
-            public IUI Current => m_ListIt.Current.Value;
+            public IUI Current => m_ListIt.Current.Value.UI;
 
             object IEnumerator.Current => Current;
 
-            internal Enumerator(XLinkList<IUI> list)
+            internal Enumerator(XLinkList<UIInfo> list)
             {
                 m_ListIt = list.GetEnumerator();
             }

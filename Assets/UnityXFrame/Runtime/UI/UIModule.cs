@@ -4,10 +4,8 @@ using XFrame.Core;
 using XFrame.Collections;
 using XFrame.Modules.Pools;
 using XFrame.Modules.XType;
-using XFrame.Modules.Resource;
-using XFrame.Modules.Diagnotics;
-using UnityXFrame.Core.Resource;
 using System.Collections.Generic;
+using XFrame.Modules.Containers;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -21,8 +19,8 @@ namespace UnityXFrame.Core.UIs
         #region Inner Fields
         private Canvas m_Canvas;
         private Transform m_Root;
-        private Dictionary<int, IUI> m_UIMap;
-        private Dictionary<Type, IUIFactory> m_Factorys;
+        private IPoolHelper m_Helper;
+        private XCollection<IUI> m_UIList;
         private XLinkList<IUIGroup> m_GroupList;
         #endregion
 
@@ -31,40 +29,31 @@ namespace UnityXFrame.Core.UIs
         {
             base.OnInit(data);
 
+            m_Helper = new UIPoolHelper();
             InnerCheckCanvas(data);
             if (m_Canvas != null)
             {
                 m_Root = m_Canvas.transform;
-                m_UIMap = new Dictionary<int, IUI>();
+                m_UIList = new XCollection<IUI>();
                 m_GroupList = new XLinkList<IUIGroup>();
-                m_Factorys = new Dictionary<Type, IUIFactory>();
-                AddFactory<UI, UI.Factory>();
-                AddFactory<MonoUI, MonoUI.Factory>();
             }
         }
 
         protected override void OnUpdate(float escapeTime)
         {
             base.OnUpdate(escapeTime);
-            XLinkNode<IUIGroup> node = m_GroupList.First;
-            while (node != null)
+            foreach (IUIGroup group in m_GroupList)
             {
-                if (node.Value.IsOpen)
-                    node.Value.OnUpdate(escapeTime);
-                node = node.Next;
+                if (group.IsOpen)
+                    group.OnUpdate(escapeTime);
             }
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-
-            XLinkNode<IUIGroup> node = m_GroupList.First;
-            while (node != null)
-            {
-                node.Value.OnDestroy();
-                node = node.Next;
-            }
+            foreach (IUIGroup group in m_GroupList)
+                group.OnDestroy();
             m_GroupList = null;
         }
         #endregion
@@ -86,7 +75,7 @@ namespace UnityXFrame.Core.UIs
         /// <param name="data">UI数据</param>
         /// <param name="useNavtive">是否为本地UI</param>
         /// <returns>UI实例</returns>
-        public IUI Open(Type uiType, OnUIReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(Type uiType, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
         {
             return Open(uiType, Constant.MAIN_GROUPUI, dataHandler, useNavtive, id);
         }
@@ -98,9 +87,9 @@ namespace UnityXFrame.Core.UIs
         /// <param name="data">UI数据</param>
         /// <param name="useNavtive">是否为本地UI</param>
         /// <returns>UI实例</returns>
-        public T Open<T>(OnUIReady<T> dataHandler = null, bool useNavtive = false, int id = default) where T : IUI
+        public T Open<T>(OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default) where T : IUI
         {
-            return (T)Open(typeof(T), (ui) => dataHandler?.Invoke((T)ui), useNavtive, id);
+            return (T)Open(typeof(T), dataHandler, useNavtive, id);
         }
 
         /// <summary>
@@ -111,7 +100,7 @@ namespace UnityXFrame.Core.UIs
         /// <param name="useNavtive">是否为本地UI</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public IUI Open(string uiName, OnUIReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(string uiName, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
         {
             TypeSystem typeSys = TypeModule.Inst.GetOrNew<IUI>();
             Type uiType = typeSys.GetByName(uiName);
@@ -127,7 +116,7 @@ namespace UnityXFrame.Core.UIs
         /// <param name="useNavtive">是否为本地UI</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public IUI Open(string uiName, string groupName, OnUIReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(string uiName, string groupName, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
         {
             Type uiType = TypeModule.Inst.GetOrNew<IUI>().GetByName(uiName);
             return Open(uiType, groupName, dataHandler, useNavtive, id);
@@ -142,9 +131,9 @@ namespace UnityXFrame.Core.UIs
         /// <param name="useNavtive">是否为本地UI</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public T Open<T>(string groupName, OnUIReady<T> dataHandler = null, bool useNavtive = false, int id = default) where T : IUI
+        public T Open<T>(string groupName, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default) where T : IUI
         {
-            return (T)Open(typeof(T), groupName, (ui) => dataHandler?.Invoke((T)ui), useNavtive, id);
+            return (T)Open(typeof(T), groupName, dataHandler, useNavtive, id);
         }
 
         /// <summary>
@@ -156,7 +145,7 @@ namespace UnityXFrame.Core.UIs
         /// <param name="useNavtive">是否为本地UI</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public IUI Open(Type uiType, string groupName, OnUIReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(Type uiType, string groupName, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
         {
             IUIGroup group = InnerGetOrNewGroup(groupName, m_GroupList.Count);
             return InnerOpenUI(group, uiType, dataHandler, useNavtive, id);
@@ -171,7 +160,7 @@ namespace UnityXFrame.Core.UIs
         /// <param name="useNavtive">是否为本地UI</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public IUI Open(Type uiType, IUIGroup group, OnUIReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(Type uiType, IUIGroup group, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
         {
             return InnerOpenUI(group, uiType, dataHandler, useNavtive, id);
         }
@@ -184,7 +173,7 @@ namespace UnityXFrame.Core.UIs
         /// <param name="data">UI数据</param>
         /// <param name="useNavtive">是否为本地UI</param>
         /// <returns>UI实例</returns>
-        public IUI Open(IUI ui, string groupName, OnUIReady dataHandler = null)
+        public IUI Open(IUI ui, string groupName, OnDataProviderReady dataHandler = null)
         {
             IUIGroup group = InnerGetOrNewGroup(groupName, m_GroupList.Count);
             return InnerOpenUI(ui, group, dataHandler);
@@ -198,7 +187,7 @@ namespace UnityXFrame.Core.UIs
         /// <param name="data">UI数据</param>
         /// <param name="useNavtive">是否为本地UI</param>
         /// <returns>UI实例</returns>
-        public IUI Open(IUI ui, IUIGroup group, OnUIReady dataHandler = null)
+        public IUI Open(IUI ui, IUIGroup group, OnDataProviderReady dataHandler = null)
         {
             return InnerOpenUI(ui, group, dataHandler);
         }
@@ -212,9 +201,9 @@ namespace UnityXFrame.Core.UIs
         /// <param name="useNavtive">是否为本地UI</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public T Open<T>(IUIGroup group, OnUIReady<T> dataHandler = null, bool useNavtive = false, int id = default) where T : IUI
+        public T Open<T>(IUIGroup group, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default) where T : IUI
         {
-            return (T)InnerOpenUI(group, typeof(T), (ui) => dataHandler?.Invoke((T)ui), useNavtive, id);
+            return (T)InnerOpenUI(group, typeof(T), dataHandler, useNavtive, id);
         }
         #endregion
 
@@ -328,20 +317,6 @@ namespace UnityXFrame.Core.UIs
             DestroyUI(uiType, id);
         }
         #endregion
-
-        /// <summary>
-        /// 添加UI创建工厂
-        /// </summary>
-        /// <typeparam name="UIType">UI类型</typeparam>
-        /// <typeparam name="T">工厂类型</typeparam>
-        public void AddFactory<UIType, T>() where UIType : IUI where T : IUIFactory
-        {
-            Type uiType = typeof(UIType);
-            if (m_Factorys.ContainsKey(uiType))
-                return;
-            m_Factorys[uiType] = (T)Activator.CreateInstance(typeof(T));
-        }
-
         /// <summary>
         /// 获取(不存在时创建)UI组
         /// </summary>
@@ -357,77 +332,46 @@ namespace UnityXFrame.Core.UIs
         #endregion
 
         #region Inner Implement
-        private IUIFactory InnerGetUIFactory(Type uiType)
-        {
-            if (m_Factorys.TryGetValue(uiType.BaseType, out IUIFactory factory))
-                return factory;
-            return default;
-        }
-
         private void InnerCloseUI(Type uiType, int id)
         {
-            id = InnerEnsureUIId(uiType, id);
-            if (m_UIMap.TryGetValue(id, out IUI ui))
-                ui.Close();
+            IUI ui = m_UIList.Get(uiType, id);
+            ui?.Close();
         }
 
-        private IUI InnerOpenUI(IUIGroup group, Type uiType, OnUIReady dataHandler, bool useNavtive, int id)
+        private IUI InnerOpenUI(IUIGroup group, Type uiType, OnDataProviderReady onReady, bool useNavtive, int id)
         {
-            id = InnerEnsureUIId(uiType, id);
-            if (!m_UIMap.TryGetValue(id, out IUI ui))
+            IUI ui = m_UIList.Get(uiType, id);
+            if (ui == null)
             {
-                GameObject prefab;
-                string uiPath = $"{Constant.UI_RES_PATH}/{uiType.Name}.prefab";
-
-                if (useNavtive)
-                    prefab = NativeResModule.Inst.Load<GameObject>(uiPath);
-                else
-                    prefab = ResModule.Inst.Load<GameObject>(uiPath);
-
-                if (prefab == null)
-                {
-                    Log.Error(nameof(UIModule), $"UI res {uiPath} dont exist.");
-                    return default;
-                }
-
-                GameObject inst = GameObject.Instantiate(prefab);
-                IUIFactory factory = InnerGetUIFactory(uiType);
-                ui = factory.Create(inst, uiType);
-                inst.name = GetInstName(ui);
-                ui.OnInit(id, (ui) =>
-                {
-                    ui.SetData(inst);
-                    dataHandler?.Invoke(ui);
-                    dataHandler = null;
-                });
-                m_UIMap[id] = ui;
+                IPool pool = PoolModule.Inst.GetOrNew(uiType, m_Helper);
+                ui = (IUI)pool.Require(default, useNavtive);
+                ui.OnInit(id, default, onReady);
+                onReady = null;
+                m_UIList.Add(ui);
             }
 
-            return InnerOpenUI(ui, group, dataHandler);
+            return InnerOpenUI(ui, group, onReady);
         }
 
-        private IUI InnerOpenUI(IUI ui, IUIGroup group, OnUIReady dataHandler)
+        private IUI InnerOpenUI(IUI ui, IUIGroup group, OnDataProviderReady onReady)
         {
-            IUIGroup oldGroup = ui.Group;
-            if (oldGroup != group)
-            {
-                oldGroup?.RemoveUI(ui);
-                group.AddUI(ui);
-                ui.OnGroupChange(group);
-            }
-            dataHandler?.Invoke(ui);
+            group.AddUI(ui);
+            onReady?.Invoke(ui);
             ui.Open();
-            group.Open();
             return ui;
         }
 
         private void InnerDestroyUI(IUI ui)
         {
-            int id = ui.Id;
+            if (ui == null)
+                return;
+
             IUIGroup group = ui.Group;
             group?.RemoveUI(ui);
             ui.OnDestroy();
-            m_UIMap.Remove(id);
+            m_UIList.Remove(ui);
+            IPool pool = PoolModule.Inst.GetOrNew(ui.GetType(), m_Helper);
+            pool.Release(ui);
         }
 
         private void InnerCheckCanvas(object canvas)
@@ -440,16 +384,7 @@ namespace UnityXFrame.Core.UIs
 
         private IUI InnerGetUI(Type uiType, int id)
         {
-            id = InnerEnsureUIId(uiType, id);
-            if (m_UIMap.TryGetValue(id, out IUI ui))
-                return ui;
-            else
-                return default;
-        }
-
-        private int InnerEnsureUIId(Type type, int uiId)
-        {
-            return uiId == default ? type.GetHashCode() : uiId;
+            return m_UIList.Get(uiType, id);
         }
 
         private IUIGroup InnerGetOrNewGroup(string groupName, int layer)
