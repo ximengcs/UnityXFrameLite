@@ -29,6 +29,50 @@ namespace Game.Test
 
         public void OnDraw()
         {
+            GUILayout.BeginHorizontal();
+            DebugGUI.Label("Main");
+            if (DebugGUI.Button("-"))
+                UIModule.Inst.MainGroup.Layer--;
+            if (DebugGUI.Button("+"))
+                UIModule.Inst.MainGroup.Layer++;
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            DebugGUI.Label("Test1");
+            if (DebugGUI.Button("-"))
+                UIModule.Inst.GetOrNewGroup("Test1").Layer--;
+            if (DebugGUI.Button("+"))
+                UIModule.Inst.GetOrNewGroup("Test1").Layer++;
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            DebugGUI.Label("Test2");
+            if (DebugGUI.Button("-"))
+                UIModule.Inst.GetOrNewGroup("Test2").Layer--;
+            if (DebugGUI.Button("+"))
+                UIModule.Inst.GetOrNewGroup("Test2").Layer++;
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            DebugGUI.Label("Test1 UI");
+            if (DebugGUI.Button("-"))
+                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), true).Layer--;
+            if (DebugGUI.Button("+"))
+                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), true).Layer++;
+            if (DebugGUI.Button("Close"))
+                UIModule.Inst.Close<DialogUI>();
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            DebugGUI.Label("Test2 UI");
+            if (DebugGUI.Button("-"))
+                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), true, 2).Layer--;
+            if (DebugGUI.Button("+"))
+                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), true, 2).Layer++;
+            if (DebugGUI.Button("Close"))
+                UIModule.Inst.Close<DialogUI>(2);
+            GUILayout.EndHorizontal();
+
             DebugGUI.Label("Test UI");
             m_Time = DebugGUI.FloatField(m_Time);
             if (DebugGUI.Button("Test Init GameObject"))
@@ -43,10 +87,8 @@ namespace Game.Test
             if (DebugGUI.Button("Init Group1"))
             {
                 UIModule.Inst.GetOrNewGroup("Test");
-                //UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
-                //{
-                //    helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
-                //});
+                OnlyOneUIGroupHelper helper = UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
+                helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
             }
             if (DebugGUI.Button("Init Group2"))
             {
@@ -109,7 +151,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                PoolModule.Inst.GetOrNew<DialogUI>(UIModule.Inst.m_Helper)
+                PoolModule.Inst.GetOrNew<DialogUI>(UIModule.Inst.PoolHelper)
                     .Spawn(0, 1, true);
             }
         }

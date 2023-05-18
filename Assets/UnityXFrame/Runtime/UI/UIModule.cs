@@ -20,7 +20,7 @@ namespace UnityXFrame.Core.UIs
         #region Inner Fields
         private Canvas m_Canvas;
         private Transform m_Root;
-        public IPoolHelper m_Helper;
+        private IPoolHelper m_Helper;
         private XCollection<IUI> m_UIList;
         private XLinkList<IUIGroup> m_GroupList;
         #endregion
@@ -30,7 +30,7 @@ namespace UnityXFrame.Core.UIs
         {
             base.OnInit(data);
 
-            m_Helper = new UIPoolHelper();
+            m_Helper = new DefaultUIPoolHelper();
             InnerCheckCanvas(data);
             if (m_Canvas != null)
             {
@@ -60,6 +60,8 @@ namespace UnityXFrame.Core.UIs
         #endregion
 
         #region Interface
+        public IPoolHelper PoolHelper => m_Helper;
+
         /// <summary>
         /// 主UI组
         /// </summary>
@@ -404,9 +406,9 @@ namespace UnityXFrame.Core.UIs
             return newGroup;
         }
 
-        internal void SetUIGroupLayer(IUIGroup group, int layer)
+        internal int SetUIGroupLayer(IUIGroup group, int layer)
         {
-            SetLayer(m_Root, group, layer);
+            return SetLayer(m_Root, group, layer);
         }
         #endregion
     }

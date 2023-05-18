@@ -17,14 +17,10 @@ namespace UnityXFrame.Core.UIs
         protected RectTransform m_Transform;
 
         #region UI Interface
-        int IUI.Layer
+        public int Layer
         {
             get { return m_Layer; }
-            set
-            {
-                m_Layer = value;
-                UIModule.SetLayer(m_Transform.parent, this, value);
-            }
+            set { m_Layer = UIModule.SetLayer(m_Transform.parent, this, value); }
         }
 
         bool IUI.Active
@@ -33,7 +29,7 @@ namespace UnityXFrame.Core.UIs
             set => m_Root.SetActive(value);
         }
 
-        bool IUI.IsOpen => m_IsOpen;
+        public bool IsOpen => m_IsOpen;
 
         public IUIGroup Group
         {

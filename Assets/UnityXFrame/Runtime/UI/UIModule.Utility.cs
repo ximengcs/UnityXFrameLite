@@ -4,12 +4,13 @@ namespace UnityXFrame.Core.UIs
 {
     public partial class UIModule
     {
-        internal static void SetLayer(Transform root, IUIElement element, int layer)
+        internal static int SetLayer(Transform root, IUIElement element, int layer)
         {
-            layer = Mathf.Clamp(layer, 0, root.childCount);
+            layer = Mathf.Clamp(layer, 0, root.childCount - 1);
             Transform check = root.GetChild(layer);
             if (check.name == element.Name)
-                return;
+                return layer;
+
 
             bool find = false;
             int curIndex = 0;
@@ -38,6 +39,7 @@ namespace UnityXFrame.Core.UIs
                 if (child.GetSiblingIndex() != i)
                     child.SetSiblingIndex(i);
             }
+            return layer;
         }
     }
 }

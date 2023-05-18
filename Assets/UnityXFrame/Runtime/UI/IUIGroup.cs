@@ -40,19 +40,19 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         /// <param name="type">辅助器类型</param>
         /// <param name="onReady">辅助器就绪事件</param>
-        void AddHelper(Type type);
+        IUIGroupHelper AddHelper(Type type);
 
         /// <summary>
         /// 添加组辅助器
         /// </summary>
         /// <typeparam name="T">辅助器类型</typeparam>
         /// <param name="onReady">辅助器就绪事件</param>
-        void AddHelper<T>() where T : IUIGroupHelper;
+        T AddHelper<T>() where T : IUIGroupHelper;
 
         /// <summary>
         /// 添加组辅助器
         /// </summary>
-        void AddHelper(IUIGroupHelper helper);
+        IUIGroupHelper AddHelper(IUIGroupHelper helper);
 
         /// <summary>
         /// 移除组辅助器
@@ -90,13 +90,6 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         /// <param name="ui">需要移除的UI</param>
         protected internal void RemoveUI(IUI ui);
-
-        /// <summary>
-        /// 设置UI层级
-        /// </summary>
-        /// <param name="ui">需要设置的UI</param>
-        /// <param name="layer">设置的层级</param>
-        protected internal void SetUILayer(IUI ui, int layer);
 
         /// <summary>
         /// 初始化生命周期

@@ -8,7 +8,7 @@ namespace UnityXFrame.Core.UIs
 {
     public partial class UIModule
     {
-        private class UIPoolHelper : IPoolHelper
+        private class DefaultUIPoolHelper : IPoolHelper
         {
             int IPoolHelper.CacheCount => 8;
 

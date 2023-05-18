@@ -25,7 +25,6 @@ namespace UnityXFrame.Core.UIs
             set
             {
                 Layer = value;
-                m_Group?.SetUILayer(this, Layer);
             }
         }
 
