@@ -19,7 +19,7 @@ namespace UnityXFrame.Core.UIs
         #region Inner Fields
         private Canvas m_Canvas;
         private Transform m_Root;
-        private IPoolHelper m_Helper;
+        public IPoolHelper m_Helper;
         private XCollection<IUI> m_UIList;
         private XLinkList<IUIGroup> m_GroupList;
         #endregion
@@ -42,18 +42,18 @@ namespace UnityXFrame.Core.UIs
         protected override void OnUpdate(float escapeTime)
         {
             base.OnUpdate(escapeTime);
-            foreach (IUIGroup group in m_GroupList)
+            foreach (XLinkNode<IUIGroup> node in m_GroupList)
             {
-                if (group.IsOpen)
-                    group.OnUpdate(escapeTime);
+                if (node.Value.IsOpen)
+                    node.Value.OnUpdate(escapeTime);
             }
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            foreach (IUIGroup group in m_GroupList)
-                group.OnDestroy();
+            foreach (XLinkNode<IUIGroup> node in m_GroupList)
+                node.Value.OnDestroy();
             m_GroupList = null;
         }
         #endregion
@@ -389,26 +389,22 @@ namespace UnityXFrame.Core.UIs
 
         private IUIGroup InnerGetOrNewGroup(string groupName, int layer)
         {
-            XLinkNode<IUIGroup> node = m_GroupList.First;
-            while (node != null)
+            foreach (XLinkNode<IUIGroup> node in m_GroupList)
             {
                 if (node.Value.Name == groupName)
                     return node.Value;
-                node = node.Next;
             }
 
             GameObject groupRoot = new GameObject(groupName, typeof(RectTransform), typeof(CanvasGroup));
             groupRoot.transform.SetParent(m_Root, false);
-            IUIGroup group = new UIGroup(groupRoot, groupName, layer);
-            group.OnInit();
-            m_GroupList.AddLast(group);
-            return group;
+            IUIGroup newGroup = new UIGroup(groupRoot, groupName, layer);
+            newGroup.OnInit();
+            m_GroupList.AddLast(newGroup);
+            return newGroup;
         }
 
         internal void SetUIGroupLayer(IUIGroup group, int layer)
         {
-            layer = Mathf.Min(layer, m_GroupList.Count);
-            layer = Mathf.Max(layer, 0);
             SetLayer(m_Root, group, layer);
         }
         #endregion

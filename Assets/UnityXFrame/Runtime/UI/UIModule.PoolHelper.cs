@@ -28,7 +28,7 @@ namespace UnityXFrame.Core.UIs
                     ui = InnerInstantiateUI(inst, type);
                 else
                     ui = InnerInstantiateMonoUI(inst, type);
-                inst.name = GetInstName(ui);
+                inst.name = $"{ui.GetType().Name}{ui.GetHashCode()}";
                 return ui;
 
             }

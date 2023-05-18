@@ -12,9 +12,9 @@ namespace UnityXFrame.Core.UIs
             public IUI UI;
             public int Index;
 
-            public UIInfo(IUI uI, int index)
+            public UIInfo(IUI ui, int index)
             {
-                UI = uI;
+                UI = ui;
                 Index = index;
             }
 
@@ -31,14 +31,16 @@ namespace UnityXFrame.Core.UIs
         }
 
         private int m_Layer;
-        private GameObject m_Inst;
         private Transform m_Root;
-        private CanvasGroup m_CanvasGroup;
+        private GameObject m_Inst;
         private XLinkList<UIInfo> m_UIs;
+        private CanvasGroup m_CanvasGroup;
         private XLinkList<IUIGroupHelper> m_UIHelper;
 
         public string Name { get; }
+
         public bool IsOpen { get; private set; }
+
         public float Alpha
         {
             get => m_CanvasGroup.alpha;
@@ -78,7 +80,7 @@ namespace UnityXFrame.Core.UIs
             if (IsOpen)
                 return;
             IsOpen = true;
-            m_Inst.gameObject.SetActive(true);
+            m_Inst.SetActive(true);
         }
 
         public void Close()
@@ -86,7 +88,7 @@ namespace UnityXFrame.Core.UIs
             if (!IsOpen)
                 return;
             IsOpen = false;
-            m_Inst.gameObject.SetActive(false);
+            m_Inst.SetActive(false);
         }
 
         internal int CheckLayer(IUI ui)
@@ -136,8 +138,7 @@ namespace UnityXFrame.Core.UIs
 
         void IUIGroup.OnInit()
         {
-            IsOpen = true;
-            Close();
+            Open();
         }
 
         void IUIGroup.OnUpdate(float elapseTime)

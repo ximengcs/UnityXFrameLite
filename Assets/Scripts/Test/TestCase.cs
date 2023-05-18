@@ -12,6 +12,7 @@ using XFrame.Core;
 using XFrame.Modules.Archives;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Local;
+using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
 
 namespace Game.Test
@@ -108,16 +109,8 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                CsvArchive csv = ArchiveModule.Inst.GetOrNew<CsvArchive>("test_archive");
-                if (csv.Data.Row > 0)
-                {
-                    Debug.LogWarning(csv.Data.Get(0)[0]);
-                }
-                else
-                {
-                    Debug.LogWarning("col" + csv.Data.Column);
-                    csv.Data.Add()[0] = "1";
-                }
+                PoolModule.Inst.GetOrNew<DialogUI>(UIModule.Inst.m_Helper)
+                    .Spawn(0, 1, true);
             }
         }
 

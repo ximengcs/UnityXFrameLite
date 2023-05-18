@@ -96,7 +96,6 @@ namespace UnityXFrame.Core.UIs
             OnClose();
         }
         #endregion
-
         protected override void OnCreateFromPool()
         {
             base.OnCreateFromPool();

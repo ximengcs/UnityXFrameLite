@@ -4,17 +4,12 @@ namespace UnityXFrame.Core.UIs
 {
     public partial class UIModule
     {
-        internal static string GetInstName(IUIElement ui)
-        {
-            return $"{ui.GetType().Name}{ui.GetHashCode()}";
-        }
-
         internal static void SetLayer(Transform root, IUIElement element, int layer)
         {
+            layer = Mathf.Clamp(layer, 0, root.childCount);
             Transform check = root.GetChild(layer);
             if (check.name == element.Name)
                 return;
-            Debug.LogWarning(check.name + " " + element.Name);
 
             bool find = false;
             int curIndex = 0;
