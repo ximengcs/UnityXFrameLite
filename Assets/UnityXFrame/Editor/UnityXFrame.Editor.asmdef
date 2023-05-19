@@ -1,0 +1,19 @@
+{
+    "name": "UnityXFrame.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:60c0d8d9b7a5d84469add73ca17a4e42",
+        "GUID:69448af7b92c7f342b298e06a37122aa"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

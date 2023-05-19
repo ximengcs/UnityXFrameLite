@@ -7,6 +7,7 @@ using XFrame.Collections;
 using XFrame.Modules.XType;
 using XFrame.Modules.Pools;
 using UnityEditor.SceneManagement;
+using XFrame.Modules.Config;
 
 namespace UnityXFrame.Editor
 {
@@ -26,6 +27,7 @@ namespace UnityXFrame.Editor
                 return;
 
             Utility.Init();
+            XConfig.UseClassModule = new string[] { "Assembly-CSharp", "UnityXFrame", "UnityXFrameLib", "UnityXFrame.Editor" };
             m_FrameCore = XCore.Create(typeof(TypeModule), typeof(PoolModule));
             m_Editors = new XLinkList<IDataEditor>();
             m_EditorType = TypeModule.Inst.GetOrNew<IDataEditor>();

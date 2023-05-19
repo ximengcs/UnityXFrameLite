@@ -12,7 +12,7 @@ namespace UnityXFrame.Core
 
         private void Awake()
         {
-            XConfig.UseClassModule = new string[] { "Assembly-CSharp", "UnityXFrame", "UnityXFrameLib"};
+            XConfig.UseClassModule = new string[] { "Assembly-CSharp", "UnityXFrame", "UnityXFrameLib" };
             Entry.Init();
         }
 
