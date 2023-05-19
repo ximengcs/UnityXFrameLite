@@ -162,7 +162,7 @@ namespace UnityXFrame.Core.Diagnotics
         {
             float fps = 1 / Time.deltaTime;
             if (fps < 58)
-                Log.Debug("Debugger", $"Fps is {fps}");
+                Log.Debug("Debugger", $"FPS is {fps}");
             return string.Format("FPS {0:F2}", fps);
         }
 
@@ -272,7 +272,7 @@ namespace UnityXFrame.Core.Diagnotics
             if (m_ShowFps)
                 DebugGUI.Label(InnerCalculateFps());
             else
-                DebugGUI.Label("Fps");
+                DebugGUI.Label("FPS");
             m_ShowFps = DebugGUI.Power(m_ShowFps);
             GUILayout.FlexibleSpace();
             GUILayout.Label(TITLE, m_TitleStyle);
