@@ -30,7 +30,7 @@ namespace UnityXFrame.Core.Audios
             {
                 foreach (IAudio audio in m_Audios)
                     audio.Stop();
-                m_Audios.Clear();
+                m_Audios = null;
             }
 
             public void Add(IAudio audio)

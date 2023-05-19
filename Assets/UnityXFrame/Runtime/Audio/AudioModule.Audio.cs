@@ -86,8 +86,8 @@ namespace UnityXFrame.Core.Audios
             public void Stop()
             {
                 m_Source.Stop();
-                PoolModule.Inst.GetOrNew<Audio>().Release(this);
                 m_Group.Remove(this);
+                PoolModule.Inst.GetOrNew<Audio>().Release(this);
             }
 
             int IPoolObject.PoolKey => 0;
