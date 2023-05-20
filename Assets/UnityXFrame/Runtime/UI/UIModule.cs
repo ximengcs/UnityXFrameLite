@@ -20,7 +20,7 @@ namespace UnityXFrame.Core.UIs
         #region Inner Fields
         private Canvas m_Canvas;
         private Transform m_Root;
-        private IPoolHelper m_Helper;
+        private IUIPoolHelper m_Helper;
         private XCollection<IUI> m_UIList;
         private XLinkList<IUIGroup> m_GroupList;
         #endregion
@@ -60,7 +60,7 @@ namespace UnityXFrame.Core.UIs
         #endregion
 
         #region Interface
-        public IPoolHelper PoolHelper => m_Helper;
+        public IUIPoolHelper PoolHelper => m_Helper;
 
         /// <summary>
         /// 主UI组

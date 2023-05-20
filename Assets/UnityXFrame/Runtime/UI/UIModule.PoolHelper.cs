@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using XFrame.Modules.Tasks;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
 using UnityXFrame.Core.Resource;
@@ -8,15 +9,41 @@ namespace UnityXFrame.Core.UIs
 {
     public partial class UIModule
     {
-        private class DefaultUIPoolHelper : IPoolHelper
+        public interface IUIPoolHelper : IPoolHelper
+        {
+            ITask PreloadRes(Type[] types, bool useNative);
+        }
+
+        private class DefaultUIPoolHelper : IUIPoolHelper
         {
             int IPoolHelper.CacheCount => 8;
+
+            ITask IUIPoolHelper.PreloadRes(Type[] types, bool useNative)
+            {
+                ITask task;
+                string[] uiPaths = new string[types.Length];
+                for (int i = 0; i < types.Length; i++)
+                    uiPaths[i] = InnerUIPath(types[i]);
+
+                if (useNative)
+                {
+                    task = TaskModule.Inst.GetOrNew<XTask>();
+                    foreach (string path in uiPaths)
+                        task.Add(NativeResModule.Inst.LoadAsync<GameObject>(path));
+                }
+                else
+                {
+                    task = ResModule.Inst.Preload<GameObject>(uiPaths);
+                }
+
+                return task;
+            }
 
             IPoolObject IPoolHelper.Factory(Type type, int poolKey, object userData)
             {
                 bool useNative = (bool)userData;
                 GameObject prefab;
-                string uiPath = $"{Constant.UI_RES_PATH}/{type.Name}.prefab";
+                string uiPath = InnerUIPath(type);
                 if (useNative)
                     prefab = NativeResModule.Inst.Load<GameObject>(uiPath);
                 else
@@ -31,6 +58,11 @@ namespace UnityXFrame.Core.UIs
                 inst.name = $"{ui.GetType().Name}{ui.GetHashCode()}";
                 return ui;
 
+            }
+
+            private string InnerUIPath(Type type)
+            {
+                return $"{Constant.UI_RES_PATH}/{type.Name}.prefab";
             }
 
             private UI InnerInstantiateUI(GameObject inst, Type type)

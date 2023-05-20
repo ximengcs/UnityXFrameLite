@@ -44,7 +44,7 @@ namespace UnityXFrame.Core.UIs
 
         public string Name => m_Root.name;
 
-        public object Master => m_Container.Master;
+        public IContainer Master => m_Container.Master;
 
         public void Open()
         {
@@ -78,7 +78,7 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
-        void IContainer.OnInit(int id, object master, OnDataProviderReady onReady)
+        void IContainer.OnInit(int id, IContainer master, OnDataProviderReady onReady)
         {
             m_Container = new Container();
             m_Container.OnInit(id, master, null);

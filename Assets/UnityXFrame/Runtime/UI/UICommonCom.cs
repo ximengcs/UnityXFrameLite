@@ -9,34 +9,20 @@ namespace UnityXFrame.Core.UIs
     {
         private IUI m_Inst;
         private const string UI_TAG = "UIComponent";
-        private Dictionary<string, UIBehaviour> m_Coms;
+        private Dictionary<string, RectTransform> m_Coms;
 
         protected override void OnInit()
         {
             base.OnInit();
-            m_Coms = new Dictionary<string, UIBehaviour>();
+            m_Coms = new Dictionary<string, RectTransform>();
             m_Inst = (IUI)Master;
             InnerFindUIComponent(m_Inst.Root);
         }
 
-        public void AddUI(string name)
-        {
-            UIBehaviour ui = InnerFindUIComponent(m_Inst.Root, name);
-            if (ui != null)
-                m_Coms.Add(name, ui);
-        }
-
-        public void AddUI(string name, UIBehaviour ui)
-        {
-            if (string.IsNullOrEmpty(name) || ui == null)
-                return;
-            m_Coms.Add(name, ui);
-        }
-
         public T GetUI<T>(string name) where T : UIBehaviour
         {
-            if (m_Coms.TryGetValue(name, out UIBehaviour ui))
-                return (T)ui;
+            if (m_Coms.TryGetValue(name, out RectTransform tf))
+                return tf.GetComponent<T>();
             else
                 return default;
         }
@@ -46,22 +32,9 @@ namespace UnityXFrame.Core.UIs
             foreach (Transform child in tf)
             {
                 if (child.tag == UI_TAG)
-                    AddUI(child.name, child.GetComponent<UIBehaviour>());
+                    m_Coms.Add(child.name, child.GetComponent<RectTransform>());
                 InnerFindUIComponent(child);
             }
-        }
-
-        private UIBehaviour InnerFindUIComponent(Transform tf, string name)
-        {
-            foreach (Transform child in tf)
-            {
-                if (child.name == name)
-                    return child.GetComponent<UIBehaviour>();
-                UIBehaviour ui = InnerFindUIComponent(child, name);
-                if (ui != null)
-                    return ui;
-            }
-            return default;
         }
     }
 }
