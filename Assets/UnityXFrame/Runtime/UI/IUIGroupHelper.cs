@@ -1,5 +1,5 @@
-﻿
-using System;
+﻿using System;
+using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -8,6 +8,8 @@ namespace UnityXFrame.Core.UIs
     /// </summary>
     public interface IUIGroupHelper
     {
+        IEventSystem Event { get; }
+
         /// <summary>
         /// 是否处理UI组中的UI类
         /// </summary>
