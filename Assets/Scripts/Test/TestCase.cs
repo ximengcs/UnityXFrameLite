@@ -151,8 +151,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                PoolModule.Inst.GetOrNew<DialogUI>(UIModule.Inst.PoolHelper)
-                    .Spawn(0, 1, true);
+                UIModule.Inst.Spwan<DialogUI>(true);
             }
         }
 
