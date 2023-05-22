@@ -174,7 +174,7 @@ namespace UnityXFrame.Core.UIs
             InnerRemoveOldGroup(ui);
             ui.Root.SetParent(m_Root, false);
             ui.Layer = m_UIs.Count;
-            ((UI)ui).Group = this;
+            ui.Group = this;
             m_UIs.AddLast(ui);
         }
 

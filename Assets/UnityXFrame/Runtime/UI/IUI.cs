@@ -14,8 +14,6 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         RectTransform Root { get; }
 
-        IEventSystem Event { get; }
-
         /// <summary>
         /// 是否处于打开的状态
         /// </summary>
@@ -42,7 +40,7 @@ namespace UnityXFrame.Core.UIs
         /// <summary>
         /// UI所在组
         /// </summary>
-        IUIGroup Group { get; }
+        IUIGroup Group { get; internal set; }
 
         #region Life Fun
         /// <summary>

@@ -31,17 +31,15 @@ namespace UnityXFrame.Core.UIs
 
         public bool IsOpen => m_IsOpen;
 
-        public IUIGroup Group
+        IUIGroup IUI.Group
         {
-            get => m_Group;
-            internal set { m_Group = value; }
+            get { return m_Group; }
+            set { m_Group = value; }
         }
 
         public RectTransform Root => m_Transform;
 
         public string Name => m_Root.name;
-
-        public IEventSystem Event => throw new System.NotImplementedException();
 
         public void Open()
         {
