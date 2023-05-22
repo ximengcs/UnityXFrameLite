@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -151,9 +154,23 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                UIModule.Inst.Spwan<DialogUI>(true).Start();
+                //UIModule.Inst.Spwan<DialogUI>(true).Start();
+                if (tweener == null)
+                {
+                    pro = 0;
+                    tweener = DOTween.To(
+                        () => pro, (v) => pro = v, 100, 10)
+                        .OnUpdate(() => Debug.LogWarning(pro + " end : " + tweener.endValue));
+                }
+                else
+                {
+                    tweener.ChangeEndValue(tweener.endValue + 100, true);
+                }
             }
         }
+
+        int pro;
+        TweenerCore<int, int, NoOptions> tweener;
 
         public void Dispose()
         {
