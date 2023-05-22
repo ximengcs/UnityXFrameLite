@@ -72,7 +72,14 @@ namespace UnityXFrame.Core.UIs
             foreach (Type uiType in types)
             {
                 if (uiType != null)
-                    task.Add(() => PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useNative));
+                {
+                    task.Add(() =>
+                    {
+                        XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useNative);
+                        InnerInitSpwanUI(list);
+                        References.Release(list);
+                    });
+                }
             }
             return task;
         }
@@ -80,8 +87,24 @@ namespace UnityXFrame.Core.UIs
         public ITask Spwan(Type uiType, bool useNative)
         {
             ActionTask task = TaskModule.Inst.GetOrNew<ActionTask>();
-            task.Add(() => PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useNative));
+            task.Add(() =>
+            {
+                XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useNative);
+                InnerInitSpwanUI(list);
+                References.Release(list);
+            });
             return task;
+        }
+
+        private void InnerInitSpwanUI(XLinkList<IPoolObject> list)
+        {
+            IUIGroup group = InnerGetOrNewGroup(nameof(Spwan), 0);
+            group.Close();
+            foreach (XLinkNode<IPoolObject> obj in list)
+            {
+                IUI ui = obj.Value as IUI;
+                group.AddUI(ui);
+            }
         }
 
         public ITask Spwan<T>(bool useNative) where T : IUI

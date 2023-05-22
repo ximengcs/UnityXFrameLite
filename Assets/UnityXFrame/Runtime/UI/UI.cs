@@ -23,7 +23,7 @@ namespace UnityXFrame.Core.UIs
             set { m_Layer = UIModule.SetLayer(m_Transform.parent, this, value); }
         }
 
-        bool IUI.Active
+        public bool Active
         {
             get => m_Root.activeSelf;
             set => m_Root.SetActive(value);
@@ -95,6 +95,8 @@ namespace UnityXFrame.Core.UIs
         {
             base.OnCreateFromPool();
             m_Transform = m_Root.GetComponent<RectTransform>();
+            m_IsOpen = false;
+            Active = false;
         }
 
         #region Sub Class Implement Life Fun

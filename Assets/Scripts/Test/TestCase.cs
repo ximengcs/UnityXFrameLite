@@ -151,7 +151,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                UIModule.Inst.Spwan<DialogUI>(true);
+                UIModule.Inst.Spwan<DialogUI>(true).Start();
             }
         }
 
