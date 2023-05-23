@@ -4,12 +4,12 @@ namespace UnityXFrame.Core.UIs
 {
     public abstract class UICom : ShareCom
     {
-        protected UICommonCom m_CommonCom;
+        protected UIFinder m_UIFinder;
 
         protected override void OnInit()
         {
             base.OnInit();
-            m_CommonCom = GetOrAddCom<UICommonCom>();
+            m_UIFinder = GetOrAddCom<UIFinder>();
         }
 
         protected internal virtual void OnOpen() { }

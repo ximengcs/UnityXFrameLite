@@ -15,6 +15,7 @@ namespace UnityXFrame.Core.UIs
         protected IUIGroup m_Group;
         protected internal GameObject m_Root;
         protected RectTransform m_Transform;
+        protected UIFinder m_UIFinder;
 
         #region UI Interface
         public int Layer
@@ -89,6 +90,12 @@ namespace UnityXFrame.Core.UIs
             OnClose();
         }
         #endregion
+        protected override void OnInit()
+        {
+            base.OnInit();
+            m_UIFinder = GetOrAddCom<UIFinder>();
+        }
+
         protected override void OnCreateFromPool()
         {
             base.OnCreateFromPool();
