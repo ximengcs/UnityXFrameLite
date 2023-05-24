@@ -33,5 +33,7 @@ namespace UnityXFrame.Core.Audios
         /// 停止播放
         /// </summary>
         void Stop();
+
+        void Pause();
     }
 }

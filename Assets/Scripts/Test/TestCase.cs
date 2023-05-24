@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Scripting;
+using UnityXFrame.Core;
 using UnityXFrame.Core.Audios;
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.Resource;
@@ -151,10 +152,24 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                PoolModule.Inst.GetOrNew<DialogUI>(UIModule.Inst.PoolHelper)
-                    .Spawn(0, 1, true);
+                AudioModule.Inst.PlayAsync("TestAudio.mp3")
+                    .OnComplete((audio) => m_TestAudio = audio);
+            }
+            if (DebugGUI.Button("Stop"))
+            {
+                m_TestAudio.Stop();
+            }
+            if (DebugGUI.Button("Play"))
+            {
+                m_TestAudio.Play();
+            }
+            if (DebugGUI.Button("Pause"))
+            {
+                m_TestAudio.Pause();
             }
         }
+
+        private IAudio m_TestAudio;
 
         public void Dispose()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using XFrame.Modules.Pools;
@@ -13,6 +14,8 @@ namespace UnityXFrame.Core.Audios
             private GameObject m_Inst;
             private AudioSource m_Source;
             private float m_Volume;
+            private bool m_Disposed;
+            private bool m_Paused;
 
             private BolActionTask m_WaitTask;
             private Group m_Group;
@@ -54,12 +57,25 @@ namespace UnityXFrame.Core.Audios
                 m_Group = group;
             }
 
+            public void Pause()
+            {
+                if (m_Disposed)
+                    return;
+                if (!m_Paused)
+                {
+                    m_Paused = true;
+                    m_Source.Pause();
+                }
+            }
+
             public void Play(Action callback = null)
             {
+                if (m_Disposed)
+                    return;
+                m_Paused = false;
                 m_Source.loop = false;
                 InnerUpdateSourceVolume();
                 m_Source.Play();
-
                 if (m_WaitTask != null)
                 {
                     m_WaitTask.Delete();
@@ -67,7 +83,7 @@ namespace UnityXFrame.Core.Audios
                 }
 
                 m_WaitTask = TaskModule.Inst.GetOrNew<BolActionTask>();
-                m_WaitTask.Add(() => !m_Source.isPlaying)
+                m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
                     .OnComplete(() =>
                     {
                         m_WaitTask = null;
@@ -78,6 +94,9 @@ namespace UnityXFrame.Core.Audios
 
             public void PlayLoop()
             {
+                if (m_Disposed)
+                    return;
+                m_Paused = false;
                 m_Source.loop = true;
                 InnerUpdateSourceVolume();
                 m_Source.Play();
@@ -85,6 +104,8 @@ namespace UnityXFrame.Core.Audios
 
             public void Stop()
             {
+                if (m_Disposed)
+                    return;
                 m_Source.Stop();
                 m_Group.Remove(this);
                 PoolModule.Inst.GetOrNew<Audio>().Release(this);
@@ -101,6 +122,8 @@ namespace UnityXFrame.Core.Audios
             void IPoolObject.OnRequest()
             {
                 m_Inst.SetActive(true);
+                m_Disposed = false;
+                m_Paused = false;
             }
 
             void IPoolObject.OnDelete()
@@ -112,6 +135,7 @@ namespace UnityXFrame.Core.Audios
 
             void IPoolObject.OnRelease()
             {
+                m_Disposed = true;
                 Clip = null;
                 if (m_WaitTask != null)
                 {
