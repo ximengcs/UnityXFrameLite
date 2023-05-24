@@ -5,7 +5,6 @@ using XFrame.Modules.Pools;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
-using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -14,29 +13,30 @@ namespace UnityXFrame.Core.UIs
         private IContainer m_Container;
 
         protected bool m_IsOpen;
-        protected int Layer;
+        protected int m_Layer;
         protected IUIGroup m_Group;
         protected GameObject m_Root;
         protected RectTransform m_Transform;
 
-        int IUI.Layer
+        public int Layer
         {
-            get { return Layer; }
-            set
-            {
-                Layer = value;
-            }
+            get { return m_Layer; }
+            set { m_Layer = UIModule.SetLayer(m_Transform.parent, this, value); }
         }
 
-        bool IUI.Active
+        public bool Active
         {
             get => m_Root.activeSelf;
             set => m_Root.SetActive(value);
         }
 
-        bool IUI.IsOpen => m_IsOpen;
+        public bool IsOpen => m_IsOpen;
 
-        IUIGroup IUI.Group => m_Group;
+        IUIGroup IUI.Group
+        {
+            get { return m_Group; }
+            set { m_Group = value; }
+        }
 
         public int Id => m_Container.Id;
 
@@ -51,15 +51,11 @@ namespace UnityXFrame.Core.UIs
             if (m_IsOpen)
                 return;
             m_IsOpen = true;
-            IUIGroup group = m_Group;
-            if (group != null)
-            {
-                group.OpenUI(this);
-            }
+
+            if (m_Group != null)
+                m_Group.OpenUI(this);
             else
-            {
                 Log.Error(nameof(UIModule), "UI Group is null.");
-            }
         }
 
         public void Close()
@@ -68,14 +64,10 @@ namespace UnityXFrame.Core.UIs
                 return;
             m_IsOpen = false;
             IUIGroup group = m_Group;
-            if (group != null)
-            {
+            if (m_Group != null)
                 group.CloseUI(this);
-            }
             else
-            {
                 Log.Error(nameof(UIModule), "UI Group is null.");
-            }
         }
 
         void IContainer.OnInit(int id, IContainer master, OnDataProviderReady onReady)
@@ -121,8 +113,6 @@ namespace UnityXFrame.Core.UIs
         }
 
         int IPoolObject.PoolKey => 0;
-
-        public IEventSystem Event => throw new NotImplementedException();
 
         void IPoolObject.OnCreate()
         {

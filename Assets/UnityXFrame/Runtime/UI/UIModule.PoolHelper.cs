@@ -9,7 +9,7 @@ namespace UnityXFrame.Core.UIs
 {
     public partial class UIModule
     {
-        public interface IUIPoolHelper : IPoolHelper
+        private interface IUIPoolHelper : IPoolHelper
         {
             ITask PreloadRes(Type[] types, bool useNative);
         }

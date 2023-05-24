@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -170,6 +173,9 @@ namespace Game.Test
         }
 
         private IAudio m_TestAudio;
+
+        int pro;
+        TweenerCore<int, int, NoOptions> tweener;
 
         public void Dispose()
         {

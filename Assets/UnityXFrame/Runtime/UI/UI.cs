@@ -15,6 +15,7 @@ namespace UnityXFrame.Core.UIs
         protected IUIGroup m_Group;
         protected internal GameObject m_Root;
         protected RectTransform m_Transform;
+        protected UIFinder m_UIFinder;
 
         #region UI Interface
         public int Layer
@@ -23,7 +24,7 @@ namespace UnityXFrame.Core.UIs
             set { m_Layer = UIModule.SetLayer(m_Transform.parent, this, value); }
         }
 
-        bool IUI.Active
+        public bool Active
         {
             get => m_Root.activeSelf;
             set => m_Root.SetActive(value);
@@ -31,17 +32,15 @@ namespace UnityXFrame.Core.UIs
 
         public bool IsOpen => m_IsOpen;
 
-        public IUIGroup Group
+        IUIGroup IUI.Group
         {
-            get => m_Group;
-            internal set { m_Group = value; }
+            get { return m_Group; }
+            set { m_Group = value; }
         }
 
         public RectTransform Root => m_Transform;
 
         public string Name => m_Root.name;
-
-        public IEventSystem Event => throw new System.NotImplementedException();
 
         public void Open()
         {
@@ -91,10 +90,18 @@ namespace UnityXFrame.Core.UIs
             OnClose();
         }
         #endregion
+        protected override void OnInit()
+        {
+            base.OnInit();
+            m_UIFinder = GetOrAddCom<UIFinder>();
+        }
+
         protected override void OnCreateFromPool()
         {
             base.OnCreateFromPool();
             m_Transform = m_Root.GetComponent<RectTransform>();
+            m_IsOpen = false;
+            Active = false;
         }
 
         #region Sub Class Implement Life Fun

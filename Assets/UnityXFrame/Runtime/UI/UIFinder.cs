@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using XFrame.Modules.Containers;
 using System.Collections.Generic;
 
 namespace UnityXFrame.Core.UIs
 {
-    public class UICommonCom : ShareCom
+    public class UIFinder : ShareCom
     {
         private IUI m_Inst;
         private const string UI_TAG = "UIComponent";
@@ -19,7 +18,7 @@ namespace UnityXFrame.Core.UIs
             InnerFindUIComponent(m_Inst.Root);
         }
 
-        public T GetUI<T>(string name) where T : UIBehaviour
+        public T GetUI<T>(string name) where T : Component
         {
             if (m_Coms.TryGetValue(name, out RectTransform tf))
                 return tf.GetComponent<T>();

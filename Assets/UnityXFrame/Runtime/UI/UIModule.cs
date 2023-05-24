@@ -7,6 +7,7 @@ using XFrame.Modules.XType;
 using System.Collections.Generic;
 using XFrame.Modules.Containers;
 using UnityEngine.Profiling;
+using XFrame.Modules.Tasks;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -60,7 +61,56 @@ namespace UnityXFrame.Core.UIs
         #endregion
 
         #region Interface
-        public IUIPoolHelper PoolHelper => m_Helper;
+        public ITask PreloadResource(Type[] types, bool useNative)
+        {
+            return m_Helper.PreloadRes(types, useNative);
+        }
+
+        public ITask Spwan(Type[] types, bool useNative)
+        {
+            ActionTask task = TaskModule.Inst.GetOrNew<ActionTask>();
+            foreach (Type uiType in types)
+            {
+                if (uiType != null)
+                {
+                    task.Add(() =>
+                    {
+                        XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useNative);
+                        InnerInitSpwanUI(list);
+                        References.Release(list);
+                    });
+                }
+            }
+            return task;
+        }
+
+        public ITask Spwan(Type uiType, bool useNative)
+        {
+            ActionTask task = TaskModule.Inst.GetOrNew<ActionTask>();
+            task.Add(() =>
+            {
+                XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useNative);
+                InnerInitSpwanUI(list);
+                References.Release(list);
+            });
+            return task;
+        }
+
+        private void InnerInitSpwanUI(XLinkList<IPoolObject> list)
+        {
+            IUIGroup group = InnerGetOrNewGroup(nameof(Spwan), 0);
+            group.Close();
+            foreach (XLinkNode<IPoolObject> obj in list)
+            {
+                IUI ui = obj.Value as IUI;
+                group.AddUI(ui);
+            }
+        }
+
+        public ITask Spwan<T>(bool useNative) where T : IUI
+        {
+            return Spwan(typeof(T), useNative);
+        }
 
         /// <summary>
         /// 主UI组
