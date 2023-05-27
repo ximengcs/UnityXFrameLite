@@ -78,21 +78,16 @@ namespace UnityXFrameLib.UI
             }
             else
             {
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButtonDown(0))
                 {
                     m_Results.Clear();
                     m_EvtData.position = Input.mousePosition;
                     EventSystem.current.RaycastAll(m_EvtData, m_Results);
                     if (m_Results.Count > 0)
                     {
-                        foreach (RaycastResult r in m_Results)
-                        {
-                            if (r.gameObject.transform == m_DragTarget)
-                            {
-                                m_Draging = true;
-                                break;
-                            }
-                        }
+                        RaycastResult r = m_Results[0];
+                        if (r.gameObject.transform == m_DragTarget)
+                            m_Draging = true;
                     }
                 }
 
