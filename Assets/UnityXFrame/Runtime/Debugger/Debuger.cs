@@ -186,9 +186,7 @@ namespace UnityXFrame.Core.Diagnotics
         {
             if (m_EventSytem == null)
             {
-                GameObject inst = GameObject.Find("EventSystem");
-                if (inst != null)
-                    m_EventSytem = inst.GetComponent<EventSystem>();
+                m_EventSytem = EventSystem.current;
             }
             else
             {
