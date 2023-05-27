@@ -4,6 +4,7 @@ using XFrame.Modules.Tasks;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
 using UnityXFrame.Core.Resource;
+using System.Collections.Generic;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -11,25 +12,23 @@ namespace UnityXFrame.Core.UIs
     {
         private interface IUIPoolHelper : IPoolHelper
         {
-            ITask PreloadRes(Type[] types, bool useNative);
+            ITask PreloadRes(IEnumerable<Type> types, bool useNative);
         }
 
         private class DefaultUIPoolHelper : IUIPoolHelper
         {
             int IPoolHelper.CacheCount => 8;
 
-            ITask IUIPoolHelper.PreloadRes(Type[] types, bool useNative)
+            ITask IUIPoolHelper.PreloadRes(IEnumerable<Type> types, bool useNative)
             {
                 ITask task;
-                string[] uiPaths = new string[types.Length];
-                for (int i = 0; i < types.Length; i++)
-                    uiPaths[i] = InnerUIPath(types[i]);
+                List<string> uiPaths = new List<string>();
+                foreach (Type type in types)
+                    uiPaths.Add(InnerUIPath(type));
 
                 if (useNative)
                 {
-                    task = TaskModule.Inst.GetOrNew<XTask>();
-                    foreach (string path in uiPaths)
-                        task.Add(NativeResModule.Inst.LoadAsync<GameObject>(path));
+                    task = NativeResModule.Inst.Preload<GameObject>(uiPaths);
                 }
                 else
                 {

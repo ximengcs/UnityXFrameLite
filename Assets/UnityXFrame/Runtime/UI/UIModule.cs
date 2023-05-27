@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using XFrame.Modules.Containers;
 using UnityEngine.Profiling;
 using XFrame.Modules.Tasks;
+using System.Collections;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -64,6 +65,16 @@ namespace UnityXFrame.Core.UIs
         public ITask PreloadResource(Type[] types, bool useNative)
         {
             return m_Helper.PreloadRes(types, useNative);
+        }
+
+        public ITask PreloadResource(IEnumerable<Type> types, bool useNative)
+        {
+            return m_Helper.PreloadRes(types, useNative);
+        }
+
+        public ITask PreloadResource(IXEnumerable<Type> types, bool useNative)
+        {
+            return m_Helper.PreloadRes((IEnumerable<Type>)types, useNative);
         }
 
         public ITask Spwan(Type[] types, bool useNative)
