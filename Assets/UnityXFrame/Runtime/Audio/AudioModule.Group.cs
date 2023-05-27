@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using XFrame.Collections;
 
 namespace UnityXFrame.Core.Audios
 {
@@ -56,8 +57,9 @@ namespace UnityXFrame.Core.Audios
 
             public void Stop()
             {
-                foreach (IAudio audio in m_Audios)
-                    audio.Stop();
+                var it = new ListExt.BackwardIt<IAudio>(m_Audios);
+                while (it.MoveNext())
+                    it.Current.Stop();
             }
         }
     }

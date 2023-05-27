@@ -155,8 +155,16 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                AudioModule.Inst.PlayAsync("TestAudio.mp3")
+                AudioModule.Inst.PlayAsync("TestAudio.mp3", "Bgm")
                     .OnComplete((audio) => m_TestAudio = audio);
+            }
+            if (DebugGUI.Button("Test2"))
+            {
+                AudioModule.Inst.PlayAsync("TestAudio.mp3", "Bgm");
+            }
+            if (DebugGUI.Button("Stop Bgm Group"))
+            {
+                AudioModule.Inst.GetOrNewGroup("Bgm").Stop();
             }
             if (DebugGUI.Button("Stop"))
             {
