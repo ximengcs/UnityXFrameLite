@@ -125,6 +125,8 @@ namespace UnityXFrame.Core.UIs
             {
                 foreach (XLinkNode<IUI> node in m_UIs)
                 {
+                    if (!node.Value.IsOpen)
+                        continue;
                     if (m_UIHelper != null && m_UIHelper.Count > 0)
                     {
                         foreach (XLinkNode<IUIGroupHelper> helperNode in m_UIHelper)

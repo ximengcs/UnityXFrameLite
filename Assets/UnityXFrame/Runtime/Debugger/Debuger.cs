@@ -161,8 +161,6 @@ namespace UnityXFrame.Core.Diagnotics
         private string InnerCalculateFps()
         {
             float fps = 1 / Time.deltaTime;
-            if (fps < 58)
-                Log.Debug("Debugger", $"FPS is {fps}");
             return string.Format("FPS {0:F2}", fps);
         }
 
