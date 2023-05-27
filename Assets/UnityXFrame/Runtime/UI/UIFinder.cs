@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using XFrame.Modules.Containers;
 using System.Collections.Generic;
-using static PlasticGui.LaunchDiffParameters;
 
 namespace UnityXFrame.Core.UIs
 {
