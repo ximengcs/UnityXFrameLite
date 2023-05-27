@@ -15,7 +15,18 @@ namespace UnityXFrame.Core.UIs
             base.OnInit();
             m_Coms = new Dictionary<string, RectTransform>();
             m_Inst = (IUI)Master;
-            InnerFindUIComponent(m_Inst.Root);
+
+            RectTransform root = m_Inst.Root;
+            m_Coms.Add(root.name, root);
+            InnerFindUIComponent(root);
+        }
+
+        public GameObject GetObject(string name)
+        {
+            if (m_Coms.TryGetValue(name, out RectTransform tf))
+                return tf.gameObject;
+            else
+                return default;
         }
 
         public T GetUI<T>(string name) where T : Component

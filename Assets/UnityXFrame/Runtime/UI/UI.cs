@@ -39,6 +39,8 @@ namespace UnityXFrame.Core.UIs
             set { m_Group = value; }
         }
 
+        public IEventSystem Event { get; private set; }
+
         public RectTransform Root => m_Transform;
 
         public string Name => m_Root.name;
@@ -103,6 +105,7 @@ namespace UnityXFrame.Core.UIs
             if (m_CanvasGroup == null)
                 m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
             m_Transform = m_Root.GetComponent<RectTransform>();
+            Event = EventModule.Inst.NewSys();
             m_IsOpen = false;
             Active = false;
         }

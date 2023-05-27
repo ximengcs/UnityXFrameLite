@@ -2,6 +2,8 @@
 using UnityEngine;
 using XFrame.Collections;
 using System.Collections.Generic;
+using XFrame.Modules.Event;
+using XFrame.Modules.Pools;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -13,6 +15,8 @@ namespace UnityXFrame.Core.UIs
         private XLinkList<IUI> m_UIs;
         private CanvasGroup m_CanvasGroup;
         private XLinkList<IUIGroupHelper> m_UIHelper;
+
+        public IEventSystem Event { get; private set; }
 
         public string Name { get; }
 
@@ -48,6 +52,7 @@ namespace UnityXFrame.Core.UIs
             m_UIs = new XLinkList<IUI>();
             m_UIHelper = new XLinkList<IUIGroupHelper>();
             m_CanvasGroup = root.GetComponent<CanvasGroup>();
+            Event = EventModule.Inst.NewSys();
 
             RectTransform rectTf = m_Root as RectTransform;
             rectTf.anchorMin = Vector3.zero;
@@ -92,6 +97,14 @@ namespace UnityXFrame.Core.UIs
                 ui.OnClose();
                 ui.Active = false;
             }
+
+            UICloseEvent evt = References.Require<UICloseEvent>();
+            evt.Target = ui;
+            Event.Trigger(evt);
+
+            evt = References.Require<UICloseEvent>();
+            evt.Target = ui;
+            UIModule.Inst.Event.Trigger(evt);
         }
 
         void IUIGroup.OpenUI(IUI ui)
@@ -113,6 +126,14 @@ namespace UnityXFrame.Core.UIs
                 ui.OnOpen();
                 ui.Active = true;
             }
+
+            UIOpenEvent evt = References.Require<UIOpenEvent>();
+            evt.Target = ui;
+            Event.Trigger(evt);
+
+            evt = References.Require<UIOpenEvent>();
+            evt.Target = ui;
+            UIModule.Inst.Event.Trigger(evt);
         }
 
         void IUIGroup.OnInit()

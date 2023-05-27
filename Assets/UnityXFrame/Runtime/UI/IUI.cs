@@ -14,6 +14,8 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         RectTransform Root { get; }
 
+        IEventSystem Event { get; }
+
         /// <summary>
         /// 是否处于打开的状态
         /// </summary>

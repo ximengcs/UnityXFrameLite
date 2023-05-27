@@ -1,5 +1,6 @@
 ﻿using System;
 using XFrame.Collections;
+using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -10,6 +11,8 @@ namespace UnityXFrame.Core.UIs
     /// </summary>
     public interface IUIGroup : IUIElement, IXEnumerable<IUI>
     {
+        IEventSystem Event { get; }
+
         /// <summary>
         /// 是否处于打开状态
         /// </summary>

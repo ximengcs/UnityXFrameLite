@@ -9,6 +9,7 @@ using XFrame.Modules.Containers;
 using UnityEngine.Profiling;
 using XFrame.Modules.Tasks;
 using System.Collections;
+using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -22,6 +23,7 @@ namespace UnityXFrame.Core.UIs
         #region Inner Fields
         private Canvas m_Canvas;
         private Transform m_Root;
+        private IEventSystem m_Event;
         private IUIPoolHelper m_Helper;
         private XCollection<IUI> m_UIList;
         private XLinkList<IUIGroup> m_GroupList;
@@ -32,6 +34,7 @@ namespace UnityXFrame.Core.UIs
         {
             base.OnInit(data);
 
+            m_Event = EventModule.Inst.NewSys();
             m_Helper = new DefaultUIPoolHelper();
             InnerCheckCanvas(data);
             if (m_Canvas != null)
@@ -140,6 +143,8 @@ namespace UnityXFrame.Core.UIs
         {
             get { return InnerGetOrNewGroup(Constant.MAIN_GROUPUI, m_GroupList.Count); }
         }
+
+        public IEventSystem Event => m_Event;
 
         #region Open UI
         /// <summary>

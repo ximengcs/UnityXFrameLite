@@ -1,7 +1,5 @@
-﻿
-using System;
+﻿using System;
 using XFrame.Modules.Event;
-using XFrame.Modules.Pools;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -9,8 +7,6 @@ namespace UnityXFrame.Core.UIs
     {
         protected IEventSystem m_EvtSys;
         protected IUIGroup m_Owner;
-
-        public IEventSystem Event { get; private set; }
 
         bool IUIGroupHelper.MatchType(Type type)
         {
@@ -20,7 +16,6 @@ namespace UnityXFrame.Core.UIs
         void IUIGroupHelper.OnInit(IUIGroup owner)
         {
             m_Owner = owner;
-            Event = EventModule.Inst.NewSys();
             OnInit();
         }
 
@@ -37,9 +32,6 @@ namespace UnityXFrame.Core.UIs
         void IUIGroupHelper.OnUIClose(IUI ui)
         {
             OnUIClose(ui);
-            UICloseEvent evt = References.Require<UICloseEvent>();
-            evt.Target = ui;
-            Event.Trigger(evt);
         }
 
         void IUIGroupHelper.OnUIDestroy(IUI ui)
@@ -50,9 +42,6 @@ namespace UnityXFrame.Core.UIs
         void IUIGroupHelper.OnUIOpen(IUI ui)
         {
             OnUIOpen(ui);
-            UIOpenEvent evt = References.Require<UIOpenEvent>();
-            evt.Target = ui;
-            Event.Trigger(evt);
         }
 
         void IUIGroupHelper.OnUIUpdate(IUI ui, float elapseTime)

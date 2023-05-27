@@ -5,6 +5,7 @@ using XFrame.Modules.Pools;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
+using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -40,6 +41,8 @@ namespace UnityXFrame.Core.UIs
             get { return m_Group; }
             set { m_Group = value; }
         }
+
+        public IEventSystem Event { get; private set; }
 
         public int Id => m_Container.Id;
 
@@ -129,6 +132,7 @@ namespace UnityXFrame.Core.UIs
             if (m_CanvasGroup == null)
                 m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
             m_Transform = m_Root.GetComponent<RectTransform>();
+            Event = EventModule.Inst.NewSys();
             m_IsOpen = false;
             Active = false;
             OnCreateFromPool();
