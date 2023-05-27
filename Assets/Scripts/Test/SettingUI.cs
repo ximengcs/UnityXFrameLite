@@ -4,9 +4,12 @@ using XFrame.Modules.Local;
 using UnityXFrame.Core.UIs;
 using UnityXFrameLib.Localize;
 using System.Collections.Generic;
+using UnityXFrameLib.UI;
 
 namespace Game.Test
 {
+    [AutoLoadUI(true)]
+    [AutoSpwanUI(true)]
     public class SettingUI : UI
     {
         private TextMeshProUGUI m_Title;

@@ -77,7 +77,7 @@ namespace UnityXFrame.Core.UIs
             return m_Helper.PreloadRes((IEnumerable<Type>)types, useNative);
         }
 
-        public ITask Spwan(Type[] types, bool useNative)
+        public ITask Spwan(IEnumerable<Type> types, bool useNative)
         {
             ActionTask task = TaskModule.Inst.GetOrNew<ActionTask>();
             foreach (Type uiType in types)
@@ -93,6 +93,16 @@ namespace UnityXFrame.Core.UIs
                 }
             }
             return task;
+        }
+
+        public ITask Spwan(Type[] types, bool useNative)
+        {
+            return Spwan((IEnumerable<Type>)types, useNative);
+        }
+
+        public ITask Spwan(IXEnumerable<Type> types, bool useNative)
+        {
+            return Spwan((IEnumerable<Type>)types, useNative);
         }
 
         public ITask Spwan(Type uiType, bool useNative)

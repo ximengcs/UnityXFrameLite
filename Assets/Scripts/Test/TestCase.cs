@@ -178,6 +178,10 @@ namespace Game.Test
             {
                 m_TestAudio.Pause();
             }
+            if (DebugGUI.Button("Auto UI Task"))
+            {
+                UIModuleExt.CollectAutoTask().Start();
+            }
         }
 
         private IAudio m_TestAudio;
