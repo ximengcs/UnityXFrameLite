@@ -10,6 +10,7 @@ namespace UnityXFrame.Core.UIs
     public partial class UIGroup : IUIGroup
     {
         private int m_Layer;
+        private bool m_Active;
         private Transform m_Root;
         private GameObject m_Inst;
         private XLinkList<IUI> m_UIs;
@@ -39,8 +40,22 @@ namespace UnityXFrame.Core.UIs
 
         public bool Active
         {
-            get => m_CanvasGroup.alpha > 0;
-            set => m_CanvasGroup.alpha = value ? 1 : 0;
+            get => m_Active;
+            set
+            {
+                if (value)
+                {
+                    m_Active = true;
+                    m_CanvasGroup.alpha = 1;
+                    m_CanvasGroup.blocksRaycasts = true;
+                }
+                else
+                {
+                    m_Active = false;
+                    m_CanvasGroup.alpha = 0;
+                    m_CanvasGroup.blocksRaycasts = false;
+                }
+            }
         }
 
         public UIGroup(GameObject root, string name, int layer)

@@ -10,6 +10,7 @@ namespace UnityXFrame.Core.UIs
     /// </summary>
     public abstract partial class UI : Container, IUI
     {
+        private bool m_Active;
         protected int m_Layer;
         protected bool m_IsOpen;
         protected IUIGroup m_Group;
@@ -27,8 +28,22 @@ namespace UnityXFrame.Core.UIs
 
         public bool Active
         {
-            get => m_CanvasGroup.alpha > 0;
-            set => m_CanvasGroup.alpha = value ? 1 : 0;
+            get => m_Active;
+            set
+            {
+                if (value)
+                {
+                    m_Active = true;
+                    m_CanvasGroup.alpha = 1;
+                    m_CanvasGroup.blocksRaycasts = true;
+                }
+                else
+                {
+                    m_Active = false;
+                    m_CanvasGroup.alpha = 0;
+                    m_CanvasGroup.blocksRaycasts = false;
+                }
+            }
         }
 
         public bool IsOpen => m_IsOpen;
