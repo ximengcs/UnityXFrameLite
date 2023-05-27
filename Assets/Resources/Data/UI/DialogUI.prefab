@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3404341214235523874}
   - component: {fileID: 3404341214235523884}
+  - component: {fileID: 6937590730444496845}
   m_Layer: 5
   m_Name: DialogUI
   m_TagString: Untagged
@@ -48,6 +49,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3404341214235523875}
   m_CullTransparentMesh: 1
+--- !u!114 &6937590730444496845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3404341214235523875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6594c37e8cb8c064aa1ebbaaf57917b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Title: {fileID: 7297934423330805598}
+  m_BackGround: {fileID: 8292487644028700376}
 --- !u!1 &6540142900718606757
 GameObject:
   m_ObjectHideFlags: 0

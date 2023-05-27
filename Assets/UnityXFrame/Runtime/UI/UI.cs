@@ -61,9 +61,8 @@ namespace UnityXFrame.Core.UIs
                 return;
             m_IsOpen = false;
 
-            IUIGroup group = m_Group;
             if (m_Group != null)
-                group.CloseUI(this);
+                m_Group.CloseUI(this);
             else
                 Log.Error(nameof(UIModule), "UI Group is null.");
         }

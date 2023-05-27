@@ -10,13 +10,16 @@ namespace UnityXFrame.Core.UIs
 {
     public abstract partial class MonoUI : MonoBehaviour, IUI
     {
-        private IContainer m_Container;
-
         protected bool m_IsOpen;
         protected int m_Layer;
         protected IUIGroup m_Group;
         protected GameObject m_Root;
+        protected CanvasGroup m_CanvasGroup;
         protected RectTransform m_Transform;
+        protected UIFinder m_UIFinder;
+
+        private IContainer m_Container;
+        private MonoContainer m_MonoContainer;
 
         public int Layer
         {
@@ -26,8 +29,8 @@ namespace UnityXFrame.Core.UIs
 
         public bool Active
         {
-            get => m_Root.activeSelf;
-            set => m_Root.SetActive(value);
+            get => m_CanvasGroup.alpha > 0;
+            set => m_CanvasGroup.alpha = value ? 1 : 0;
         }
 
         public bool IsOpen => m_IsOpen;
@@ -63,52 +66,53 @@ namespace UnityXFrame.Core.UIs
             if (!m_IsOpen)
                 return;
             m_IsOpen = false;
-            IUIGroup group = m_Group;
+
             if (m_Group != null)
-                group.CloseUI(this);
+                m_Group.CloseUI(this);
             else
                 Log.Error(nameof(UIModule), "UI Group is null.");
         }
 
         void IContainer.OnInit(int id, IContainer master, OnDataProviderReady onReady)
         {
-            m_Container = new Container();
-            m_Container.OnInit(id, master, null);
+            m_Container.OnInit(id, this, null);
             onReady?.Invoke(this);
+            m_UIFinder = GetOrAddCom<UIFinder>();
             OnInit();
         }
 
         void IContainer.OnUpdate(float elapseTime)
         {
-            if (m_IsOpen)
-            {
-                SetIt(XItType.Forward);
-                foreach (ICom com in this)
-                {
-                    if (com.Active)
-                        com.OnUpdate(elapseTime);
-                }
-                OnUpdate(elapseTime);
-            }
+            m_Container.OnUpdate(elapseTime);
+            OnUpdate(elapseTime);
         }
 
         void IContainer.OnDestroy()
         {
-            SetIt(XItType.Backward);
-            foreach (ICom com in this)
-                com.OnDestroy();
+            m_Container.OnDestroy();
             OnUIDestroy();
-            GameObject.Destroy(m_Root);
-            m_Root = null;
         }
 
         void IUI.OnOpen()
         {
+            foreach (ICom com in this)
+            {
+                UICom uiCom = com as UICom;
+                if (uiCom != null)
+                    uiCom.OnOpen();
+            }
             OnOpen();
         }
 
         void IUI.OnClose()
         {
+            foreach (ICom com in this)
+            {
+                UICom uiCom = com as UICom;
+                if (uiCom != null)
+                    uiCom.OnClose();
+            }
+
             OnClose();
         }
 
@@ -116,22 +120,37 @@ namespace UnityXFrame.Core.UIs
 
         void IPoolObject.OnCreate()
         {
+            m_MonoContainer = new MonoContainer();
+            m_Container = m_MonoContainer;
+            m_MonoContainer.TriggerOnCreateFromPool();
+
+            m_Root = gameObject;
+            m_CanvasGroup = m_Root.GetComponent<CanvasGroup>();
+            if (m_CanvasGroup == null)
+                m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
+            m_Transform = m_Root.GetComponent<RectTransform>();
+            m_IsOpen = false;
+            Active = false;
             OnCreateFromPool();
         }
 
         void IPoolObject.OnRequest()
         {
+            m_MonoContainer.TriggerOnRequestFromPool();
             OnRequestFromPool();
         }
 
         void IPoolObject.OnRelease()
         {
             OnReleaseFromPool();
+            m_MonoContainer.TriggerOnReleaseFromPool();
         }
 
         void IPoolObject.OnDelete()
         {
             OnDestroyFromPool();
+            GameObject.Destroy(m_Root);
+            m_MonoContainer.TriggerOnDestroyFromPool();
         }
 
         protected virtual void OnInit() { }
@@ -174,7 +193,7 @@ namespace UnityXFrame.Core.UIs
             return m_Container.AddCom(type, onReady);
         }
 
-        public ICom AddCom(Type type, int id = 0, OnDataProviderReady onReady = null)
+        public ICom AddCom(Type type, int id, OnDataProviderReady onReady = null)
         {
             return m_Container.AddCom(type, id, onReady);
         }
@@ -184,7 +203,7 @@ namespace UnityXFrame.Core.UIs
             return m_Container.GetOrAddCom<T>(onReady);
         }
 
-        public T GetOrAddCom<T>(int id = 0, OnDataProviderReady onReady = null) where T : ICom
+        public T GetOrAddCom<T>(int id, OnDataProviderReady onReady = null) where T : ICom
         {
             return m_Container.GetOrAddCom<T>(id, onReady);
         }
@@ -194,7 +213,7 @@ namespace UnityXFrame.Core.UIs
             return m_Container.GetOrAddCom(type, onReady);
         }
 
-        public ICom GetOrAddCom(Type type, int id = 0, OnDataProviderReady onReady = null)
+        public ICom GetOrAddCom(Type type, int id, OnDataProviderReady onReady = null)
         {
             return m_Container.GetOrAddCom(type, id, onReady);
         }

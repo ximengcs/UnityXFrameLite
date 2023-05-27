@@ -11,10 +11,20 @@ namespace Game.Test
 {
     [AutoLoadUI(true)]
     [AutoSpwanUI(true)]
-    public class DialogUI : UI
+    public class DialogUI : MonoUI
     {
-        private TextMeshProUGUI m_Title;
+        public TextMeshProUGUI m_Title;
+        public Image m_BackGround;
 
+        protected override void OnInit()
+        {
+            base.OnInit();
+            m_Transform.anchoredPosition += GetData<Vector2>();
+            m_BackGround.color = GetData<Color>();
+            LocalizeExt.RegisterLocalText(m_Title, InnerLangChange);
+        }
+
+        /* inheric UI Test
         protected override void OnInit()
         {
             base.OnInit();
@@ -23,7 +33,7 @@ namespace Game.Test
 
             m_Title = m_Transform.Find("Text").GetComponent<TextMeshProUGUI>();
             LocalizeExt.RegisterLocalText(m_Title, InnerLangChange);
-        }
+        }*/
 
         private void InnerLangChange(TextMeshProUGUI textCom)
         {
