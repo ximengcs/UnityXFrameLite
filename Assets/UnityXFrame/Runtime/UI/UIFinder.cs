@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using XFrame.Modules.Containers;
 using System.Collections.Generic;
+using static PlasticGui.LaunchDiffParameters;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -28,12 +29,15 @@ namespace UnityXFrame.Core.UIs
 
         private void InnerFindUIComponent(Transform tf)
         {
+            InnerCheckTf(tf);
             foreach (Transform child in tf)
-            {
-                if (child.tag == UI_TAG)
-                    m_Coms.Add(child.name, child.GetComponent<RectTransform>());
                 InnerFindUIComponent(child);
-            }
+        }
+
+        private void InnerCheckTf(Transform tf)
+        {
+            if (tf.tag == UI_TAG)
+                m_Coms.Add(tf.name, tf.GetComponent<RectTransform>());
         }
     }
 }

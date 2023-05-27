@@ -33,6 +33,12 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
+        public bool Active
+        {
+            get => m_CanvasGroup.alpha > 0;
+            set => m_CanvasGroup.alpha = value ? 1 : 0;
+        }
+
         public UIGroup(GameObject root, string name, int layer)
         {
             Name = name;
@@ -56,7 +62,7 @@ namespace UnityXFrame.Core.UIs
             if (IsOpen)
                 return;
             IsOpen = true;
-            m_Inst.SetActive(true);
+            Active = true;
         }
 
         public void Close()
@@ -64,12 +70,7 @@ namespace UnityXFrame.Core.UIs
             if (!IsOpen)
                 return;
             IsOpen = false;
-            m_Inst.SetActive(false);
-        }
-
-        internal int CheckLayer(IUI ui)
-        {
-            return 0;
+            Active = false;
         }
 
         void IUIGroup.CloseUI(IUI ui)

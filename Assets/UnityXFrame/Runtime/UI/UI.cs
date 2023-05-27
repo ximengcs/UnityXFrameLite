@@ -15,6 +15,7 @@ namespace UnityXFrame.Core.UIs
         protected IUIGroup m_Group;
         protected internal GameObject m_Root;
         protected RectTransform m_Transform;
+        protected CanvasGroup m_CanvasGroup;
         protected UIFinder m_UIFinder;
 
         #region UI Interface
@@ -26,8 +27,8 @@ namespace UnityXFrame.Core.UIs
 
         public bool Active
         {
-            get => m_Root.activeSelf;
-            set => m_Root.SetActive(value);
+            get => m_CanvasGroup.alpha > 0;
+            set => m_CanvasGroup.alpha = value ? 1 : 0;
         }
 
         public bool IsOpen => m_IsOpen;
@@ -99,6 +100,9 @@ namespace UnityXFrame.Core.UIs
         protected override void OnCreateFromPool()
         {
             base.OnCreateFromPool();
+            m_CanvasGroup = m_Root.GetComponent<CanvasGroup>();
+            if (m_CanvasGroup == null)
+                m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
             m_Transform = m_Root.GetComponent<RectTransform>();
             m_IsOpen = false;
             Active = false;
