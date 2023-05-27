@@ -1,4 +1,5 @@
-﻿using UnityXFrame.Core.UIs;
+﻿using UnityEngine;
+using UnityXFrame.Core.UIs;
 
 namespace UnityXFrameLib.UI
 {
@@ -23,7 +24,9 @@ namespace UnityXFrameLib.UI
         {
             m_CloseEffect.Kill(ui);
             m_Opening?.Close();
-            m_CurOpenUI?.Close();
+            if (m_CurOpenUI != ui)
+                m_CurOpenUI?.Close();
+            m_CurOpenUI = null;
 
             m_Opening = ui;
             InnerSetUIActive(ui, true);

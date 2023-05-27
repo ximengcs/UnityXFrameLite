@@ -105,10 +105,9 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Init Group3"))
             {
-                //UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
-                //{
-                //    helper.SetEffect(new ScaleEffect(Vector2.one), new ScaleEffect(Vector2.one, Vector2.zero));
-                //});
+                UIModule.Inst.GetOrNewGroup("Test");
+                OnlyOneUIGroupHelper helper = UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
+                helper.SetEffect(new ScaleEffect(Vector2.one, 2), new ScaleEffect(Vector2.one, Vector2.zero, 2));
             }
             if (DebugGUI.Button("Init Group4"))
             {
