@@ -15,6 +15,8 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
+        public UIOpenBeforeEvent() : this(default) { }
+
         public UIOpenBeforeEvent(IUI ui) : base(ui, EventId) { }
     }
 }
