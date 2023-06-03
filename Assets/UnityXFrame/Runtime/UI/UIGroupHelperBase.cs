@@ -6,7 +6,7 @@ namespace UnityXFrame.Core.UIs
     public abstract class UIGroupHelperBase : IUIGroupHelper
     {
         protected IEventSystem m_EvtSys;
-        protected IUIGroup m_Owner;
+        protected UIGroup m_Owner;
 
         bool IUIGroupHelper.MatchType(Type type)
         {
@@ -15,7 +15,7 @@ namespace UnityXFrame.Core.UIs
 
         void IUIGroupHelper.OnInit(IUIGroup owner)
         {
-            m_Owner = owner;
+            m_Owner = (UIGroup)owner;
             OnInit();
         }
 
@@ -75,11 +75,13 @@ namespace UnityXFrame.Core.UIs
         protected void InnerOpenUI(IUI ui)
         {
             ui.OnOpen();
+            m_Owner.InnerTriggerEvent<UIOpenEvent>(ui);
         }
 
         protected void InnerCloseUI(IUI ui)
         {
             ui.OnClose();
+            m_Owner.InnerTriggerEvent<UICloseEvent>(ui);
         }
 
         protected void InnerUpdateUI(IUI ui, float elapseTime)

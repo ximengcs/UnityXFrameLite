@@ -2,7 +2,7 @@
 
 namespace UnityXFrame.Core.UIs
 {
-    public class UICloseEvent : XEvent
+    public class UICloseEvent : UIEvent
     {
         private static int m_EventId;
 
@@ -16,8 +16,6 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
-        public IUI Target { get; internal set; }
-
-        public UICloseEvent() : base(EventId) { }
+        public UICloseEvent(IUI ui) : base(ui, EventId) { }
     }
 }

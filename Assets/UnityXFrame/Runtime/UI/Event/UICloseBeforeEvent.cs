@@ -1,8 +1,7 @@
-﻿using XFrame.Modules.Event;
-
+﻿
 namespace UnityXFrame.Core.UIs
 {
-    public class UIOpenEvent : UIEvent
+    public class UICloseBeforeEvent : UIEvent
     {
         private static int m_EventId;
 
@@ -11,11 +10,11 @@ namespace UnityXFrame.Core.UIs
             get
             {
                 if (m_EventId == 0)
-                    m_EventId = typeof(UIOpenEvent).GetHashCode();
+                    m_EventId = typeof(UICloseBeforeEvent).GetHashCode();
                 return m_EventId;
             }
         }
 
-        public UIOpenEvent(IUI ui) : base(ui, EventId) { }
+        public UICloseBeforeEvent(IUI ui) : base(ui, EventId) { }
     }
 }
