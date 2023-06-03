@@ -72,7 +72,13 @@ namespace UnityXFrame.Core.Audios
             {
                 if (m_Disposed)
                     return;
-                m_Paused = false;
+                if (m_Paused)
+                {
+                    m_Paused = false;
+                    m_Source.Play();
+                    return;
+                }
+
                 m_Source.loop = false;
                 InnerUpdateSourceVolume();
                 m_Source.Play();
