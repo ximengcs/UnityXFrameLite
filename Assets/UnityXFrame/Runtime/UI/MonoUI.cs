@@ -11,6 +11,7 @@ namespace UnityXFrame.Core.UIs
 {
     public abstract partial class MonoUI : MonoBehaviour, IUI
     {
+        private bool m_Active;
         protected bool m_IsOpen;
         protected int m_Layer;
         protected IUIGroup m_Group;
@@ -30,8 +31,22 @@ namespace UnityXFrame.Core.UIs
 
         public bool Active
         {
-            get => m_CanvasGroup.alpha > 0;
-            set => m_CanvasGroup.alpha = value ? 1 : 0;
+            get => m_Active;
+            set
+            {
+                if (value)
+                {
+                    m_Active = true;
+                    m_CanvasGroup.alpha = 1;
+                    m_CanvasGroup.blocksRaycasts = true;
+                }
+                else
+                {
+                    m_Active = false;
+                    m_CanvasGroup.alpha = 0;
+                    m_CanvasGroup.blocksRaycasts = false;
+                }
+            }
         }
 
         public bool IsOpen => m_IsOpen;

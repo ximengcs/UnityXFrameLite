@@ -11,11 +11,13 @@ namespace UnityXFrame.Core.UIs
     {
         private int m_Layer;
         private bool m_Active;
-        private Transform m_Root;
+        private RectTransform m_Root;
         private GameObject m_Inst;
         private XLinkList<IUI> m_UIs;
         private CanvasGroup m_CanvasGroup;
         private XLinkList<IUIGroupHelper> m_UIHelper;
+
+        public RectTransform Root => m_Root;
 
         public IEventSystem Event { get; private set; }
 
@@ -63,18 +65,17 @@ namespace UnityXFrame.Core.UIs
             Name = name;
             Layer = layer;
             m_Inst = root;
-            m_Root = root.transform;
+            m_Root = (RectTransform)root.transform;
             m_UIs = new XLinkList<IUI>();
             m_UIHelper = new XLinkList<IUIGroupHelper>();
             m_CanvasGroup = root.GetComponent<CanvasGroup>();
             Event = EventModule.Inst.NewSys();
 
-            RectTransform rectTf = m_Root as RectTransform;
-            rectTf.anchorMin = Vector3.zero;
-            rectTf.anchorMax = Vector3.one;
-            rectTf.offsetMin = Vector2.zero;
-            rectTf.offsetMax = Vector2.zero;
-            rectTf.anchoredPosition3D = Vector3.zero;
+            m_Root.anchorMin = Vector3.zero;
+            m_Root.anchorMax = Vector3.one;
+            m_Root.offsetMin = Vector2.zero;
+            m_Root.offsetMax = Vector2.zero;
+            m_Root.anchoredPosition3D = Vector3.zero;
         }
 
         public void Open()

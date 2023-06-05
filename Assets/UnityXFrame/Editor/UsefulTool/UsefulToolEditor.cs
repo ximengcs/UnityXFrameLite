@@ -32,12 +32,12 @@ namespace UnityXFrame.Editor
                 }
             }
 
-            if (GUILayout.Button("Compile Editor Dll"))
+            m_BuildPath = EditorGUILayout.TextField(m_BuildPath);
+            if (GUILayout.Button("Compile IOS Dll"))
             {
-
+                CompileDll(m_BuildPath, BuildTarget.iOS);
             }
 
-            m_BuildPath = EditorGUILayout.TextField(m_BuildPath);
             if (GUILayout.Button("Compile Android Dll"))
             {
                 CompileDll(m_BuildPath, BuildTarget.Android);

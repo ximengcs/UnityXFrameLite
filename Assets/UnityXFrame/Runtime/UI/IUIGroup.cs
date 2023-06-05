@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using XFrame.Collections;
 using XFrame.Modules.Event;
 
@@ -12,6 +13,8 @@ namespace UnityXFrame.Core.UIs
     public interface IUIGroup : IUIElement, IXEnumerable<IUI>
     {
         IEventSystem Event { get; }
+
+        RectTransform Root { get; }
 
         /// <summary>
         /// 是否处于打开状态
