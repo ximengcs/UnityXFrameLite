@@ -2,7 +2,7 @@
 
 namespace UnityXFrame.Core.UIs
 {
-    public class UIOpenEvent : XEvent
+    public class UIOpenEvent : UIEvent
     {
         private static int m_EventId;
 
@@ -16,8 +16,8 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
-        public IUI Target { get; internal set; }
+        public UIOpenEvent() : this(default) { }
 
-        public UIOpenEvent() : base(EventId) { }
+        public UIOpenEvent(IUI ui) : base(ui, EventId) { }
     }
 }
