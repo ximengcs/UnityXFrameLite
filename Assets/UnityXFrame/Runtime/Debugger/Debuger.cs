@@ -11,7 +11,6 @@ using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.Diagnotics
 {
-    [XModule]
     public partial class Debuger : SingletonModule<Debuger>
     {
         #region Internal Field

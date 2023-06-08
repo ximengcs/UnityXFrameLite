@@ -15,7 +15,8 @@ namespace UnityXFrame.Editor
             public static void Init()
             {
                 m_Symbols = new HashSet<string>();
-                string symbol = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone);
+                BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
+                string symbol = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(group));
                 m_Symbols = new HashSet<string>(symbol.Split(';'));
             }
 
