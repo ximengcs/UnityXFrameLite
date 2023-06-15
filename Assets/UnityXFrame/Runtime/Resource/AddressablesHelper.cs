@@ -34,9 +34,12 @@ namespace UnityXFrame.Core.Resource
             ReflectResHandler handler = new ReflectResHandler(handle, type);
             loadTask.OnComplete((asset) =>
             {
-                int code = asset.GetHashCode();
-                if (!m_LoadMap.ContainsKey(code))
-                    m_LoadMap.Add(code, handler);
+                if (asset != null)
+                {
+                    int code = asset.GetHashCode();
+                    if (!m_LoadMap.ContainsKey(code))
+                        m_LoadMap.Add(code, handler);
+                }
             });
             loadTask.Add(handler);
             return loadTask;
@@ -49,9 +52,12 @@ namespace UnityXFrame.Core.Resource
             ResHandler handler = new ResHandler(handle);
             loadTask.OnComplete((asset) =>
             {
-                int code = asset.GetHashCode();
-                if (!m_LoadMap.ContainsKey(code))
-                    m_LoadMap.Add(code, handler);
+                if (asset != null)
+                {
+                    int code = asset.GetHashCode();
+                    if (!m_LoadMap.ContainsKey(code))
+                        m_LoadMap.Add(code, handler);
+                }
             });
             loadTask.Add(handler);
             return loadTask;
