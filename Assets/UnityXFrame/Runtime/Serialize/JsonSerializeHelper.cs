@@ -4,7 +4,7 @@ using XFrame.Modules.Serialize;
 
 namespace UnityXFrame.Core.Serialize
 {
-    public class JsonSerializeHelper : IJsonSerializeHelper
+    public class JsonSerializeHelper : ISerializeHelper
     {
         public object Deserialize(string json, Type dataType)
         {

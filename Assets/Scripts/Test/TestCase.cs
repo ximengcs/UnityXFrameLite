@@ -2,6 +2,9 @@
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using Test;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -14,6 +17,7 @@ using UnityXFrameLib.Improve;
 using UnityXFrameLib.UI;
 using XFrame.Core;
 using XFrame.Modules.Archives;
+using XFrame.Modules.Datas;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Local;
 using XFrame.Modules.Pools;
@@ -33,6 +37,14 @@ namespace Game.Test
 
         public void OnDraw()
         {
+            if (DebugGUI.Button("Add Table"))
+            {
+                ResModule.Inst.LoadAsync<TextAsset>("Assets/Data/Config/Prop.csv").OnComplete((asset) =>
+                {
+                    DataModule.Inst.Add<Prop>(asset.text);
+                }).Start();
+            };
+
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Main");
             if (DebugGUI.Button("-"))

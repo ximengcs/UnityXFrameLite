@@ -14,7 +14,7 @@ namespace UnityXFrame.Core
             XConfig.DefaultRes = data.ResMode;
             XConfig.DefaultLogger = data.Logger;
             XConfig.ArchivePath = Constant.ArchivePath;
-            XConfig.DefaultJsonSerializer = data.JsonSerializer;
+            XConfig.DefaultSerializer = data.JsonSerializer;
             XConfig.DefaultDownloadHelper = data.DownloadHelper;
         }
 

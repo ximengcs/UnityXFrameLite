@@ -16,14 +16,14 @@ namespace UnityXFrame.Editor
 
             protected override void OnInit()
             {
-                m_HelperTypes = TypeModule.Inst.GetOrNew<IJsonSerializeHelper>();
+                m_HelperTypes = TypeModule.Inst.GetOrNew<ISerializeHelper>();
 
                 Types = m_HelperTypes.ToArray();
                 m_HelperTypeNames = new string[Types.Length];
                 for (int i = 0; i < Types.Length; i++)
                 {
-                    string name = Types[i].Name;
-                    m_HelperTypeNames[i] = name;
+                    string name = Types[i].FullName;
+                    m_HelperTypeNames[i] = Types[i].Name;
                     if (name == m_Data.JsonSerializer)
                         m_HelperTypeIndex = i;
                 }

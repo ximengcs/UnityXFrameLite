@@ -1,0 +1,5 @@
+#,行为配置,,,,
+#P,Id,,Name,Icon,DirectDo
+#T,int,,string,string,bool
+#,配置编号,备注,行为名,图标,只有一个行为时是否直接行动
+,1,,1,1,1
