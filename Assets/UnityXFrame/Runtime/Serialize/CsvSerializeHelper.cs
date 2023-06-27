@@ -5,7 +5,6 @@ using XFrame.Collections;
 using XFrame.Modules.Serialize;
 using System.Collections.Generic;
 using XFrame.Modules.XType;
-using static UnityXFrame.Core.Serialize.CsvSerializeHelper;
 using System.Reflection;
 
 namespace UnityXFrame.Core.Serialize
@@ -17,6 +16,8 @@ namespace UnityXFrame.Core.Serialize
         public string CommentsSymbol { get; set; } = "#";
         public string PropertyNameSymbol { get; set; } = "#P";
         public string PropertyTypeSymbol { get; set; } = "#T";
+
+        public int HandleType => Constant.CSV_TYPE;
 
         public CsvSerializeHelper()
         {

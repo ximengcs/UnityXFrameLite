@@ -12,6 +12,9 @@ namespace UnityXFrame.Core
         public static int UNIT_PIXEL = 100;
         public static int SCENEUI_SORT_LAYER = 0;
 
+        public const int JOSN_TYPE = 0;
+        public const int CSV_TYPE = 1;
+
         public static string LANG_FILE_PATH = "Data/Lang/lang.csv";
         public static string AUDIO_PATH = "Assets/Data/Audio";
         public static string SCENEUI_RES_PATH = "Data/SceneUI";
