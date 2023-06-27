@@ -16,7 +16,6 @@ namespace UnityXFrame.Core.Serialize
         public string CommentsSymbol { get; set; } = "#";
         public string PropertyNameSymbol { get; set; } = "#P";
         public string PropertyTypeSymbol { get; set; } = "#T";
-        public int HandleType => Constant.CSV_SERIALIZER;
 
         public int HandleType => Constant.CSV_TYPE;
 
