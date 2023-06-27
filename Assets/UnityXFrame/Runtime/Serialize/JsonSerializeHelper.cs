@@ -6,6 +6,8 @@ namespace UnityXFrame.Core.Serialize
 {
     public class JsonSerializeHelper : ISerializeHelper
     {
+        public int HandleType => Constant.JSON_SERIALIZER;
+
         public object Deserialize(string json, Type dataType)
         {
             return JsonConvert.DeserializeObject(json, dataType);

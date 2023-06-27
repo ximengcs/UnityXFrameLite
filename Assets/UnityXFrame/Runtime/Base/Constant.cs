@@ -20,5 +20,8 @@ namespace UnityXFrame.Core
 
         public static string UPDATE_CHECK_TASK = "UpdateCheckTask";
         public static string UPDATE_RES_TASK = "UpdateResTask";
+
+        public const int JSON_SERIALIZER = 0;
+        public const int CSV_SERIALIZER = 1;
     }
 }
