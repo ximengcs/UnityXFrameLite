@@ -16,6 +16,7 @@ namespace UnityXFrame.Core.Serialize
         public string CommentsSymbol { get; set; } = "#";
         public string PropertyNameSymbol { get; set; } = "#P";
         public string PropertyTypeSymbol { get; set; } = "#T";
+        public int HandleType => Constant.CSV_SERIALIZER;
 
         public int HandleType => Constant.CSV_TYPE;
 
@@ -96,7 +97,7 @@ namespace UnityXFrame.Core.Serialize
 
         public T Deserialize<T>(string json)
         {
-            return default;
+            return (T)Deserialize(json, typeof(T));
         }
     }
 }
