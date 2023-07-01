@@ -317,6 +317,11 @@ namespace UnityXFrame.Core.UIs
             Type uiType = TypeModule.Inst.GetOrNew<IUI>().GetByName(uiName);
             InnerCloseUI(uiType, id);
         }
+
+        public void Close(IUI ui)
+        {
+            InnerCloseUI(ui);
+        }
         #endregion
 
         #region Get UI
@@ -414,6 +419,11 @@ namespace UnityXFrame.Core.UIs
         private void InnerCloseUI(Type uiType, int id)
         {
             IUI ui = m_UIList.Get(uiType, id);
+            InnerCloseUI(ui);
+        }
+
+        private void InnerCloseUI(IUI ui)
+        {
             ui?.Close();
         }
 

@@ -1,14 +1,17 @@
-﻿using XFrame.Modules.Containers;
+﻿using UnityEngine.EventSystems;
+using XFrame.Modules.Containers;
 
 namespace UnityXFrame.Core.UIs
 {
     public abstract class UICom : ShareCom
     {
         protected UIFinder m_UIFinder;
+        protected IUI m_UI;
 
         protected override void OnInit()
         {
             base.OnInit();
+            m_UI = Master as IUI;
             m_UIFinder = GetOrAddCom<UIFinder>();
         }
 
