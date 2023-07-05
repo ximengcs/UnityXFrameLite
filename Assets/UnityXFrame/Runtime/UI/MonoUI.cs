@@ -197,9 +197,9 @@ namespace UnityXFrame.Core.UIs
             return m_Container.AddCom<T>(onReady);
         }
 
-        public ICom AddCom(ICom com, int id = 0, OnDataProviderReady onReady = null)
+        public ICom AddCom(ICom com)
         {
-            return m_Container.AddCom(com, id, onReady);
+            return m_Container.AddCom(com);
         }
 
         public T AddCom<T>(int id, OnDataProviderReady onReady = null) where T : ICom
