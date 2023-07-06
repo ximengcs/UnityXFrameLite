@@ -1,4 +1,5 @@
 ﻿using XFrame.Modules.Event;
+using XFrame.Modules.Pools;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -16,8 +17,12 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
-        public UIOpenEvent() : this(default) { }
-
-        public UIOpenEvent(IUI ui) : base(ui, EventId) { }
+        public static UIOpenEvent Create(IUI ui)
+        {
+            UIOpenEvent evt = References.Require<UIOpenEvent>();
+            evt.Id = EventId;
+            evt.Target = ui;
+            return evt;
+        }
     }
 }

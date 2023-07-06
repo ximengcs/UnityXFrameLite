@@ -75,13 +75,13 @@ namespace UnityXFrame.Core.UIs
         protected void InnerOpenUI(IUI ui)
         {
             ui.OnOpen();
-            m_Owner.InnerTriggerEvent<UIOpenEvent>(ui);
+            m_Owner.InnerTriggerEvent(UIOpenEvent.Create(ui));
         }
 
         protected void InnerCloseUI(IUI ui)
         {
             ui.OnClose();
-            m_Owner.InnerTriggerEvent<UICloseEvent>(ui);
+            m_Owner.InnerTriggerEvent(UICloseEvent.Create(ui));
         }
 
         protected void InnerUpdateUI(IUI ui, float elapseTime)

@@ -96,7 +96,7 @@ namespace UnityXFrame.Core.UIs
 
         void IUIGroup.CloseUI(IUI ui)
         {
-            InnerTriggerEvent<UICloseBeforeEvent>(ui);
+            InnerTriggerEvent(UICloseBeforeEvent.Create(ui));
             if (m_UIHelper != null && m_UIHelper.Count > 0)
             {
                 foreach (XLinkNode<IUIGroupHelper> helperNode in m_UIHelper)
@@ -113,24 +113,19 @@ namespace UnityXFrame.Core.UIs
             {
                 ui.OnClose();
                 ui.Active = false;
-                InnerTriggerEvent<UICloseEvent>(ui);
+                InnerTriggerEvent(UICloseEvent.Create(ui));
             }
         }
 
-        internal void InnerTriggerEvent<T>(IUI ui) where T : UIEvent
+        internal void InnerTriggerEvent(UIEvent evt)
         {
-            UIEvent evt = References.Require<T>();
-            evt.Target = ui;
             Event.Trigger(evt);
-
-            evt = References.Require<T>();
-            evt.Target = ui;
             UIModule.Inst.Event.Trigger(evt);
         }
 
         void IUIGroup.OpenUI(IUI ui)
         {
-            InnerTriggerEvent<UIOpenBeforeEvent>(ui);
+            InnerTriggerEvent(UIOpenBeforeEvent.Create(ui));
             if (m_UIHelper != null && m_UIHelper.Count > 0)
             {
                 foreach (XLinkNode<IUIGroupHelper> helperNode in m_UIHelper)
@@ -147,7 +142,7 @@ namespace UnityXFrame.Core.UIs
             {
                 ui.OnOpen();
                 ui.Active = true;
-                InnerTriggerEvent<UIOpenEvent>(ui);
+                InnerTriggerEvent(UIOpenEvent.Create(ui));
             }
         }
 

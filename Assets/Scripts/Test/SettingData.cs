@@ -17,7 +17,7 @@ namespace Game.Test
             Lang = new ValueBinder<Language>(
                 () => m_Archive.Get(nameof(Lang), Language.English),
                 (v) => m_Archive.Set(nameof(Lang), v));
-            Lang.AddHandler((lang) => LocalizeModule.Inst.Lang = lang, true);
+            Lang.AddHandler((oldLang, newLang) => LocalizeModule.Inst.Lang = newLang, true);
         }
 
         public ValueBinder<Language> Lang { get; private set; }

@@ -1,4 +1,6 @@
 ﻿
+using XFrame.Modules.Pools;
+
 namespace UnityXFrame.Core.UIs
 {
     public class UIOpenBeforeEvent : UIEvent
@@ -15,8 +17,12 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
-        public UIOpenBeforeEvent() : this(default) { }
-
-        public UIOpenBeforeEvent(IUI ui) : base(ui, EventId) { }
+        public static UIOpenBeforeEvent Create(IUI ui)
+        {
+            UIOpenBeforeEvent evt = References.Require<UIOpenBeforeEvent>();
+            evt.Id = EventId;
+            evt.Target = ui;
+            return evt;
+        }
     }
 }

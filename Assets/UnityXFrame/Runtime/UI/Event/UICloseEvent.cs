@@ -1,4 +1,4 @@
-﻿using XFrame.Modules.Event;
+﻿using XFrame.Modules.Pools;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -16,8 +16,12 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
-        public UICloseEvent() : this(default) { }
-
-        public UICloseEvent(IUI ui) : base(ui, EventId) { }
+        public static UICloseEvent Create(IUI ui)
+        {
+            UICloseEvent evt = References.Require<UICloseEvent>();
+            evt.Id = EventId;
+            evt.Target = ui;
+            return evt;
+        }
     }
 }
