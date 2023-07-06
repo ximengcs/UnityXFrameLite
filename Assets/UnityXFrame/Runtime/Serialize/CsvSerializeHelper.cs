@@ -6,6 +6,7 @@ using XFrame.Modules.Serialize;
 using System.Collections.Generic;
 using XFrame.Modules.XType;
 using System.Reflection;
+using XFrame.Modules.Pools;
 
 namespace UnityXFrame.Core.Serialize
 {
@@ -38,7 +39,7 @@ namespace UnityXFrame.Core.Serialize
 
         public object Deserialize(string json, Type dataType)
         {
-            Csv<string> csv = new Csv<string>(json, ParserModule.Inst.STRING);
+            Csv<string> csv = new Csv<string>(json, References.Require<StringParser>());
             Csv<string>.Line nameLine = null;
             Csv<string>.Line typeLine = null;
 
