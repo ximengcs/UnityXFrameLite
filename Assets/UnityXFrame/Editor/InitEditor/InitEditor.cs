@@ -28,7 +28,7 @@ namespace UnityXFrame.Editor
 
             Utility.Init();
             XConfig.UseClassModule = new string[] { "Assembly-CSharp", "UnityXFrame", "UnityXFrame.Lib", "UnityXFrame.Editor" };
-            m_FrameCore = XCore.Create(typeof(TypeModule), typeof(PoolModule));
+            m_FrameCore = XCore.Create(typeof(TypeModule));
             m_Editors = new XLinkList<IDataEditor>();
             m_EditorType = TypeModule.Inst.GetOrNew<IDataEditor>();
             m_Data = AssetDatabase.LoadAssetAtPath<InitData>(InitDataPath);
