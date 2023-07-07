@@ -1,5 +1,7 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
+using XFrame.Modules.Archives;
 
 namespace UnityXFrame.Editor
 {
@@ -27,6 +29,14 @@ namespace UnityXFrame.Editor
         public static void TestGUISkin()
         {
             EditorWindow.GetWindow<TestGUISkinWindow>().Show();
+        }
+
+        [MenuItem("Tools/Clear User Data")]
+        public static void ClearUserData()
+        {
+            PlayerPrefs.DeleteAll();
+            if (Directory.Exists(Application.persistentDataPath))
+                Directory.Delete(Application.persistentDataPath, true);
         }
     }
 }
