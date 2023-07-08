@@ -5,11 +5,28 @@ using UnityXFrame.Core.UIs;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.XType;
 using System.Collections.Generic;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace UnityXFrameLib.UI
 {
     public static class UIModuleExt
     {
+        public static void AddButtonListener(this IUI ui, string buttonName, UnityAction callback)
+        {
+            ui.GetCom<UIFinder>().GetUI<Button>(buttonName).onClick.AddListener(callback);
+        }
+
+        public static void RemoveButtonListener(this IUI ui, string buttonName, UnityAction callback)
+        {
+            ui.GetCom<UIFinder>().GetUI<Button>(buttonName).onClick.RemoveListener(callback);
+        }
+
+        public static void RemoveButtonListeners(this IUI ui, string buttonName)
+        {
+            ui.GetCom<UIFinder>().GetUI<Button>(buttonName).onClick.RemoveAllListeners();
+        }
+
         public static Tween DOAnchoredPos(this RectTransform tf, Vector2 target, float duration)
         {
             return DOTween.To(() => tf.anchoredPosition, (pos) => tf.anchoredPosition = pos, target, duration);
