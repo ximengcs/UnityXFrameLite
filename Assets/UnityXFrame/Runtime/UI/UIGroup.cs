@@ -120,11 +120,13 @@ namespace UnityXFrame.Core.UIs
         internal void InnerTriggerEvent(UIEvent evt)
         {
             Event.Trigger(evt);
-            UIModule.Inst.Event.Trigger(evt);
+            UIModule.Inst.Event.Trigger(evt.Clone());
         }
 
         void IUIGroup.OpenUI(IUI ui)
         {
+            Event.Listen(UIOpenBeforeEvent.EventId, (e) => Debug.Log("1"));
+            UIModule.Inst.Event.Listen(UIOpenBeforeEvent.EventId, (e) => Debug.Log("2"));
             InnerTriggerEvent(UIOpenBeforeEvent.Create(ui));
             if (m_UIHelper != null && m_UIHelper.Count > 0)
             {
