@@ -1,6 +1,7 @@
 ﻿#if CONSOLE
 using System.Text;
 using UnityEngine;
+using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -23,6 +24,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_Warning = new StringBuilder();
             m_Error = new StringBuilder();
             Application.logMessageReceived += InternalLogCallback;
+            Log.ConsumeWaitQueue();
         }
 
         public void OnDraw()
