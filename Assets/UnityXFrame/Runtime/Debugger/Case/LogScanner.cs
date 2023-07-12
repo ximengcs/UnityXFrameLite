@@ -1,5 +1,4 @@
-﻿#if CONSOLE
-using System.Text;
+﻿using System.Text;
 using UnityEngine;
 using XFrame.Modules.Diagnotics;
 
@@ -25,6 +24,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_Error = new StringBuilder();
             Application.logMessageReceived += InternalLogCallback;
             Log.ConsumeWaitQueue();
+            Log.ToQueue = false;
         }
 
         public void OnDraw()
@@ -88,4 +88,3 @@ namespace UnityXFrame.Core.Diagnotics
         }
     }
 }
-#endif

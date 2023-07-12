@@ -1,4 +1,3 @@
-#if CONSOLE
 using System;
 using UnityEngine;
 using XFrame.Core;
@@ -7,7 +6,6 @@ using XFrame.Modules.Times;
 using XFrame.Modules.XType;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
-using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -345,4 +343,3 @@ namespace UnityXFrame.Core.Diagnotics
         #endregion
     }
 }
-#endif

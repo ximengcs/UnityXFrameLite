@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR && CONSOLE
+﻿#if UNITY_EDITOR
 using UnityEditor.AI;
 
 namespace UnityXFrame.Core.Diagnotics
