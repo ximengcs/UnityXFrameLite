@@ -16,5 +16,5 @@ MonoBehaviour:
   IsRelease: 0
   XFrameProjectPath: E:\XiMeng\XFrame
   XFramePath: Assets/Plugins/XFrame
-  BuildDllPath: 
-  ToProjectDllPath: 
+  BuildDllPath: C:\Users\XiMi\Desktop\tmp
+  ToProjectDllPath: D:\GitHub\X229\Unity\Assets\UnityXFrame

@@ -77,6 +77,7 @@ namespace UnityXFrame.Editor
                 CopyToProject();
             }
             GUILayout.EndVertical();
+            EditorUtility.SetDirty(m_Data);
         }
 
         public void CompileXFrame()
