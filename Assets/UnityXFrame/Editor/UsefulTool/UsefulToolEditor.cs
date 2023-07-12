@@ -122,14 +122,14 @@ namespace UnityXFrame.Editor
 
         public void CompileDll()
         {
-            if (Directory.Exists(m_Data.XFrameProjectPath))
+            if (Directory.Exists(m_Data.BuildDllPath))
             {
-                foreach (string file in Directory.EnumerateFiles(m_Data.XFrameProjectPath))
+                foreach (string file in Directory.EnumerateFiles(m_Data.BuildDllPath))
                     File.Delete(file);
             }
             else
             {
-                Directory.CreateDirectory(m_Data.XFrameProjectPath);
+                Directory.CreateDirectory(m_Data.BuildDllPath);
             }
 
             var group = BuildPipeline.GetBuildTargetGroup(m_Data.CurrentBuildTarget);
