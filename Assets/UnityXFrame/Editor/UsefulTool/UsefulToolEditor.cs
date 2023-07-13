@@ -3,7 +3,6 @@ using UnityEditor;
 using UnityEngine;
 using System.Diagnostics;
 using UnityEditor.Build.Player;
-using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace UnityXFrame.Editor
