@@ -1,16 +1,15 @@
 ﻿using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEditor.Build.Player;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System;
+using UnityEditor.Build.Player;
 
 namespace UnityXFrame.Editor
 {
     public class UsefulToolEditor : EditorWindow
     {
         private UsefulToolData m_Data;
+
         private GUIStyle m_Style1 => GUI.skin.customStyles[205];
         private GUIStyle m_Style2 => GUI.skin.customStyles[487];
         private GUIStyle m_Style3 => GUI.skin.customStyles[506];
@@ -30,6 +29,10 @@ namespace UnityXFrame.Editor
 
         private void OnGUI()
         {
+            int select = m_Data.IsRelease ? 1 : 0;
+            select = GUILayout.Toolbar(select, new string[] { "Debug", "Release" });
+            m_Data.IsRelease = select == 1 ? true : false;
+
             GUILayout.BeginVertical(m_Style1);
             EditorGUILayout.LabelField("XFrame", m_Style2);
             EditorGUILayout.BeginHorizontal();
