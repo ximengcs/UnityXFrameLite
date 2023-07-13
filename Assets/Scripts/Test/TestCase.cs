@@ -23,6 +23,8 @@ using XFrame.Modules.Event;
 using XFrame.Modules.Local;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
+using XFrame.Modules.Tasks;
+using XFrame.Modules.Times;
 
 namespace Game.Test
 {
@@ -51,6 +53,18 @@ namespace Game.Test
 
         public void OnDraw()
         {
+            if (DebugGUI.Button("Test"))
+            {
+                CDTimer timer1 = TimeModule.Inst.NewTimer("timer1");
+                CDTimer timer2 = TimeModule.Inst.NewTimer("timer2");
+                CDTimer timer3 = TimeModule.Inst.NewTimer("timer3");
+                timer1.Record(10);
+                timer1.Reset();
+                timer2.Record(20);
+                timer2.Reset();
+                timer3.Record(30);
+                timer3.Reset();
+            }
             if (DebugGUI.Button("New EvtSys"))
             {
                 m_Sys = EventModule.Inst.NewSys();
