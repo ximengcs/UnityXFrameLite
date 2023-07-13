@@ -4,13 +4,14 @@ using UnityEngine;
 using System.Diagnostics;
 using UnityEditor.Build.Player;
 using System.Collections.Generic;
+using System;
 
 namespace UnityXFrame.Editor
 {
     public class UsefulToolEditor : EditorWindow
     {
         private UsefulToolData m_Data;
-        private Vector2 m_Pos;
+        [NonSerialized] private Vector2 m_Pos;
 
         private GUIStyle m_Style1 => GUI.skin.customStyles[205];
         private GUIStyle m_Style2 => GUI.skin.customStyles[487];

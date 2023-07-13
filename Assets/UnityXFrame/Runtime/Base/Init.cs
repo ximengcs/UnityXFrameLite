@@ -28,9 +28,7 @@ namespace UnityXFrame.Core
 
         private void OnGUI()
         {
-#if CONSOLE
             Debuger.Inst?.OnGUI();
-#endif
         }
 
         private void OnDestroy()
