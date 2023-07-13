@@ -89,7 +89,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Style.ProgressThumb = Skin.customStyles[15];
 
             m_TweenModule = new TweenModule();
-            m_Timer = new CDTimer();
+            m_Timer = CDTimer.Create();
             m_Timer.Record(TIP_CD_KEY, TIP_CD);
             m_TipNewMsg = new HashSet<int>();
 
