@@ -19,9 +19,12 @@ using XFrame.Core;
 using XFrame.Modules.Archives;
 using XFrame.Modules.Datas;
 using XFrame.Modules.Diagnotics;
+using XFrame.Modules.Event;
 using XFrame.Modules.Local;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
+using XFrame.Modules.Tasks;
+using XFrame.Modules.Times;
 
 namespace Game.Test
 {
@@ -34,9 +37,55 @@ namespace Game.Test
         {
             m_Time = 0.5f;
         }
+        private IEventSystem m_Sys;
+
+        private void Inner1(XEvent e)
+        {
+            Debug.LogWarning("Inner1");
+        }
+
+        private bool finish = false;
+        private bool Inner2(XEvent e)
+        {
+            Debug.LogWarning("Inner2");
+            return finish;
+        }
 
         public void OnDraw()
         {
+            if (DebugGUI.Button("Test"))
+            {
+                CDTimer timer1 = CDTimer.Create("timer1");
+                CDTimer timer2 = CDTimer.Create("timer2");
+                CDTimer timer3 = CDTimer.Create("timer3");
+                timer1.Record(10);
+                timer1.Reset();
+                timer2.Record(20);
+                timer2.Reset();
+                timer3.Record(30);
+                timer3.Reset();
+            }
+            if (DebugGUI.Button("New EvtSys"))
+            {
+                m_Sys = EventModule.Inst.NewSys();
+            }
+            if (DebugGUI.Button("Test1"))
+            {
+                m_Sys.Listen(1, Inner1);
+
+            }
+            if (DebugGUI.Button("Test2"))
+            {
+                m_Sys.Listen(1, Inner2);
+            }
+            if (DebugGUI.Button("Test3"))
+            {
+                m_Sys.Trigger(1);
+            }
+            if (DebugGUI.Button("Test4"))
+            {
+                finish = true;
+            }
             if (DebugGUI.Button("Add Table"))
             {
                 ResModule.Inst.LoadAsync<TextAsset>("Assets/Data/Config/Prop.csv").OnComplete((asset) =>

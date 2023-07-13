@@ -1,14 +1,17 @@
-﻿
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityXFrame.Core.UIs;
-using XFrame.Modules.Event;
+﻿using UnityEngine;
+using XFrame.Modules.Archives;
+using XFrame.Modules.Diagnotics;
+using XFrame.Modules.Tasks;
+using XFrame.Modules.Times;
 
 namespace UnityXFrame.Core.Diagnotics
 {
     [DebugWindow(-996)]
     public class CommonCase : IDebugWindow
     {
+        private bool m_TimerCD;
+        private ITask m_TimerDebugTask;
+
         public void Dispose()
         {
 
@@ -19,21 +22,38 @@ namespace UnityXFrame.Core.Diagnotics
 
         }
 
-        private IEventSystem Sys;
         public void OnDraw()
         {
-            if (DebugGUI.Button("init event"))
+            GUILayout.BeginHorizontal();
+            DebugGUI.Label("Debug Timer CD");
+            bool timerCD = DebugGUI.Power(m_TimerCD);
+            if (timerCD && m_TimerDebugTask == null)
             {
-                Sys = EventModule.Inst.NewSys();
+                m_TimerDebugTask = TaskModule.Inst.GetOrNew<RepeatActionTask>().Add(1.0f, InnerTestTimerCD);
+                m_TimerDebugTask.Start();
             }
-            if (DebugGUI.Button("Listen UI"))
+            m_TimerCD = timerCD;
+            GUILayout.EndHorizontal();
+
+            if (DebugGUI.Button("Clear User Data"))
             {
-                UIModule.Inst.Event.Listen(UIOpenEvent.EventId, (e) => Debug.Log("test"));
+                ArchiveModule.Inst.DeleteAll();
+                PlayerPrefs.DeleteAll();
+                Application.Quit();
             }
-            if (DebugGUI.Button("Trigger"))
+        }
+
+        private bool InnerTestTimerCD()
+        {
+            foreach (CDTimer timer in TimeModule.Inst.GetTimers())
             {
-                UIModule.Inst.Event.Trigger(UIOpenEvent.EventId);
+                float t = timer.CheckTime();
+                Log.Debug("Timer", $"{timer.Name} {(t > 0 ? t : "has reach")}");
             }
+            bool finish = !m_TimerCD;
+            if (finish)
+                m_TimerDebugTask = null;
+            return finish;
         }
     }
 }
