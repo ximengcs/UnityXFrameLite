@@ -9,13 +9,7 @@ namespace UnityXFrame.Core
     {
         public void EnterHandle()
         {
-            InitData data = Init.Inst.Data;
-            XConfig.Entrance = data.Entrance;
-            XConfig.DefaultRes = data.ResMode;
-            XConfig.DefaultLogger = data.Logger;
-            XConfig.ArchivePath = Constant.ArchivePath;
-            XConfig.DefaultSerializer = data.JsonSerializer;
-            XConfig.DefaultDownloadHelper = data.DownloadHelper;
+            
         }
 
         public ITask BeforeHandle()
