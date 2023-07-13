@@ -1,8 +1,5 @@
-﻿
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityXFrame.Core.UIs;
-using XFrame.Modules.Event;
+﻿using UnityEngine;
+using XFrame.Modules.Archives;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -19,20 +16,13 @@ namespace UnityXFrame.Core.Diagnotics
 
         }
 
-        private IEventSystem Sys;
         public void OnDraw()
         {
-            if (DebugGUI.Button("init event"))
+            if (DebugGUI.Button("Clear User Data"))
             {
-                Sys = EventModule.Inst.NewSys();
-            }
-            if (DebugGUI.Button("Listen UI"))
-            {
-                UIModule.Inst.Event.Listen(UIOpenEvent.EventId, (e) => Debug.Log("test"));
-            }
-            if (DebugGUI.Button("Trigger"))
-            {
-                UIModule.Inst.Event.Trigger(UIOpenEvent.EventId);
+                ArchiveModule.Inst.DeleteAll();
+                PlayerPrefs.DeleteAll();
+                Application.Quit();
             }
         }
     }
