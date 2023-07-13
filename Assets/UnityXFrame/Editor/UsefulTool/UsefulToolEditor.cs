@@ -108,8 +108,13 @@ namespace UnityXFrame.Editor
         public void CompileXFrame()
         {
             EditorLog.Debug("========================== START COMPILE XFRAME ========================");
-            string fullPath = Path.Combine(m_Data.XFrameProjectPath, "XFrame.sln");
-            ProcessStartInfo startInfo = new ProcessStartInfo("dotnet", "build " + fullPath);
+            string fullPath = Path.Combine(m_Data.XFrameProjectPath, "XFrame/XFrame.csproj");
+            string param = "build ";
+            if (m_Data.IsRelease)
+                param += "--configuration Release ";
+            param += fullPath;
+            param += " -o " + XFrameDllPath();
+            ProcessStartInfo startInfo = new ProcessStartInfo("dotnet", param);
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
@@ -123,9 +128,7 @@ namespace UnityXFrame.Editor
 
         public string XFrameDllPath()
         {
-            string path = m_Data.XFrameProjectPath + "/XFrame/bin/{0}/netstandard2.1";
-            path = string.Format(path, m_Data.IsRelease ? "Release" : "Debug");
-            return path;
+            return m_Data.XFrameProjectPath + "/Tmp";
         }
 
         public void ImportXFrame()
@@ -138,7 +141,7 @@ namespace UnityXFrame.Editor
                     string toPath = Path.Combine(m_Data.XFramePath, Path.GetFileName(p));
                     byte[] data = File.ReadAllBytes(p);
                     File.WriteAllBytes(toPath, data);
-                    EditorLog.Debug($"{p}\t -> {toPath}");
+                    EditorLog.Debug($"{p} {EditorLog.Color("->", Color.green)} {toPath}");
                 }
             }
 
@@ -175,7 +178,7 @@ namespace UnityXFrame.Editor
                     {
                         string toPath = Path.Combine(projectPath, Path.GetFileName(path));
                         File.Copy(path, toPath, true);
-                        EditorLog.Debug($"{path} -> {toPath}");
+                        EditorLog.Debug($"{path} {EditorLog.Color("->", Color.green)} {toPath}");
                     }
                 }
             }
@@ -187,7 +190,7 @@ namespace UnityXFrame.Editor
                 {
                     string toPath = Path.Combine(projectPath, "Editor", Path.GetFileName(path));
                     File.Copy(path, toPath, true);
-                    EditorLog.Debug($"{path} -> {toPath}");
+                    EditorLog.Debug($"{path} {EditorLog.Color("->", Color.green)} {toPath}");
                 }
             }
 
@@ -199,7 +202,7 @@ namespace UnityXFrame.Editor
                 {
                     string toPath = Path.Combine(projectPath, Path.GetFileName(path));
                     File.Copy(path, toPath, true);
-                    EditorLog.Debug($"{path} -> {toPath}");
+                    EditorLog.Debug($"{path} {EditorLog.Color("->", Color.green)} {toPath}");
                 }
             }
         }
