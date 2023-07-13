@@ -55,9 +55,9 @@ namespace Game.Test
         {
             if (DebugGUI.Button("Test"))
             {
-                CDTimer timer1 = TimeModule.Inst.NewTimer("timer1");
-                CDTimer timer2 = TimeModule.Inst.NewTimer("timer2");
-                CDTimer timer3 = TimeModule.Inst.NewTimer("timer3");
+                CDTimer timer1 = CDTimer.Create("timer1");
+                CDTimer timer2 = CDTimer.Create("timer2");
+                CDTimer timer3 = CDTimer.Create("timer3");
                 timer1.Record(10);
                 timer1.Reset();
                 timer2.Record(20);
