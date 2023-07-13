@@ -37,10 +37,6 @@ MonoBehaviour:
     m_Address: Assets/Data/Textures/test3.png
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 3532b3b431003624eba21f4bc0a92d92
-    m_Address: Assets/Data/Textures/test10.jpg
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 051a5a227c897d449a140f572688c5c9
     m_Address: Assets/Data/Textures/test63.jpg
     m_ReadOnly: 0

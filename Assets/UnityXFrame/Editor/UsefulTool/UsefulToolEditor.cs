@@ -78,6 +78,8 @@ namespace UnityXFrame.Editor
 
             m_Pos = EditorGUILayout.BeginScrollView(m_Pos, m_Style1, GUILayout.Height(100));
             List<int> removes = new List<int>();
+            if (m_Data.ToProjectDllPath == null)
+                m_Data.ToProjectDllPath = new List<string>();
             for (int i = 0; i < m_Data.ToProjectDllPath.Count; i++)
             {
                 EditorGUILayout.BeginHorizontal();
