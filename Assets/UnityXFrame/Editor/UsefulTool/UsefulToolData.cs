@@ -1,4 +1,4 @@
-﻿
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,6 +11,6 @@ namespace UnityXFrame.Editor
         public string XFrameProjectPath;
         public string XFramePath;
         public string BuildDllPath;
-        public string ToProjectDllPath;
+        public List<string> ToProjectDllPath;
     }
 }
