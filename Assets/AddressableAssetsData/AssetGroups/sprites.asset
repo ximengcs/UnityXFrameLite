@@ -41,6 +41,10 @@ MonoBehaviour:
     m_Address: Assets/Data/Textures/test63.jpg
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: b9c1fec574d091f468573efa0e05d037
+    m_Address: Assets/Data/Textures/Perch.txt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6948d14066fa249409f2db60cba1f269, type: 2}
   m_SchemaSet:

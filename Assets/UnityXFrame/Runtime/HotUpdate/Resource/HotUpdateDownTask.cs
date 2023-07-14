@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine;
+using System.Linq;
 
 namespace UnityXFrame.Core.HotUpdate
 {
@@ -17,9 +21,9 @@ namespace UnityXFrame.Core.HotUpdate
             AddStrategy(new Strategy());
         }
 
-        public HotUpdateDownTask AddList(List<string> downList)
+        public HotUpdateDownTask AddList(List<string> downList, HashSet<string> perchs = null)
         {
-            Add(new Handler(downList));
+            Add(new Handler(downList, perchs));
             return this;
         }
 
@@ -73,13 +77,15 @@ namespace UnityXFrame.Core.HotUpdate
         private class Handler : ITaskHandler
         {
             private List<string> m_CheckList;
+            private HashSet<string> m_Perchs;
 
             public State State { get; private set; }
             public float Pro { get; private set; }
 
-            public Handler(List<string> downList)
+            public Handler(List<string> downList, HashSet<string> perchs)
             {
                 m_CheckList = downList;
+                m_Perchs = perchs;
             }
 
             public void Download()
@@ -125,9 +131,17 @@ namespace UnityXFrame.Core.HotUpdate
                 List<object> list = new List<object>(keys);
                 int count = list.Count;
                 list.Clear();
-
                 foreach (object key in keys)
                 {
+                    if (m_Perchs != null)
+                    {
+                        if (!m_Perchs.Contains(key))
+                        {
+                            count--;
+                            continue;
+                        }
+                    }
+
                     AsyncOperationHandle<long> sizeHandle = Addressables.GetDownloadSizeAsync(key);
                     sizeHandle.Completed += (handle) =>
                     {
@@ -146,7 +160,7 @@ namespace UnityXFrame.Core.HotUpdate
                                 if (State != State.DownloadFailure)
                                 {
                                     if (list.Count > 0)
-                                        InnerDownload(list);
+                                        InnerDownloadWithEnum(list);
                                     else
                                         State = State.DownloadSuccess;
                                 }
@@ -163,7 +177,87 @@ namespace UnityXFrame.Core.HotUpdate
 
             }
 
-            private void InnerDownload(IEnumerable keys)
+            static List<IResourceLocation> GatherDependenciesFromLocations(IList<IResourceLocation> locations)
+            {
+                var locHash = new HashSet<IResourceLocation>();
+                foreach (var loc in locations)
+                {
+                    if (loc.ResourceType == typeof(IAssetBundleResource))
+                    {
+                        locHash.Add(loc);
+                    }
+                    if (loc.HasDependencies)
+                    {
+                        foreach (var dep in loc.Dependencies)
+                            if (dep.ResourceType == typeof(IAssetBundleResource))
+                                locHash.Add(dep);
+                    }
+                }
+                return new List<IResourceLocation>(locHash);
+            }
+
+            private void InnerDownload(List<object> keys)
+            {
+                if (m_Perchs != null)
+                {
+                    AsyncOperationHandle<IList<IResourceLocation>> locationHandle = Addressables.LoadResourceLocationsAsync((IEnumerable)keys, Addressables.MergeMode.Union);
+                    locationHandle.Completed += (handle) =>
+                    {
+                        List<IResourceLocation> filterList = new List<IResourceLocation>();
+                        List<IResourceLocation> list = GatherDependenciesFromLocations(handle.Result);
+                        foreach (IResourceLocation location in list)
+                        {
+                            Debug.LogWarning($"{location.InternalId} {m_Perchs.Contains(location.InternalId)}");
+                            if (m_Perchs.Contains(location.InternalId))
+                            {
+                                filterList.Add(location);
+                                Debug.LogWarning(location.InternalId);
+                            }
+                        }
+
+                        InnerDownloadWithEnum(filterList);
+                        Addressables.Release(handle);
+                    };
+                }
+                else
+                {
+                    Debug.LogWarning("2");
+                    InnerDownloadWithEnum(keys);
+                }
+            }
+
+            private void InnerDownloadWithEnum(IList<IResourceLocation> locations)
+            {
+                Debug.LogWarning("1");
+                AsyncOperationHandle<IList<IAssetBundleResource>> downHandle = Addressables.LoadAssetsAsync<IAssetBundleResource>(locations, null, true);
+                BolActionTask task = TaskModule.Inst.GetOrNew<BolActionTask>();
+                task.Add(() =>
+                {
+                    bool isDone = downHandle.IsDone;
+                    if (isDone)
+                    {
+                        if (downHandle.IsValid() && downHandle.Status == AsyncOperationStatus.Succeeded)
+                        {
+                            State = State.DownloadSuccess;
+                            Log.Debug("XFrame", $"Download success.");
+                        }
+                        else
+                        {
+                            State = State.DownloadFailure;
+                            Log.Debug("XFrame", $"Download failure, can't download res. {downHandle.OperationException}");
+                        }
+                        Pro = 1;
+                        Addressables.Release(downHandle);
+                    }
+                    else
+                    {
+                        Pro = downHandle.PercentComplete;
+                    }
+                    return isDone;
+                }).Start();
+            }
+
+            private void InnerDownloadWithEnum(IEnumerable keys)
             {
                 AsyncOperationHandle downHandle = Addressables.DownloadDependenciesAsync(keys, Addressables.MergeMode.Union);
                 BolActionTask task = TaskModule.Inst.GetOrNew<BolActionTask>();

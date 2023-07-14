@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using Game.Core.Procedure;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,6 +12,7 @@ using UnityEngine.Scripting;
 using UnityXFrame.Core;
 using UnityXFrame.Core.Audios;
 using UnityXFrame.Core.Diagnotics;
+using UnityXFrame.Core.HotUpdate;
 using UnityXFrame.Core.Resource;
 using UnityXFrame.Core.UIs;
 using UnityXFrameLib.Improve;
@@ -53,6 +55,19 @@ namespace Game.Test
 
         public void OnDraw()
         {
+            if (DebugGUI.Button("Download 1"))
+            {
+                Download(new HashSet<string>() { "Config/Perch.txt" });
+            }
+            if (DebugGUI.Button("Download 2"))
+            {
+                Download(new HashSet<string>() { "Assets/Data/Textures/Perch.txt" });
+            }
+            if (DebugGUI.Button("Download 3"))
+            {
+                Download(new HashSet<string>() { "Config/Perch.txt", "Assets/Data/Textures/Perch.txt" });
+            }
+
             if (DebugGUI.Button("Test"))
             {
                 CDTimer timer1 = CDTimer.Create("timer1");
@@ -88,11 +103,16 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Add Table"))
             {
-                ResModule.Inst.LoadAsync<TextAsset>("Assets/Data/Config/Prop.csv").OnComplete((asset) =>
+                ResModule.Inst.LoadAsync<TextAsset>("Config/Prop.csv").OnComplete((asset) =>
                 {
-                    DataModule.Inst.Add<Prop>(asset.text);
+                    DataModule.Inst.Add<Prop>(asset.text, Constant.CSV_TYPE);
                 }).Start();
             };
+
+            if (DebugGUI.Button("Read Table"))
+            {
+                Debug.LogWarning(DataModule.Inst.GetItem<Prop>(1).ToString());
+            }
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Main");
@@ -257,6 +277,28 @@ namespace Game.Test
         public void Dispose()
         {
 
+        }
+
+        public void Download(HashSet<string> perchs)
+        {
+            Log.Debug("Start hot update check task.");
+            HotUpdateCheckTask checkTask = TaskModule.Inst.GetOrNew<HotUpdateCheckTask>();
+            checkTask.OnComplete(() =>
+            {
+                if (checkTask.Success)
+                    Log.Debug($"Hot update check task has success.");
+                else
+                    Log.Debug("Hot update check task has failure.");
+                Log.Debug("Start hot update download task.");
+                HotUpdateDownTask downTask = TaskModule.Inst.GetOrNew<HotUpdateDownTask>();
+                downTask.AddList(checkTask.ResList, perchs).OnComplete(() =>
+                {
+                    if (downTask.Success)
+                        Log.Debug("Hot update download task has success.");
+                    else
+                        Log.Debug("Hot update download task has failure.");
+                }).Start();
+            }).Start();
         }
     }
 }

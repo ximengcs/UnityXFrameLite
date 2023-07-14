@@ -12,7 +12,8 @@ namespace Game.Core.Procedure
             base.OnEnter();
             Entry.AddModule<Debuger>();
             Application.targetFrameRate = 60;
-            ChangeState<CheckResUpdateProcedure>();
+            ChangeState<EnterGameProcedure>();
+            //ChangeState<CheckResUpdateProcedure>();
         }
     }
 }

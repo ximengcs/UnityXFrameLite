@@ -17,7 +17,7 @@ MonoBehaviour:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
-  m_BuildRemoteCatalog: 0
+  m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
   m_CatalogRequestsTimeout: 0
   m_DisableCatalogUpdateOnStart: 0
@@ -34,11 +34,11 @@ MonoBehaviour:
   m_MonoScriptBundleNaming: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
-    m_Id: 
+    m_Id: 735f4d14c3723d540ad08ec237c319c6
   m_RemoteCatalogLoadPath:
-    m_Id: 
+    m_Id: 43c145cf46ac68c4abae3a8734656d7b
   m_ContentStateBuildPath: 
-  m_BuildAddressablesWithPlayerBuild: 0
+  m_BuildAddressablesWithPlayerBuild: 2
   m_overridePlayerVersion: 
   m_GroupAssets:
   - {fileID: 11400000, guid: 26bdb6363eb94684abac67f67552e03a, type: 2}
@@ -66,7 +66,7 @@ MonoBehaviour:
       - m_Id: 735f4d14c3723d540ad08ec237c319c6
         m_Value: ServerData/[BuildTarget]
       - m_Id: 43c145cf46ac68c4abae3a8734656d7b
-        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+        m_Value: https://c1b.tapque.com/Innovate/ASMRMakeOver/Dev/Test
     m_ProfileEntryNames:
     - m_Id: c0d0636fa29160a4fafdb2dc5fb1bf9a
       m_Name: BuildTarget
