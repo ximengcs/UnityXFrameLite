@@ -37,5 +37,11 @@ namespace UnityXFrame.Editor
             if (Directory.Exists(Application.persistentDataPath))
                 Directory.Delete(Application.persistentDataPath, true);
         }
+
+        [MenuItem("Tools/Check Error")]
+        public static void CheckError()
+        {
+            EditorWindow.GetWindow<CheckErrorEditor>().Show();
+        }
     }
 }
