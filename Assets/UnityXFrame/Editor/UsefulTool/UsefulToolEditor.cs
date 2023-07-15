@@ -135,6 +135,11 @@ namespace UnityXFrame.Editor
 
         public void ImportXFrame()
         {
+            if (EditorApplication.isCompiling)
+            {
+                EditorLog.Debug($"Script is compiling");
+                return;
+            }
             string path = XFrameDllPath();
             foreach (string p in Directory.EnumerateFiles(path))
             {
@@ -152,6 +157,11 @@ namespace UnityXFrame.Editor
 
         public void CompileDll()
         {
+            if (EditorApplication.isCompiling)
+            {
+                EditorLog.Debug($"Script is compiling");
+                return;
+            }
             if (Directory.Exists(m_Data.BuildDllPath))
             {
                 foreach (string file in Directory.EnumerateFiles(m_Data.BuildDllPath))
@@ -172,6 +182,11 @@ namespace UnityXFrame.Editor
 
         public void CopyToProject(string projectPath)
         {
+            if (EditorApplication.isCompiling)
+            {
+                EditorLog.Debug($"Script is compiling");
+                return;
+            }
             if (!string.IsNullOrEmpty(m_Data.BuildDllPath))
             {
                 foreach (string path in Directory.EnumerateFiles(m_Data.BuildDllPath))
@@ -211,6 +226,11 @@ namespace UnityXFrame.Editor
 
         public void CopyToProject()
         {
+            if (EditorApplication.isCompiling)
+            {
+                EditorLog.Debug($"Script is compiling");
+                return;
+            }
             foreach (string path in m_Data.ToProjectDllPath)
             {
                 CopyToProject(path);
