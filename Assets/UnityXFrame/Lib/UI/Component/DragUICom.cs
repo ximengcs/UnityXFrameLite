@@ -61,6 +61,9 @@ namespace UnityXFrameLib.UI
             if (m_MoveTarget == null || m_DragTarget == null)
                 return;
 
+            if (EventSystem.current == null)
+                return;
+
             Vector2 lastPos = m_CurPos;
             m_CurPos = Input.mousePosition;
 
