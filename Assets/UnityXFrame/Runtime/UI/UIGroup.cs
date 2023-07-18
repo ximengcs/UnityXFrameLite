@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using XFrame.Collections;
-using System.Collections.Generic;
 using XFrame.Modules.Event;
-using XFrame.Modules.Pools;
+using System.Collections.Generic;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -157,27 +156,37 @@ namespace UnityXFrame.Core.UIs
         {
             if (IsOpen)
             {
-                foreach (XLinkNode<IUIGroupHelper> helperNode in m_UIHelper)
+                IEnumerator<XLinkNode<IUIGroupHelper>> helperIt = null;
+                if (m_UIHelper != null && m_UIHelper.Count > 0)
                 {
-                    IUIGroupHelper helper = helperNode.Value;
-                    helper.OnUpdate();
-
-                    foreach (XLinkNode<IUI> node in m_UIs)
+                    helperIt = m_UIHelper.GetEnumerator();
+                    while (helperIt.MoveNext())
                     {
-                        if (!node.Value.IsOpen)
-                            continue;
-                        if (m_UIHelper != null && m_UIHelper.Count > 0)
+                        IUIGroupHelper helper = helperIt.Current.Value;
+                        helper.OnUpdate();
+                    }
+                }
+
+                foreach (XLinkNode<IUI> node in m_UIs)
+                {
+                    if (!node.Value.IsOpen)
+                        continue;
+                    if (helperIt != null)
+                    {
+                        helperIt.Reset();
+                        while (helperIt.MoveNext())
                         {
+                            IUIGroupHelper helper = helperIt.Current.Value;
                             if (helper.MatchType(node.Value.GetType()))
                             {
                                 helper.OnUIUpdate(node.Value, elapseTime);
                                 break;
                             }
                         }
-                        else
-                        {
-                            node.Value.OnUpdate(elapseTime);
-                        }
+                    }
+                    else
+                    {
+                        node.Value.OnUpdate(elapseTime);
                     }
                 }
             }
@@ -185,24 +194,41 @@ namespace UnityXFrame.Core.UIs
 
         void IUIGroup.OnDestroy()
         {
+            IEnumerator<XLinkNode<IUIGroupHelper>> helperIt = null;
+            if (m_UIHelper != null && m_UIHelper.Count > 0)
+                helperIt = m_UIHelper.GetEnumerator();
+
             foreach (XLinkNode<IUI> node in m_UIs)
             {
-                IUI ui = node.Value;
-                if (m_UIHelper != null && m_UIHelper.Count > 0)
+                if (!node.Value.IsOpen)
+                    continue;
+                if (helperIt != null)
                 {
-                    foreach (XLinkNode<IUIGroupHelper> helperNode in m_UIHelper)
+                    helperIt.Reset();
+                    while (helperIt.MoveNext())
                     {
-                        IUIGroupHelper helper = helperNode.Value;
-                        if (helper.MatchType(ui.GetType()))
+                        IUIGroupHelper helper = helperIt.Current.Value;
+                        if (helper.MatchType(node.Value.GetType()))
                         {
-                            helper.OnUIDestroy(ui);
+                            helper.OnUIDestroy(node.Value);
                             break;
                         }
-                        helper.OnDestroy();
                     }
                 }
                 else
-                    ui.OnDestroy();
+                {
+                    node.Value.OnDestroy();
+                }
+            }
+
+            if (helperIt != null)
+            {
+                helperIt.Reset();
+                while (helperIt.MoveNext())
+                {
+                    IUIGroupHelper helper = helperIt.Current.Value;
+                    helper.OnDestroy();
+                }
             }
         }
 

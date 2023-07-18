@@ -1,5 +1,4 @@
 ﻿using System;
-using XFrame.Core;
 using UnityXFrame.Core.UIs;
 using System.Collections.Generic;
 
@@ -10,12 +9,22 @@ namespace UnityXFrameLib.UI
     /// </summary>
     public class UIGroupHelperInEffect : UIGroupHelperBase
     {
+        public enum MatchUIMode
+        {
+            Include,
+            Exclude,
+        }
+
+        private MatchUIMode m_MatchUIMode;
+        private HashSet<Type> m_MathTypes;
         private List<IUIGroupHelperEffect> m_OpenEffect;
         private List<IUIGroupHelperEffect> m_CloseEffect;
 
         protected override void OnInit()
         {
             base.OnInit();
+            m_MatchUIMode = MatchUIMode.Exclude;
+            m_MathTypes = new HashSet<Type>();
             m_OpenEffect = new List<IUIGroupHelperEffect>(2) { null };
             m_CloseEffect = new List<IUIGroupHelperEffect>(2) { null };
         }
@@ -27,6 +36,21 @@ namespace UnityXFrameLib.UI
                 effect.OnUpdate();
             foreach (IUIGroupHelperEffect effect in m_CloseEffect)
                 effect.OnUpdate();
+        }
+
+        public void SetMatchMode(MatchUIMode mode)
+        {
+            m_MatchUIMode = mode;
+        }
+
+        protected override bool MatchType(Type type)
+        {
+            switch (m_MatchUIMode)
+            {
+                case MatchUIMode.Include: return m_MathTypes.Contains(type);
+                case MatchUIMode.Exclude: return !m_MathTypes.Contains(type);
+                default: return false;
+            }
         }
 
         public void SetEffect(IUIGroupHelperEffect open, IUIGroupHelperEffect close)
