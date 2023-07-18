@@ -36,7 +36,12 @@ namespace UnityXFrameLib.UI
             m_Anims = new Dictionary<int, Tween>();
         }
 
-        public void Do(IUI ui, Action onComplete)
+        void IUIGroupHelperEffect.OnUpdate()
+        {
+
+        }
+
+        public bool Do(IUI ui, Action onComplete)
         {
             int key = ui.GetHashCode();
             Vector2 start;
@@ -94,9 +99,10 @@ namespace UnityXFrameLib.UI
                 });
             }
             m_Anims.Add(key, tween);
+            return true;
         }
 
-        public void Kill(IUI ui)
+        public bool Kill(IUI ui)
         {
             int key = ui.GetHashCode();
             if (m_Anims.TryGetValue(key, out Tween tween))
@@ -104,6 +110,7 @@ namespace UnityXFrameLib.UI
                 tween.Kill();
                 m_Anims.Remove(key);
             }
+            return true;
         }
     }
 }

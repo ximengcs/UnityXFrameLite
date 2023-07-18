@@ -22,7 +22,7 @@ namespace UnityXFrameLib.UI
 
         protected override void OnUIOpen(IUI ui)
         {
-            m_CloseEffect.Kill(ui);
+            KillClose(ui);
             m_Opening?.Close();
             if (m_CurOpenUI != ui)
                 m_CurOpenUI?.Close();
@@ -30,7 +30,7 @@ namespace UnityXFrameLib.UI
 
             m_Opening = ui;
             InnerSetUIActive(ui, true);
-            m_OpenEffect.Do(ui, () =>
+            DoOpen(ui, () =>
             {
                 m_Opening = null;
                 m_CurOpenUI = ui;
@@ -44,19 +44,19 @@ namespace UnityXFrameLib.UI
 
         protected override void OnUIClose(IUI ui)
         {
-            m_CloseEffect.Kill(ui);
+            KillClose(ui);
             if (m_Opening != null)
             {
-                m_OpenEffect.Kill(m_Opening);
+                KillOpen(m_Opening);
                 m_Opening = null;
             }
             if (m_CurOpenUI != null && m_CurOpenUI != ui)
             {
-                m_OpenEffect.Kill(m_CurOpenUI);
+                KillOpen(m_CurOpenUI);
                 m_CurOpenUI = null;
             }
 
-            m_CloseEffect.Do(ui, () =>
+            DoClose(ui, () =>
             {
                 InnerSetUIActive(ui, false);
                 if (m_CurOpenUI == ui)

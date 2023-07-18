@@ -177,12 +177,10 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Init Group2"))
             {
-                //UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
-                //{
-                //    helper.SetEffect(
-                //        new MoveEffect(MoveEffect.Direct.Rand, true, false, m_Time),
-                //        new MoveEffect(MoveEffect.Direct.Rand, false, true, m_Time));
-                //});
+                OnlyOneUIGroupHelper helper = UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
+                helper.SetEffect(
+                        new AnimatorEffect("Open", "Open"),
+                        new AnimatorEffect("Close", "Close"));
             }
             if (DebugGUI.Button("Init Group3"))
             {
@@ -200,6 +198,10 @@ namespace Game.Test
             if (DebugGUI.Button("Open Setting"))
             {
                 UIModule.Inst.Open<SettingUI>("Test", null, true);
+            }
+            if (DebugGUI.Button("Open Setting2"))
+            {
+                UIModule.Inst.Open<SettingUI>(null, true);
             }
             if (DebugGUI.Button("Open Dialog 1"))
             {

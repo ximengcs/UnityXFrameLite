@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3404341214235523874}
   - component: {fileID: 3404341214235523884}
   - component: {fileID: 6937590730444496845}
+  - component: {fileID: 2874358822054479846}
+  - component: {fileID: 4074864009772840828}
   m_Layer: 5
   m_Name: DialogUI
   m_TagString: Untagged
@@ -63,6 +65,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Title: {fileID: 7297934423330805598}
   m_BackGround: {fileID: 8292487644028700376}
+--- !u!95 &2874358822054479846
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3404341214235523875}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99c6d0dac5a654d44983c22b8c11a4d9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &4074864009772840828
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3404341214235523875}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6540142900718606757
 GameObject:
   m_ObjectHideFlags: 0

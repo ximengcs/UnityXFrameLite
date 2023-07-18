@@ -25,7 +25,7 @@ namespace UnityXFrameLib.UI
             int key = ui.GetHashCode();
             if (m_Closing.Contains(key))
             {
-                m_CloseEffect.Kill(ui);
+                KillClose(ui);
                 m_Closing.Remove(key);
             }
 
@@ -33,7 +33,7 @@ namespace UnityXFrameLib.UI
             ui.Layer = m_CurLayer;
             m_Opening.Add(key);
             InnerSetUIActive(ui, true);
-            m_OpenEffect.Do(ui, () =>
+            DoOpen(ui, () =>
             {
                 if (m_Opening.Contains(key))
                     InnerOpenUI(ui);
@@ -45,13 +45,13 @@ namespace UnityXFrameLib.UI
             int key = ui.GetHashCode();
             if (m_Opening.Contains(key))
             {
-                m_OpenEffect.Kill(ui);
+                KillOpen(ui);
                 m_Opening.Remove(key);
             }
 
             m_CurLayer--;
             m_Closing.Add(key);
-            m_CloseEffect.Do(ui, () =>
+            DoClose(ui, () =>
             {
                 if (m_Closing.Contains(key))
                 {

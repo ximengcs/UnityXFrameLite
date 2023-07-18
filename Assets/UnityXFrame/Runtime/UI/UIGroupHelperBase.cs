@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core.UIs

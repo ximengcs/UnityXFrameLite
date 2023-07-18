@@ -157,26 +157,27 @@ namespace UnityXFrame.Core.UIs
         {
             if (IsOpen)
             {
-                foreach (XLinkNode<IUI> node in m_UIs)
+                foreach (XLinkNode<IUIGroupHelper> helperNode in m_UIHelper)
                 {
-                    if (!node.Value.IsOpen)
-                        continue;
-                    if (m_UIHelper != null && m_UIHelper.Count > 0)
+                    IUIGroupHelper helper = helperNode.Value;
+                    helper.OnUpdate();
+
+                    foreach (XLinkNode<IUI> node in m_UIs)
                     {
-                        foreach (XLinkNode<IUIGroupHelper> helperNode in m_UIHelper)
+                        if (!node.Value.IsOpen)
+                            continue;
+                        if (m_UIHelper != null && m_UIHelper.Count > 0)
                         {
-                            IUIGroupHelper helper = helperNode.Value;
                             if (helper.MatchType(node.Value.GetType()))
                             {
                                 helper.OnUIUpdate(node.Value, elapseTime);
                                 break;
                             }
-                            helper.OnUpdate();
                         }
-                    }
-                    else
-                    {
-                        node.Value.OnUpdate(elapseTime);
+                        else
+                        {
+                            node.Value.OnUpdate(elapseTime);
+                        }
                     }
                 }
             }
