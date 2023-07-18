@@ -43,7 +43,6 @@ namespace UnityXFrame.Core.UIs
                     m_CanvasGroup.alpha = 0;
                     m_CanvasGroup.blocksRaycasts = false;
                 }
-                Debug.LogWarning($"set ui {Name} {value} {m_CanvasGroup.alpha}");
             }
         }
 
