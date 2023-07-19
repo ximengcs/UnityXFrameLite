@@ -13,8 +13,8 @@ namespace UnityXFrameLib.Commercial
         private IAdsHelper m_Helper;
         private Action m_InitComplete;
         private XCollection<IAdView> m_Views;
-        private Dictionary<AdType, Type> m_Types;
-        private Dictionary<AdType, Dictionary<int, AdsConfig>> m_Configs;
+        private Dictionary<int, Type> m_Types;
+        private Dictionary<int, Dictionary<int, AdsConfig>> m_Configs;
 
         public IEventSystem Event { get; private set; }
 
@@ -23,8 +23,8 @@ namespace UnityXFrameLib.Commercial
             base.OnInit(data);
             Event = EventModule.Inst.NewSys();
             m_Views = new XCollection<IAdView>();
-            m_Configs = new Dictionary<AdType, Dictionary<int, AdsConfig>>();
-            m_Types = new Dictionary<AdType, Type>();
+            m_Configs = new Dictionary<int, Dictionary<int, AdsConfig>>();
+            m_Types = new Dictionary<int, Type>();
             TypeSystem typeSys = TypeModule.Inst.GetOrNewWithAttr<AdsImplementAttribute>();
             foreach (Type type in typeSys)
             {
@@ -66,7 +66,7 @@ namespace UnityXFrameLib.Commercial
             return default;
         }
 
-        public void Close(AdType adType, int entityId = default)
+        public void Close(int adType, int entityId = default)
         {
             if (m_Types.TryGetValue(adType, out Type type))
             {

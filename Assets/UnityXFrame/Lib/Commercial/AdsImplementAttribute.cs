@@ -4,9 +4,9 @@ namespace UnityXFrameLib.Commercial
 {
     public class AdsImplementAttribute : Attribute
     {
-        public AdType Type { get; }
+        public int Type { get; }
 
-        public AdsImplementAttribute(AdType adType)
+        public AdsImplementAttribute(int adType)
         {
             Type = adType;
         }

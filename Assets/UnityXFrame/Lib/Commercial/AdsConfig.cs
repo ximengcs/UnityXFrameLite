@@ -3,12 +3,12 @@ namespace UnityXFrameLib.Commercial
 {
     public struct AdsConfig
     {
-        public AdType Type;
+        public int Type;
         public string AdUnitId;
         public int ViewId;
         public object UserData;
 
-        public AdsConfig(AdType type, string adUnitId, int viewId = 0, object userData = null)
+        public AdsConfig(int type, string adUnitId, int viewId = 0, object userData = null)
         {
             Type = type;
             AdUnitId = adUnitId;

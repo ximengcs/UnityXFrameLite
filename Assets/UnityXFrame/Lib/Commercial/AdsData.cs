@@ -3,12 +3,12 @@ namespace UnityXFrameLib.Commercial
 {
     public struct AdsData
     {
-        public AdType Type;
+        public int Type;
         public int ViewId;
         public int EntityId;
         public object UserData;
 
-        public AdsData(AdType type, int viewId, int entityId = 0, object userData = null)
+        public AdsData(int type, int viewId, int entityId = 0, object userData = null)
         {
             Type = type;
             ViewId = viewId;
@@ -16,7 +16,7 @@ namespace UnityXFrameLib.Commercial
             UserData = userData;
         }
 
-        public AdsData(AdType type, int entityId = 0, object userData = null)
+        public AdsData(int type, int entityId = 0, object userData = null)
         {
             Type = type;
             ViewId = 0;
