@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityXFrame.Core.UIs;
 using System.Collections.Generic;
+using XFrame.Modules.Diagnotics;
+using UnityEngine;
 
 namespace UnityXFrameLib.UI
 {
@@ -20,13 +22,17 @@ namespace UnityXFrameLib.UI
         private List<IUIGroupHelperEffect> m_OpenEffect;
         private List<IUIGroupHelperEffect> m_CloseEffect;
 
+        public UIGroupHelperInEffect()
+        {
+            m_MathTypes = new HashSet<Type>();
+            m_OpenEffect = new List<IUIGroupHelperEffect>(2) { null };
+            m_CloseEffect = new List<IUIGroupHelperEffect>(2) { null };
+        }
+
         protected override void OnInit()
         {
             base.OnInit();
             m_MatchUIMode = MatchUIMode.Exclude;
-            m_MathTypes = new HashSet<Type>();
-            m_OpenEffect = new List<IUIGroupHelperEffect>(2) { null };
-            m_CloseEffect = new List<IUIGroupHelperEffect>(2) { null };
         }
 
         protected override void OnUpdate()
@@ -72,8 +78,11 @@ namespace UnityXFrameLib.UI
                 if (effect == null)
                     continue;
                 if (effect.Do(ui, onComplete))
-                    break;
+                    return;
             }
+
+            Log.Debug("XFrame", $"{ui.Name} dnt has match group effct");
+            onComplete();
         }
 
         protected void DoClose(IUI ui, Action onComplete)
@@ -83,8 +92,11 @@ namespace UnityXFrameLib.UI
                 if (effect == null)
                     continue;
                 if (effect.Do(ui, onComplete))
-                    break;
+                    return;
             }
+
+            Log.Debug("XFrame", $"{ui.Name} dnt has match group effct");
+            onComplete();
         }
 
         protected void KillOpen(IUI ui)

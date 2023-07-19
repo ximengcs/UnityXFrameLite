@@ -21,6 +21,6 @@ namespace UnityXFrameLib.UI
         /// <param name="ui">UI</param>
         bool Kill(IUI ui);
 
-        internal void OnUpdate();
+        void OnUpdate();
     }
 }

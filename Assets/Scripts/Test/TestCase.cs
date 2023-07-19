@@ -178,9 +178,10 @@ namespace Game.Test
             if (DebugGUI.Button("Init Group2"))
             {
                 OnlyOneUIGroupHelper helper = UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
-                helper.SetEffect(
-                        new AnimatorEffect("Open", "Open"),
-                        new AnimatorEffect("Close", "Close"));
+                //helper.SetEffect(
+                //        new AnimatorTriggerEffect("Open", "Open"),
+                //        new AnimatorTriggerEffect("Close", "Close"));
+                helper.SetEffect(new AnimatorStateEffect("Open"), new AnimatorStateEffect("Close"));
             }
             if (DebugGUI.Button("Init Group3"))
             {

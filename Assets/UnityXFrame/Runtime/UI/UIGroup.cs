@@ -20,6 +20,8 @@ namespace UnityXFrame.Core.UIs
 
         public IEventSystem Event { get; private set; }
 
+        public int Count => m_UIs.Count;
+
         public string Name { get; }
 
         public bool IsOpen { get; private set; }

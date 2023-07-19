@@ -24,6 +24,7 @@ namespace Game.Test
             LocalizeExt.RegisterLocalText(m_Title, InnerLangChange);
         }
 
+
         /* inheric UI Test
         protected override void OnInit()
         {

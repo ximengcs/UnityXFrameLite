@@ -8,14 +8,12 @@ namespace UnityXFrameLib.UI
     /// </summary>
     public class MultiUIGroupHelper : UIGroupHelperInEffect
     {
-        private int m_CurLayer;
         private HashSet<int> m_Opening;
         private HashSet<int> m_Closing;
 
         protected override void OnInit()
         {
             base.OnInit();
-            m_CurLayer = 0;
             m_Opening = new HashSet<int>();
             m_Closing = new HashSet<int>();
         }
@@ -29,8 +27,7 @@ namespace UnityXFrameLib.UI
                 m_Closing.Remove(key);
             }
 
-            m_CurLayer++;
-            ui.Layer = m_CurLayer;
+            ui.Layer = ui.Group.Count + 1;
             m_Opening.Add(key);
             InnerSetUIActive(ui, true);
             DoOpen(ui, () =>
@@ -49,7 +46,6 @@ namespace UnityXFrameLib.UI
                 m_Opening.Remove(key);
             }
 
-            m_CurLayer--;
             m_Closing.Add(key);
             DoClose(ui, () =>
             {

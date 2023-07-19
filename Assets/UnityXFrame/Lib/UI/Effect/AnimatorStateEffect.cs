@@ -1,20 +1,18 @@
 ﻿using System;
 using UnityEngine;
 using UnityXFrame.Core.UIs;
-using XFrame.Modules.Diagnotics;
 using UnityXFrameLib.Animations;
+using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrameLib.UI
 {
-    public class AnimatorEffect : AnimatorChecker, IUIGroupHelperEffect
+    public class AnimatorStateEffect : AnimatorChecker, IUIGroupHelperEffect
     {
         private int m_Layer;
-        private string m_Trigger;
         private string m_StateName;
 
-        public AnimatorEffect(string trigger, string stateName, int layer = 0)
+        public AnimatorStateEffect(string stateName, int layer = 0)
         {
-            m_Trigger = trigger;
             m_StateName = stateName;
             m_Layer = layer;
         }
@@ -29,7 +27,7 @@ namespace UnityXFrameLib.UI
             Animator animator = ui.Root.GetComponent<Animator>();
             if (animator != null)
             {
-                animator.SetTrigger(m_Trigger);
+                animator.Play(m_StateName);
                 Add(animator, m_StateName, m_Layer, onComplete);
                 return true;
             }

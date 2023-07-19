@@ -16,6 +16,8 @@ namespace UnityXFrame.Core.UIs
 
         RectTransform Root { get; }
 
+        int Count { get; }
+
         /// <summary>
         /// 是否处于打开状态
         /// </summary>
