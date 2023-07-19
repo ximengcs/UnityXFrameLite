@@ -24,7 +24,7 @@ namespace UnityXFrameLib.Commercial
             UserData = userData;
         }
 
-        public AdsData(int type, object userData = null)
+        public AdsData(int type, object userData)
         {
             Type = type;
             ViewId = 0;
