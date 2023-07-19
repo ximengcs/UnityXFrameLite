@@ -2,6 +2,7 @@
 using UnityXFrame.Core.UIs;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using XFrame.Core;
 
 namespace UnityXFrameLib.UI
 {
@@ -18,6 +19,22 @@ namespace UnityXFrameLib.UI
         public void Reset()
         {
             m_MoveTarget.anchoredPosition = m_OrgPos;
+        }
+
+        public static void SetTarget(IDataProvider dataProvider, string moveTarget, string dragTarget)
+        {
+            SetMoveTarget(dataProvider, moveTarget);
+            SetDragTarget(dataProvider, dragTarget);
+        }
+
+        public static void SetMoveTarget(IDataProvider dataProvider, string targetName)
+        {
+            dataProvider.SetData("MoveTarget", targetName);
+        }
+
+        public static void SetDragTarget(IDataProvider dataProvider, string targetName)
+        {
+            dataProvider.SetData("DragTarget", targetName);
         }
 
         protected override void OnInit()

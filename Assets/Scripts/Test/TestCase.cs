@@ -177,7 +177,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Init Group2"))
             {
-                OnlyOneUIGroupHelper helper = UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
+                MultiUIGroupHelper helper = UIModule.Inst.MainGroup.AddHelper<MultiUIGroupHelper>();
                 //helper.SetEffect(
                 //        new AnimatorTriggerEffect("Open", "Open"),
                 //        new AnimatorTriggerEffect("Close", "Close"));

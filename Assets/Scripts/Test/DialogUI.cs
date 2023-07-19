@@ -19,22 +19,11 @@ namespace Game.Test
         protected override void OnInit()
         {
             base.OnInit();
+            AddCom<DragUICom>((db) => DragUICom.SetTarget(db, "Rect", "BackGround"));
             m_Transform.anchoredPosition += GetData<Vector2>();
             m_BackGround.color = GetData<Color>();
             LocalizeExt.RegisterLocalText(m_Title, InnerLangChange);
         }
-
-
-        /* inheric UI Test
-        protected override void OnInit()
-        {
-            base.OnInit();
-            m_Transform.anchoredPosition += GetData<Vector2>();
-            m_Transform.Find("BackGround").GetComponent<Image>().color = GetData<Color>();
-
-            m_Title = m_Transform.Find("Text").GetComponent<TextMeshProUGUI>();
-            LocalizeExt.RegisterLocalText(m_Title, InnerLangChange);
-        }*/
 
         private void InnerLangChange(TextMeshProUGUI textCom)
         {
