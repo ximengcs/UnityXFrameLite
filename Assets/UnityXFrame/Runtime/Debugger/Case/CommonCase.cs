@@ -10,6 +10,7 @@ namespace UnityXFrame.Core.Diagnotics
     public class CommonCase : IDebugWindow
     {
         private bool m_TimerCD;
+        private bool m_LockFPS;
         private ITask m_TimerDebugTask;
 
         public void Dispose()
@@ -19,7 +20,7 @@ namespace UnityXFrame.Core.Diagnotics
 
         public void OnAwake()
         {
-
+            m_LockFPS = true;
         }
 
         public void OnDraw()
@@ -41,6 +42,19 @@ namespace UnityXFrame.Core.Diagnotics
                 PlayerPrefs.DeleteAll();
                 Application.Quit();
             }
+
+            GUILayout.BeginHorizontal();
+            DebugGUI.Label("Lock FPS");
+            bool lockFPS = DebugGUI.Power(m_LockFPS);
+            if (lockFPS != m_LockFPS)
+            {
+                m_LockFPS = lockFPS;
+                if (m_LockFPS)
+                    Application.targetFrameRate = 60;
+                else
+                    Application.targetFrameRate = 0;
+            }
+            GUILayout.EndHorizontal();
         }
 
         private bool InnerTestTimerCD()
