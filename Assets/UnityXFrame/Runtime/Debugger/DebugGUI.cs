@@ -32,6 +32,8 @@ namespace UnityXFrame.Core.Diagnotics
             rate = Mathf.Clamp(rate, 0, 1);
             Rect rect = GUILayoutUtility.GetAspectRect(10f / 1f);
             rect.width = rate * rect.width;
+            rect.xMin += 10 * Debuger.Inst.m_FitWidth;
+            rect.xMax -= 10 * Debuger.Inst.m_FitWidth;
             GUI.DrawTexture(rect, Style.ProgressSlider.normal.background, ScaleMode.StretchToFill);
         }
 
