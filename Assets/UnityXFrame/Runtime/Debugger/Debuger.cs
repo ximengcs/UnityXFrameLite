@@ -14,8 +14,8 @@ namespace UnityXFrame.Core.Diagnotics
         #region Internal Field
         private const int WIDTH = 1080;
         private const int HEIGHT = 1920;
-        private float m_FitWidth;
-        private float m_FitHeight;
+        internal float m_FitWidth;
+        internal float m_FitHeight;
 
         private GUISkin Skin;
         private GUIStyle m_TitleStyle;
@@ -137,16 +137,6 @@ namespace UnityXFrame.Core.Diagnotics
             InnerFitStyle(DebugGUI.Style.ProgressThumb);
             InnerFitStyle(Skin.verticalScrollbarThumb);
             InnerFitStyle(Skin.horizontalScrollbarThumb);
-        }
-
-        private GUILayoutOption Width(float width)
-        {
-            return GUILayout.Width(width * m_FitWidth);
-        }
-
-        private GUILayoutOption Height(float height)
-        {
-            return GUILayout.Height(height * m_FitWidth);
         }
 
         private void InnerFitStyle(GUIStyle style)

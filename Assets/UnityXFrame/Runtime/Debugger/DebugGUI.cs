@@ -9,6 +9,18 @@ namespace UnityXFrame.Core.Diagnotics
         private static string[] m_PowerText = new string[] { "On", "Off" };
         private static Dictionary<int, string> s_FloatTexts = new Dictionary<int, string>();
 
+
+        public static GUILayoutOption Width(float width)
+        {
+            return GUILayout.Width(width * Debuger.Inst.m_FitWidth);
+        }
+
+        public static GUILayoutOption Height(float height)
+        {
+            return GUILayout.Height(height * Debuger.Inst.m_FitWidth);
+        }
+
+
         public static void Progress(float value)
         {
             Progress(value, 0, 1);
