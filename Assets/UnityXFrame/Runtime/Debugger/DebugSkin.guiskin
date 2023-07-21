@@ -121,7 +121,7 @@ MonoBehaviour:
       m_Bottom: 4
     m_Margin:
       m_Left: 4
-      m_Right: 0
+      m_Right: 6
       m_Top: 10
       m_Bottom: 0
     m_Padding:
@@ -143,9 +143,9 @@ MonoBehaviour:
     m_TextClipping: 1
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 245
+    m_FixedWidth: 0
     m_FixedHeight: 70
-    m_StretchWidth: 0
+    m_StretchWidth: 1
     m_StretchHeight: 0
   m_toggle:
     m_Name: toggle
@@ -1989,7 +1989,7 @@ MonoBehaviour:
     m_Margin:
       m_Left: 4
       m_Right: 4
-      m_Top: 4
+      m_Top: 16
       m_Bottom: 4
     m_Padding:
       m_Left: 3
