@@ -12,6 +12,11 @@ namespace UnityXFrame.Core.Diagnotics
     public partial class Debuger : SingletonModule<Debuger>
     {
         #region Internal Field
+        private const int WIDTH = 1080;
+        private const int HEIGHT = 1920;
+        private float m_FitWidth;
+        private float m_FitHeight;
+
         private GUISkin Skin;
         private GUIStyle m_TitleStyle;
         private GUIStyle m_CloseButtonStyle;
@@ -87,6 +92,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_HelpWindowStyle = Skin.customStyles[13];
             DebugGUI.Style.ProgressSlider = Skin.customStyles[14];
             DebugGUI.Style.ProgressThumb = Skin.customStyles[15];
+            InnerFixScreen();
 
             m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
@@ -99,6 +105,27 @@ namespace UnityXFrame.Core.Diagnotics
 
             if (m_Windows.Count > 0)
                 InternalSelectMenu(m_Windows[0]);
+        }
+
+        private void InnerFixScreen()
+        {
+            m_FitWidth = Screen.width / WIDTH;
+            m_FitHeight = Screen.height / HEIGHT;
+
+            InnerFitStyle(GUI.skin.button);
+            InnerFitStyle(GUI.skin.verticalScrollbar);
+            InnerFitStyle(GUI.skin.verticalScrollbarThumb);
+            InnerFitStyle(GUI.skin.verticalSlider);
+            InnerFitStyle(GUI.skin.verticalSliderThumb);
+            for (int i = 0; i < Skin.customStyles.Length; i++)
+                InnerFitStyle(Skin.customStyles[i]);
+        }
+
+        private void InnerFitStyle(GUIStyle style)
+        {
+            style.fontSize = (int)(m_FitWidth * style.fontSize);
+            style.fixedHeight *= m_FitHeight;
+            style.fixedWidth *= m_FitWidth;
         }
 
         private void InnerGUIInit()
@@ -268,10 +295,20 @@ namespace UnityXFrame.Core.Diagnotics
                 DebugGUI.Label("FPS");
             m_ShowFps = DebugGUI.Power(m_ShowFps);
             GUILayout.FlexibleSpace();
+            GUILayout.BeginVertical();
+            GUILayout.FlexibleSpace();
             GUILayout.Label(TITLE, m_TitleStyle);
+            GUILayout.FlexibleSpace();
+            GUILayout.EndVertical();
+
+            GUILayout.FlexibleSpace();
+            GUILayout.BeginVertical();
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("X", m_CloseButtonStyle))
                 InnerClose();
+            GUILayout.FlexibleSpace();
+            GUILayout.EndVertical();
+            GUILayout.Width(30);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginVertical(m_DebugArea);
