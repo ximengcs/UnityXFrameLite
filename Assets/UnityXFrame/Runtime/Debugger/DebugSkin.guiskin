@@ -479,7 +479,7 @@ MonoBehaviour:
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
     m_FixedWidth: 1080
-    m_FixedHeight: 600
+    m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 1
   m_horizontalSlider:

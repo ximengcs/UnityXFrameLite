@@ -6,6 +6,8 @@ using XFrame.Modules.Times;
 using XFrame.Modules.XType;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using DG.DemiEditor;
+using UnityEditor.UIElements;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -27,6 +29,7 @@ namespace UnityXFrame.Core.Diagnotics
         private GUIStyle m_MenuArea;
         private GUIStyle m_ContentArea;
         private GUIStyle m_HelpWindowStyle;
+        private GUIStyle m_MenuButton;
 
         private bool m_IsOpen;
         private bool m_HelpOpen;
@@ -72,13 +75,16 @@ namespace UnityXFrame.Core.Diagnotics
             base.OnInit(data);
             m_ShowFps = false;
             m_OnGUIInit = false;
-            Skin = Init.Inst.Data.DebuggerSkin;
+            Skin = ScriptableObject.Instantiate(Init.Inst.Data.DebuggerSkin);
+            m_MenuButton = Skin.button;
             m_CloseButtonStyle = Skin.customStyles[0];
             m_TitleStyle = Skin.customStyles[1];
             m_EnterButtonStyle = Skin.customStyles[2];
 
             DebugGUI.Style = new DebugStyle();
             DebugGUI.Style.Skin = Skin;
+            DebugGUI.Style.HorizontalScrollbar = Skin.horizontalScrollbar;
+            DebugGUI.Style.VerticalScrollbar = Skin.verticalScrollbar;
             DebugGUI.Style.Button = Skin.customStyles[3];
             DebugGUI.Style.Text = Skin.customStyles[4];
             DebugGUI.Style.Lable = Skin.customStyles[5];
@@ -92,7 +98,6 @@ namespace UnityXFrame.Core.Diagnotics
             m_HelpWindowStyle = Skin.customStyles[13];
             DebugGUI.Style.ProgressSlider = Skin.customStyles[14];
             DebugGUI.Style.ProgressThumb = Skin.customStyles[15];
-            InnerFixScreen();
 
             m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
@@ -109,23 +114,59 @@ namespace UnityXFrame.Core.Diagnotics
 
         private void InnerFixScreen()
         {
-            m_FitWidth = Screen.width / WIDTH;
-            m_FitHeight = Screen.height / HEIGHT;
+            m_FitWidth = Screen.width / (float)WIDTH;
+            m_FitHeight = Screen.height / (float)HEIGHT;
 
-            InnerFitStyle(GUI.skin.button);
-            InnerFitStyle(GUI.skin.verticalScrollbar);
-            InnerFitStyle(GUI.skin.verticalScrollbarThumb);
-            InnerFitStyle(GUI.skin.verticalSlider);
-            InnerFitStyle(GUI.skin.verticalSliderThumb);
-            for (int i = 0; i < Skin.customStyles.Length; i++)
-                InnerFitStyle(Skin.customStyles[i]);
+            InnerFitStyle(m_CloseButtonStyle);
+            InnerFitStyle(m_TitleStyle);
+            InnerFitStyle(m_EnterButtonStyle);
+            InnerFitStyle(m_TipTitleStyle);
+            InnerFitStyle(m_TipContentStyle);
+            InnerFitStyle(m_HelpWindowStyle);
+            InnerFitStyle(m_DebugArea);
+            InnerFitStyle(m_MenuArea);
+            InnerFitStyle(m_ContentArea);
+            InnerFitStyle(m_HelpWindowStyle);
+            InnerFitStyle(m_MenuButton);
+            InnerFitStyle(DebugGUI.Style.HorizontalScrollbar);
+            InnerFitStyle(DebugGUI.Style.VerticalScrollbar);
+            InnerFitStyle(DebugGUI.Style.Button);
+            InnerFitStyle(DebugGUI.Style.Text);
+            InnerFitStyle(DebugGUI.Style.Lable);
+            InnerFitStyle(DebugGUI.Style.TextArea);
+            InnerFitStyle(DebugGUI.Style.Toolbar);
+            InnerFitStyle(DebugGUI.Style.ProgressSlider);
+            InnerFitStyle(DebugGUI.Style.ProgressThumb);
+            InnerFitStyle(Skin.verticalScrollbarThumb);
+            InnerFitStyle(Skin.horizontalScrollbarThumb);
+        }
+
+        private GUILayoutOption Width(float width)
+        {
+            return GUILayout.Width(width * m_FitWidth);
+        }
+
+        private GUILayoutOption Height(float height)
+        {
+            return GUILayout.Height(height * m_FitWidth);
         }
 
         private void InnerFitStyle(GUIStyle style)
         {
-            style.fontSize = (int)(m_FitWidth * style.fontSize);
-            style.fixedHeight *= m_FitHeight;
-            style.fixedWidth *= m_FitWidth;
+            if (style.fontSize != 0)
+                style.fontSize = (int)(m_FitWidth * style.fontSize);
+            if (style.fixedHeight != 0)
+                style.fixedHeight *= m_FitHeight;
+            if (style.fixedWidth != 0)
+                style.fixedWidth *= m_FitWidth;
+            style.margin.right = (int)(style.margin.right * m_FitWidth);
+            style.margin.left = (int)(style.margin.left * m_FitWidth);
+            style.margin.top = (int)(style.margin.top * m_FitHeight);
+            style.margin.bottom = (int)(style.margin.bottom * m_FitHeight);
+            style.padding.right = (int)(style.padding.right * m_FitWidth);
+            style.padding.left = (int)(style.padding.left * m_FitWidth);
+            style.padding.top = (int)(style.padding.top * m_FitHeight);
+            style.padding.bottom = (int)(style.padding.bottom * m_FitHeight);
         }
 
         private void InnerGUIInit()
@@ -138,6 +179,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_HelpWindowStyle.fixedWidth = Skin.window.fixedWidth;
             m_HelpRect.y = Skin.window.fixedHeight;
             m_HelpWindowStyle.fixedHeight = 0;
+            InnerFixScreen();
         }
 
         protected override void OnDestroy()
@@ -308,7 +350,6 @@ namespace UnityXFrame.Core.Diagnotics
                 InnerClose();
             GUILayout.FlexibleSpace();
             GUILayout.EndVertical();
-            GUILayout.Width(30);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginVertical(m_DebugArea);
@@ -325,7 +366,7 @@ namespace UnityXFrame.Core.Diagnotics
                 if (windowInfo.Window == m_Current.Window)
                     title = $"<color=#2A89FF>{title}</color>";
 
-                if (GUILayout.Button(title, Skin.button))
+                if (GUILayout.Button(title, m_MenuButton))
                     InternalSelectMenu(windowInfo);
 
                 code = m_Current.Window.GetHashCode();

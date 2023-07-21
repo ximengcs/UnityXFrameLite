@@ -31,7 +31,7 @@ namespace UnityXFrame.Core.Diagnotics
 
         public static Vector2 BeginScrollView(Vector2 pos, params GUILayoutOption[] options)
         {
-            return GUILayout.BeginScrollView(pos, false, false, Style.Skin.horizontalScrollbar, Style.Skin.verticalScrollbar, options);
+            return GUILayout.BeginScrollView(pos, false, false, Style.HorizontalScrollbar, Style.VerticalScrollbar, options);
         }
 
         public static bool Button(string title, params GUILayoutOption[] options)
