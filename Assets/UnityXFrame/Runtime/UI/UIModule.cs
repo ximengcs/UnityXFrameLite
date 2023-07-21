@@ -475,7 +475,10 @@ namespace UnityXFrame.Core.UIs
             if (m_Canvas == null)
                 m_Canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
             if (m_Canvas != null)
-                m_PixelScale = m_Canvas.pixelRect.height / Screen.height;
+            {
+                RectTransform tf = m_Canvas.GetComponent<RectTransform>();
+                m_PixelScale = tf.rect.height / Screen.height;
+            }
         }
 
         private IUI InnerGetUI(Type uiType, int id)
