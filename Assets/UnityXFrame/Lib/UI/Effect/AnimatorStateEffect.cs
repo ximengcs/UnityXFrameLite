@@ -33,7 +33,7 @@ namespace UnityXFrameLib.UI
             }
             else
             {
-                Log.Debug("XFrame", $"UI {ui.Name} do not has animtor component, will use other effect");
+                Log.Debug("UI", $"UI {ui.Name} do not has animtor component, will use other effect");
                 return false;
             }
         }
@@ -48,7 +48,7 @@ namespace UnityXFrameLib.UI
             }
             else
             {
-                Log.Debug("XFrame", $"UI {ui.Name} do not has animtor component, will use other effect");
+                Log.Debug("UI", $"UI {ui.Name} do not has animtor component, will use other effect");
                 return false;
             }
         }

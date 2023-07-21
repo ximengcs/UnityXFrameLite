@@ -88,7 +88,7 @@ namespace UnityXFrameLib.UI
             {
                 if (Input.GetMouseButton(0))
                 {
-                    Vector2 pos = m_CurPos - lastPos;
+                    Vector2 pos = (m_CurPos - lastPos) * UIModule.Inst.PixelScale;
                     m_MoveTarget.anchoredPosition += pos;
                 }
                 else if (Input.GetMouseButtonUp(0))

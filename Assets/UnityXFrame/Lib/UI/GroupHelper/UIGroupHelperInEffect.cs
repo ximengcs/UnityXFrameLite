@@ -81,7 +81,7 @@ namespace UnityXFrameLib.UI
                     return;
             }
 
-            Log.Debug("XFrame", $"{ui.Name} dnt has match group effct");
+            Log.Debug("UI", $"{ui.Name} dnt has match group effct");
             onComplete();
         }
 
@@ -95,7 +95,7 @@ namespace UnityXFrameLib.UI
                     return;
             }
 
-            Log.Debug("XFrame", $"{ui.Name} dnt has match group effct");
+            Log.Debug("UI", $"{ui.Name} dnt has match group effct");
             onComplete();
         }
 

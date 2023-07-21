@@ -10,6 +10,7 @@ using UnityEngine.Profiling;
 using XFrame.Modules.Tasks;
 using System.Collections;
 using XFrame.Modules.Event;
+using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.UIs
 {
@@ -21,6 +22,7 @@ namespace UnityXFrame.Core.UIs
     public partial class UIModule : SingletonModule<UIModule>
     {
         #region Inner Fields
+        private float m_PixelScale;
         private Canvas m_Canvas;
         private Transform m_Root;
         private IEventSystem m_Event;
@@ -28,6 +30,8 @@ namespace UnityXFrame.Core.UIs
         private XCollection<IUI> m_UIList;
         private XLinkList<IUIGroup> m_GroupList;
         #endregion
+
+        public float PixelScale => m_PixelScale;
 
         #region Life Fun
         protected override void OnInit(object data)
@@ -43,6 +47,7 @@ namespace UnityXFrame.Core.UIs
                 m_UIList = new XCollection<IUI>();
                 m_GroupList = new XLinkList<IUIGroup>();
             }
+            Log.Debug("UI", $"UI Canvas pixel scale is {m_PixelScale}");
         }
 
         protected override void OnUpdate(float escapeTime)
@@ -469,6 +474,8 @@ namespace UnityXFrame.Core.UIs
                 m_Canvas = (Canvas)canvas;
             if (m_Canvas == null)
                 m_Canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+            if (m_Canvas != null)
+                m_PixelScale = m_Canvas.pixelRect.height / Screen.height;
         }
 
         private IUI InnerGetUI(Type uiType, int id)
