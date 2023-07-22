@@ -52,6 +52,7 @@ namespace UnityXFrameLib.UI
             Animator animator = ui.Root.GetComponent<Animator>();
             if (animator != null)
             {
+                animator.ResetTrigger(m_Trigger);
                 Remove(animator);
                 return true;
             }
