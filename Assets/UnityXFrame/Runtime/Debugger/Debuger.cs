@@ -28,6 +28,7 @@ namespace UnityXFrame.Core.Diagnotics
         private GUIStyle m_ContentArea;
         private GUIStyle m_HelpWindowStyle;
         private GUIStyle m_MenuButton;
+        private GUIStyle m_CmdRunButton;
 
         private bool m_IsOpen;
         private bool m_HelpOpen;
@@ -45,6 +46,7 @@ namespace UnityXFrame.Core.Diagnotics
         private HashSet<int> m_TipNewMsg;
         private bool m_AlwaysTip;
         private string m_Tip;
+        private string m_Cmd;
         private CDTimer m_Timer;
         private string m_EnterText;
         private EventSystem m_EventSytem;
@@ -96,6 +98,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_HelpWindowStyle = Skin.customStyles[13];
             DebugGUI.Style.ProgressSlider = Skin.customStyles[14];
             DebugGUI.Style.ProgressThumb = Skin.customStyles[15];
+            m_CmdRunButton = Skin.customStyles[16];
 
             m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
@@ -124,8 +127,8 @@ namespace UnityXFrame.Core.Diagnotics
             InnerFitStyle(m_DebugArea);
             InnerFitStyle(m_MenuArea);
             InnerFitStyle(m_ContentArea);
-            InnerFitStyle(m_HelpWindowStyle);
             InnerFitStyle(m_MenuButton);
+            InnerFitStyle(m_CmdRunButton);
             InnerFitStyle(DebugGUI.Style.HorizontalScrollbar);
             InnerFitStyle(DebugGUI.Style.VerticalScrollbar);
             InnerFitStyle(DebugGUI.Style.Button);
@@ -137,6 +140,7 @@ namespace UnityXFrame.Core.Diagnotics
             InnerFitStyle(DebugGUI.Style.ProgressThumb);
             InnerFitStyle(Skin.verticalScrollbarThumb);
             InnerFitStyle(Skin.horizontalScrollbarThumb);
+            InnerFitStyle(Skin.box);
         }
 
         private void InnerFitStyle(GUIStyle style)
@@ -164,7 +168,6 @@ namespace UnityXFrame.Core.Diagnotics
             GUI.skin.box = Skin.box;
             Skin.window.fixedWidth = Screen.width;
             Skin.window.fixedHeight = Mathf.Min(Skin.window.fixedHeight, Screen.height);
-            m_HelpWindowStyle.fixedWidth = Skin.window.fixedWidth;
             m_HelpRect.y = Skin.window.fixedHeight;
             m_HelpWindowStyle.fixedHeight = 0;
             InnerFixScreen();
@@ -189,11 +192,13 @@ namespace UnityXFrame.Core.Diagnotics
             InternalCheckInGUI();
             if (m_IsOpen)
             {
+                m_RootRect = GUILayout.Window(0, m_RootRect, InternalDrawRootWindow, string.Empty, Skin.window);
                 if (m_HelpWindowStyle.fixedHeight > 0)
                 {
+                    m_HelpRect.y = m_RootRect.height;
+                    m_HelpRect.width = m_RootRect.width;
                     m_HelpRect = GUILayout.Window(1, m_HelpRect, InternalDrawHelpWindow, string.Empty, m_HelpWindowStyle);
                 }
-                m_RootRect = GUILayout.Window(0, m_RootRect, InternalDrawRootWindow, string.Empty, Skin.window);
                 m_TweenModule.OnUpdate();
             }
             else
@@ -229,7 +234,7 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.EndHorizontal();
 
             m_ScrollPos = DebugGUI.BeginScrollView(m_ScrollPos);
-            GUILayout.Box(m_Current.HelpInfo);
+            GUILayout.Box(m_Current.HelpInfo, Skin.box);
             GUILayout.EndScrollView();
         }
 
@@ -386,6 +391,14 @@ namespace UnityXFrame.Core.Diagnotics
             if (!m_AlwaysTip && m_Timer.Check(TIP_CD_KEY, true))
                 m_Tip = string.Empty;
             GUILayout.Label(m_Tip, m_TipContentStyle);
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            m_Cmd = GUILayout.TextField(m_Cmd, m_TipContentStyle);
+            if (GUILayout.Button("RUN", m_CmdRunButton))
+            {
+
+            }
             GUILayout.EndHorizontal();
         }
 

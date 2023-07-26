@@ -469,7 +469,7 @@ MonoBehaviour:
       m_Right: 0
       m_Top: 0
       m_Bottom: 0
-    m_Font: {fileID: 12800000, guid: 5c2c0d47eeaf41440b50fccc1d3ac9af, type: 3}
+    m_Font: {fileID: 0}
     m_FontSize: 66
     m_FontStyle: 0
     m_Alignment: 1
@@ -1818,17 +1818,17 @@ MonoBehaviour:
     m_StretchHeight: 1
   - m_Name: TipTitle
     m_Normal:
-      m_Background: {fileID: 11024, guid: 0000000000000000e000000000000000, type: 0}
+      m_Background: {fileID: 11023, guid: 0000000000000000e000000000000000, type: 0}
       m_ScaledBackgrounds: []
       m_TextColor: {r: 0.7902142, g: 0.55998576, b: 0.9811321, a: 1}
     m_Hover:
-      m_Background: {fileID: 11026, guid: 0000000000000000e000000000000000, type: 0}
+      m_Background: {fileID: 11023, guid: 0000000000000000e000000000000000, type: 0}
       m_ScaledBackgrounds: []
       m_TextColor: {r: 0.92310196, g: 0.6933962, b: 1, a: 1}
     m_Active:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 11026, guid: 0000000000000000e000000000000000, type: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+      m_TextColor: {r: 1, g: 0, b: 0.57236814, a: 1}
     m_Focused:
       m_Background: {fileID: 11026, guid: 0000000000000000e000000000000000, type: 0}
       m_ScaledBackgrounds: []
@@ -2410,6 +2410,72 @@ MonoBehaviour:
     m_FixedHeight: 40
     m_StretchWidth: 1
     m_StretchHeight: 1
+  - m_Name: CmdRunButton
+    m_Normal:
+      m_Background: {fileID: 11023, guid: 0000000000000000e000000000000000, type: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 1, g: 0.3985016, b: 0, a: 1}
+    m_Hover:
+      m_Background: {fileID: 11023, guid: 0000000000000000e000000000000000, type: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 1, g: 0.80716705, b: 0, a: 1}
+    m_Active:
+      m_Background: {fileID: 11026, guid: 0000000000000000e000000000000000, type: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0.2028302, g: 0.5273639, b: 1, a: 1}
+    m_Focused:
+      m_Background: {fileID: 11026, guid: 0000000000000000e000000000000000, type: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+    m_OnNormal:
+      m_Background: {fileID: 11025, guid: 0000000000000000e000000000000000, type: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_ScaledBackgrounds: []
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Border:
+      m_Left: 4
+      m_Right: 4
+      m_Top: 4
+      m_Bottom: 4
+    m_Margin:
+      m_Left: 4
+      m_Right: 4
+      m_Top: 4
+      m_Bottom: 4
+    m_Padding:
+      m_Left: 3
+      m_Right: 3
+      m_Top: 3
+      m_Bottom: 3
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_Alignment: 4
+    m_WordWrap: 1
+    m_RichText: 1
+    m_TextClipping: 1
+    m_ImagePosition: 3
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 150
+    m_FixedHeight: 80
+    m_StretchWidth: 0
+    m_StretchHeight: 0
   m_Settings:
     m_DoubleClickSelectsWord: 1
     m_TripleClickSelectsLine: 1
