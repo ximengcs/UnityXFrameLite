@@ -6,6 +6,7 @@ using XFrame.Modules.Times;
 
 namespace UnityXFrame.Core.Diagnotics
 {
+    [DebugHelp("common tools")]
     [DebugWindow(-996)]
     public class CommonCase : IDebugWindow
     {

@@ -4,6 +4,7 @@ using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.Diagnotics
 {
+    [DebugHelp("log capture")]
     [DebugWindow(-997, "Log", true)]
     public class LogScanner : IDebugWindow
     {

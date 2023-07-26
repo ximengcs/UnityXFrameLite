@@ -5,6 +5,7 @@ using XFrame.Modules.XType;
 
 namespace UnityXFrame.Core.Diagnotics
 {
+    [DebugHelp("browse types")]
     [DebugWindow(-998, "Types")]
     public class TypeScanner : IDebugWindow
     {

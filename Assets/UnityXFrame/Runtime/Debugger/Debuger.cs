@@ -169,7 +169,6 @@ namespace UnityXFrame.Core.Diagnotics
             Skin.window.fixedWidth = Screen.width;
             Skin.window.fixedHeight = Mathf.Min(Skin.window.fixedHeight, Screen.height);
             m_HelpRect.y = Skin.window.fixedHeight;
-            m_HelpWindowStyle.fixedHeight = 0;
             InnerFixScreen();
         }
 
@@ -318,7 +317,6 @@ namespace UnityXFrame.Core.Diagnotics
         {
             m_IsOpen = false;
             m_HelpOpen = false;
-            m_HelpWindowStyle.fixedHeight = 0;
         }
 
         private void InternalDrawRootWindow(int windowId)

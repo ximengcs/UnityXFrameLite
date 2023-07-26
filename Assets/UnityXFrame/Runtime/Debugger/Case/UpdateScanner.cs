@@ -8,6 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace UnityXFrame.Core.Diagnotics
 {
+    [DebugHelp("view resource update progress")]
     [DebugWindow(-999, "ResUpdate")]
     public class UpdateScanner : IDebugWindow
     {
