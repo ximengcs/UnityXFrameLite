@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityXFrame.Core.Diagnotics
@@ -51,6 +52,11 @@ namespace UnityXFrame.Core.Diagnotics
         public static bool Button(string title, params GUILayoutOption[] options)
         {
             return GUILayout.Button(title, Style.Button, options);
+        }
+
+        public static bool Toggle(bool value, string title, params GUILayoutOption[] options)
+        {
+            return GUILayout.Toggle(value, title, Style.Toolbar, options);
         }
 
         public static string TextField(string text, params GUILayoutOption[] options)

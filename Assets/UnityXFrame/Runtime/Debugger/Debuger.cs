@@ -57,6 +57,11 @@ namespace UnityXFrame.Core.Diagnotics
         #endregion
         public void SetTip(IDebugWindow from, string content, string color = null)
         {
+            SetTip(from.GetHashCode(), content, color);
+        }
+
+        public void SetTip(int instanceId, string content, string color = null)
+        {
             if (!string.IsNullOrEmpty(color))
                 content = $"<color=#{color.Trim('#')}>{content}</color>";
 
@@ -64,11 +69,9 @@ namespace UnityXFrame.Core.Diagnotics
             m_Timer.Reset(TIP_CD_KEY);
             m_Timer.Check(TIP_CD_KEY, true);
 
-            int code = from.GetHashCode();
-            if (!m_TipNewMsg.Contains(code))
-                m_TipNewMsg.Add(code);
+            if (!m_TipNewMsg.Contains(instanceId))
+                m_TipNewMsg.Add(instanceId);
         }
-
         #region Life Fun
         protected override void OnInit(object data)
         {
@@ -108,6 +111,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_EnterText = TITLE;
             m_Windows = new List<WindowInfo>();
             InternalLoadInst();
+            InnerInitCmd();
 
             if (m_Windows.Count > 0)
                 InternalSelectMenu(m_Windows[0]);
@@ -118,35 +122,45 @@ namespace UnityXFrame.Core.Diagnotics
             m_FitWidth = Screen.width / (float)WIDTH;
             m_FitHeight = Screen.height / (float)HEIGHT;
 
-            InnerFitStyle(m_CloseButtonStyle);
-            InnerFitStyle(m_TitleStyle);
-            InnerFitStyle(m_EnterButtonStyle);
-            InnerFitStyle(m_TipTitleStyle);
-            InnerFitStyle(m_TipContentStyle);
-            InnerFitStyle(m_HelpWindowStyle);
-            InnerFitStyle(m_DebugArea);
-            InnerFitStyle(m_MenuArea);
-            InnerFitStyle(m_ContentArea);
-            InnerFitStyle(m_MenuButton);
-            InnerFitStyle(m_CmdRunButton);
-            InnerFitStyle(DebugGUI.Style.HorizontalScrollbar);
-            InnerFitStyle(DebugGUI.Style.VerticalScrollbar);
-            InnerFitStyle(DebugGUI.Style.Button);
-            InnerFitStyle(DebugGUI.Style.Text);
-            InnerFitStyle(DebugGUI.Style.Lable);
-            InnerFitStyle(DebugGUI.Style.TextArea);
-            InnerFitStyle(DebugGUI.Style.Toolbar);
-            InnerFitStyle(DebugGUI.Style.ProgressSlider);
-            InnerFitStyle(DebugGUI.Style.ProgressThumb);
-            InnerFitStyle(Skin.verticalScrollbarThumb);
-            InnerFitStyle(Skin.horizontalScrollbarThumb);
-            InnerFitStyle(Skin.box);
+            FitStyle(m_CloseButtonStyle);
+            FitStyle(m_TitleStyle);
+            FitStyle(m_EnterButtonStyle);
+            FitStyle(m_TipTitleStyle);
+            FitStyle(m_TipContentStyle);
+            FitStyle(m_HelpWindowStyle);
+            FitStyle(m_DebugArea);
+            FitStyle(m_MenuArea);
+            FitStyle(m_ContentArea);
+            FitStyle(m_MenuButton);
+            FitStyle(m_CmdRunButton);
+            FitStyle(DebugGUI.Style.HorizontalScrollbar);
+            FitStyle(DebugGUI.Style.VerticalScrollbar);
+            FitStyle(DebugGUI.Style.Button);
+            FitStyle(DebugGUI.Style.Text);
+            FitStyle(DebugGUI.Style.Lable);
+            FitStyle(DebugGUI.Style.TextArea);
+            FitStyle(DebugGUI.Style.Toolbar);
+            FitStyle(DebugGUI.Style.ProgressSlider);
+            FitStyle(DebugGUI.Style.ProgressThumb);
+            FitStyle(Skin.verticalScrollbarThumb);
+            FitStyle(Skin.horizontalScrollbarThumb);
+            FitStyle(Skin.box);
         }
 
-        private void InnerFitStyle(GUIStyle style)
+        public float FitWidth(float width)
+        {
+            return m_FitWidth * width;
+        }
+
+        public float FitHeight(float height)
+        {
+            return m_FitHeight * height;
+        }
+
+        public void FitStyle(GUIStyle style)
         {
             if (style.fontSize != 0)
-                style.fontSize = (int)(m_FitWidth * style.fontSize);
+                style.fontSize = (int)(m_FitHeight * style.fontSize);
             if (style.fixedHeight != 0)
                 style.fixedHeight *= m_FitHeight;
             if (style.fixedWidth != 0)
@@ -394,9 +408,7 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.BeginHorizontal();
             m_Cmd = GUILayout.TextField(m_Cmd, m_TipContentStyle);
             if (GUILayout.Button("RUN", m_CmdRunButton))
-            {
-
-            }
+                InnerRunCmd(m_Cmd);
             GUILayout.EndHorizontal();
         }
 

@@ -39,9 +39,7 @@ namespace UnityXFrame.Core.Diagnotics
 
             if (DebugGUI.Button("Clear User Data"))
             {
-                ArchiveModule.Inst.DeleteAll();
-                PlayerPrefs.DeleteAll();
-                Application.Quit();
+                CmdList.Inst.clear();
             }
 
             GUILayout.BeginHorizontal();
