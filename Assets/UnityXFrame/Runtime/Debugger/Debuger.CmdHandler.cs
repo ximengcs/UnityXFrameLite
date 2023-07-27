@@ -83,7 +83,7 @@ namespace UnityXFrame.Core.Diagnotics
                 string[] input = new string[count < 0 ? 0 : count];
                 for (int i = 1; i < count; i++)
                     input[i - 1] = strs[i];
-                Debuger.Tip(this, $"Run {cmdName}", Color.yellow);
+                Debuger.Tip($"Run {cmdName}", Color.yellow);
                 cmd.Exec(input);
             }
         }

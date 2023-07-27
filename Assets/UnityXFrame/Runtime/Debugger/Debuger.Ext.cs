@@ -17,17 +17,17 @@ namespace UnityXFrame.Core.Diagnotics
             Tip(from, content, colorStr);
         }
 
-        public static void Tip(object from, string content, string color = default)
+        public static void Tip(string content, string color = default)
         {
-            Inst.SetTip(from.GetHashCode(), content, color);
+            Inst.SetTip(-1, content, color);
         }
 
-        public static void Tip(object from, string content, Color color)
+        public static void Tip(string content, Color color)
         {
             string colorStr = null;
             if (color != default)
                 colorStr = ColorUtility.ToHtmlStringRGB(color);
-            Tip(from, content, colorStr);
+            Tip(content, colorStr);
         }
     }
 }

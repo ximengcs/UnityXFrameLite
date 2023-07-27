@@ -69,7 +69,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_Timer.Reset(TIP_CD_KEY);
             m_Timer.Check(TIP_CD_KEY, true);
 
-            if (!m_TipNewMsg.Contains(instanceId))
+            if (instanceId != -1 && !m_TipNewMsg.Contains(instanceId))
                 m_TipNewMsg.Add(instanceId);
         }
         #region Life Fun
@@ -398,8 +398,12 @@ namespace UnityXFrame.Core.Diagnotics
                     () => m_HelpWindowStyle.fixedHeight,
                     (v) => m_HelpWindowStyle.fixedHeight = v);
             }
-            if (GUILayout.Button("Tip", m_TipTitleStyle))
-                m_AlwaysTip = !m_AlwaysTip;
+            bool alwaysTip = GUILayout.Toggle(m_AlwaysTip, "Tip", m_TipTitleStyle);
+            if (alwaysTip != m_AlwaysTip)
+            {
+                Debuger.Tip($"tip mode change to {(alwaysTip ? "always" : "cd")}", Color.yellow);
+                m_AlwaysTip = alwaysTip;
+            }
             if (!m_AlwaysTip && m_Timer.Check(TIP_CD_KEY, true))
                 m_Tip = string.Empty;
             GUILayout.Label(m_Tip, m_TipContentStyle);
