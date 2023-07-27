@@ -5,10 +5,10 @@ using XFrame.Modules.Archives;
 namespace UnityXFrame.Core.Diagnotics
 {
     [DebugCommandClass]
-    internal class CmdList : Singleton<CmdList>
+    internal class CmdList
     {
         [DebugCommand]
-        public void clear(params string[] args)
+        public static void clear(params string[] args)
         {
             ArchiveModule.Inst.DeleteAll();
             PlayerPrefs.DeleteAll();

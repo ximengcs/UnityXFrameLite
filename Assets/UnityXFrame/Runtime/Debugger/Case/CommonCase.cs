@@ -39,7 +39,7 @@ namespace UnityXFrame.Core.Diagnotics
 
             if (DebugGUI.Button("Clear User Data"))
             {
-                CmdList.Inst.clear();
+                CmdList.clear();
             }
 
             GUILayout.BeginHorizontal();
