@@ -29,6 +29,7 @@ namespace UnityXFrame.Core.Diagnotics
         private GUIStyle m_HelpWindowStyle;
         private GUIStyle m_MenuButton;
         private GUIStyle m_CmdRunButton;
+        private GUIStyle m_CmdContentStyle;
 
         private bool m_IsOpen;
         private bool m_HelpOpen;
@@ -102,6 +103,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Style.ProgressSlider = Skin.customStyles[14];
             DebugGUI.Style.ProgressThumb = Skin.customStyles[15];
             m_CmdRunButton = Skin.customStyles[16];
+            m_CmdContentStyle = new GUIStyle(m_TipContentStyle);
 
             m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
@@ -127,6 +129,7 @@ namespace UnityXFrame.Core.Diagnotics
             FitStyle(m_EnterButtonStyle);
             FitStyle(m_TipTitleStyle);
             FitStyle(m_TipContentStyle);
+            FitStyle(m_CmdContentStyle);
             FitStyle(m_HelpWindowStyle);
             FitStyle(m_DebugArea);
             FitStyle(m_MenuArea);
@@ -341,20 +344,14 @@ namespace UnityXFrame.Core.Diagnotics
             else
                 DebugGUI.Label("FPS");
             m_ShowFps = DebugGUI.Power(m_ShowFps);
-            GUILayout.FlexibleSpace();
-            GUILayout.BeginVertical();
+
             GUILayout.FlexibleSpace();
             GUILayout.Label(TITLE, m_TitleStyle);
             GUILayout.FlexibleSpace();
-            GUILayout.EndVertical();
 
-            GUILayout.FlexibleSpace();
-            GUILayout.BeginVertical();
-            GUILayout.FlexibleSpace();
             if (GUILayout.Button("X", m_CloseButtonStyle))
                 InnerClose();
-            GUILayout.FlexibleSpace();
-            GUILayout.EndVertical();
+
             GUILayout.EndHorizontal();
 
             GUILayout.BeginVertical(m_DebugArea);
@@ -410,7 +407,7 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            m_Cmd = GUILayout.TextField(m_Cmd, m_TipContentStyle);
+            m_Cmd = GUILayout.TextArea(m_Cmd, m_CmdContentStyle);
             if (GUILayout.Button("RUN", m_CmdRunButton))
                 InnerRunCmd(m_Cmd);
             GUILayout.EndHorizontal();
