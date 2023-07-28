@@ -1,9 +1,9 @@
 ﻿using System;
+using UnityEngine;
 using System.Reflection;
 using XFrame.Modules.XType;
+using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Text;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -11,6 +11,10 @@ namespace UnityXFrame.Core.Diagnotics
     {
         private struct CmdHandler
         {
+            private ParameterInfo[] m_ParamInfos;
+            private int m_ParamCount;
+            private bool m_AllString;
+
             public string Name;
             public MethodInfo Method;
             public object Inst;
@@ -20,11 +24,50 @@ namespace UnityXFrame.Core.Diagnotics
                 Inst = inst;
                 Name = name;
                 Method = method;
+                m_ParamInfos = Method.GetParameters();
+                m_ParamCount = m_ParamInfos.Length;
+
+                m_AllString = true;
+                foreach (ParameterInfo info in m_ParamInfos)
+                {
+                    if (info.ParameterType != typeof(string))
+                    {
+                        m_AllString = false;
+                        break;
+                    }
+                }
             }
 
-            public void Exec(string[] param)
+            public void Exec(CommandLine param)
             {
-                Method.Invoke(Inst, new object[] { param });
+                if (m_ParamCount == 0)
+                    Method.Invoke(Inst, null);
+                else if (m_ParamCount > 0)
+                {
+                    if (m_ParamCount == 1 && !m_AllString)
+                    {
+                        if (m_ParamInfos[0].ParameterType == typeof(CommandLine))
+                            Method.Invoke(Inst, new object[] { param });
+                        else if (m_ParamInfos[0].ParameterType == typeof(string[]))
+                            Method.Invoke(Inst, new object[] { param.Params });
+                        else
+                            Log.Debug("XFrame", $"Exec cmd {param.Name} failure, param no match, {m_ParamInfos[0].ParameterType}");
+                    }
+                    else
+                    {
+                        if (m_AllString)
+                        {
+                            object[] paramList = new object[m_ParamCount];
+                            for (int i = 0; i < m_ParamCount; i++)
+                                paramList[i] = i < param.ParamCount ? param[i] : null;
+                            Method.Invoke(Inst, paramList);
+                        }
+                        else
+                        {
+                            Log.Debug("XFrame", $"Exec cmd {param.Name} failure, param no match, must be CommandLine, empty, string or string list");
+                        }
+                    }
+                }
             }
         }
 
@@ -65,6 +108,8 @@ namespace UnityXFrame.Core.Diagnotics
                         CmdHandler cmd = new CmdHandler(inst, method.Name, method);
                         if (!m_CmdHandlers.ContainsKey(cmd.Name))
                             m_CmdHandlers.Add(method.Name, cmd);
+                        else
+                            Log.Debug("XFrame", $"cmd {cmd.Name} is duplicate, ignore after");
                     }
                 }
             }
@@ -74,17 +119,18 @@ namespace UnityXFrame.Core.Diagnotics
         {
             if (string.IsNullOrEmpty(param))
                 return;
-            string[] strs = param.Split(' ');
-            int count = strs.Length - 1;
-            string cmdName = strs[count];
-
-            if (m_CmdHandlers.TryGetValue(cmdName, out CmdHandler cmd))
+            CommandLineBatch batch = new CommandLineBatch(param);
+            foreach (CommandLine cmdline in batch)
             {
-                string[] input = new string[count < 0 ? 0 : count];
-                for (int i = 1; i < count; i++)
-                    input[i - 1] = strs[i];
-                Debuger.Tip($"Run {cmdName}", Color.yellow);
-                cmd.Exec(input);
+                if (m_CmdHandlers.TryGetValue(cmdline.Name, out CmdHandler cmd))
+                {
+                    Debuger.Tip($"Run {cmdline.Name}", Color.yellow);
+                    cmd.Exec(cmdline);
+                }
+                else
+                {
+                    Log.Debug("XFrame", $"Exec cmd {cmdline.Name} failure");
+                }
             }
         }
     }

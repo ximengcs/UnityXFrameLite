@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using XFrame.Core;
 using XFrame.Modules.Archives;
 
 namespace UnityXFrame.Core.Diagnotics
@@ -8,7 +7,7 @@ namespace UnityXFrame.Core.Diagnotics
     internal class CmdList
     {
         [DebugCommand]
-        public static void clear(params string[] args)
+        public static void clear()
         {
             ArchiveModule.Inst.DeleteAll();
             PlayerPrefs.DeleteAll();
