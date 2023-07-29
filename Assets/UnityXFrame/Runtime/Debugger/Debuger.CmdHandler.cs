@@ -4,6 +4,9 @@ using System.Reflection;
 using XFrame.Modules.XType;
 using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
+using XFrame.Core;
+using XFrame.Modules.Pools;
+using XFrame.Modules.Conditions;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -13,7 +16,6 @@ namespace UnityXFrame.Core.Diagnotics
         {
             private ParameterInfo[] m_ParamInfos;
             private int m_ParamCount;
-            private bool m_AllString;
 
             public string Name;
             public MethodInfo Method;
@@ -26,56 +28,89 @@ namespace UnityXFrame.Core.Diagnotics
                 Method = method;
                 m_ParamInfos = Method.GetParameters();
                 m_ParamCount = m_ParamInfos.Length;
-
-                m_AllString = true;
-                foreach (ParameterInfo info in m_ParamInfos)
-                {
-                    if (info.ParameterType != typeof(string))
-                    {
-                        m_AllString = false;
-                        break;
-                    }
-                }
             }
 
             public void Exec(CommandLine param)
             {
                 if (m_ParamCount == 0)
+                {
                     Method.Invoke(Inst, null);
+                }
                 else if (m_ParamCount > 0)
                 {
-                    if (m_ParamCount == 1 && !m_AllString)
+                    if (m_ParamCount == 1)
                     {
                         if (m_ParamInfos[0].ParameterType == typeof(CommandLine))
+                        {
                             Method.Invoke(Inst, new object[] { param });
+                            return;
+                        }
                         else if (m_ParamInfos[0].ParameterType == typeof(string[]))
+                        {
                             Method.Invoke(Inst, new object[] { param.Params });
-                        else
-                            Log.Debug("XFrame", $"Exec cmd {param.Name} failure, param no match, {m_ParamInfos[0].ParameterType}");
+                            return;
+                        }
                     }
-                    else
+                    object[] paramList = new object[m_ParamCount];
+                    for (int i = 0; i < m_ParamCount; i++)
                     {
-                        if (m_AllString)
+                        ParameterInfo info = m_ParamInfos[i];
+                        if (info.ParameterType == typeof(string))
                         {
-                            object[] paramList = new object[m_ParamCount];
-                            for (int i = 0; i < m_ParamCount; i++)
-                                paramList[i] = i < param.ParamCount ? param[i] : null;
-                            Method.Invoke(Inst, paramList);
+                            paramList[i] = i < param.ParamCount ? param[i] : null;
+                            Log.Debug("XFrame", $"cmd warning, param is null, type is {info.ParameterType}, index is {i}");
                         }
                         else
                         {
-                            Log.Debug("XFrame", $"Exec cmd {param.Name} failure, param no match, must be CommandLine, empty, string or string list");
+                            string value = i < param.ParamCount ? param[i] : null;
+                            if (string.IsNullOrEmpty(value))
+                            {
+                                Log.Debug("XFrame", $"cmd exec error, param is null, type is {info.ParameterType}, index is {i}");
+                                return;
+                            }
+                            else
+                            {
+                                if (Debuger.Inst.m_CmdParsers.TryGetValue(info.ParameterType, out IParser parser))
+                                {
+                                    paramList[i] = parser.Parse(value);
+                                }
+                                else
+                                {
+                                    Log.Debug("XFrame", $"cmd exec error, can not find {info.ParameterType.Name} parser");
+                                    return;
+                                }
+                            }
                         }
                     }
+                    Method.Invoke(Inst, paramList);
                 }
             }
         }
 
+        private Dictionary<Type, IParser> m_CmdParsers;
         private Dictionary<Type, object> m_CmdInsts;
         private Dictionary<string, CmdHandler> m_CmdHandlers;
 
+        public void RegisterCmdParser(Type dataType, Type parserType)
+        {
+            if (dataType == null || parserType == null)
+                return;
+
+            if (!m_CmdParsers.ContainsKey(dataType))
+            {
+                m_CmdParsers.Add(dataType, (IParser)References.Require(parserType));
+            }
+        }
+
         private void InnerInitCmd()
         {
+            m_CmdParsers = new Dictionary<Type, IParser>()
+            {
+                { typeof(int), References.Require<IntParser>() },
+                { typeof(bool), References.Require<BoolParser>() },
+                { typeof(float), References.Require<FloatParser>() },
+                { typeof(ConditionData), References.Require<ConditionParser>() }
+            };
             m_CmdInsts = new Dictionary<Type, object>();
             m_CmdHandlers = new Dictionary<string, CmdHandler>();
             TypeSystem typeSys = TypeModule.Inst.GetOrNewWithAttr<DebugCommandClassAttribute>();
