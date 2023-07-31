@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 12001, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: DebugSkin
   m_EditorClassIdentifier: 
-  m_Font: {fileID: 12800000, guid: 7f51f3baeb5031e4095f7f130c5d8b8e, type: 3}
+  m_Font: {fileID: 0}
   m_box:
     m_Name: box
     m_Normal:

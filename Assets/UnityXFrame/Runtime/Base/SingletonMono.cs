@@ -2,6 +2,7 @@
 
 namespace UnityXFrame.Core
 {
+    [DefaultExecutionOrder(Constant.EXECORDER_AFTER)]
     public class SingletonMono<T> : MonoBehaviour where T : SingletonMono<T>
     {
         /// <summary>

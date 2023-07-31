@@ -11,6 +11,7 @@ namespace UnityXFrame.Core.UIs
     public abstract partial class UI : Container, IUI
     {
         private bool m_Active;
+
         protected int m_Layer;
         protected bool m_IsOpen;
         protected IUIGroup m_Group;

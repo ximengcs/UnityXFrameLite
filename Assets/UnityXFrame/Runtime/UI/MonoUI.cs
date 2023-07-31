@@ -9,6 +9,7 @@ using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core.UIs
 {
+    [DefaultExecutionOrder(Constant.EXECORDER_AFTER)]
     public abstract partial class MonoUI : MonoBehaviour, IUI
     {
         private bool m_Active;
@@ -276,7 +277,7 @@ namespace UnityXFrame.Core.UIs
         {
             m_Container.ClearData();
         }
-        
+
         public IEnumerator<ICom> GetEnumerator()
         {
             return m_Container.GetEnumerator();

@@ -6,6 +6,7 @@ using XFrame.Modules.Config;
 
 namespace UnityXFrame.Core
 {
+    [DefaultExecutionOrder(Constant.EXECORDER_INIT)]
     public class Init : SingletonMono<Init>
     {
         public InitData Data;

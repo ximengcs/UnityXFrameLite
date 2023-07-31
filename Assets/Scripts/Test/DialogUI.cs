@@ -1,11 +1,10 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityXFrame.Core.UIs;
-using UnityXFrameLib.Localize;
 using UnityXFrameLib.UI;
-using XFrame.Modules.Event;
+using UnityXFrame.Core.UIs;
 using XFrame.Modules.Local;
+using UnityXFrameLib.Localize;
 
 namespace Game.Test
 {
@@ -22,12 +21,13 @@ namespace Game.Test
             AddCom<DragUICom>((db) => DragUICom.SetTarget(db, "Rect", "BackGround"));
             m_Transform.anchoredPosition += GetData<Vector2>();
             m_BackGround.color = GetData<Color>();
-            LocalizeExt.RegisterLocalText(m_Title, InnerLangChange);
+
+            LocalizeExt.Register(m_Title, InnerLangChange);
         }
 
         private void InnerLangChange(TextMeshProUGUI textCom)
         {
-            textCom.text = LocalizeModule.Inst.GetValue(1);
+            textCom.SetLocal(1);
         }
     }
 }

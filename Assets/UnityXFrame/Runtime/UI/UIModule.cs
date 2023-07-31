@@ -6,9 +6,7 @@ using XFrame.Modules.Pools;
 using XFrame.Modules.XType;
 using System.Collections.Generic;
 using XFrame.Modules.Containers;
-using UnityEngine.Profiling;
 using XFrame.Modules.Tasks;
-using System.Collections;
 using XFrame.Modules.Event;
 using XFrame.Modules.Diagnotics;
 
@@ -22,7 +20,7 @@ namespace UnityXFrame.Core.UIs
     public partial class UIModule : SingletonModule<UIModule>
     {
         #region Inner Fields
-        private float m_PixelScale;
+        private Vector2 m_PixelScale;
         private Canvas m_Canvas;
         private Transform m_Root;
         private IEventSystem m_Event;
@@ -31,7 +29,7 @@ namespace UnityXFrame.Core.UIs
         private XLinkList<IUIGroup> m_GroupList;
         #endregion
 
-        public float PixelScale => m_PixelScale;
+        public Vector2 PixelScale => m_PixelScale;
 
         #region Life Fun
         protected override void OnInit(object data)
@@ -477,7 +475,7 @@ namespace UnityXFrame.Core.UIs
             if (m_Canvas != null)
             {
                 RectTransform tf = m_Canvas.GetComponent<RectTransform>();
-                m_PixelScale = tf.rect.height / Screen.height;
+                m_PixelScale = tf.rect.size / new Vector2(Screen.width, Screen.height);
             }
         }
 

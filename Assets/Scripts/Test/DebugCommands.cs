@@ -1,7 +1,15 @@
-﻿
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityXFrameLib.Tasks;
+using XFrame.Modules.Tasks;
+using XFrame.Modules.Times;
+using UnityXFrameLib.Pools;
 using UnityXFrame.Core.Diagnotics;
+using XFrame.Modules.Pools;
+using XFrame.Modules.XType;
+using UnityXFrame.Core;
+using System;
+using Unity.VisualScripting;
+using System.Linq;
 
 namespace Game.Test
 {
@@ -48,6 +56,37 @@ namespace Game.Test
         public void test7(int p1)
         {
             Debug.LogWarning($"test7 exec {string.Join(", ", p1)}");
+        }
+
+        [DebugCommand]
+        public void task()
+        {
+            Debug.LogWarning($"start {TimeModule.Inst.Frame}");
+            TaskExt.NextFrame(() => Debug.LogWarning($"nextframe {TimeModule.Inst.Frame}"))
+                .NextFrame(() => Debug.LogWarning($"nextframe2 {TimeModule.Inst.Frame}"))
+                .Delay(1.0f, () => Debug.LogWarning($"delay 1s {TimeModule.Inst.Frame}"))
+                .Invoke(() => Debug.LogWarning($"invoke 1 {TimeModule.Inst.Frame}"))
+                .Invoke(() =>
+                {
+                    Debug.LogWarning($"invoke 2 {TimeModule.Inst.Frame}");
+                    return UnityEngine.Random.Range(0, 3) == 0;
+                })
+                .Invoke(() =>
+                {
+                    Debug.LogWarning($"invoke 3 {TimeModule.Inst.Frame}");
+                    return TaskBase.MAX_PRO;
+                })
+                .Beat(1.0f, () =>
+                {
+                    Debug.LogWarning($"beat {TimeModule.Inst.Frame}");
+                    return UnityEngine.Random.Range(0, 10) == 0;
+                });
+        }
+
+        [DebugCommand]
+        public void pool()
+        {
+            PoolExt.CollectSpwanTask().Start();
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityXFrame.Core;
 using System.Collections.Generic;
 
 namespace UnityXFrameLib.UI
 {
+    [DefaultExecutionOrder(Constant.EXECORDER_AFTER)]
     public class MultiFontDropDown : TMP_Dropdown
     {
         private int m_Index;

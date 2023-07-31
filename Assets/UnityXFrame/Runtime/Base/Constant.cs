@@ -5,6 +5,9 @@ namespace UnityXFrame.Core
 {
     public static class Constant
     {
+        public const int EXECORDER_INIT = 100;
+        public const int EXECORDER_AFTER = EXECORDER_INIT + 1;
+
         public static string ArchivePath => Path.Combine(Application.persistentDataPath, "archive");
 
         public static int SIZE_X = 1080;

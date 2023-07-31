@@ -28,7 +28,7 @@ namespace Game.Test
             m_Dropdown.AddOptions(m_Options);
             m_Dropdown.onValueChanged.AddListener(InnerChangeHandler);
             m_Dropdown.value = m_Languages.IndexOf(LocalizeModule.Inst.Lang);
-            LocalizeExt.RegisterLocalText(m_Title, InnerSetTitle);
+            LocalizeExt.Register(m_Title, InnerSetTitle);
         }
 
         private void InnerSetTitle(TextMeshProUGUI textCom)

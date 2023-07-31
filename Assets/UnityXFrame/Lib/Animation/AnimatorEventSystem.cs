@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityXFrame.Core;
 using XFrame.Modules.Event;
 
 namespace UnityXFrameLib.Animations
 {
+    [DefaultExecutionOrder(Constant.EXECORDER_AFTER)]
     public class AnimatorEventSystem : MonoBehaviour, IEventSystem
     {
         private IEventSystem m_Event;
