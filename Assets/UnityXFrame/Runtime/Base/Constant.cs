@@ -7,6 +7,7 @@ namespace UnityXFrame.Core
     {
         public const int EXECORDER_INIT = 100;
         public const int EXECORDER_AFTER = EXECORDER_INIT + 1;
+        public const int EXECORDER_BEFORE = EXECORDER_INIT - 1;
 
         public static string ArchivePath => Path.Combine(Application.persistentDataPath, "archive");
 
