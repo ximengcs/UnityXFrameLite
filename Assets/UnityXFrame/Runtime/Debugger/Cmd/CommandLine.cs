@@ -11,6 +11,7 @@ namespace UnityXFrame.Core.Diagnotics
         public string[] Params => m_Params;
         public int ParamCount => m_Params.Length;
         public string Name => m_Name;
+        public bool Empty => string.IsNullOrEmpty(m_Name);
 
         public string this[int index]
         {
@@ -24,6 +25,13 @@ namespace UnityXFrame.Core.Diagnotics
 
         internal CommandLine(string param)
         {
+            param = param.Trim();
+            if (string.IsNullOrEmpty(param))
+            {
+                m_Name = null;
+                m_Params = null;
+                return;
+            }
             StringBuilder cur = null;
             List<StringBuilder> list = new List<StringBuilder>();
             bool hasAdd = false;
@@ -80,7 +88,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_Params = new string[list.Count - 1];
             m_Name = list[0].ToString();
             for (int i = 1; i < list.Count; i++)
-                m_Params[i - 1] = list[i].ToString();
+                m_Params[i - 1] = list[i].ToString().Trim();
         }
 
         public override string ToString()

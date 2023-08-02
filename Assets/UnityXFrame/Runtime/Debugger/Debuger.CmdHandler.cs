@@ -149,6 +149,11 @@ namespace UnityXFrame.Core.Diagnotics
             }
         }
 
+        internal void InnerClearCmd()
+        {
+            m_Cmd = null;
+        }
+
         private void InnerRunCmd(string param)
         {
             if (string.IsNullOrEmpty(param))
@@ -156,6 +161,8 @@ namespace UnityXFrame.Core.Diagnotics
             CommandLineBatch batch = new CommandLineBatch(param);
             foreach (CommandLine cmdline in batch)
             {
+                if (cmdline.Empty)
+                    continue;
                 if (m_CmdHandlers.TryGetValue(cmdline.Name, out CmdHandler cmd))
                 {
                     Debuger.Tip($"Run {cmdline.Name}", Color.yellow);

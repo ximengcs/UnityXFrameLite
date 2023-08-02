@@ -34,6 +34,7 @@ namespace UnityXFrame.Core.Diagnotics
         private bool m_IsOpen;
         private bool m_HelpOpen;
         private Rect m_RootRect;
+        private float m_RootHeight;
         private bool m_OnGUIInit;
         private Rect m_HelpRect;
         private Vector2 m_ContentPos;
@@ -41,6 +42,7 @@ namespace UnityXFrame.Core.Diagnotics
         private List<WindowInfo> m_Windows;
         private WindowInfo m_Current;
 
+        private float m_ExtraHeight;
         private Vector2 m_ScrollPos;
         private bool m_ShowFps;
         private TweenModule m_TweenModule;
@@ -103,7 +105,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Style.ProgressSlider = Skin.customStyles[14];
             DebugGUI.Style.ProgressThumb = Skin.customStyles[15];
             m_CmdRunButton = Skin.customStyles[16];
-            m_CmdContentStyle = new GUIStyle(m_TipContentStyle);
+            m_CmdContentStyle = Skin.customStyles[17];
 
             m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
@@ -208,10 +210,13 @@ namespace UnityXFrame.Core.Diagnotics
             InternalCheckInGUI();
             if (m_IsOpen)
             {
+                m_RootRect = default;
                 m_RootRect = GUILayout.Window(0, m_RootRect, InternalDrawRootWindow, string.Empty, Skin.window);
+                if (m_RootRect.height > 0)
+                    m_RootHeight = m_RootRect.height;
                 if (m_HelpWindowStyle.fixedHeight > 0)
                 {
-                    m_HelpRect.y = m_RootRect.height;
+                    m_HelpRect.y = m_RootHeight;
                     m_HelpRect.width = m_RootRect.width;
                     m_HelpRect = GUILayout.Window(1, m_HelpRect, InternalDrawHelpWindow, string.Empty, m_HelpWindowStyle);
                 }
@@ -241,8 +246,9 @@ namespace UnityXFrame.Core.Diagnotics
 
         private void InternalDrawHelpWindow(int windowId)
         {
-            if (m_HelpWindowStyle.fixedHeight < m_RootRect.height)
+            if (m_HelpWindowStyle.fixedHeight < m_RootHeight)
                 return;
+
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             GUILayout.Label("Help", m_TitleStyle);
@@ -330,7 +336,12 @@ namespace UnityXFrame.Core.Diagnotics
                 window.OnAwake();
         }
 
-        private void InnerClose()
+        internal void InnerSwitchFPS(bool open)
+        {
+            m_ShowFps = open;
+        }
+
+        internal void InnerClose()
         {
             m_IsOpen = false;
             m_HelpOpen = false;
@@ -390,7 +401,7 @@ namespace UnityXFrame.Core.Diagnotics
             if (GUILayout.Button("?", m_TipTitleStyle))
             {
                 m_HelpOpen = !m_HelpOpen;
-                float target = m_HelpOpen ? m_RootRect.height : 0;
+                float target = m_HelpOpen ? m_RootHeight : 0;
                 m_TweenModule.Do("?", target, 0.1f,
                     () => m_HelpWindowStyle.fixedHeight,
                     (v) => m_HelpWindowStyle.fixedHeight = v);
@@ -407,7 +418,13 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            m_Cmd = GUILayout.TextArea(m_Cmd, m_CmdContentStyle);
+
+            float cmdHeight = m_CmdRunButton.fixedHeight;
+            if (!string.IsNullOrEmpty(m_Cmd))
+            {
+                cmdHeight = Mathf.Max(cmdHeight, m_Cmd.Split('\n').Length * m_CmdContentStyle.lineHeight);
+            }
+            m_Cmd = GUILayout.TextArea(m_Cmd, m_CmdContentStyle, GUILayout.Height(cmdHeight));
             if (GUILayout.Button("RUN", m_CmdRunButton))
                 InnerRunCmd(m_Cmd);
             GUILayout.EndHorizontal();
