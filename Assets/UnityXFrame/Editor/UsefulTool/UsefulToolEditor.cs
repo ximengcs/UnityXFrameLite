@@ -57,7 +57,7 @@ namespace UnityXFrame.Editor
             if (GUILayout.Button("Compile & Import"))
             {
                 CompileXFrame();
-                ImportXFrame();
+                EditorApplication.delayCall += ImportXFrame;
             }
             GUILayout.EndVertical();
 

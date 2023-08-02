@@ -64,8 +64,8 @@ namespace UnityXFrame.Core.Diagnotics
                             string value = i < param.ParamCount ? param[i] : null;
                             if (string.IsNullOrEmpty(value))
                             {
-                                Log.Debug("XFrame", $"cmd exec error, param is null, type is {info.ParameterType}, param Count is {param.ParamCount}, index is {i}");
-                                return;
+                                Log.Debug("XFrame", $"cmd exec warning, param is null, type is {info.ParameterType}, param Count is {param.ParamCount}, index is {i}");
+                                paramList[i] = default;
                             }
                             else
                             {
@@ -75,8 +75,8 @@ namespace UnityXFrame.Core.Diagnotics
                                 }
                                 else
                                 {
-                                    Log.Debug("XFrame", $"cmd exec error, can not find {info.ParameterType.Name} parser");
-                                    return;
+                                    Log.Debug("XFrame", $"cmd exec warning, can not find {info.ParameterType.Name} parser");
+                                    paramList[i] = default;
                                 }
                             }
                         }
