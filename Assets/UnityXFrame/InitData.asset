@@ -17,7 +17,6 @@ MonoBehaviour:
   Logger: UnityXFrame.Core.Diagnotics.Logger
   ResMode: UnityXFrame.Core.Resource.AddressablesHelper
   ArchivePath: C:/Users/XM/AppData/LocalLow/DefaultCompany/UnityXFrameLite\archive
-  JsonSerializer: UnityXFrame.Core.Serialize.JsonSerializeHelper
   DownloadHelper: UnityXFrame.Core.Download.DownloadHelper
   DebuggerSkin: {fileID: 11400000, guid: ffe8f91b25724e54f837080896d8454f, type: 2}
   LogMark:

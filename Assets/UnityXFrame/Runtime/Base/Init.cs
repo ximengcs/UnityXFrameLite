@@ -17,7 +17,6 @@ namespace UnityXFrame.Core
             XConfig.DefaultRes = Data.ResMode;
             XConfig.DefaultLogger = Data.Logger;
             XConfig.ArchivePath = Constant.ArchivePath;
-            XConfig.DefaultSerializer = Data.JsonSerializer;
             XConfig.DefaultDownloadHelper = Data.DownloadHelper;
             XConfig.UseClassModule = new string[] { "Assembly-CSharp", "UnityXFrame", "UnityXFrame.Lib" };
             Entry.Init();

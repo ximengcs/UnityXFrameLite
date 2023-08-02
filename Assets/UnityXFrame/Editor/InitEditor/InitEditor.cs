@@ -38,9 +38,13 @@ namespace UnityXFrame.Editor
                 AssetDatabase.CreateAsset(m_Data, InitDataPath);
             }
 
-            serializedObject.FindProperty("Data").objectReferenceValue = m_Data;
-            serializedObject.ApplyModifiedProperties();
-            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+            SerializedProperty dataProp = serializedObject.FindProperty("Data");
+            if (dataProp.objectReferenceValue != m_Data)
+            {
+                dataProp.objectReferenceValue = m_Data;
+                serializedObject.ApplyModifiedProperties();
+                EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+            }
 
             foreach (Type type in m_EditorType)
             {

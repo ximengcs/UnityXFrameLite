@@ -53,9 +53,9 @@ namespace Game.Test
         }
 
         [DebugCommand]
-        public void test7(int p1)
+        public void test7(int p1, string param)
         {
-            Debug.LogWarning($"test7 exec {string.Join(", ", p1)}");
+            Debug.LogWarning($"test7 exec {string.Join(", ", p1, param)}");
         }
 
         [DebugCommand]

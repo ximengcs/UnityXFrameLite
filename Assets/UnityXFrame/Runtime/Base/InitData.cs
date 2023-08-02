@@ -13,7 +13,6 @@ namespace UnityXFrame.Core
         public string Logger;
         public string ResMode;
         public string ArchivePath;
-        public string JsonSerializer;
         public string DownloadHelper;
         public GUISkin DebuggerSkin;
         public List<DebugColor> LogMark;

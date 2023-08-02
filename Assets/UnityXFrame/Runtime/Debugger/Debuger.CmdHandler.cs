@@ -58,14 +58,13 @@ namespace UnityXFrame.Core.Diagnotics
                         if (info.ParameterType == typeof(string))
                         {
                             paramList[i] = i < param.ParamCount ? param[i] : null;
-                            Log.Debug("XFrame", $"cmd warning, param is null, type is {info.ParameterType}, index is {i}");
                         }
                         else
                         {
                             string value = i < param.ParamCount ? param[i] : null;
                             if (string.IsNullOrEmpty(value))
                             {
-                                Log.Debug("XFrame", $"cmd exec error, param is null, type is {info.ParameterType}, index is {i}");
+                                Log.Debug("XFrame", $"cmd exec error, param is null, type is {info.ParameterType}, param Count is {param.ParamCount}, index is {i}");
                                 return;
                             }
                             else
