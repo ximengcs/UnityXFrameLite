@@ -4,6 +4,9 @@ using XFrame.Modules.Event;
 using XFrame.Modules.Local;
 using UnityXFrame.Core.Resource;
 using System.Collections.Generic;
+using XFrame.Core;
+using XFrame.Modules.Resource;
+using UnityXFrame.Core;
 
 namespace UnityXFrameLib.Localize
 {
@@ -39,7 +42,7 @@ namespace UnityXFrameLib.Localize
 
         public static TMP_FontAsset LoadFont(Language lang)
         {
-            return NativeResModule.Inst.Load<TMP_FontAsset>($"Fonts & Materials/{lang}");
+            return Entry.GetModule<ResModule>(Constant.LOCAL_RES_MODULE).Load<TMP_FontAsset>($"Fonts & Materials/{lang}");
         }
 
         public static TMP_FontAsset LoadFont(Language lang, Language defaultLang)

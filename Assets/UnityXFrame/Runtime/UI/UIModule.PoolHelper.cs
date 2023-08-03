@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
+using XFrame.Core;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
-using UnityXFrame.Core.Resource;
 using System.Collections.Generic;
 
 namespace UnityXFrame.Core.UIs
@@ -12,41 +12,26 @@ namespace UnityXFrame.Core.UIs
     {
         private interface IUIPoolHelper : IPoolHelper
         {
-            ITask PreloadRes(IEnumerable<Type> types, bool useNative);
+            ITask PreloadRes(IEnumerable<Type> types, int useResModule);
         }
 
         private class DefaultUIPoolHelper : IUIPoolHelper
         {
             int IPoolHelper.CacheCount => 8;
 
-            ITask IUIPoolHelper.PreloadRes(IEnumerable<Type> types, bool useNative)
+            ITask IUIPoolHelper.PreloadRes(IEnumerable<Type> types, int useResModule)
             {
-                ITask task;
                 List<string> uiPaths = new List<string>();
                 foreach (Type type in types)
                     uiPaths.Add(InnerUIPath(type));
-
-                if (useNative)
-                {
-                    task = NativeResModule.Inst.Preload<GameObject>(uiPaths);
-                }
-                else
-                {
-                    task = ResModule.Inst.Preload<GameObject>(uiPaths);
-                }
-
-                return task;
+                return Entry.GetModule<ResModule>(useResModule).Preload<GameObject>(uiPaths);
             }
 
             IPoolObject IPoolHelper.Factory(Type type, int poolKey, object userData)
             {
-                bool useNative = (bool)userData;
-                GameObject prefab;
+                int useResModule = (int)userData;
                 string uiPath = InnerUIPath(type);
-                if (useNative)
-                    prefab = NativeResModule.Inst.Load<GameObject>(uiPath);
-                else
-                    prefab = ResModule.Inst.Load<GameObject>(uiPath);
+                GameObject prefab = Entry.GetModule<ResModule>(useResModule).Load<GameObject>(uiPath);
                 GameObject inst = GameObject.Instantiate(prefab);
 
                 IUI ui;

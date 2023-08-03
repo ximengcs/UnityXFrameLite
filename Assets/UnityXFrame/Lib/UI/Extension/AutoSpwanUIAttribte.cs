@@ -1,10 +1,11 @@
 ﻿using System;
+using UnityXFrame.Core;
 
 namespace UnityXFrameLib.UI
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class AutoSpwanUIAttribute : UIAutoAttribute
     {
-        public AutoSpwanUIAttribute(bool native = false) : base(native) { }
+        public AutoSpwanUIAttribute(int useResModule = Constant.COMMON_RES_MODULE) : base(useResModule) { }
     }
 }

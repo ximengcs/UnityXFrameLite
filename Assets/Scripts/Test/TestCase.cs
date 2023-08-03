@@ -141,9 +141,9 @@ namespace Game.Test
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test1 UI");
             if (DebugGUI.Button("-"))
-                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), true).Layer--;
+                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer--;
             if (DebugGUI.Button("+"))
-                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), true).Layer++;
+                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer++;
             if (DebugGUI.Button("Close"))
                 UIModule.Inst.Close<DialogUI>();
             GUILayout.EndHorizontal();
@@ -151,9 +151,9 @@ namespace Game.Test
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test2 UI");
             if (DebugGUI.Button("-"))
-                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), true, 2).Layer--;
+                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer--;
             if (DebugGUI.Button("+"))
-                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), true, 2).Layer++;
+                UIModule.Inst.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer++;
             if (DebugGUI.Button("Close"))
                 UIModule.Inst.Close<DialogUI>(2);
             GUILayout.EndHorizontal();
@@ -163,7 +163,7 @@ namespace Game.Test
             if (DebugGUI.Button("Test Init GameObject"))
             {
                 var sw = System.Diagnostics.Stopwatch.StartNew();
-                GameObject prefab = NativeResModule.Inst.Load<GameObject>("Data/Prefab/Test.prefab");
+                GameObject prefab = Entry.GetModule<ResModule>(Constant.LOCAL_RES_MODULE).Load<GameObject>("Data/Prefab/Test.prefab");
                 GameObject.Instantiate(prefab);
                 sw.Stop();
                 Log.Debug("Debugger", sw.ElapsedMilliseconds);
@@ -198,18 +198,18 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Open Setting"))
             {
-                UIModule.Inst.Open<SettingUI>("Test", null, true);
+                UIModule.Inst.Open<SettingUI>("Test", null, Constant.LOCAL_RES_MODULE);
             }
             if (DebugGUI.Button("Open Setting2"))
             {
-                UIModule.Inst.Open<SettingUI>(null, true);
+                UIModule.Inst.Open<SettingUI>(null, Constant.LOCAL_RES_MODULE);
             }
             if (DebugGUI.Button("Open Dialog 1"))
             {
                 UIModule.Inst.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0.2f, 0, 0, 1));
-                }, true, 1);
+                }, Constant.LOCAL_RES_MODULE, 1);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Open Dialog 2"))
@@ -217,7 +217,7 @@ namespace Game.Test
                 UIModule.Inst.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.2f, 0, 1));
-                }, true, 2);
+                }, Constant.LOCAL_RES_MODULE, 2);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Close Dialog 1"))

@@ -27,5 +27,8 @@ namespace UnityXFrame.Core
 
         public static string UPDATE_CHECK_TASK = "UpdateCheckTask";
         public static string UPDATE_RES_TASK = "UpdateResTask";
+
+        public const int COMMON_RES_MODULE = 0;
+        public const int LOCAL_RES_MODULE = 1;
     }
 }

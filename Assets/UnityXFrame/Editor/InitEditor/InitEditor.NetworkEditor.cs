@@ -16,7 +16,7 @@ namespace UnityXFrame.Editor
 
             protected override void OnInit()
             {
-                m_HelperTypes = TypeModule.Inst.GetOrNew<IDownloadHelper>();
+                m_HelperTypes = m_Inst.m_FrameCore.GetModule<TypeModule>().GetOrNew<IDownloadHelper>();
 
                 Types = m_HelperTypes.ToArray();
                 m_HelperTypeNames = new string[Types.Length];

@@ -23,7 +23,7 @@ namespace UnityXFrame.Editor
             protected override void OnInit()
             {
                 m_MoreColorDetail = false;
-                m_LogHelperTypes = TypeModule.Inst.GetOrNew<XFrame.Modules.Diagnotics.ILogger>();
+                m_LogHelperTypes = m_Inst.m_FrameCore.GetModule<TypeModule>().GetOrNew<XFrame.Modules.Diagnotics.ILogger>();
                 m_Types = m_LogHelperTypes.ToArray();
                 m_LogHelperTypeNames = new string[m_Types.Length];
                 for (int i = 0; i < m_Types.Length; i++)

@@ -45,27 +45,24 @@ namespace UnityXFrameLib.UI
             return task;
         }
 
-        private static ITask InnerFactoryTask(TypeSystem typeSys, Func<IEnumerable<Type>, bool, ITask> handler)
+        private static ITask InnerFactoryTask(TypeSystem typeSys, Func<IEnumerable<Type>, int, ITask> handler)
         {
             XTask task = TaskModule.Inst.GetOrNew<XTask>();
-            List<Type> navtive = new List<Type>(typeSys.Count);
-            List<Type> nonNative = new List<Type>(typeSys.Count);
-            InnerCollect(typeSys, navtive, nonNative);
-            task.Add(handler(navtive, true));
-            task.Add(handler(nonNative, false));
-            return task;
-        }
-
-        private static void InnerCollect(TypeSystem typeSys, List<Type> nativeList, List<Type> nonNativeSys)
-        {
+            Dictionary<int, List<Type>> map = new Dictionary<int, List<Type>>();
             foreach (Type type in typeSys)
             {
                 UIAutoAttribute attr = TypeModule.Inst.GetAttribute<UIAutoAttribute>(type);
-                if (attr.Native)
-                    nativeList.Add(type);
-                else
-                    nonNativeSys.Add(type);
+                if (!map.TryGetValue(attr.UseResModule, out List<Type> list))
+                {
+                    list = new List<Type>(typeSys.Count);
+                    map.Add(attr.UseResModule, list);
+                }
+                list.Add(type);
             }
+
+            foreach (var entry in map)
+                task.Add(handler(entry.Value, entry.Key));
+            return task;
         }
     }
 }

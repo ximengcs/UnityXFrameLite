@@ -16,7 +16,7 @@ namespace UnityXFrame.Editor
 
             protected override void OnInit()
             {
-                m_ResHelperTypes = TypeModule.Inst.GetOrNew<IResourceHelper>();
+                m_ResHelperTypes = m_Inst.m_FrameCore.GetModule<TypeModule>().GetOrNew<IResourceHelper>();
 
                 m_Types = m_ResHelperTypes.ToArray();
                 m_ResHelperTypeNames = new string[m_Types.Length];

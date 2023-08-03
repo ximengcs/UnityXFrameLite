@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityXFrameLib.UI;
 using UnityXFrame.Core.UIs;
-using XFrame.Modules.Local;
 using UnityXFrameLib.Localize;
+using UnityXFrame.Core;
 
 namespace Game.Test
 {
-    [AutoLoadUI(true)]
-    [AutoSpwanUI(true)]
+    [AutoLoadUI(Constant.LOCAL_RES_MODULE)]
+    [AutoSpwanUI(Constant.LOCAL_RES_MODULE)]
     public class DialogUI : MonoUI
     {
         public TextMeshProUGUI m_Title;

@@ -5,11 +5,11 @@ namespace UnityXFrameLib.UI
 {
     public class UIAutoAttribute : Attribute
     {
-        public bool Native { get; }
+        public int UseResModule { get; }
 
-        public UIAutoAttribute(bool native)
+        public UIAutoAttribute(int useResModule)
         {
-            Native = native;
+            useResModule = UseResModule;
         }
     }
 }

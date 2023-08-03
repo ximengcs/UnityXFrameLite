@@ -16,7 +16,7 @@ namespace UnityXFrame.Editor
 
             protected override void OnInit()
             {
-                m_ProcTypes = TypeModule.Inst.GetOrNew<ProcedureBase>();
+                m_ProcTypes = m_Inst.m_FrameCore.GetModule<TypeModule>().GetOrNew<ProcedureBase>();
 
                 Types = m_ProcTypes.ToArray();
                 m_ProcTypeNames = new string[Types.Length];

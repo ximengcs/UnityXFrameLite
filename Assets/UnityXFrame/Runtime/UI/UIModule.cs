@@ -68,22 +68,22 @@ namespace UnityXFrame.Core.UIs
         #endregion
 
         #region Interface
-        public ITask PreloadResource(Type[] types, bool useNative)
+        public ITask PreloadResource(Type[] types, int useResModule)
         {
-            return m_Helper.PreloadRes(types, useNative);
+            return m_Helper.PreloadRes(types, useResModule);
         }
 
-        public ITask PreloadResource(IEnumerable<Type> types, bool useNative)
+        public ITask PreloadResource(IEnumerable<Type> types, int useResModule)
         {
-            return m_Helper.PreloadRes(types, useNative);
+            return m_Helper.PreloadRes(types, useResModule);
         }
 
-        public ITask PreloadResource(IXEnumerable<Type> types, bool useNative)
+        public ITask PreloadResource(IXEnumerable<Type> types, int useResModule)
         {
-            return m_Helper.PreloadRes((IEnumerable<Type>)types, useNative);
+            return m_Helper.PreloadRes((IEnumerable<Type>)types, useResModule);
         }
 
-        public ITask Spwan(IEnumerable<Type> types, bool useNative)
+        public ITask Spwan(IEnumerable<Type> types, int useResModule)
         {
             ActionTask task = TaskModule.Inst.GetOrNew<ActionTask>();
             foreach (Type uiType in types)
@@ -92,7 +92,7 @@ namespace UnityXFrame.Core.UIs
                 {
                     task.Add(() =>
                     {
-                        XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useNative);
+                        XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule);
                         InnerInitSpwanUI(list);
                         References.Release(list);
                     });
@@ -101,22 +101,22 @@ namespace UnityXFrame.Core.UIs
             return task;
         }
 
-        public ITask Spwan(Type[] types, bool useNative)
+        public ITask Spwan(Type[] types, int useResModule)
         {
-            return Spwan((IEnumerable<Type>)types, useNative);
+            return Spwan((IEnumerable<Type>)types, useResModule);
         }
 
-        public ITask Spwan(IXEnumerable<Type> types, bool useNative)
+        public ITask Spwan(IXEnumerable<Type> types, int useResModule)
         {
-            return Spwan((IEnumerable<Type>)types, useNative);
+            return Spwan((IEnumerable<Type>)types, useResModule);
         }
 
-        public ITask Spwan(Type uiType, bool useNative)
+        public ITask Spwan(Type uiType, int useResModule)
         {
             ActionTask task = TaskModule.Inst.GetOrNew<ActionTask>();
             task.Add(() =>
             {
-                XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useNative);
+                XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule);
                 InnerInitSpwanUI(list);
                 References.Release(list);
             });
@@ -134,9 +134,9 @@ namespace UnityXFrame.Core.UIs
             }
         }
 
-        public ITask Spwan<T>(bool useNative) where T : IUI
+        public ITask Spwan<T>(int useResModule) where T : IUI
         {
-            return Spwan(typeof(T), useNative);
+            return Spwan(typeof(T), useResModule);
         }
 
         /// <summary>
@@ -155,11 +155,11 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         /// <param name="uiType">UI类型</param>
         /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
+        /// <param name="useResModule">使用的资源模块</param>
         /// <returns>UI实例</returns>
-        public IUI Open(Type uiType, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(Type uiType, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default)
         {
-            return Open(uiType, Constant.MAIN_GROUPUI, dataHandler, useNavtive, id);
+            return Open(uiType, Constant.MAIN_GROUPUI, dataHandler, useResModule, id);
         }
 
         /// <summary>
@@ -167,11 +167,11 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         /// <typeparam name="T">UI类型</typeparam>
         /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
+        /// <param name="useResModule">使用的资源模块</param>
         /// <returns>UI实例</returns>
-        public T Open<T>(OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default) where T : IUI
+        public T Open<T>(OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default) where T : IUI
         {
-            return (T)Open(typeof(T), dataHandler, useNavtive, id);
+            return (T)Open(typeof(T), dataHandler, useResModule, id);
         }
 
         /// <summary>
@@ -179,14 +179,14 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         /// <param name="uiName">UI名</param>
         /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
+        /// <param name="useResModule">使用的资源模块</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public IUI Open(string uiName, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(string uiName, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default)
         {
             TypeSystem typeSys = TypeModule.Inst.GetOrNew<IUI>();
             Type uiType = typeSys.GetByName(uiName);
-            return Open(uiType, dataHandler, useNavtive, id);
+            return Open(uiType, dataHandler, useResModule, id);
         }
 
         /// <summary>
@@ -195,13 +195,13 @@ namespace UnityXFrame.Core.UIs
         /// <param name="uiName">UI名</param>
         /// <param name="groupName">UI组名</param>
         /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
+        /// <param name="useResModule">使用的资源模块</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public IUI Open(string uiName, string groupName, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(string uiName, string groupName, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default)
         {
             Type uiType = TypeModule.Inst.GetOrNew<IUI>().GetByName(uiName);
-            return Open(uiType, groupName, dataHandler, useNavtive, id);
+            return Open(uiType, groupName, dataHandler, useResModule, id);
         }
 
         /// <summary>
@@ -210,12 +210,12 @@ namespace UnityXFrame.Core.UIs
         /// <typeparam name="T">UI类型</typeparam>
         /// <param name="groupName">UI组名</param>
         /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
+        /// <param name="useResModule">使用的资源模块</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public T Open<T>(string groupName, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default) where T : IUI
+        public T Open<T>(string groupName, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default) where T : IUI
         {
-            return (T)Open(typeof(T), groupName, dataHandler, useNavtive, id);
+            return (T)Open(typeof(T), groupName, dataHandler, useResModule, id);
         }
 
         /// <summary>
@@ -224,13 +224,13 @@ namespace UnityXFrame.Core.UIs
         /// <param name="uiType">UI类型</param>
         /// <param name="groupName">UI组名</param>
         /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
+        /// <param name="useResModule">使用的资源模块</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public IUI Open(Type uiType, string groupName, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(Type uiType, string groupName, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default)
         {
             IUIGroup group = InnerGetOrNewGroup(groupName, m_GroupList.Count);
-            return InnerOpenUI(group, uiType, dataHandler, useNavtive, id);
+            return InnerOpenUI(group, uiType, dataHandler, useResModule, id);
         }
 
         /// <summary>
@@ -238,13 +238,12 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         /// <param name="uiType">UI类型</param>
         /// <param name="group">UI组</param>
-        /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
+        /// <param name="useResModule">使用的资源模块</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public IUI Open(Type uiType, IUIGroup group, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default)
+        public IUI Open(Type uiType, IUIGroup group, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default)
         {
-            return InnerOpenUI(group, uiType, dataHandler, useNavtive, id);
+            return InnerOpenUI(group, uiType, dataHandler, useResModule, id);
         }
 
         /// <summary>
@@ -252,8 +251,6 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         /// <param name="ui">UI实例</param>
         /// <param name="groupName">UI组名</param>
-        /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
         /// <returns>UI实例</returns>
         public IUI Open(IUI ui, string groupName, OnDataProviderReady dataHandler = null)
         {
@@ -266,8 +263,6 @@ namespace UnityXFrame.Core.UIs
         /// </summary>
         /// <param name="ui">UI实例</param>
         /// <param name="group">UI组</param>
-        /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
         /// <returns>UI实例</returns>
         public IUI Open(IUI ui, IUIGroup group, OnDataProviderReady dataHandler = null)
         {
@@ -280,12 +275,12 @@ namespace UnityXFrame.Core.UIs
         /// <typeparam name="T">UI类型</typeparam>
         /// <param name="group">UI组</param>
         /// <param name="data">UI数据</param>
-        /// <param name="useNavtive">是否为本地UI</param>
+        /// <param name="useResModule">使用的资源模块</param>
         /// <param name="id">UI Id</param>
         /// <returns>UI实例</returns>
-        public T Open<T>(IUIGroup group, OnDataProviderReady dataHandler = null, bool useNavtive = false, int id = default) where T : IUI
+        public T Open<T>(IUIGroup group, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default) where T : IUI
         {
-            return (T)InnerOpenUI(group, typeof(T), dataHandler, useNavtive, id);
+            return (T)InnerOpenUI(group, typeof(T), dataHandler, useResModule, id);
         }
         #endregion
 
@@ -430,13 +425,13 @@ namespace UnityXFrame.Core.UIs
             ui?.Close();
         }
 
-        private IUI InnerOpenUI(IUIGroup group, Type uiType, OnDataProviderReady onReady, bool useNavtive, int id)
+        private IUI InnerOpenUI(IUIGroup group, Type uiType, OnDataProviderReady onReady, int useResModule, int id)
         {
             IUI ui = m_UIList.Get(uiType, id);
             if (ui == null)
             {
                 IPool pool = PoolModule.Inst.GetOrNew(uiType, m_Helper);
-                ui = (IUI)pool.Require(default, useNavtive);
+                ui = (IUI)pool.Require(default, useResModule);
                 ui.OnInit(id, default, onReady);
                 onReady = null;
                 m_UIList.Add(ui);
