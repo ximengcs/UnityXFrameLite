@@ -416,6 +416,11 @@ namespace UnityXFrame.Core.UIs
         #region Inner Implement
         private void InnerCloseUI(Type uiType, int id)
         {
+            if (uiType == null)
+            {
+                Log.Debug("UI", $"UI Type is null, close ui failure");
+                return;
+            }
             IUI ui = m_UIList.Get(uiType, id);
             InnerCloseUI(ui);
         }
@@ -427,6 +432,11 @@ namespace UnityXFrame.Core.UIs
 
         private IUI InnerOpenUI(IUIGroup group, Type uiType, OnDataProviderReady onReady, int useResModule, int id)
         {
+            if (uiType == null)
+            {
+                Log.Debug("UI", $"UI Type is null, open ui failure");
+                return default;
+            }
             IUI ui = m_UIList.Get(uiType, id);
             if (ui == null)
             {
@@ -476,6 +486,11 @@ namespace UnityXFrame.Core.UIs
 
         private IUI InnerGetUI(Type uiType, int id)
         {
+            if (uiType == null)
+            {
+                Log.Debug("UI", $"UI Type is null, get ui failure");
+                return default;
+            }
             return m_UIList.Get(uiType, id);
         }
 
