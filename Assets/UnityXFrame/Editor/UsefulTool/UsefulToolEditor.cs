@@ -84,7 +84,7 @@ namespace UnityXFrame.Editor
             {
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Copy To", GUILayout.Width(80)))
-                    CopyToProject();
+                    CopyToProject(m_Data.ToProjectDllPath[i]);
                 m_Data.ToProjectDllPath[i] = EditorGUILayout.TextField(m_Data.ToProjectDllPath[i]);
                 if (GUILayout.Button("x", GUILayout.Width(20)))
                     removes.Add(i);

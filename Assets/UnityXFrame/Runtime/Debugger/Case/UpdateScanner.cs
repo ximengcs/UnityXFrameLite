@@ -30,6 +30,7 @@ namespace UnityXFrame.Core.Diagnotics
         {
             if (DebugGUI.Button("Clear Cache"))
                 Caching.ClearCache();
+
             if (DebugGUI.Button("Update Resource"))
                 InnerUpdateRes();
 
@@ -74,18 +75,18 @@ namespace UnityXFrame.Core.Diagnotics
         private void InnerUpdateRes()
         {
             Log.Debug("Start hot update check task.");
-            HotUpdateCheckTask checkTask = TaskModule.Inst.GetOrNew<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
-            checkTask.OnComplete(() =>
+            m_CheckTask = TaskModule.Inst.GetOrNew<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
+            m_CheckTask.OnComplete(() =>
             {
-                if (checkTask.Success)
+                if (m_CheckTask.Success)
                     Log.Debug($"Hot update check task has success.");
                 else
                     Log.Debug("Hot update check task has failure.");
                 Log.Debug("Start hot update download task.");
-                HotUpdateDownTask downTask = TaskModule.Inst.GetOrNew<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
-                downTask.AddList(checkTask.ResList).OnComplete(() =>
+                m_DownTask = TaskModule.Inst.GetOrNew<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
+                m_DownTask.AddList(m_CheckTask.ResList).OnComplete(() =>
                 {
-                    if (downTask.Success)
+                    if (m_DownTask.Success)
                         Log.Debug("Hot update download task has success.");
                     else
                         Log.Debug("Hot update download task has failure.");

@@ -283,6 +283,7 @@ namespace UnityXFrame.Core.HotUpdate
                     {
                         Pro = downHandle.PercentComplete;
                     }
+                    Log.Debug("XFrame", $"Download progress : {Pro}");
                     return isDone;
                 }).Start();
             }
