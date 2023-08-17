@@ -21,13 +21,17 @@ namespace UnityXFrame.Core.Diagnotics
         public void OnAwake()
         {
             m_CachePath = new List<string>();
-            Caching.GetAllCachePaths(m_CachePath);
             m_DownTask = TaskModule.Inst.Get<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
             m_CheckTask = TaskModule.Inst.Get<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
         }
 
         public void OnDraw()
         {
+            if (DebugGUI.Button("Clear Cache"))
+                Caching.GetAllCachePaths(m_CachePath);
+            if (DebugGUI.Button("Update Resource"))
+                InnerUpdateRes();
+
             DebugGUI.Label("Check Progress");
             GUILayout.BeginHorizontal();
             if (m_CheckTask != null)
@@ -64,6 +68,28 @@ namespace UnityXFrame.Core.Diagnotics
         public void Dispose()
         {
 
+        }
+
+        private void InnerUpdateRes()
+        {
+            Log.Debug("Start hot update check task.");
+            HotUpdateCheckTask checkTask = TaskModule.Inst.GetOrNew<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
+            checkTask.OnComplete(() =>
+            {
+                if (checkTask.Success)
+                    Log.Debug($"Hot update check task has success.");
+                else
+                    Log.Debug("Hot update check task has failure.");
+                Log.Debug("Start hot update download task.");
+                HotUpdateDownTask downTask = TaskModule.Inst.GetOrNew<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
+                downTask.AddList(checkTask.ResList).OnComplete(() =>
+                {
+                    if (downTask.Success)
+                        Log.Debug("Hot update download task has success.");
+                    else
+                        Log.Debug("Hot update download task has failure.");
+                }).Start();
+            }).Start();
         }
 
         private void InnerCheck()

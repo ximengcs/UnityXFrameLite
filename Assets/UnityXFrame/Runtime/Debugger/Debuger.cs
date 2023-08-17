@@ -6,6 +6,7 @@ using XFrame.Modules.Times;
 using XFrame.Modules.XType;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -269,7 +270,8 @@ namespace UnityXFrame.Core.Diagnotics
             }
             else
             {
-                Vector3 touchPos = Input.mousePosition;
+
+                Vector3 touchPos = Mouse.current.position.ReadValue();
                 touchPos.y = Screen.height - touchPos.y;
                 bool enable = m_IsOpen ? !m_RootRect.Contains(touchPos) : true;
                 m_EventSytem.enabled = enable;
