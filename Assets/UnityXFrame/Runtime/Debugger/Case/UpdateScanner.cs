@@ -21,6 +21,7 @@ namespace UnityXFrame.Core.Diagnotics
         public void OnAwake()
         {
             m_CachePath = new List<string>();
+            Caching.GetAllCachePaths(m_CachePath);
             m_DownTask = TaskModule.Inst.Get<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
             m_CheckTask = TaskModule.Inst.Get<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
         }
@@ -28,7 +29,7 @@ namespace UnityXFrame.Core.Diagnotics
         public void OnDraw()
         {
             if (DebugGUI.Button("Clear Cache"))
-                Caching.GetAllCachePaths(m_CachePath);
+                Caching.ClearCache();
             if (DebugGUI.Button("Update Resource"))
                 InnerUpdateRes();
 
