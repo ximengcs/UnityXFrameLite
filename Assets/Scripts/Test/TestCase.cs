@@ -37,6 +37,7 @@ namespace Game.Test
 
         public void OnAwake()
         {
+            
             m_Time = 0.5f;
         }
         private IEventSystem m_Sys;

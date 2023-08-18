@@ -30,7 +30,6 @@ namespace UnityXFrame.Core.Diagnotics
         {
             if (DebugGUI.Button("Clear Cache"))
                 Caching.ClearCache();
-
             if (DebugGUI.Button("Update Resource"))
                 InnerUpdateRes();
 

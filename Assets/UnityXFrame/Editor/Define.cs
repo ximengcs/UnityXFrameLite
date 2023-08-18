@@ -6,31 +6,32 @@ namespace UnityXFrame.Editor
 {
     public class Define
     {
-        [MenuItem("Tools/Build AssetsBundle")]
+        [MenuItem("UnityXFrame/Build AssetsBundle")]
         public static void BuildAB()
         {
-            EditorWindow.GetWindow<BuildEditor>().Show();
+            //EditorWindow.GetWindow<AssetsEditor>().Show();
+            //EditorWindow.GetWindow<BuildEditor>().Show();
         }
 
-        [MenuItem("Tools/To Persist Folder")]
+        [MenuItem("UnityXFrame/To Persist Folder")]
         public static void ToPersistFolder()
         {
             EditorUtility.RevealInFinder(Application.persistentDataPath);
         }
 
-        [MenuItem("Tools/Useful Tool")]
+        [MenuItem("UnityXFrame/Useful Tool")]
         public static void UseFul()
         {
             EditorWindow.GetWindow<UsefulToolEditor>().Show();
         }
 
-        [MenuItem("Tools/Test GUI Skin")]
+        [MenuItem("UnityXFrame/Test GUI Skin")]
         public static void TestGUISkin()
         {
             EditorWindow.GetWindow<TestGUISkinWindow>().Show();
         }
 
-        [MenuItem("Tools/Clear User Data")]
+        [MenuItem("UnityXFrame/Clear User Data")]
         public static void ClearUserData()
         {
             PlayerPrefs.DeleteAll();
@@ -38,10 +39,18 @@ namespace UnityXFrame.Editor
                 Directory.Delete(Application.persistentDataPath, true);
         }
 
-        [MenuItem("Tools/Check Error")]
+        [MenuItem("UnityXFrame/Check Error")]
         public static void CheckError()
         {
             EditorWindow.GetWindow<CheckErrorEditor>().Show();
+        }
+
+        [MenuItem("UnityXFrame/Editor Icons %e")]
+        public static void EditorIconsOpen()
+        {
+            EditorIcons w = EditorWindow.GetWindow<EditorIcons>("Editor Icons");
+            w.ShowUtility();
+            w.minSize = new Vector2(320, 450);
         }
     }
 }
