@@ -25,12 +25,12 @@
                 },
                 {
                     "name": "W",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "2b120046-9194-45b0-89a6-c2bceffc8e98",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
-                    "initialStateCheck": true
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "S",
@@ -87,7 +87,7 @@
                     "name": "",
                     "id": "ae10b93d-38c3-47fa-8d52-7367b00fe383",
                     "path": "<Keyboard>/w",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "processors": "",
                     "groups": "",
                     "action": "W",
