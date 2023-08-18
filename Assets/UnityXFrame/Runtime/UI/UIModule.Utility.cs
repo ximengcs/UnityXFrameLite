@@ -11,7 +11,6 @@ namespace UnityXFrame.Core.UIs
             if (check.name == element.Name)
                 return layer;
 
-
             bool find = false;
             int curIndex = 0;
             Transform[] list = new Transform[root.childCount];

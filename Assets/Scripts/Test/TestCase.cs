@@ -220,15 +220,37 @@ namespace Game.Test
                 }, Constant.LOCAL_RES_MODULE, 2);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
+            if (DebugGUI.Button("Open Dialog 3"))
+            {
+                UIModule.Inst.Open<DialogUI>((ui) =>
+                {
+                    ui.SetData(new Color(0, 0.5f, 0, 1));
+                }, Constant.LOCAL_RES_MODULE, 3);
+                //AudioModule.Inst.PlayAsync("a1.wav");
+            }
+            if (DebugGUI.Button("Open Dialog 4"))
+            {
+                UIModule.Inst.Open<DialogUI>((ui) =>
+                {
+                    ui.SetData(new Color(0, 0.8f, 0, 1));
+                }, Constant.LOCAL_RES_MODULE, 4);
+                //AudioModule.Inst.PlayAsync("a1.wav");
+            }
             if (DebugGUI.Button("Close Dialog 1"))
             {
                 UIModule.Inst.Close<DialogUI>(1);
-                //AudioModule.Inst.PlayAsync("a2.wav");
             }
             if (DebugGUI.Button("Close Dialog 2"))
             {
                 UIModule.Inst.Close<DialogUI>(2);
-                //AudioModule.Inst.PlayAsync("a2.wav");
+            }
+            if (DebugGUI.Button("Close Dialog 3"))
+            {
+                UIModule.Inst.Close<DialogUI>(2);
+            }
+            if (DebugGUI.Button("Close Dialog 4"))
+            {
+                UIModule.Inst.Close<DialogUI>(2);
             }
             if (DebugGUI.Button("GC"))
             {

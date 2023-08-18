@@ -253,6 +253,8 @@ namespace UnityXFrame.Core.UIs
         {
             if (ui.Group != null)
             {
+                if (ui.Group == this)
+                    return;
                 bool remove = false;
                 UIGroup old = (UIGroup)ui.Group;
                 foreach (XLinkNode<IUI> node in old.m_UIs)
