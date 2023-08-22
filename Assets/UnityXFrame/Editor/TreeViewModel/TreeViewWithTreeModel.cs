@@ -18,7 +18,7 @@ namespace UnityEditor.TreeViewExamples
         }
     }
 
-    internal class TreeViewWithTreeModel<T> : TreeView where T : TreeElement
+    public class TreeViewWithTreeModel<T> : TreeView where T : TreeElement
     {
         TreeModel<T> m_TreeModel;
         readonly List<TreeViewItem> m_Rows = new List<TreeViewItem>(100);

@@ -9,7 +9,7 @@ namespace UnityXFrame.Editor
         [MenuItem("UnityXFrame/Build AssetsBundle")]
         public static void BuildAB()
         {
-            //EditorWindow.GetWindow<AssetsEditor>().Show();
+            EditorWindow.GetWindow<AssetsEditor>().Show();
             //EditorWindow.GetWindow<BuildEditor>().Show();
         }
 

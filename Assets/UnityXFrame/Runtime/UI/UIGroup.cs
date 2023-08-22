@@ -236,11 +236,13 @@ namespace UnityXFrame.Core.UIs
 
         void IUIGroup.AddUI(IUI ui)
         {
-            InnerRemoveOldGroup(ui);
-            ui.Root.SetParent(m_Root, false);
+            if (!InnerRemoveOldGroup(ui))
+            {
+                m_UIs.AddLast(ui);
+                ui.Root.SetParent(m_Root, false);
+                ui.Group = this;
+            }
             ui.Layer = m_UIs.Count;
-            ui.Group = this;
-            m_UIs.AddLast(ui);
         }
 
         void IUIGroup.RemoveUI(IUI ui)
@@ -249,30 +251,36 @@ namespace UnityXFrame.Core.UIs
             ui.Root.SetParent(null, false);
         }
 
-        private void InnerRemoveOldGroup(IUI ui)
+        private bool InnerRemoveOldGroup(IUI ui)
         {
             if (ui.Group != null)
             {
-                if (ui.Group == this)
-                    return;
-                bool remove = false;
-                UIGroup old = (UIGroup)ui.Group;
-                foreach (XLinkNode<IUI> node in old.m_UIs)
+                if (ui.Group != this)
                 {
-                    if (!remove)
+                    bool remove = false;
+                    UIGroup old = (UIGroup)ui.Group;
+                    foreach (XLinkNode<IUI> node in old.m_UIs)
                     {
-                        if (node.Value == ui)
+                        if (!remove)
                         {
-                            node.Delete();
-                            remove = true;
+                            if (node.Value == ui)
+                            {
+                                node.Delete();
+                                remove = true;
+                            }
+                        }
+                        else
+                        {
+                            node.Value.Layer--;
                         }
                     }
-                    else
-                    {
-                        node.Value.Layer--;
-                    }
+                }
+                else
+                {
+                    return true;
                 }
             }
+            return false;
         }
 
         public IUIGroupHelper AddHelper(Type type)

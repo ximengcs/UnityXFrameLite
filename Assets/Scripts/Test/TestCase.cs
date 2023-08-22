@@ -247,11 +247,11 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Close Dialog 3"))
             {
-                UIModule.Inst.Close<DialogUI>(2);
+                UIModule.Inst.Close<DialogUI>(3);
             }
             if (DebugGUI.Button("Close Dialog 4"))
             {
-                UIModule.Inst.Close<DialogUI>(2);
+                UIModule.Inst.Close<DialogUI>(4);
             }
             if (DebugGUI.Button("GC"))
             {
