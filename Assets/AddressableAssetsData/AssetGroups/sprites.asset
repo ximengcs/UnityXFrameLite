@@ -16,35 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: ce8c3217b4f6af248bf94ad386945afc
-  m_SerializeEntries:
-  - m_GUID: 418380dccf0452c43b2ad6a7a79cd1f3
-    m_Address: Assets/Data/Textures/iloveu.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: eec8d439152bf404781e5e24dabe254a
-    m_Address: Assets/Data/Textures/test.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: fbd9b094ffddf6d45b2fb4275d791ad9
-    m_Address: Assets/Data/Textures/test2.jpg
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 602da960e8dd0cd4886d56890da78826
-    m_Address: Assets/Data/Textures/test2.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 41e1ba79f452cd845ae93599dea2f43b
-    m_Address: Assets/Data/Textures/test3.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 051a5a227c897d449a140f572688c5c9
-    m_Address: Assets/Data/Textures/test63.jpg
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: b9c1fec574d091f468573efa0e05d037
-    m_Address: Assets/Data/Textures/Perch.txt
-    m_ReadOnly: 0
-    m_SerializedLabels: []
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6948d14066fa249409f2db60cba1f269, type: 2}
   m_SchemaSet:

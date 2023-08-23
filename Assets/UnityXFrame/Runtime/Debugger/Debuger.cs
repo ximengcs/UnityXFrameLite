@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace UnityXFrame.Core.Diagnotics
 {
-    public partial class Debuger : SingletonModule<Debuger>
+    public partial class Debuger : SingletonModule<Debuger>, IGUI
     {
         #region Internal Field
         private const int WIDTH = 1080;

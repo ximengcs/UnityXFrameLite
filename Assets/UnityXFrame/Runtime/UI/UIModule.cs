@@ -17,7 +17,7 @@ namespace UnityXFrame.Core.UIs
     /// </summary>
     [XModule]
     [RequireModule(typeof(PoolModule))]
-    public partial class UIModule : SingletonModule<UIModule>
+    public partial class UIModule : SingletonModule<UIModule>, IUpdater
     {
         #region Inner Fields
         private Vector2 m_PixelScale;
@@ -48,9 +48,8 @@ namespace UnityXFrame.Core.UIs
             Log.Debug("UI", $"UI Canvas pixel scale is {m_PixelScale}");
         }
 
-        protected override void OnUpdate(float escapeTime)
+        public void OnUpdate(float escapeTime)
         {
-            base.OnUpdate(escapeTime);
             foreach (XLinkNode<IUIGroup> node in m_GroupList)
             {
                 if (node.Value.IsOpen)

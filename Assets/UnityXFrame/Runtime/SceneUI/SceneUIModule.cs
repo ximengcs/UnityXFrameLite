@@ -16,7 +16,7 @@ namespace UnityXFrame.Core.SceneUIs
     /// SceneUI模块
     /// </summary>
     [XModule]
-    public partial class SceneUIModule : SingletonModule<SceneUIModule>
+    public partial class SceneUIModule : SingletonModule<SceneUIModule>, IUpdater
     {
         #region Inner Field
         private List<ISceneUI> m_Actives;
@@ -107,10 +107,8 @@ namespace UnityXFrame.Core.SceneUIs
             m_OnlyOneOpens = new List<ISceneUI>();
         }
 
-        protected override void OnUpdate(float escapeTime)
+        public void OnUpdate(float escapeTime)
         {
-            base.OnUpdate(escapeTime);
-
             if (m_Actives.Count <= 0)
                 return;
 

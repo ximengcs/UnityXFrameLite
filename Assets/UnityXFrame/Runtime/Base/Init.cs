@@ -1,7 +1,5 @@
 using XFrame.Core;
 using UnityEngine;
-using XFrame.Modules.Archives;
-using UnityXFrame.Core.Diagnotics;
 using XFrame.Modules.Config;
 
 namespace UnityXFrame.Core
@@ -29,12 +27,12 @@ namespace UnityXFrame.Core
 
         private void Update()
         {
-            Entry.Update(Time.deltaTime);
+            Entry.Trigger<IUpdater>(Time.deltaTime);
         }
 
         private void OnGUI()
         {
-            Debuger.Inst?.OnGUI();
+            Entry.Trigger<IGUI>();
         }
 
         private void OnDestroy()
@@ -44,17 +42,17 @@ namespace UnityXFrame.Core
 
         private void OnApplicationFocus(bool focus)
         {
-            ArchiveModule.Inst?.Save();
+            Entry.Trigger<ISaveable>();
         }
 
         private void OnApplicationPause(bool pause)
         {
-            ArchiveModule.Inst?.Save();
+            Entry.Trigger<ISaveable>();
         }
 
         private void OnApplicationQuit()
         {
-            ArchiveModule.Inst?.Save();
+            Entry.Trigger<ISaveable>();
         }
     }
 }
