@@ -27,7 +27,6 @@ namespace UnityXFrame.Editor
         public static bool OnOpenAsset(int instanceID, int line)
         {
             var myTreeAsset = EditorUtility.InstanceIDToObject(instanceID).name;
-            Debug.LogWarning(myTreeAsset);
             return false; // we did not handle the open
         }
 

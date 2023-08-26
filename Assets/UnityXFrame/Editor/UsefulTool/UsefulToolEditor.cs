@@ -55,10 +55,7 @@ namespace UnityXFrame.Editor
             if (GUILayout.Button("Import"))
                 ImportXFrame();
             if (GUILayout.Button("Compile & Import"))
-            {
-                CompileXFrame();
-                EditorApplication.delayCall += ImportXFrame;
-            }
+                CompileXFrame((s, e) => ImportXFrame());
             GUILayout.EndVertical();
 
             GUILayout.BeginVertical(m_Style1);
@@ -107,8 +104,24 @@ namespace UnityXFrame.Editor
             EditorUtility.SetDirty(m_Data);
         }
 
-        public void CompileXFrame()
+        public void DeleteXFrameCache()
         {
+            string targetPath = Path.Combine(m_Data.XFrameProjectPath, "XFrame", "obj");
+            if (Directory.Exists(targetPath))
+                Directory.Delete(targetPath, true);
+            EditorLog.Debug($"delete {targetPath}");
+            targetPath = Path.Combine(m_Data.XFrameProjectPath, "XFrame", "bin");
+            if (Directory.Exists(targetPath))
+                Directory.Delete(targetPath, true);
+            targetPath = XFrameDllPath();
+            if (Directory.Exists(targetPath))
+                Directory.Delete(targetPath, true);
+            EditorLog.Debug($"delete {targetPath}");
+        }
+
+        public void CompileXFrame(EventHandler callback = null)
+        {
+            DeleteXFrameCache();
             EditorLog.Debug("========================== START COMPILE XFRAME ========================");
             string fullPath = Path.Combine(m_Data.XFrameProjectPath, "XFrame/XFrame.csproj");
             string param = "build ";
@@ -121,10 +134,13 @@ namespace UnityXFrame.Editor
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
             Process process = Process.Start(startInfo);
+            process.EnableRaisingEvents = true;
             process.OutputDataReceived += (sender, a) => EditorLog.Debug(a.Data);
+            process.Exited += callback;
             process.Start();
             process.BeginOutputReadLine();
             process.WaitForExit();
+            process.Close();
             EditorLog.Debug("=======================================================================");
         }
 
