@@ -1,6 +1,6 @@
 ﻿using XFrame.Modules.Resource;
 
-namespace UnityXFrame.Core.Resource
+namespace UnityXFrame.Editor
 {
     public partial class EditorAssetsHelper
     {

@@ -1,10 +1,9 @@
-﻿#if UNITY_EDITOR
-using System;
+﻿using System;
 using UnityEditor;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Resource;
 
-namespace UnityXFrame.Core.Resource
+namespace UnityXFrame.Editor
 {
     public partial class EditorAssetsHelper : IResourceHelper
     {
@@ -94,4 +93,3 @@ namespace UnityXFrame.Core.Resource
         }
     }
 }
-#endif
