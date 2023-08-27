@@ -1,6 +1,7 @@
 using XFrame.Core;
 using UnityEngine;
 using XFrame.Modules.Config;
+using XFrame.Modules.Archives;
 
 namespace UnityXFrame.Core
 {
@@ -16,7 +17,7 @@ namespace UnityXFrame.Core
             XConfig.DefaultLogger = Data.Logger;
             XConfig.ArchivePath = Constant.ArchivePath;
             XConfig.DefaultDownloadHelper = Data.DownloadHelper;
-            XConfig.UseClassModule = new string[] { "Assembly-CSharp", "UnityXFrame", "UnityXFrame.Lib" };
+            XConfig.UseClassModule = Constant.TYPESYSTEM_MODULE;
             Entry.Init();
         }
 
@@ -35,11 +36,6 @@ namespace UnityXFrame.Core
             Entry.Trigger<IGUI>();
         }
 
-        private void OnDestroy()
-        {
-            Entry.ShutDown();
-        }
-
         private void OnApplicationFocus(bool focus)
         {
             Entry.Trigger<ISaveable>();
@@ -53,6 +49,11 @@ namespace UnityXFrame.Core
         private void OnApplicationQuit()
         {
             Entry.Trigger<ISaveable>();
+        }
+
+        private void OnDestroy()
+        {
+            Entry.ShutDown();
         }
     }
 }

@@ -19,6 +19,13 @@ namespace UnityXFrame.Core
         public const int JOSN_TYPE = 0;
         public const int CSV_TYPE = 1;
 
+        public static string[] TYPESYSTEM_MODULE = new string[]
+        {
+            "Assembly-CSharp",
+            "UnityXFrame",
+            "UnityXFrame.Lib"
+        };
+
         public static string LANG_FILE_PATH = "Data/Lang/lang.csv";
         public static string AUDIO_PATH = "Assets/Data/Audio";
         public static string SCENEUI_RES_PATH = "Data/SceneUI";
