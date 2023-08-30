@@ -10,6 +10,8 @@ using UnityXFrame.Core;
 using System;
 using Unity.VisualScripting;
 using System.Linq;
+using UnityXFrame.Core.Parser;
+using XFrame.Modules.Diagnotics;
 
 namespace Game.Test
 {
@@ -87,6 +89,13 @@ namespace Game.Test
         public void pool()
         {
             PoolExt.CollectSpwanTask().Start();
+        }
+
+        [DebugCommand]
+        public void color(string pattern)
+        {
+            bool success = ColorParser.TryParse(pattern, out Color value);
+            Log.Debug($"{success} {value}");
         }
     }
 }
