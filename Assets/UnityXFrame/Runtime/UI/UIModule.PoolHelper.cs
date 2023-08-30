@@ -6,7 +6,7 @@ using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
 using System.Collections.Generic;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     public partial class UIModule
     {

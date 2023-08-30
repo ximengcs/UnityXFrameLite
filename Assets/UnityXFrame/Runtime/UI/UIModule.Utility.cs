@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     public partial class UIModule
     {

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using UnityXFrame.Core.UIs;
+using UnityXFrame.Core.UIElements;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using XFrame.Core;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     public class DragUICom : UICom
     {

@@ -1,10 +1,10 @@
 ﻿using TMPro;
 using System;
 using XFrame.Modules.Local;
-using UnityXFrame.Core.UIs;
+using UnityXFrame.Core.UIElements;
 using UnityXFrameLib.Localize;
 using System.Collections.Generic;
-using UnityXFrameLib.UI;
+using UnityXFrameLib.UIElements;
 using UnityXFrame.Core;
 
 namespace Game.Test

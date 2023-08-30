@@ -3,7 +3,7 @@ using UnityEngine;
 using XFrame.Collections;
 using XFrame.Modules.Event;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     /// <summary>
     /// UI组

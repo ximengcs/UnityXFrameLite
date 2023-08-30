@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityXFrame.Core;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class AutoLoadUIAttribute : UIAutoAttribute

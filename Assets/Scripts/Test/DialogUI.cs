@@ -1,8 +1,8 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityXFrameLib.UI;
-using UnityXFrame.Core.UIs;
+using UnityXFrameLib.UIElements;
+using UnityXFrame.Core.UIElements;
 using UnityXFrameLib.Localize;
 using UnityXFrame.Core;
 

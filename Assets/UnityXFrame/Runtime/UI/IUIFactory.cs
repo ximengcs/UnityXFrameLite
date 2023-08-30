@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     public interface IUIFactory
     {

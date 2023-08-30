@@ -3,7 +3,7 @@ using XFrame.Modules.Event;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Diagnotics;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     /// <summary>
     /// UI基类

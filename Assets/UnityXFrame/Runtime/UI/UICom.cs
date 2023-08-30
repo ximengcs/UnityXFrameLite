@@ -1,7 +1,7 @@
 ﻿using UnityEngine.EventSystems;
 using XFrame.Modules.Containers;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     public abstract class UICom : ShareCom
     {

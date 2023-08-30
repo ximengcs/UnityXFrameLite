@@ -1,5 +1,5 @@
 ﻿
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     /// <summary>
     /// UI元素

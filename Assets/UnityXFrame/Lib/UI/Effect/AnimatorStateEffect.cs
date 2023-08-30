@@ -1,10 +1,10 @@
 ﻿using System;
 using UnityEngine;
-using UnityXFrame.Core.UIs;
+using UnityXFrame.Core.UIElements;
 using UnityXFrameLib.Animations;
 using XFrame.Modules.Diagnotics;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     public class AnimatorStateEffect : AnimatorChecker, IUIGroupHelperEffect
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityXFrame.Core.UIs;
+using UnityXFrame.Core.UIElements;
 using System.Collections.Generic;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     /// <summary>
     /// 渐隐渐显效果

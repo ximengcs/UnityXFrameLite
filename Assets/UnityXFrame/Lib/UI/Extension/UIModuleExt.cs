@@ -1,14 +1,14 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityXFrame.Core.UIs;
+using UnityXFrame.Core.UIElements;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.XType;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     public static class UIModuleExt
     {

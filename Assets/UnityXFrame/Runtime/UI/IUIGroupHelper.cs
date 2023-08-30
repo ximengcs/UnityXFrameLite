@@ -1,7 +1,7 @@
 ﻿using System;
 using XFrame.Modules.Event;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     /// <summary>
     /// UI组辅助器

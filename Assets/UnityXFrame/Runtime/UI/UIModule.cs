@@ -10,7 +10,7 @@ using XFrame.Modules.Tasks;
 using XFrame.Modules.Event;
 using XFrame.Modules.Diagnotics;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     /// <summary>
     /// UI模块

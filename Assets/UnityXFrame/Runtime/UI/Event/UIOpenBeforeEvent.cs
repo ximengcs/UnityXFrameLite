@@ -1,7 +1,7 @@
 ﻿
 using XFrame.Modules.Pools;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     public class UIOpenBeforeEvent : UIEvent
     {

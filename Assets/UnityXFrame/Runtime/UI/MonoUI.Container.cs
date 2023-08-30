@@ -1,7 +1,7 @@
 ﻿using XFrame.Modules.Containers;
 using XFrame.Modules.Pools;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     public partial class MonoUI
     {

@@ -7,7 +7,7 @@ using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
 using XFrame.Modules.Event;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     [DefaultExecutionOrder(Constant.EXECORDER_AFTER)]
     public abstract partial class MonoUI : MonoBehaviour, IUI

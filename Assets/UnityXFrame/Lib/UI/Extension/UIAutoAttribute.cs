@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     public class UIAutoAttribute : Attribute
     {

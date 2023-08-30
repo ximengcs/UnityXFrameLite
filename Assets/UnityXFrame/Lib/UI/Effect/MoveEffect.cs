@@ -2,10 +2,10 @@
 using DG.Tweening;
 using UnityEngine;
 using XFrame.Module.Rand;
-using UnityXFrame.Core.UIs;
+using UnityXFrame.Core.UIElements;
 using System.Collections.Generic;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     /// <summary>
     /// 移动效果

@@ -2,7 +2,7 @@
 using XFrame.Modules.Event;
 using XFrame.Modules.Pools;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     public abstract class UIEvent : XEvent
     {

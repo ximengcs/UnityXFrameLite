@@ -2,7 +2,7 @@
 using UnityEngine;
 using XFrame.Modules.Event;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     public abstract class UIGroupHelperBase : IUIGroupHelper
     {

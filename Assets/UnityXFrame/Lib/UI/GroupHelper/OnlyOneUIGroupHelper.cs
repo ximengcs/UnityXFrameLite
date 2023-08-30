@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using UnityXFrame.Core.UIs;
+using UnityXFrame.Core.UIElements;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     /// <summary>
     /// 单UI可打开组辅助器

@@ -1,7 +1,7 @@
 ﻿using System;
-using UnityXFrame.Core.UIs;
+using UnityXFrame.Core.UIElements;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     /// <summary>
     /// UI组辅助器效果

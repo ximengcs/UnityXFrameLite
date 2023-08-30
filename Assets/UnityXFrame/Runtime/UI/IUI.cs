@@ -2,7 +2,7 @@
 using XFrame.Modules.Containers;
 using XFrame.Modules.Event;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     /// <summary>
     /// UI

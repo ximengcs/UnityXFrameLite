@@ -1,10 +1,10 @@
 ﻿using System;
-using UnityXFrame.Core.UIs;
+using UnityXFrame.Core.UIElements;
 using System.Collections.Generic;
 using XFrame.Modules.Diagnotics;
 using UnityEngine;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     /// <summary>
     /// 附带UI打开关闭效果的组辅助器

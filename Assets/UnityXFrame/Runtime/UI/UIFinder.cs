@@ -2,7 +2,7 @@
 using XFrame.Modules.Containers;
 using System.Collections.Generic;
 
-namespace UnityXFrame.Core.UIs
+namespace UnityXFrame.Core.UIElements
 {
     public class UIFinder : ShareCom
     {

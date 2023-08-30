@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityXFrame.Core;
 using System.Collections.Generic;
 
-namespace UnityXFrameLib.UI
+namespace UnityXFrameLib.UIElements
 {
     [DefaultExecutionOrder(Constant.EXECORDER_AFTER)]
     public class MultiFontDropDown : TMP_Dropdown
