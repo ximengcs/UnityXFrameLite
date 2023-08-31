@@ -1,9 +1,9 @@
-﻿using DG.Tweening;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Tasks;
+using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.Audios
 {
@@ -11,11 +11,14 @@ namespace UnityXFrame.Core.Audios
     {
         private class Audio : IAudio
         {
+            private string m_Name;
             private GameObject m_Inst;
             private AudioSource m_Source;
             private float m_Volume;
             private bool m_Disposed;
             private bool m_Paused;
+            private bool m_AutoRelease;
+            private Action m_PlayCallback;
 
             private BolActionTask m_WaitTask;
             private Group m_Group;
@@ -31,11 +34,50 @@ namespace UnityXFrame.Core.Audios
                 }
             }
 
+            public bool AutoRelease
+            {
+                get => m_AutoRelease;
+                set
+                {
+                    if (m_Disposed)
+                    {
+                        Log.Debug("Audio", $"{m_Name} has release, but you try set AutoRelease");
+                        return;
+                    }
+
+                    if (value != m_AutoRelease)
+                    {
+                        m_AutoRelease = value;
+                        if (m_WaitTask == null)
+                        {
+                            m_WaitTask = TaskModule.Inst.GetOrNew<BolActionTask>();
+                            m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
+                                .OnComplete(() =>
+                                {
+                                    m_WaitTask = null;
+                                    m_PlayCallback?.Invoke();
+                                    m_PlayCallback = null;
+                                    if (m_Disposed)
+                                        return;
+                                    Release();
+                                }).Start();
+                        }
+                    }
+                }
+            }
+
+            public bool IsDisposed => m_Disposed;
+
             public float Volume
             {
                 get => m_Volume;
                 set
                 {
+                    if (m_Disposed)
+                    {
+                        Log.Debug("Audio", $"{m_Name} has release, but you try set Volume");
+                        return;
+                    }
                     m_Volume = value;
                     InnerUpdateSourceVolume();
                 }
@@ -43,10 +85,12 @@ namespace UnityXFrame.Core.Audios
 
             public IAudioGroup Group => m_Group;
 
-            public void OnInit(Transform root, AudioMixerGroup group, AudioClip clip)
+            public void OnInit(Transform root, AudioMixerGroup group, AudioClip clip, bool autoRelease)
             {
                 m_Volume = 1.0f;
-                m_Inst.name = clip.name;
+                m_Name = clip.name;
+                m_Inst.name = m_Name;
+                AutoRelease = autoRelease;
                 m_Inst.transform.SetParent(root);
                 m_Source.outputAudioMixerGroup = group;
                 Clip = clip;
@@ -54,13 +98,21 @@ namespace UnityXFrame.Core.Audios
 
             public void SetGroup(Group group)
             {
+                if (m_Disposed)
+                {
+                    Log.Debug("Audio", $"{m_Name} has release, but you try SetGroup");
+                    return;
+                }
                 m_Group = group;
             }
 
             public void Pause()
             {
                 if (m_Disposed)
+                {
+                    Log.Debug("Audio", $"{m_Name} has release, but you try Pause");
                     return;
+                }
                 if (!m_Paused)
                 {
                     m_Paused = true;
@@ -68,20 +120,44 @@ namespace UnityXFrame.Core.Audios
                 }
             }
 
-            public void Play(Action callback = null)
+            public void Continue()
             {
                 if (m_Disposed)
+                {
+                    Log.Debug("Audio", $"{m_Name} has release, but you try Continue");
                     return;
-
+                }
                 if (m_Paused)
                 {
                     m_Paused = false;
                     m_Source.Play();
+                }
+            }
+
+            public void Release()
+            {
+                if (m_Disposed)
+                {
+                    Log.Debug("Audio", $"{m_Name} has release, but you try Release again");
                     return;
                 }
 
+                m_Group.Remove(this);
+                PoolModule.Inst.GetOrNew<Audio>().Release(this);
+            }
+
+            public void Play(Action callback = null)
+            {
+                if (m_Disposed)
+                {
+                    Log.Debug("Audio", $"{m_Name} has release, but you try Play");
+                    return;
+                }
+
+                m_PlayCallback = callback;
                 m_Paused = false;
                 m_Source.loop = false;
+                m_Source.time = 0;
                 InnerUpdateSourceVolume();
                 m_Source.Play();
                 if (m_WaitTask != null)
@@ -90,28 +166,31 @@ namespace UnityXFrame.Core.Audios
                     m_WaitTask = null;
                 }
 
-                m_WaitTask = TaskModule.Inst.GetOrNew<BolActionTask>();
-                m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
-                    .OnComplete(() =>
-                    {
-                        m_WaitTask = null;
-                        callback?.Invoke();
-                        Stop();
-                    }).Start();
+                if (AutoRelease)
+                {
+                    m_WaitTask = TaskModule.Inst.GetOrNew<BolActionTask>();
+                    m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
+                        .OnComplete(() =>
+                        {
+                            m_WaitTask = null;
+                            m_PlayCallback?.Invoke();
+                            m_PlayCallback = null;
+                            if (m_Disposed)
+                                return;
+                            Release();
+                        }).Start();
+                }
             }
 
             public void PlayLoop()
             {
                 if (m_Disposed)
-                    return;
-
-                if (m_Paused)
                 {
-                    m_Paused = false;
-                    m_Source.Play();
+                    Log.Debug("Audio", $"{m_Name} has release, but you try PlayLoop");
                     return;
                 }
 
+                m_Source.time = 0;
                 m_Paused = false;
                 m_Source.loop = true;
                 InnerUpdateSourceVolume();
@@ -121,10 +200,13 @@ namespace UnityXFrame.Core.Audios
             public void Stop()
             {
                 if (m_Disposed)
+                {
+                    Log.Debug("Audio", $"{m_Name} has release, but you try Stop");
                     return;
+                }
                 m_Source.Stop();
-                m_Group.Remove(this);
-                PoolModule.Inst.GetOrNew<Audio>().Release(this);
+                if (AutoRelease)
+                    Release();
             }
 
             int IPoolObject.PoolKey => 0;

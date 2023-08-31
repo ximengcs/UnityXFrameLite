@@ -84,83 +84,103 @@ namespace UnityXFrame.Core.Audios
 
         public IAudio Play(string name, Action callback = null)
         {
-            return Play(name, MAIN_GROUP, callback);
+            return Play(name, MAIN_GROUP, true, callback);
+        }
+
+        public IAudio Play(string name, bool autoRelease, Action callback = null)
+        {
+            return Play(name, MAIN_GROUP, autoRelease, callback);
         }
 
         public IAudio Play(string name, string groupName, Action callback = null)
         {
-            IAudio audio = InnerReadyAudio(name, groupName);
+            return Play(name, groupName, true, callback);
+        }
+
+        public IAudio Play(string name, string groupName, bool autoRelease, Action callback = null)
+        {
+            IAudio audio = InnerReadyAudio(name, groupName, autoRelease);
             audio.Play(callback);
             return audio;
         }
 
-        public IAudio PlayLoop(string name)
+        public IAudio PlayLoop(string name, bool autoRelease = false)
         {
-            return PlayLoop(name, MAIN_GROUP);
+            return PlayLoop(name, MAIN_GROUP, autoRelease);
         }
 
-        public IAudio PlayLoop(string name, string groupName)
+        public IAudio PlayLoop(string name, string groupName, bool autoRelease = false)
         {
-            IAudio audio = InnerReadyAudio(name, groupName);
+            IAudio audio = InnerReadyAudio(name, groupName, autoRelease);
             audio.PlayLoop();
             return audio;
         }
 
         public XTask<IAudio> PlayAsync(string name, Action callback = null)
         {
-            XTask<IAudio> task = InnerReadyAudioAsync(name, MAIN_GROUP);
+            return PlayAsync(name, true, callback);
+        }
+
+        public XTask<IAudio> PlayAsync(string name, bool autoRelease, Action callback = null)
+        {
+            XTask<IAudio> task = InnerReadyAudioAsync(name, MAIN_GROUP, autoRelease);
             task.OnComplete(() => task.Data.Play(callback));
             return task;
         }
 
         public XTask<IAudio> PlayAsync(string name, string groupName, Action callback = null)
         {
-            XTask<IAudio> task = InnerReadyAudioAsync(name, groupName);
+            return PlayAsync(name, groupName, true, callback);
+        }
+
+        public XTask<IAudio> PlayAsync(string name, string groupName, bool autoRelease, Action callback = null)
+        {
+            XTask<IAudio> task = InnerReadyAudioAsync(name, groupName, autoRelease);
             task.OnComplete(() => task.Data.Play(callback));
             return task;
         }
 
-        public XTask<IAudio> PlayLoopAsync(string name)
+        public XTask<IAudio> PlayLoopAsync(string name, bool autoRelease = false)
         {
-            XTask<IAudio> task = InnerReadyAudioAsync(name, MAIN_GROUP);
+            XTask<IAudio> task = InnerReadyAudioAsync(name, MAIN_GROUP, autoRelease);
             task.OnComplete(() => task.Data.PlayLoop());
             return task;
         }
 
-        public XTask<IAudio> PlayLoopAsync(string name, string groupName)
+        public XTask<IAudio> PlayLoopAsync(string name, string groupName, bool autoRelease = false)
         {
-            XTask<IAudio> task = InnerReadyAudioAsync(name, groupName);
+            XTask<IAudio> task = InnerReadyAudioAsync(name, groupName, autoRelease);
             task.OnComplete(() => task.Data.PlayLoop());
             return task;
         }
         #endregion
 
         #region Inner Imeplement
-        private Audio InnerReadyAudio(string name, string groupName)
+        private Audio InnerReadyAudio(string name, string groupName, bool autoRelease)
         {
             Group group = InnerGetOrNewGroup(groupName);
-            Audio audio = InnerCreateAudio(name);
+            Audio audio = InnerCreateAudio(name, autoRelease);
             group.Add(audio);
             return audio;
         }
 
-        private XTask<IAudio> InnerReadyAudioAsync(string name, string groupName)
+        private XTask<IAudio> InnerReadyAudioAsync(string name, string groupName, bool autoRelease)
         {
             Group group = InnerGetOrNewGroup(groupName);
-            XTask<IAudio> audio = InnerCreateAudioAsync(name);
+            XTask<IAudio> audio = InnerCreateAudioAsync(name, autoRelease);
             audio.OnComplete(() => group.Add(audio.Data));
             return audio;
         }
 
-        private Audio InnerCreateAudio(string name)
+        private Audio InnerCreateAudio(string name, bool autoRelease)
         {
             AudioClip clip = ResModule.Inst.Load<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
             Audio audio = m_AudioPool.Require();
-            audio.OnInit(m_Root, m_MainGroup, clip);
+            audio.OnInit(m_Root, m_MainGroup, clip, autoRelease);
             return audio;
         }
 
-        private XTask<IAudio> InnerCreateAudioAsync(string name)
+        private XTask<IAudio> InnerCreateAudioAsync(string name, bool autoRelease)
         {
             XTask<IAudio> task = TaskModule.Inst.GetOrNew<XTask<IAudio>>();
             ResLoadTask<AudioClip> loadTask = ResModule.Inst.LoadAsync<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
@@ -170,7 +190,7 @@ namespace UnityXFrame.Core.Audios
                     return;
 
                 Audio audio = m_AudioPool.Require();
-                audio.OnInit(m_Root, m_MainGroup, clip);
+                audio.OnInit(m_Root, m_MainGroup, clip, autoRelease);
                 task.Data = audio;
             });
             task.Add(loadTask).Start();

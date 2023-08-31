@@ -11,12 +11,19 @@ namespace UnityXFrameLib.Utilities
             ColorUtility.TryParseHtmlString(colorStr, out Color color);
             return color;
         }
-        
+
         public static void SetLayer(GameObject gameObject, int layer)
         {
             gameObject.layer = layer;
             foreach (Transform t in gameObject.transform)
                 SetLayer(t.gameObject, layer);
+        }
+
+        public static void SetScale(GameObject gameObject, Vector3 scale)
+        {
+            gameObject.transform.localScale = scale;
+            foreach (Transform t in gameObject.transform)
+                SetScale(t.gameObject, scale);
         }
 
         private static PointerEventData m_PointerData;

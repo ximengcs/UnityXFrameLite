@@ -15,6 +15,7 @@ namespace UnityXFrameLib.Effects
         private Transform m_Tf;
         private ParticleSystem m_Particle;
 
+        private Color m_Color;
         private bool m_Inited;
         private bool m_Playing;
         private Vector3 m_Pos;
@@ -44,12 +45,34 @@ namespace UnityXFrameLib.Effects
             }).Start();
         }
 
+        public void SetColor(Color color)
+        {
+            m_Color = color;
+            InnerRefreshState();
+        }
+
         public void Play(Vector3 target, Vector3 scale)
         {
             m_Pos = target;
             m_Scale = scale;
             m_Playing = true;
             InnerRefreshState();
+        }
+
+        public void Play(Vector3 target)
+        {
+            Play(target, Vector3.one);
+        }
+
+        public void Stop()
+        {
+            if (!m_Playing)
+                return;
+            m_Playing = false;
+            if (m_Particle != null && m_Particle.isPlaying)
+            {
+                m_Particle.Stop();
+            }
         }
 
         private void InnerRefreshState()
@@ -59,12 +82,14 @@ namespace UnityXFrameLib.Effects
                 if (m_Playing)
                 {
                     m_Tf.position = m_Pos;
-                    m_Tf.localScale = m_Scale;
+                    CommonUtility.SetScale(m_Inst, m_Scale);
                     m_Particle.Play();
-                    if (!m_Particle.main.loop)
+                    var module = m_Particle.main;
+                    if (!module.loop)
                     {
-                        TaskExt.Delay(m_Particle.main.duration, InnerDispose);
+                        TaskExt.Delay(module.duration, InnerDispose);
                     }
+                    module.startColor = m_Color;
                 }
             }
         }
