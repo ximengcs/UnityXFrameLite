@@ -82,7 +82,7 @@ namespace UnityXFrameLib.Effects
                 if (m_Playing)
                 {
                     m_Tf.position = m_Pos;
-                    CommonUtility.SetScale(m_Inst, m_Scale);
+                    m_Tf.localScale = m_Scale;
                     m_Particle.Play();
                     var module = m_Particle.main;
                     if (!module.loop)
