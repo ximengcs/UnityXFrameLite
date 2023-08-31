@@ -90,7 +90,7 @@ namespace UnityXFrame.Core.Audios
                 m_Volume = 1.0f;
                 m_Name = clip.name;
                 m_Inst.name = m_Name;
-                AutoRelease = autoRelease;
+                m_AutoRelease = autoRelease;
                 m_Inst.transform.SetParent(root);
                 m_Source.outputAudioMixerGroup = group;
                 Clip = clip;
