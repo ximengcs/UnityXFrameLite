@@ -3,6 +3,7 @@ using XFrame.Modules.Pools;
 using UnityXFrameLib.Tasks;
 using XFrame.Modules.Resource;
 using UnityXFrameLib.Utilities;
+using UnityEngine.UIElements;
 
 namespace UnityXFrameLib.Effects
 {
@@ -39,6 +40,8 @@ namespace UnityXFrameLib.Effects
                 m_Tf = m_Inst.transform;
                 m_Tf.SetParent(m_Root);
                 m_Particle = m_Inst.GetComponent<ParticleSystem>();
+                m_Color = m_Particle.main.startColor.color;
+                m_Scale = m_Tf.localScale;
                 CommonUtility.SetLayer(m_Inst, LayerMask.NameToLayer(LibConstant.EFFECT_LAYER));
                 m_Inited = true;
                 InnerRefreshState();
