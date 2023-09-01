@@ -22,6 +22,9 @@ namespace UnityXFrameLib.Effects
         private Vector3 m_Pos;
         private Vector3 m_Scale;
 
+        private bool m_SetColorDirty;
+        private bool m_SetScaleDirty;
+
         int IPoolObject.PoolKey => m_TypeId;
 
         public ParticleEffect(int typeId, string resName, Transform root)
@@ -40,8 +43,10 @@ namespace UnityXFrameLib.Effects
                 m_Tf = m_Inst.transform;
                 m_Tf.SetParent(m_Root);
                 m_Particle = m_Inst.GetComponent<ParticleSystem>();
-                m_Color = m_Particle.main.startColor.color;
-                m_Scale = m_Tf.localScale;
+                if (!m_SetColorDirty)
+                    m_Color = m_Particle.main.startColor.color;
+                if (!m_SetScaleDirty)
+                    m_Scale = m_Tf.localScale;
                 CommonUtility.SetLayer(m_Inst, LayerMask.NameToLayer(LibConstant.EFFECT_LAYER));
                 m_Inited = true;
                 InnerRefreshState();
@@ -50,12 +55,14 @@ namespace UnityXFrameLib.Effects
 
         public void SetColor(Color color)
         {
+            m_SetColorDirty = true;
             m_Color = color;
             InnerRefreshState();
         }
 
         public void Play(Vector3 target, Vector3 scale)
         {
+            m_SetScaleDirty = true;
             m_Pos = target;
             m_Scale = scale;
             m_Playing = true;
@@ -116,6 +123,8 @@ namespace UnityXFrameLib.Effects
         void IPoolObject.OnRequest()
         {
             m_Playing = false;
+            m_SetColorDirty = false;
+            m_SetScaleDirty = false;
             m_Inst?.SetActive(true);
         }
     }
