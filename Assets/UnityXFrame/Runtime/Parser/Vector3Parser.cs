@@ -102,17 +102,31 @@ namespace UnityXFrame.Core.Parser
 
         public static bool operator ==(Vector3Parser src, object tar)
         {
-            return src.Equals(tar);
+            if (ReferenceEquals(src, null))
+            {
+                return ReferenceEquals(tar, null);
+            }
+            else
+            {
+                return src.Equals(tar);
+            }
         }
 
         public static bool operator !=(Vector3Parser src, object tar)
         {
-            return !src.Equals(tar);
+            if (ReferenceEquals(src, null))
+            {
+                return !ReferenceEquals(tar, null);
+            }
+            else
+            {
+                return !src.Equals(tar);
+            }
         }
 
         public static implicit operator Vector3(Vector3Parser parser)
         {
-            return parser.m_Value;
+            return parser != null ? parser.m_Value : default;
         }
 
         public static implicit operator Vector3Parser(Vector3 value)

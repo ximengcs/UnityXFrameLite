@@ -12,6 +12,7 @@ using Unity.VisualScripting;
 using System.Linq;
 using UnityXFrame.Core.Parser;
 using XFrame.Modules.Diagnotics;
+using XFrame.Core;
 
 namespace Game.Test
 {
@@ -21,7 +22,13 @@ namespace Game.Test
         [DebugCommand]
         public void test()
         {
-            Debug.LogWarning("test exec");
+            ArrayParser<Vector2Parser> parser = new ArrayParser<Vector2Parser>();
+            parser.Parse("0.1,0.1");
+            Debug.LogWarning(parser.Count);
+            Debug.LogWarning(parser.Get(0));
+            Debug.LogWarning(parser.Get(1));
+            Debug.LogWarning(parser.Get(2));
+            Vector2 pos = parser.Get(3);
         }
 
         [DebugCommand]
