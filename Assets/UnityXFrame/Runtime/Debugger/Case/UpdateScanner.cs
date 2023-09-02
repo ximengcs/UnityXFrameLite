@@ -9,7 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 namespace UnityXFrame.Core.Diagnotics
 {
     [DebugHelp("view resource update progress")]
-    [DebugWindow(-999, "ResUpdate")]
+    [DebugWindow(-999, "Resource")]
     public class UpdateScanner : IDebugWindow
     {
         private HotUpdateCheckTask m_CheckTask;
