@@ -53,7 +53,7 @@ namespace UnityXFrameLib.Commercial
                 }
                 else
                 {
-                    if (m_Configs.TryGetValue(data.Type, out Dictionary<int, AdsConfig> configs) && configs.TryGetValue(data.ViewId, out AdsConfig cfg))
+                    if (GetConfig(data.Type, data.ViewId, out AdsConfig cfg))
                     {
                         view = (IAdView)Activator.CreateInstance(type);
                         view.OnInit(data, cfg);
@@ -64,6 +64,11 @@ namespace UnityXFrameLib.Commercial
                 return view;
             }
             return default;
+        }
+
+        public void Close(AdsConfig config)
+        {
+            Close(config.Type, config.ViewId);
         }
 
         public void Close(int adType, int entityId = default)
@@ -87,6 +92,24 @@ namespace UnityXFrameLib.Commercial
                 m_Configs.Add(config.Type, configs);
             }
             configs.Add(config.ViewId, config);
+        }
+
+        public bool GetConfig(int type, int viewId, out AdsConfig config)
+        {
+            if (m_Configs.TryGetValue(type, out Dictionary<int, AdsConfig> configs))
+            {
+                if (configs.TryGetValue(viewId, out config))
+                {
+                    return true;
+                }
+                else
+                {
+                    config = default;
+                    return false;
+                }
+            }
+            config = default;
+            return false;
         }
 
         public void WaitInit(Action handler)
