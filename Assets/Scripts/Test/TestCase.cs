@@ -293,8 +293,11 @@ namespace Game.Test
             {
                 UIModuleExt.CollectAutoTask().Start();
             }
+
+            m_Slider = GUILayout.HorizontalSlider(m_Slider, 1, 120, DebugGUI.Style.HorizontalSlider, DebugGUI.Style.HorizontalSliderThumb);
         }
 
+        private float m_Slider = 80;
         private IAudio m_TestAudio;
 
         int pro;

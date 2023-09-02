@@ -1,6 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -10,6 +9,20 @@ namespace UnityXFrame.Core.Diagnotics
         private static string[] m_PowerText = new string[] { "On", "Off" };
         private static Dictionary<int, string> s_FloatTexts = new Dictionary<int, string>();
 
+        public static float Slider(float value, float leftValue, float rightValue)
+        {
+            return GUILayout.HorizontalSlider(value, leftValue, rightValue, Style.HorizontalSlider, Style.HorizontalSliderThumb);
+        }
+
+        public static void BeginHorizontal()
+        {
+            GUILayout.BeginHorizontal(DebugGUI.Style.Rect);
+        }
+
+        public static void BeginVertical()
+        {
+            GUILayout.BeginVertical(DebugGUI.Style.Rect);
+        }
 
         public static GUILayoutOption Width(float width)
         {

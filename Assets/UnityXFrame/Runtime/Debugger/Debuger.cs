@@ -89,6 +89,8 @@ namespace UnityXFrame.Core.Diagnotics
 
             DebugGUI.Style = new DebugStyle();
             DebugGUI.Style.Skin = Skin;
+            DebugGUI.Style.HorizontalSlider = Skin.horizontalSlider;
+            DebugGUI.Style.HorizontalSliderThumb = Skin.horizontalSliderThumb;
             DebugGUI.Style.HorizontalScrollbar = Skin.horizontalScrollbar;
             DebugGUI.Style.VerticalScrollbar = Skin.verticalScrollbar;
             DebugGUI.Style.Button = Skin.customStyles[3];
@@ -106,6 +108,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Style.ProgressThumb = Skin.customStyles[15];
             m_CmdRunButton = Skin.customStyles[16];
             m_CmdContentStyle = Skin.customStyles[17];
+            DebugGUI.Style.Rect = Skin.customStyles[18];
 
             m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
@@ -138,6 +141,8 @@ namespace UnityXFrame.Core.Diagnotics
             FitStyle(m_ContentArea);
             FitStyle(m_MenuButton);
             FitStyle(m_CmdRunButton);
+            FitStyle(DebugGUI.Style.HorizontalSlider);
+            FitStyle(DebugGUI.Style.HorizontalSliderThumb);
             FitStyle(DebugGUI.Style.HorizontalScrollbar);
             FitStyle(DebugGUI.Style.VerticalScrollbar);
             FitStyle(DebugGUI.Style.Button);
@@ -147,6 +152,7 @@ namespace UnityXFrame.Core.Diagnotics
             FitStyle(DebugGUI.Style.Toolbar);
             FitStyle(DebugGUI.Style.ProgressSlider);
             FitStyle(DebugGUI.Style.ProgressThumb);
+            FitStyle(DebugGUI.Style.Rect);
             FitStyle(Skin.verticalScrollbarThumb);
             FitStyle(Skin.horizontalScrollbarThumb);
             FitStyle(Skin.box);

@@ -45,7 +45,7 @@ namespace UnityXFrame.Core.Diagnotics
         {
             GUILayout.BeginHorizontal();
             m_Pattern = DebugGUI.TextField(m_Pattern);
-            if (DebugGUI.Button("+", GUILayout.Width(100)))
+            if (DebugGUI.Button("+", DebugGUI.Width(100)))
             {
                 if (m_Types.ContainsKey(m_Pattern))
                     m_Types.Remove(m_Pattern);
@@ -65,7 +65,7 @@ namespace UnityXFrame.Core.Diagnotics
             {
                 GUILayout.BeginHorizontal();
                 info.Show = DebugGUI.Toggle(info.Show, $"{info.Pattern}({info.Count})");
-                if (DebugGUI.Button("x", GUILayout.Width(100)))
+                if (DebugGUI.Button("x", DebugGUI.Width(100)))
                 {
                     m_Types.Remove(info.Pattern);
                     continue;

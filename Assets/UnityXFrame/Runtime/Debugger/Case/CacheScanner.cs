@@ -20,7 +20,7 @@ namespace UnityXFrame.Core.Diagnotics
             {
                 GUILayout.BeginHorizontal();
                 DebugGUI.Label(TypeUtility.GetSimpleName(cache.TargetType.FullName));
-                DebugGUI.Label(cache.Count.ToString(), GUILayout.Width(Debuger.Inst.FitWidth(100)));
+                DebugGUI.Label(cache.Count.ToString(), DebugGUI.Width(100));
                 GUILayout.EndHorizontal();
             }
         }

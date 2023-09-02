@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using XFrame.Modules.Archives;
-using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Times;
+using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -12,6 +11,9 @@ namespace UnityXFrame.Core.Diagnotics
     {
         private bool m_TimerCD;
         private bool m_LockFPS;
+        private int m_FPS;
+        private int m_FPSMin = 10;
+        private int m_FPSMax = 144;
         private ITask m_TimerDebugTask;
 
         public void Dispose()
@@ -22,6 +24,7 @@ namespace UnityXFrame.Core.Diagnotics
         public void OnAwake()
         {
             m_LockFPS = true;
+            m_FPS = Mathf.Clamp(m_FPS, m_FPSMin, m_FPSMax);
         }
 
         public void OnDraw()
@@ -37,13 +40,13 @@ namespace UnityXFrame.Core.Diagnotics
             m_TimerCD = timerCD;
             GUILayout.EndHorizontal();
 
-            if (DebugGUI.Button("Clear User Data"))
-            {
-                CmdList.clear_user_data();
-            }
+            DebugGUI.BeginVertical();
+            GUILayout.BeginHorizontal();
+            m_FPS = (int)DebugGUI.Slider(m_FPS, m_FPSMin, m_FPSMax);
+            GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            DebugGUI.Label("Lock FPS");
+            DebugGUI.Label($"Lock FPS {m_FPS}");
             bool lockFPS = DebugGUI.Power(m_LockFPS);
             if (lockFPS != m_LockFPS)
             {
@@ -51,9 +54,15 @@ namespace UnityXFrame.Core.Diagnotics
                 if (m_LockFPS)
                     Application.targetFrameRate = 60;
                 else
-                    Application.targetFrameRate = 0;
+                    Application.targetFrameRate = m_FPS;
             }
             GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+
+            if (DebugGUI.Button("Clear User Data"))
+            {
+                CmdList.clear_user_data();
+            }
         }
 
         private bool InnerTestTimerCD()
