@@ -89,6 +89,12 @@ namespace UnityXFrame.Core.Diagnotics
         private Dictionary<Type, IParser> m_CmdParsers;
         private Dictionary<Type, object> m_CmdInsts;
         private Dictionary<string, CmdHandler> m_CmdHandlers;
+        private string m_CmdHelpInfo;
+
+        public void SetCmdHelpInfo(string info)
+        {
+            m_CmdHelpInfo = info;
+        }
 
         public void RegisterCmdParser(Type dataType, Type parserType)
         {

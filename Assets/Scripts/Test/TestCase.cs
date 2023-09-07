@@ -37,7 +37,7 @@ namespace Game.Test
 
         public void OnAwake()
         {
-            
+
             m_Time = 0.5f;
         }
         private IEventSystem m_Sys;
@@ -292,6 +292,13 @@ namespace Game.Test
             if (DebugGUI.Button("Auto UI Task"))
             {
                 UIModuleExt.CollectAutoTask().Start();
+            }
+
+            if (DebugGUI.Button("Set cmd info"))
+            {
+                Debuger.Inst.SetCmdHelpInfo("" +
+                    "close\n" +
+                    "open_ui");
             }
 
             m_Slider = GUILayout.HorizontalSlider(m_Slider, 1, 120, DebugGUI.Style.HorizontalSlider, DebugGUI.Style.HorizontalSliderThumb);

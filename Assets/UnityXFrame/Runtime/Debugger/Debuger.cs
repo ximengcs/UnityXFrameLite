@@ -42,8 +42,8 @@ namespace UnityXFrame.Core.Diagnotics
         private List<WindowInfo> m_Windows;
         private WindowInfo m_Current;
 
-        private float m_ExtraHeight;
-        private Vector2 m_ScrollPos;
+        private Vector2 m_HelpScrollPos;
+        private int m_HelpSelect;
         private bool m_ShowFps;
         private TweenModule m_TweenModule;
         private HashSet<int> m_TipNewMsg;
@@ -261,8 +261,16 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
-            m_ScrollPos = DebugGUI.BeginScrollView(m_ScrollPos);
-            GUILayout.Box(m_Current.HelpInfo, Skin.box);
+            GUILayout.BeginHorizontal();
+            m_HelpSelect = DebugGUI.Toolbar(m_HelpSelect, new string[] { "Cmd", "Menu" });
+            GUILayout.EndHorizontal();
+
+            m_HelpScrollPos = DebugGUI.BeginScrollView(m_HelpScrollPos);
+            switch (m_HelpSelect)
+            {
+                case 0: GUILayout.Box(m_CmdHelpInfo, Skin.box); break;
+                case 1: GUILayout.Box(m_Current.HelpInfo, Skin.box); break;
+            }
             GUILayout.EndScrollView();
         }
 
