@@ -52,5 +52,12 @@ namespace UnityXFrame.Editor
             w.ShowUtility();
             w.minSize = new Vector2(320, 450);
         }
+
+        [MenuItem("UnityXFrame/Name Edit")]
+        public static void Name()
+        {
+            NameEditor w = EditorWindow.GetWindow<NameEditor>("NameEditor");
+            w.ShowUtility();
+        }
     }
 }

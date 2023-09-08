@@ -22,13 +22,8 @@ namespace Game.Test
         [DebugCommand]
         public void test()
         {
-            ArrayParser<Vector2Parser> parser = new ArrayParser<Vector2Parser>();
-            parser.Parse("0.1,0.1");
-            Debug.LogWarning(parser.Count);
-            Debug.LogWarning(parser.Get(0));
-            Debug.LogWarning(parser.Get(1));
-            Debug.LogWarning(parser.Get(2));
-            Vector2 pos = parser.Get(3);
+            IntParser.TryParse("0010", out int value);
+            Debug.LogWarning(value);
         }
 
         [DebugCommand]
@@ -103,6 +98,17 @@ namespace Game.Test
         {
             bool success = ColorParser.TryParse(pattern, out Color value);
             Log.Debug($"{success} {value}");
+        }
+
+        [DebugCommand]
+        public void name(string pattern, int type)
+        {
+            Name name = Name.Create(pattern);
+            if (name.Has(type))
+            {
+                Log.Debug($"{name}({name.GetHashCode()}) containes {type}, value is {name.Get(type)}");
+            }
+            name.Release();
         }
     }
 }
