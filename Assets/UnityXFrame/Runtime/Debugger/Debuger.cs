@@ -286,6 +286,7 @@ namespace UnityXFrame.Core.Diagnotics
                 Vector3 touchPos = Input.mousePosition;
                 touchPos.y = Screen.height - touchPos.y;
                 bool enable = m_IsOpen ? !m_RootRect.Contains(touchPos) : true;
+                enable = m_HelpOpen ? !m_HelpRect.Contains(touchPos) : enable;
                 m_EventSytem.enabled = enable;
             }
         }
