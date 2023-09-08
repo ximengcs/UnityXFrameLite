@@ -22,8 +22,20 @@ namespace Game.Test
         [DebugCommand]
         public void test()
         {
-            IntParser.TryParse("0010", out int value);
-            Debug.LogWarning(value);
+            Name name = "yanying@series#1@layer#2@pos#l";
+            Name name2 = "yanying@series#2@layer#2@pos#l";
+            Name name3 = "yanying@series#1@layer#2@pos#l";
+            Name name4 = "yanying@layer#2@pos#l@series#1";
+            Debug.LogWarning(name == null);
+            Debug.LogWarning(name != null);
+            Debug.LogWarning(name == "yanying");
+            Debug.LogWarning(name != "yanying");
+            Debug.LogWarning(name == name2);
+            Debug.LogWarning(name != name2);
+            Debug.LogWarning(name == name3);
+            Debug.LogWarning(name != name3);
+            Debug.LogWarning(name == name4);
+            Debug.LogWarning(name != name4);
         }
 
         [DebugCommand]
