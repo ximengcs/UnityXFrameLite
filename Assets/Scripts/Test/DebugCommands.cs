@@ -38,10 +38,10 @@ namespace Game.Test
             //map.Add(name3, name3);
             //map.Add(name4, name4);
 
-            Debug.LogWarning(map.ContainsKey(name));
-            Debug.LogWarning(map.ContainsKey("yanying_series#1_layer#2_pos#l"));
-            Debug.LogWarning(map.ContainsKey("yanying_series#2_layer#2_pos#l"));
-            Debug.LogWarning(map.ContainsKey("yanying_series#3_layer#2_pos#l"));
+            Debug.LogWarning(map.ContainsName(name));
+            Debug.LogWarning(map.ContainsName("yanying_series#1_layer#2_pos#l"));
+            Debug.LogWarning(map.ContainsName("yanying_series#2_layer#2_pos#l"));
+            Debug.LogWarning(map.ContainsName("yanying_series#3_layer#2_pos#l"));
 
             //Debug.LogWarning(name == null);
             //Debug.LogWarning(name != null);

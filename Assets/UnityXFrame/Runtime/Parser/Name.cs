@@ -1,8 +1,6 @@
 ﻿using XFrame.Core;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Diagnotics;
-using UnityEngine;
-using System;
 
 namespace UnityXFrame.Core.Parser
 {
