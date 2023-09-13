@@ -22,10 +22,10 @@ namespace Game.Test
         [DebugCommand]
         public void test()
         {
-            Name name = "yanying@series#1@layer#2@pos#l";
-            Name name2 = "yanying@series#2@layer#2@pos#l";
-            Name name3 = "yanying@series#1@layer#2@pos#l";
-            Name name4 = "yanying@layer#2@pos#l@series#1";
+            Name name = "yanying_series#1_layer#2_pos#l";
+            Name name2 = "yanying_series#2_layer#2_pos#l";
+            Name name3 = "yanying_series#1_layer#2_pos#l";
+            Name name4 = "layer#2_pos#l_series#1_yanying";
             Debug.LogWarning(name == null);
             Debug.LogWarning(name != null);
             Debug.LogWarning(name == "yanying");
@@ -36,6 +36,10 @@ namespace Game.Test
             Debug.LogWarning(name != name3);
             Debug.LogWarning(name == name4);
             Debug.LogWarning(name != name4);
+            Debug.LogWarning(name.Is("yanying"));
+            Debug.LogWarning(name.Is("series", 1));
+            Debug.LogWarning(name.Is("series", 2));
+            Debug.LogWarning(name.Is("layer", 2));
         }
 
         [DebugCommand]

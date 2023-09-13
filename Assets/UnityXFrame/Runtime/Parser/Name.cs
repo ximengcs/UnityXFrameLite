@@ -1,5 +1,4 @@
 ﻿using XFrame.Core;
-using UnityEngine;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Diagnotics;
 
@@ -8,10 +7,8 @@ namespace UnityXFrame.Core.Parser
     public class Name : MapParser<IntOrHashParser, UniversalParser>
     {
         public static int AVATAR = 0;
-        public static char SPLIT = '@';
+        public static char SPLIT = '_';
         public static char SPLIT2 = '#';
-
-        private Name() { }
 
         protected override void InnerParseItem(out IntOrHashParser kParser, out UniversalParser vParser, string[] pItem)
         {
@@ -33,18 +30,20 @@ namespace UnityXFrame.Core.Parser
             }
         }
 
-        public bool Is(UniversalParser vParser)
+        public bool Is(UniversalParser vParser, bool keyRelease = true, bool valueRelease = true)
         {
-            return Is(AVATAR, vParser);
+            return Is(AVATAR, vParser, keyRelease, valueRelease);
         }
 
-        public bool Is(IntOrHashParser kParser, UniversalParser vParser)
+        public bool Is(IntOrHashParser kParser, UniversalParser vParser, bool keyRelease = true, bool valueRelease = true)
         {
             bool result = false;
             if (TryGet(kParser, out UniversalParser target))
-                result = kParser == target;
-            vParser.Release();
-            kParser.Release();
+                result = vParser == target;
+            if (keyRelease)
+                kParser.Release();
+            if (valueRelease)
+                vParser.Release();
             return result;
         }
 
