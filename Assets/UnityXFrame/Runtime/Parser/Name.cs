@@ -1,6 +1,8 @@
 ﻿using XFrame.Core;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Diagnotics;
+using UnityEngine;
+using System;
 
 namespace UnityXFrame.Core.Parser
 {
@@ -93,7 +95,10 @@ namespace UnityXFrame.Core.Parser
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            int result = 0;
+            foreach (var entry in Value)
+                result += entry.GetHashCode();
+            return result;
         }
 
         public static Name Create(string pattern)
