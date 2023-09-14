@@ -4,15 +4,8 @@ using XFrame.Modules.Tasks;
 using XFrame.Modules.Times;
 using UnityXFrameLib.Pools;
 using UnityXFrame.Core.Diagnotics;
-using XFrame.Modules.Pools;
-using XFrame.Modules.XType;
-using UnityXFrame.Core;
-using System;
-using Unity.VisualScripting;
-using System.Linq;
 using UnityXFrame.Core.Parser;
 using XFrame.Modules.Diagnotics;
-using XFrame.Core;
 using System.Collections.Generic;
 
 namespace Game.Test
@@ -38,11 +31,12 @@ namespace Game.Test
             //map.Add(name3, name3);
             //map.Add(name4, name4);
 
-            Debug.LogWarning(map.ContainsName(name));
             Debug.LogWarning(map.ContainsName("yanying_series#1_layer#2_pos#l"));
             Debug.LogWarning(map.ContainsName("yanying_series#2_layer#2_pos#l"));
             Debug.LogWarning(map.ContainsName("yanying_series#3_layer#2_pos#l"));
-
+            Debug.LogWarning(name.Get(Name.AVATAR));
+            Debug.LogWarning(name.Get("layer"));
+            Debug.LogWarning(name["pos"]);
             //Debug.LogWarning(name == null);
             //Debug.LogWarning(name != null);
             //Debug.LogWarning(name == "yanying");

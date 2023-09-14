@@ -129,7 +129,7 @@ namespace UnityXFrame.Core.Parser
 
         public static implicit operator ColorParser(Color value)
         {
-            ColorParser parser = new ColorParser();
+            ColorParser parser = References.Require<ColorParser>();
             parser.m_Value = value;
             return parser;
         }

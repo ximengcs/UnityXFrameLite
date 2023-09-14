@@ -128,7 +128,7 @@ namespace UnityXFrame.Core.Parser
 
         public static implicit operator Vector2Parser(Vector2 value)
         {
-            Vector2Parser parser = new Vector2Parser();
+            Vector2Parser parser = References.Require<Vector2Parser>();
             parser.m_Value = value;
             return parser;
         }
