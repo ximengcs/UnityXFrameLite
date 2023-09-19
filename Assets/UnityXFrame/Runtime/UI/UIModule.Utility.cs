@@ -6,6 +6,8 @@ namespace UnityXFrame.Core.UIElements
     {
         internal static int SetLayer(Transform root, IUIElement element, int layer)
         {
+            if (root.childCount == 0)
+                return 0;
             layer = Mathf.Clamp(layer, 0, root.childCount - 1);
             Transform check = root.GetChild(layer);
             if (check.name == element.Name)

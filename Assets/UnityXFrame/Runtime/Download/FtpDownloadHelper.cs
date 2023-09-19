@@ -13,6 +13,7 @@ namespace XFrame.Modules.Download
         public bool IsDone { get; private set; }
         public DownloadResult Result { get; private set; }
         public string Url { get; set; }
+        public string[] ReserveUrl { get; set; }
 
         void IDownloadHelper.OnInit()
         {
