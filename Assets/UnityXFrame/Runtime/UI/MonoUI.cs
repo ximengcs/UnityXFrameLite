@@ -137,6 +137,8 @@ namespace UnityXFrame.Core.UIElements
 
         int IPoolObject.PoolKey => 0;
 
+        IPool IPoolObject.InPool { get; set; }
+
         void IPoolObject.OnCreate()
         {
             m_MonoContainer = new MonoContainer();

@@ -15,6 +15,8 @@ namespace UnityXFrame.Core.Parser
 
         int IPoolObject.PoolKey => default;
 
+        IPool IPoolObject.InPool { get; set; }
+
         public Color Parse(string pattern)
         {
             if (string.IsNullOrEmpty(pattern) || !TryParse(pattern, out m_Value))

@@ -211,6 +211,8 @@ namespace UnityXFrame.Core.Audios
 
             int IPoolObject.PoolKey => 0;
 
+            IPool IPoolObject.InPool { get; set; }
+
             void IPoolObject.OnCreate()
             {
                 m_Inst = new GameObject("Audio");
