@@ -91,8 +91,10 @@ namespace UnityXFrame.Core.UIElements
                 {
                     task.Add(() =>
                     {
-                        XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule);
+                        XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
+                        PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
                         InnerInitSpwanUI(list);
+                        list.Clear();
                         References.Release(list);
                     });
                 }
@@ -115,8 +117,10 @@ namespace UnityXFrame.Core.UIElements
             ActionTask task = TaskModule.Inst.GetOrNew<ActionTask>();
             task.Add(() =>
             {
-                XLinkList<IPoolObject> list = PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule);
+                XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
+                PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
                 InnerInitSpwanUI(list);
+                list.Clear();
                 References.Release(list);
             });
             return task;

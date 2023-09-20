@@ -109,6 +109,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_CmdRunButton = Skin.customStyles[16];
             m_CmdContentStyle = Skin.customStyles[17];
             DebugGUI.Style.Rect = Skin.customStyles[18];
+            DebugGUI.Style.Title = Skin.customStyles[19];
 
             m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
@@ -153,6 +154,7 @@ namespace UnityXFrame.Core.Diagnotics
             FitStyle(DebugGUI.Style.ProgressSlider);
             FitStyle(DebugGUI.Style.ProgressThumb);
             FitStyle(DebugGUI.Style.Rect);
+            FitStyle(DebugGUI.Style.Title);
             FitStyle(Skin.verticalScrollbarThumb);
             FitStyle(Skin.horizontalScrollbarThumb);
             FitStyle(Skin.box);

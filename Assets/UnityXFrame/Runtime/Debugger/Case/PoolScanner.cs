@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using XFrame.Core.Caches;
-using System.Collections.Generic;
+﻿
+using UnityEngine;
+using XFrame.Modules.Pools;
 using XFrame.Utility;
 
 namespace UnityXFrame.Core.Diagnotics
 {
-    [DebugWindow(-1000, "Cache")]
-    public class CacheScanner : IDebugWindow
+    [DebugWindow(-1001, "Pool")]
+    public class PoolScanner : IDebugWindow
     {
         public void OnAwake()
         {
@@ -17,15 +17,16 @@ namespace UnityXFrame.Core.Diagnotics
         {
             GUILayout.BeginHorizontal();
             DebugGUI.Title("TypeName");
+            DebugGUI.Title("U", DebugGUI.Width(70));
             DebugGUI.Title("C", DebugGUI.Width(70));
             GUILayout.EndHorizontal();
 
-            ICollection<XCache.ObjectCollection> caches = XCache.Collections;
-            foreach (var cache in caches)
+            foreach (IPool pool in PoolModule.Inst.AllPool)
             {
                 GUILayout.BeginHorizontal();
-                DebugGUI.Label(TypeUtility.GetSimpleName(cache.TargetType));
-                DebugGUI.Label(cache.Count.ToString(), DebugGUI.Width(70));
+                DebugGUI.Label(TypeUtility.GetSimpleName(pool.ObjectType));
+                DebugGUI.Label(pool.UseCount.ToString(), DebugGUI.Width(70));
+                DebugGUI.Label(pool.ObjectCount.ToString(), DebugGUI.Width(70));
                 GUILayout.EndHorizontal();
             }
         }

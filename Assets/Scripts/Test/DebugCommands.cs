@@ -58,6 +58,7 @@ namespace Game.Test
         public void test2(CommandLine cmd)
         {
             Debug.LogWarning($"test2 exec => {cmd}");
+            TaskModule.Inst.GetOrNew<EmptyTask>().Start();
         }
 
         [DebugCommand]

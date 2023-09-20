@@ -106,7 +106,11 @@ namespace Game.Test
             {
                 ResModule.Inst.LoadAsync<TextAsset>("Config/Prop.csv").OnComplete((asset) =>
                 {
-                    DataModule.Inst.Add<Prop>(asset.text, Constant.CSV_TYPE);
+                    //DataModule.Inst.Add<Prop>(asset.text, Constant.CSV_TYPE);
+                    Debug.LogWarning("complete");
+                }).OnUpdate((pro) =>
+                {
+                    Debug.LogWarning(pro);
                 }).Start();
             };
 

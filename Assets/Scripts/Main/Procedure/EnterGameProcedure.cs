@@ -8,6 +8,7 @@ using XFrame.Modules.Diagnotics;
 using UnityXFrame.Core.Resource;
 using Game.Test;
 using XFrame.Modules.Resource;
+using XFrame.Modules.Tasks;
 
 namespace Game.Core.Procedure
 {

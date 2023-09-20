@@ -102,6 +102,11 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.Label(content, Style.Lable, options);
         }
 
+        public static void Title(string content, params GUILayoutOption[] options)
+        {
+            GUILayout.Label(content, Style.Title, options);
+        }
+
         public static string TextArea(string content, params GUILayoutOption[] options)
         {
             return GUILayout.TextArea(content, Style.TextArea, options);
