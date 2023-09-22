@@ -2,6 +2,7 @@
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Times;
 using XFrame.Modules.Diagnotics;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -34,7 +35,7 @@ namespace UnityXFrame.Core.Diagnotics
             bool timerCD = DebugGUI.Power(m_TimerCD);
             if (timerCD && m_TimerDebugTask == null)
             {
-                m_TimerDebugTask = TaskModule.Inst.GetOrNew<ActionTask>().Add(1.0f, InnerTestTimerCD);
+                m_TimerDebugTask = Module.Task.GetOrNew<ActionTask>().Add(1.0f, InnerTestTimerCD);
                 m_TimerDebugTask.Start();
             }
             m_TimerCD = timerCD;
@@ -67,7 +68,7 @@ namespace UnityXFrame.Core.Diagnotics
 
         private bool InnerTestTimerCD()
         {
-            foreach (CDTimer timer in TimeModule.Inst.GetTimers())
+            foreach (CDTimer timer in Module.Time.GetTimers())
             {
                 float t = timer.CheckTime();
                 Log.Debug("Timer", $"{timer.Name} {(t > 0 ? t : "has reach")}");

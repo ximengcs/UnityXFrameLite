@@ -16,8 +16,8 @@ namespace UnityXFrame.Core.UIElements
     /// UI模块
     /// </summary>
     [XModule]
-    [RequireModule(typeof(PoolModule))]
-    public partial class UIModule : SingletonModule<UIModule>, IUpdater
+    [XType(typeof(IUIModule))]
+    public partial class UIModule : ModuleBase, IUIModule
     {
         #region Inner Fields
         private Vector2 m_PixelScale;
@@ -35,8 +35,7 @@ namespace UnityXFrame.Core.UIElements
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-
-            m_Event = EventModule.Inst.NewSys();
+            m_Event = Module.Event.NewSys();
             m_Helper = new DefaultUIPoolHelper();
             InnerCheckCanvas(data);
             if (m_Canvas != null)
@@ -84,7 +83,7 @@ namespace UnityXFrame.Core.UIElements
 
         public ITask Spwan(IEnumerable<Type> types, int useResModule)
         {
-            ActionTask task = TaskModule.Inst.GetOrNew<ActionTask>();
+            ActionTask task = Module.Task.GetOrNew<ActionTask>();
             foreach (Type uiType in types)
             {
                 if (uiType != null)
@@ -92,7 +91,7 @@ namespace UnityXFrame.Core.UIElements
                     task.Add(() =>
                     {
                         XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
-                        PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
+                        Module.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
                         InnerInitSpwanUI(list);
                         list.Clear();
                         References.Release(list);
@@ -114,11 +113,11 @@ namespace UnityXFrame.Core.UIElements
 
         public ITask Spwan(Type uiType, int useResModule)
         {
-            ActionTask task = TaskModule.Inst.GetOrNew<ActionTask>();
+            ActionTask task = Module.Task.GetOrNew<ActionTask>();
             task.Add(() =>
             {
                 XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
-                PoolModule.Inst.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
+                Module.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
                 InnerInitSpwanUI(list);
                 list.Clear();
                 References.Release(list);
@@ -187,7 +186,7 @@ namespace UnityXFrame.Core.UIElements
         /// <returns>UI实例</returns>
         public IUI Open(string uiName, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default)
         {
-            TypeSystem typeSys = TypeModule.Inst.GetOrNew<IUI>();
+            TypeSystem typeSys = Module.Type.GetOrNew<IUI>();
             Type uiType = typeSys.GetByName(uiName);
             return Open(uiType, dataHandler, useResModule, id);
         }
@@ -203,7 +202,7 @@ namespace UnityXFrame.Core.UIElements
         /// <returns>UI实例</returns>
         public IUI Open(string uiName, string groupName, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default)
         {
-            Type uiType = TypeModule.Inst.GetOrNew<IUI>().GetByName(uiName);
+            Type uiType = Module.Type.GetOrNew<IUI>().GetByName(uiName);
             return Open(uiType, groupName, dataHandler, useResModule, id);
         }
 
@@ -315,7 +314,7 @@ namespace UnityXFrame.Core.UIElements
         /// <param name="id">UI Id</param>
         public void Close(string uiName, int id = default)
         {
-            Type uiType = TypeModule.Inst.GetOrNew<IUI>().GetByName(uiName);
+            Type uiType = Module.Type.GetOrNew<IUI>().GetByName(uiName);
             InnerCloseUI(uiType, id);
         }
 
@@ -356,7 +355,7 @@ namespace UnityXFrame.Core.UIElements
         /// <returns>UI实例</returns>
         public IUI Get(string uiName, int id = default)
         {
-            Type uiType = TypeModule.Inst.GetOrNew<IUI>().GetByName(uiName);
+            Type uiType = Module.Type.GetOrNew<IUI>().GetByName(uiName);
             return InnerGetUI(uiType, id);
         }
 
@@ -398,7 +397,7 @@ namespace UnityXFrame.Core.UIElements
         /// <param name="id">UI Id</param>
         public void DestroyUI(string uiName, int id = default)
         {
-            Type uiType = TypeModule.Inst.GetOrNew<IUI>().GetByName(uiName);
+            Type uiType = Module.Type.GetOrNew<IUI>().GetByName(uiName);
             DestroyUI(uiType, id);
         }
         #endregion
@@ -443,7 +442,7 @@ namespace UnityXFrame.Core.UIElements
             IUI ui = m_UIList.Get(uiType, id);
             if (ui == null)
             {
-                IPool pool = PoolModule.Inst.GetOrNew(uiType, m_Helper);
+                IPool pool = Module.Pool.GetOrNew(uiType, m_Helper);
                 ui = (IUI)pool.Require(default, useResModule);
                 ui.OnInit(id, default, onReady);
                 onReady = null;
@@ -470,7 +469,7 @@ namespace UnityXFrame.Core.UIElements
             group?.RemoveUI(ui);
             ui.OnDestroy();
             m_UIList.Remove(ui);
-            IPool pool = PoolModule.Inst.GetOrNew(ui.GetType(), m_Helper);
+            IPool pool = Module.Pool.GetOrNew(ui.GetType(), m_Helper);
             pool.Release(ui);
         }
 

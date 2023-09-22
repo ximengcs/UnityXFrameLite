@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -26,12 +27,14 @@ namespace UnityXFrame.Core.Diagnotics
 
         public static GUILayoutOption Width(float width)
         {
-            return GUILayout.Width(width * Debuger.Inst.m_FitWidth);
+            Debugger debugger = (Debugger)Module.Debugger;
+            return GUILayout.Width(width * debugger.m_FitWidth);
         }
 
         public static GUILayoutOption Height(float height)
         {
-            return GUILayout.Height(height * Debuger.Inst.m_FitWidth);
+            Debugger debugger = (Debugger)Module.Debugger;
+            return GUILayout.Height(height * debugger.m_FitWidth);
         }
 
 
@@ -42,12 +45,13 @@ namespace UnityXFrame.Core.Diagnotics
 
         public static void Progress(float value, float startValue, float endValue)
         {
+            Debugger debugger = (Debugger)Module.Debugger;
             float rate = (value - startValue) / (endValue - startValue);
             rate = Mathf.Clamp(rate, 0, 1);
             Rect rect = GUILayoutUtility.GetAspectRect(10f / 1f);
             rect.width = rate * rect.width;
-            rect.xMin += 10 * Debuger.Inst.m_FitWidth;
-            rect.xMax -= 10 * Debuger.Inst.m_FitWidth;
+            rect.xMin += 10 * debugger.m_FitWidth;
+            rect.xMax -= 10 * debugger.m_FitWidth;
             GUI.DrawTexture(rect, Style.ProgressSlider.normal.background, ScaleMode.StretchToFill);
         }
 

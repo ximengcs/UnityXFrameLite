@@ -3,6 +3,7 @@ using UnityEngine;
 using XFrame.Collections;
 using XFrame.Modules.Event;
 using System.Collections.Generic;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.UIElements
 {
@@ -37,7 +38,8 @@ namespace UnityXFrame.Core.UIElements
             get { return m_Layer; }
             set
             {
-                m_Layer = UIModule.Inst.SetUIGroupLayer(this, value);
+                UIModule uiModule = (UIModule)Module.UI;
+                m_Layer = uiModule.SetUIGroupLayer(this, value);
             }
         }
 
@@ -70,7 +72,7 @@ namespace UnityXFrame.Core.UIElements
             m_UIs = new XLinkList<IUI>();
             m_UIHelper = new XLinkList<IUIGroupHelper>();
             m_CanvasGroup = root.GetComponent<CanvasGroup>();
-            Event = EventModule.Inst.NewSys();
+            Event = Module.Event.NewSys();
 
             m_Root.anchorMin = Vector3.zero;
             m_Root.anchorMax = Vector3.one;
@@ -123,7 +125,7 @@ namespace UnityXFrame.Core.UIElements
             UIEvent clone = e.Clone();
             ui.Event.TriggerNow(e);
             Event.Trigger(clone);
-            UIModule.Inst.Event.Trigger(clone.Clone());
+            Module.UI.Event.Trigger(clone.Clone());
         }
 
         void IUIGroup.OpenUI(IUI ui)

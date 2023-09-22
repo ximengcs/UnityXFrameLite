@@ -10,7 +10,7 @@ using XFrame.Modules.Conditions;
 
 namespace UnityXFrame.Core.Diagnotics
 {
-    public partial class Debuger
+    public partial class Debugger
     {
         private struct CmdHandler
         {
@@ -69,7 +69,8 @@ namespace UnityXFrame.Core.Diagnotics
                             }
                             else
                             {
-                                if (Debuger.Inst.m_CmdParsers.TryGetValue(info.ParameterType, out IParser parser))
+                                Debugger debugger = (Debugger)XFrame.Core.Module.Debugger;
+                                if (debugger.m_CmdParsers.TryGetValue(info.ParameterType, out IParser parser))
                                 {
                                     paramList[i] = parser.Parse(value);
                                 }
@@ -118,7 +119,7 @@ namespace UnityXFrame.Core.Diagnotics
             };
             m_CmdInsts = new Dictionary<Type, object>();
             m_CmdHandlers = new Dictionary<string, CmdHandler>();
-            TypeSystem typeSys = TypeModule.Inst.GetOrNewWithAttr<DebugCommandClassAttribute>();
+            TypeSystem typeSys = XFrame.Core.Module.Type.GetOrNewWithAttr<DebugCommandClassAttribute>();
             foreach (Type type in typeSys)
             {
                 object inst;
@@ -134,7 +135,7 @@ namespace UnityXFrame.Core.Diagnotics
                 {
                     if (!m_CmdInsts.TryGetValue(type, out inst))
                     {
-                        inst = TypeModule.Inst.CreateInstance(type);
+                        inst = XFrame.Core.Module.Type.CreateInstance(type);
                         m_CmdInsts.Add(type, inst);
                     }
                 }
@@ -171,7 +172,7 @@ namespace UnityXFrame.Core.Diagnotics
                     continue;
                 if (m_CmdHandlers.TryGetValue(cmdline.Name, out CmdHandler cmd))
                 {
-                    Debuger.Tip($"Run {cmdline.Name}", Color.yellow);
+                    XFrame.Core.Module.Debugger.SetTip($"Run {cmdline.Name}", Color.yellow);
                     cmd.Exec(cmdline);
                 }
                 else

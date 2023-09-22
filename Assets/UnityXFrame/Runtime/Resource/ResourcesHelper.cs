@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Resource;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.Resource
 {
@@ -30,7 +31,7 @@ namespace UnityXFrame.Core.Resource
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
             resPath = InnerCheckName(resPath);
-            ResLoadTask task = TaskModule.Inst.GetOrNew<ResLoadTask>();
+            ResLoadTask task = Module.Task.GetOrNew<ResLoadTask>();
             task.Add(new ResHandler(resPath, type));
             task.Start();
             return task;
@@ -39,7 +40,7 @@ namespace UnityXFrame.Core.Resource
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
             resPath = InnerCheckName(resPath);
-            ResLoadTask<T> task = TaskModule.Inst.GetOrNew<ResLoadTask<T>>();
+            ResLoadTask<T> task = Module.Task.GetOrNew<ResLoadTask<T>>();
             task.Add(new ResHandler(resPath, typeof(T)));
             task.Start();
             return task;

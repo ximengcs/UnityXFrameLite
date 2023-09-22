@@ -2,6 +2,7 @@
 using UnityEditor;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Resource;
+using XFrame.Core;
 
 namespace UnityXFrame.Editor
 {
@@ -45,7 +46,7 @@ namespace UnityXFrame.Editor
 
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
-            ResLoadTask<T> loadTask = TaskModule.Inst.GetOrNew<ResLoadTask<T>>();
+            ResLoadTask<T> loadTask = Module.Task.GetOrNew<ResLoadTask<T>>();
             if (m_ResCache.TryGetFile(resPath, out object res))
             {
                 loadTask.Add(new ResHandler(res));
@@ -65,7 +66,7 @@ namespace UnityXFrame.Editor
 
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
-            ResLoadTask loadTask = TaskModule.Inst.GetOrNew<ResLoadTask>();
+            ResLoadTask loadTask = Module.Task.GetOrNew<ResLoadTask>();
             if (m_ResCache.TryGetFile(resPath, out object res))
             {
                 loadTask.Add(new ResHandler(res));

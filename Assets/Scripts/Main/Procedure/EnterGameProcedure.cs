@@ -21,8 +21,8 @@ namespace Game.Core.Procedure
 
             string langFile = Entry.GetModule<ResModule>(Constant.LOCAL_RES_MODULE)
                 .Load<TextAsset>(Constant.LANG_FILE_PATH).text;
-            LocalizeModule.Inst.Parse(langFile);
-            Entry.AddModule<GCModule>();
+            Module.Local.Parse(langFile);
+            //Entry.AddModule<GCModule>();
         }
     }
 }

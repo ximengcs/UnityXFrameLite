@@ -1,8 +1,8 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrameLib.Diagnotics;
 using UnityXFrameLib.Tasks;
+using XFrame.Core;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Event;
 using XFrame.Modules.Resource;
@@ -15,23 +15,23 @@ namespace Game.Test
     {
         public void OnAwake()
         {
-
+            
         }
 
         public void OnDraw()
         {
-            DebugGUI.Label(TaskModule.Inst.ExecCount.ToString());
+            DebugGUI.Label(Module.Task.ExecCount.ToString());
             if (DebugGUI.Button("HandlerInfo Listen"))
             {
-                Global.Listen(1, (e) => { });
+
             }
             if (DebugGUI.Button("HandlerInfo UnListen"))
             {
-                Global.Unlisten(1);
+
             }
             if (DebugGUI.Button("Res1"))
             {
-                ITask task = ResModule.Inst.LoadAsync<TextAsset>("Config/Perch.txt")
+                ITask task = Module.Res.LoadAsync<TextAsset>("Config/Perch.txt")
                     .OnComplete((TextAsset asset) => Log.Debug(asset.text))
                     .AutoDelete();
                 task.Start();
@@ -39,7 +39,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Res2"))
             {
-                ITask task = ResModule.Inst.LoadAsync<TextAsset>("Config/Prop.csv")
+                ITask task = Module.Res.LoadAsync<TextAsset>("Config/Prop.csv")
                     .OnComplete((TextAsset asset) => Log.Debug(asset.text))
                     .AutoDelete();
                 task.Start();

@@ -4,6 +4,7 @@ using XFrame.Modules.Resource;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.Resource
 {
@@ -29,7 +30,7 @@ namespace UnityXFrame.Core.Resource
 
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
-            ResLoadTask loadTask = TaskModule.Inst.GetOrNew<ResLoadTask>();
+            ResLoadTask loadTask = Module.Task.GetOrNew<ResLoadTask>();
             object handle = Ext.LoadAssetAsync(resPath, type);
             ReflectResHandler handler = new ReflectResHandler(handle, type);
             loadTask.OnComplete((asset) =>
@@ -47,7 +48,7 @@ namespace UnityXFrame.Core.Resource
 
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
-            ResLoadTask<T> loadTask = TaskModule.Inst.GetOrNew<ResLoadTask<T>>();
+            ResLoadTask<T> loadTask = Module.Task.GetOrNew<ResLoadTask<T>>();
             AsyncOperationHandle handle = Addressables.LoadAssetAsync<T>(resPath);
             ResHandler handler = new ResHandler(handle);
             loadTask.OnComplete((asset) =>

@@ -3,6 +3,7 @@ using System.Text;
 using UnityEngine;
 using XFrame.Modules.XType;
 using System.Collections.Generic;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -38,7 +39,9 @@ namespace UnityXFrame.Core.Diagnotics
             m_Types = new Dictionary<string, TypesInfo>();
             m_BoxStyle = new GUIStyle(GUI.skin.box);
             m_BoxStyle.fontSize = 30;
-            Debuger.Inst.FitStyle(m_BoxStyle);
+
+            Debugger debugger = (Debugger)Module.Debugger;
+            debugger.FitStyle(m_BoxStyle);
         }
 
         public void OnDraw()
@@ -90,7 +93,7 @@ namespace UnityXFrame.Core.Diagnotics
         private void InnerRefresh(TypesInfo info)
         {
             info.List.Clear();
-            Type[] types = TypeModule.Inst.GetAllType();
+            Type[] types = Module.Type.GetAllType();
             foreach (Type type in types)
             {
                 string name = type.Name;

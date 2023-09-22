@@ -7,6 +7,7 @@ using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.Parser;
 using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
+using XFrame.Core;
 
 namespace Game.Test
 {
@@ -58,7 +59,7 @@ namespace Game.Test
         public void test2(CommandLine cmd)
         {
             Debug.LogWarning($"test2 exec => {cmd}");
-            TaskModule.Inst.GetOrNew<EmptyTask>().Start();
+            Module.Task.GetOrNew<EmptyTask>().Start();
         }
 
         [DebugCommand]
@@ -94,24 +95,24 @@ namespace Game.Test
         [DebugCommand]
         public void task()
         {
-            Debug.LogWarning($"start {TimeModule.Inst.Frame}");
-            TaskExt.NextFrame(() => Debug.LogWarning($"nextframe {TimeModule.Inst.Frame}"))
-                .NextFrame(() => Debug.LogWarning($"nextframe2 {TimeModule.Inst.Frame}"))
-                .Delay(1.0f, () => Debug.LogWarning($"delay 1s {TimeModule.Inst.Frame}"))
-                .Invoke(() => Debug.LogWarning($"invoke 1 {TimeModule.Inst.Frame}"))
+            Debug.LogWarning($"start {Module.Time.Frame}");
+            TaskExt.NextFrame(() => Debug.LogWarning($"nextframe {Module.Time.Frame}"))
+                .NextFrame(() => Debug.LogWarning($"nextframe2 {Module.Time.Frame}"))
+                .Delay(1.0f, () => Debug.LogWarning($"delay 1s {Module.Time.Frame}"))
+                .Invoke(() => Debug.LogWarning($"invoke 1 {Module.Time.Frame}"))
                 .Invoke(() =>
                 {
-                    Debug.LogWarning($"invoke 2 {TimeModule.Inst.Frame}");
+                    Debug.LogWarning($"invoke 2 {Module.Time.Frame}");
                     return UnityEngine.Random.Range(0, 3) == 0;
                 })
                 .Invoke(() =>
                 {
-                    Debug.LogWarning($"invoke 3 {TimeModule.Inst.Frame}");
+                    Debug.LogWarning($"invoke 3 {Module.Time.Frame}");
                     return TaskBase.MAX_PRO;
                 })
                 .Beat(1.0f, () =>
                 {
-                    Debug.LogWarning($"beat {TimeModule.Inst.Frame}");
+                    Debug.LogWarning($"beat {Module.Time.Frame}");
                     return UnityEngine.Random.Range(0, 10) == 0;
                 });
         }

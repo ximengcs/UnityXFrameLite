@@ -6,6 +6,7 @@ using UnityXFrameLib.Localize;
 using System.Collections.Generic;
 using UnityXFrameLib.UIElements;
 using UnityXFrame.Core;
+using XFrame.Core;
 
 namespace Game.Test
 {
@@ -28,13 +29,13 @@ namespace Game.Test
             m_Dropdown.SetFonts(m_Fonts);
             m_Dropdown.AddOptions(m_Options);
             m_Dropdown.onValueChanged.AddListener(InnerChangeHandler);
-            m_Dropdown.value = m_Languages.IndexOf(LocalizeModule.Inst.Lang);
+            m_Dropdown.value = m_Languages.IndexOf(Module.Local.Lang);
             LocalizeExt.Register(m_Title, InnerSetTitle);
         }
 
         private void InnerSetTitle(TextMeshProUGUI textCom)
         {
-            textCom.text = LocalizeModule.Inst.GetValue(5);
+            textCom.text = Module.Local.GetValue(5);
             m_Dropdown.captionText.font = textCom.font;
         }
 
@@ -51,7 +52,7 @@ namespace Game.Test
                 {
                     m_Languages.Add(language);
                     m_Fonts.Add(asset);
-                    m_Options.Add(LocalizeModule.Inst.GetValue(language, 4));
+                    m_Options.Add(Module.Local.GetValue(language, 4));
                 }
             }
         }

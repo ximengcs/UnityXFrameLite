@@ -6,6 +6,7 @@ using XFrame.Modules.Tasks;
 using XFrame.Modules.Resource;
 using System.Collections.Generic;
 using XFrame.Modules.Diagnotics;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.Resource
 {
@@ -78,7 +79,7 @@ namespace UnityXFrame.Core.Resource
             if (m_FileMap.FileToABMap.TryGetValue(resPath, out string abName))
             {
                 BundleInfo info = InnerLoadBundle(abName);
-                ResLoadTask task = TaskModule.Inst.GetOrNew<ResLoadTask>();
+                ResLoadTask task = Module.Task.GetOrNew<ResLoadTask>();
                 task.Add(new ResHandler(info, resPath, type));
                 task.Start();
                 return task;
@@ -93,7 +94,7 @@ namespace UnityXFrame.Core.Resource
             if (m_FileMap.FileToABMap.TryGetValue(resPath, out string abName))
             {
                 BundleInfo info = InnerLoadBundle(abName);
-                ResLoadTask<T> task = TaskModule.Inst.GetOrNew<ResLoadTask<T>>();
+                ResLoadTask<T> task = Module.Task.GetOrNew<ResLoadTask<T>>();
                 task.Add(new ResHandler(info, resPath, typeof(T)));
                 task.Start();
                 return task;

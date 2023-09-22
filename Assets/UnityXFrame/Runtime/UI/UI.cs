@@ -2,6 +2,7 @@
 using XFrame.Modules.Event;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Diagnotics;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.UIElements
 {
@@ -121,7 +122,7 @@ namespace UnityXFrame.Core.UIElements
             if (m_CanvasGroup == null)
                 m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
             m_Transform = m_Root.GetComponent<RectTransform>();
-            Event = EventModule.Inst.NewSys();
+            Event = Module.Event.NewSys();
             m_IsOpen = false;
             Active = false;
         }

@@ -14,17 +14,10 @@ namespace Game.Core.Procedure
         protected override void OnEnter()
         {
             base.OnEnter();
-            Entry.AddModule<Debuger>();
+            Entry.AddModule<Debugger>();
             Application.targetFrameRate = 60;
             ChangeState<EnterGameProcedure>();
             //ChangeState<CheckResUpdateProcedure>();
-
-            GameObject prefab = Entry.GetModule<ResModule>(Constant.LOCAL_RES_MODULE).Load<GameObject>("Data/Prefab/TestSceneUI.prefab");
-            GameObject inst = GameObject.Instantiate(prefab);
-            Canvas canvas = inst.GetComponentInChildren<Canvas>();
-            UIModule module = Entry.AddModule<UIModule>(1, canvas);
-            module.GetOrNewGroup("TestScene");
-            module.Open<SettingUI>("Test", null, Constant.LOCAL_RES_MODULE);
         }
     }
 }

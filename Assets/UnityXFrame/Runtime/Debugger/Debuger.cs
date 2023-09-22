@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace UnityXFrame.Core.Diagnotics
 {
-    public partial class Debuger : SingletonModule<Debuger>, IGUI
+    public partial class Debugger : ModuleBase, IDebugger
     {
         #region Internal Field
         private const int WIDTH = 1080;
@@ -295,11 +295,11 @@ namespace UnityXFrame.Core.Diagnotics
 
         private void InternalLoadInst()
         {
-            TypeSystem typeSys = TypeModule.Inst.GetOrNew<IDebugWindow>();
+            TypeSystem typeSys = XFrame.Core.Module.Type.GetOrNew<IDebugWindow>();
             foreach (Type t in typeSys)
                 InnerAddWindowInfo(t);
             m_Windows.Sort((info1, info2) => info2.Order - info1.Order);
-            TypeModule.Inst.OnTypeChange(InnerNewWindowHandle);
+            XFrame.Core.Module.Type.OnTypeChange(InnerNewWindowHandle);
         }
 
         private void InnerNewWindowHandle()
@@ -308,7 +308,7 @@ namespace UnityXFrame.Core.Diagnotics
             foreach (WindowInfo info in m_Windows)
                 types.Add(info.Window.GetType());
 
-            TypeSystem typeSys = TypeModule.Inst.GetOrNew<IDebugWindow>();
+            TypeSystem typeSys = XFrame.Core.Module.Type.GetOrNew<IDebugWindow>();
             foreach (Type t in typeSys)
             {
                 if (!types.Contains(t))
@@ -426,7 +426,7 @@ namespace UnityXFrame.Core.Diagnotics
             bool alwaysTip = GUILayout.Toggle(m_AlwaysTip, "Tip", m_TipTitleStyle);
             if (alwaysTip != m_AlwaysTip)
             {
-                Debuger.Tip($"tip mode change to {(alwaysTip ? "always" : "cd")}", Color.yellow);
+                SetTip($"tip mode change to {(alwaysTip ? "always" : "cd")}", Color.yellow);
                 m_AlwaysTip = alwaysTip;
             }
             if (!m_AlwaysTip && m_Timer.Check(TIP_CD_KEY, true))

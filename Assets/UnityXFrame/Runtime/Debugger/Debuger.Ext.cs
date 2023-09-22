@@ -2,32 +2,27 @@
 
 namespace UnityXFrame.Core.Diagnotics
 {
-    public partial class Debuger
+    public partial class Debugger
     {
-        public static void Tip(IDebugWindow from, string content, string color = null)
-        {
-            Inst.SetTip(from, content, color);
-        }
-
-        public static void Tip(IDebugWindow from, string content, Color color)
+        public void SetTip(IDebugWindow from, string content, Color color)
         {
             string colorStr = null;
             if (color != default)
                 colorStr = ColorUtility.ToHtmlStringRGB(color);
-            Tip(from, content, colorStr);
+            SetTip(from, content, colorStr);
         }
 
-        public static void Tip(string content, string color = default)
+        public void SetTip(string content, string color = default)
         {
-            Inst.SetTip(-1, content, color);
+            SetTip(-1, content, color);
         }
 
-        public static void Tip(string content, Color color)
+        public void SetTip(string content, Color color)
         {
             string colorStr = null;
             if (color != default)
                 colorStr = ColorUtility.ToHtmlStringRGB(color);
-            Tip(content, colorStr);
+            SetTip(content, colorStr);
         }
     }
 }

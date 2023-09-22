@@ -1,6 +1,7 @@
 ﻿
 using UnityXFrame.Core.Audios;
 using UnityXFrame.Core.Diagnotics;
+using XFrame.Core;
 
 namespace Game.Test
 {
@@ -23,7 +24,7 @@ namespace Game.Test
             m_Auto = DebugGUI.Power(m_Auto);
             if (DebugGUI.Button("Play"))
             {
-                AudioModule.Inst.PlayAsync(m_Name, m_Auto)
+                Module.Audio.PlayAsync(m_Name, m_Auto)
                     .OnComplete((audio) =>
                     {
                         m_Audio = audio;
@@ -31,7 +32,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("PlayLoop"))
             {
-                AudioModule.Inst.PlayLoopAsync(m_Name, m_Auto)
+                Module.Audio.PlayLoopAsync(m_Name, m_Auto)
                     .OnComplete((audio) =>
                     {
                         m_Audio = audio;

@@ -1,7 +1,7 @@
-﻿using XFrame.Core;
+﻿using UnityXFrame.Core.Resource;
+using XFrame.Core;
+using XFrame.Modules.Resource;
 using XFrame.Modules.Tasks;
-using XFrame.Modules.Config;
-using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core
 {
@@ -14,23 +14,29 @@ namespace UnityXFrame.Core
 
         public ITask BeforeHandle()
         {
-            return TaskModule.Inst.GetOrNew<EmptyTask>();
+            return Module.Task.GetOrNew<EmptyTask>();
         }
 
         public ITask AfterHandle()
         {
             InnerConfigLog();
-            return TaskModule.Inst.GetOrNew<EmptyTask>();
+            InnerAddExtModule();
+            return Module.Task.GetOrNew<EmptyTask>();
         }
 
         private void InnerConfigLog()
         {
-            Diagnotics.Logger logger = LogModule.Inst.GetLogger<Diagnotics.Logger>();
+            Diagnotics.Logger logger = Module.Log.GetLogger<Diagnotics.Logger>();
             foreach (DebugColor colorData in Init.Inst.Data.LogMark)
             {
                 if (colorData.Value)
                     logger.Register(colorData.Key, colorData.Color);
             }
+        }
+
+        private void InnerAddExtModule()
+        {
+            Entry.AddModule<ResModule>(Constant.LOCAL_RES_MODULE).SetHelper(typeof(ResourcesHelper));
         }
     }
 }

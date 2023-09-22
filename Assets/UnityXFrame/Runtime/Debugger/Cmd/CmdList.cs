@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using XFrame.Core;
-using XFrame.Modules.Archives;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -10,7 +9,7 @@ namespace UnityXFrame.Core.Diagnotics
         [DebugCommand]
         public static void clear_user_data()
         {
-            ArchiveModule.Inst.DeleteAll();
+            Module.Archive.DeleteAll();
             PlayerPrefs.DeleteAll();
             Application.Quit();
         }
@@ -18,13 +17,15 @@ namespace UnityXFrame.Core.Diagnotics
         [DebugCommand]
         public static void clear()
         {
-            Debuger.Inst.InnerClearCmd();
+            Debugger debugger = (Debugger)Module.Debugger;
+            debugger.InnerClearCmd();
         }
 
         [DebugCommand]
         public static void close()
         {
-            Debuger.Inst.InnerClose();
+            Debugger debugger = (Debugger)Module.Debugger;
+            debugger.InnerClose();
         }
 
         [DebugCommand]
@@ -45,7 +46,8 @@ namespace UnityXFrame.Core.Diagnotics
                         open = false;
                 }
             }
-            Debuger.Inst.InnerSwitchFPS(open);
+            Debugger debugger = (Debugger)Module.Debugger;
+            debugger.InnerSwitchFPS(open);
         }
     }
 }

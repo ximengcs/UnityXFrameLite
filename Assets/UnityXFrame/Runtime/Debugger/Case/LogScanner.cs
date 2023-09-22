@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using UnityEngine;
+using XFrame.Core;
 using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.Diagnotics
@@ -78,7 +79,7 @@ namespace UnityXFrame.Core.Diagnotics
                 case LogType.Error:
                 case LogType.Assert:
                 case LogType.Exception:
-                    Debuger.Tip(this, "LogScanner has new error");
+                    Module.Debugger.SetTip(this, "LogScanner has new error");
                     m_Error.Append("<color=#CC423B>");
                     m_Error.Append(condition);
                     m_Error.Append("\n");

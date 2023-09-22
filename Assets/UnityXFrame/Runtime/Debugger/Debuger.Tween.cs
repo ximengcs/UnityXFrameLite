@@ -1,10 +1,11 @@
 ﻿using System;
 using XFrame.Modules.Times;
 using System.Collections.Generic;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.Diagnotics
 {
-    public partial class Debuger
+    public partial class Debugger
     {
         private class TweenModule
         {
@@ -64,14 +65,14 @@ namespace UnityXFrame.Core.Diagnotics
                 Setter = setter;
                 IsComplete = false;
                 m_SuplusTime = duration;
-                m_LastTime = TimeModule.Inst.Time;
+                m_LastTime = Module.Time.Time;
                 m_StartValue = Getter();
             }
 
             public void Update()
             {
-                float escapeTime = TimeModule.Inst.Time - m_LastTime;
-                m_LastTime = TimeModule.Inst.Time;
+                float escapeTime = Module.Time.Time - m_LastTime;
+                m_LastTime = Module.Time.Time;
                 m_SuplusTime -= escapeTime;
                 float rate = 1 - m_SuplusTime / Duration;
 

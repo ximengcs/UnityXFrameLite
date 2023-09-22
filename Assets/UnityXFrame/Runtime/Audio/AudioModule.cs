@@ -6,6 +6,7 @@ using XFrame.Modules.Pools;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Resource;
 using System.Collections.Generic;
+using XFrame.Collections;
 
 namespace UnityXFrame.Core.Audios
 {
@@ -13,7 +14,8 @@ namespace UnityXFrame.Core.Audios
     /// 声音模块
     /// </summary>
     [XModule]
-    public partial class AudioModule : SingletonModule<AudioModule>
+    [XType(typeof(IAudioModule))]
+    public partial class AudioModule : ModuleBase, IAudioModule
     {
         #region Inner Fields
         private float m_Volume;
@@ -33,7 +35,7 @@ namespace UnityXFrame.Core.Audios
             m_Volume = 1.0f;
             m_Mixer = Init.Inst.Data.AudioMixer;
             m_Root = new GameObject("Audios").transform;
-            m_AudioPool = PoolModule.Inst.GetOrNew<Audio>();
+            m_AudioPool = Module.Pool.GetOrNew<Audio>();
             m_Groups = new Dictionary<string, Group>();
             m_MainGroup = m_Mixer.FindMatchingGroups("Master")[0];
         }
@@ -174,7 +176,7 @@ namespace UnityXFrame.Core.Audios
 
         private Audio InnerCreateAudio(string name, bool autoRelease)
         {
-            AudioClip clip = ResModule.Inst.Load<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
+            AudioClip clip = Module.Res.Load<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
             Audio audio = m_AudioPool.Require();
             audio.OnInit(m_Root, m_MainGroup, clip, autoRelease);
             return audio;
@@ -182,8 +184,8 @@ namespace UnityXFrame.Core.Audios
 
         private XTask<IAudio> InnerCreateAudioAsync(string name, bool autoRelease)
         {
-            XTask<IAudio> task = TaskModule.Inst.GetOrNew<XTask<IAudio>>();
-            ResLoadTask<AudioClip> loadTask = ResModule.Inst.LoadAsync<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
+            XTask<IAudio> task = Module.Task.GetOrNew<XTask<IAudio>>();
+            ResLoadTask<AudioClip> loadTask = Module.Res.LoadAsync<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
             loadTask.OnComplete((clip) =>
             {
                 if (clip == null)

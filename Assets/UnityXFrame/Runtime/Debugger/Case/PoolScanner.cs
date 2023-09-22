@@ -3,6 +3,7 @@ using UnityEngine;
 using XFrame.Utility;
 using XFrame.Modules.Pools;
 using System.Collections.Generic;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -31,7 +32,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Title(" ", DebugGUI.Width(70));
             GUILayout.EndHorizontal();
 
-            foreach (IPool pool in PoolModule.Inst.AllPool)
+            foreach (IPool pool in Module.Pool.AllPool)
             {
                 GUILayout.BeginHorizontal();
                 DebugGUI.Label(TypeUtility.GetSimpleName(pool.ObjectType));
