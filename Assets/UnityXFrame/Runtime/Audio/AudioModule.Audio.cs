@@ -20,7 +20,7 @@ namespace UnityXFrame.Core.Audios
             private bool m_AutoRelease;
             private Action m_PlayCallback;
 
-            private BolActionTask m_WaitTask;
+            private ActionTask m_WaitTask;
             private Group m_Group;
 
             public AudioClip Clip
@@ -50,7 +50,7 @@ namespace UnityXFrame.Core.Audios
                         m_AutoRelease = value;
                         if (m_WaitTask == null)
                         {
-                            m_WaitTask = TaskModule.Inst.GetOrNew<BolActionTask>();
+                            m_WaitTask = TaskModule.Inst.GetOrNew<ActionTask>();
                             m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
                                 .OnComplete(() =>
                                 {
@@ -168,7 +168,7 @@ namespace UnityXFrame.Core.Audios
 
                 if (AutoRelease)
                 {
-                    m_WaitTask = TaskModule.Inst.GetOrNew<BolActionTask>();
+                    m_WaitTask = TaskModule.Inst.GetOrNew<ActionTask>();
                     m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
                         .OnComplete(() =>
                         {
@@ -210,6 +210,8 @@ namespace UnityXFrame.Core.Audios
             }
 
             int IPoolObject.PoolKey => 0;
+
+            public string MarkName { get; set; }
 
             IPool IPoolObject.InPool { get; set; }
 

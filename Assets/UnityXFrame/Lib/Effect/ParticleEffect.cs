@@ -27,6 +27,8 @@ namespace UnityXFrameLib.Effects
 
         int IPoolObject.PoolKey => m_TypeId;
 
+        public string MarkName { get; set; }
+
         IPool IPoolObject.InPool { get; set; }
 
         public ParticleEffect(int typeId, string resName, Transform root)

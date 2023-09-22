@@ -10,8 +10,9 @@ namespace UnityXFrame.Core.HotUpdate
         public bool Success { get; private set; }
         public List<string> ResList { get; private set; }
 
-        protected override void OnInit()
+        protected override void OnCreateFromPool()
         {
+            base.OnCreateFromPool();
             AddStrategy(new Strategy());
             Add(new Handler());
         }

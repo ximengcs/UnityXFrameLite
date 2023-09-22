@@ -50,7 +50,7 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.EndHorizontal();
 
             DebugGUI.Label("Cache Path");
-            m_Pos = DebugGUI.BeginScrollView(m_Pos, GUILayout.Height(200));
+            m_Pos = DebugGUI.BeginScrollView(m_Pos, DebugGUI.Height(200));
             foreach (string path in m_CachePath)
             {
                 GUILayout.Box(new GUIContent(path));

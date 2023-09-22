@@ -16,6 +16,8 @@ namespace UnityXFrame.Core.Parser
 
         int IPoolObject.PoolKey => default;
 
+        public string MarkName { get; set; }
+
         IPool IPoolObject.InPool { get; set; }
 
         public Vector3 Parse(string pattern)

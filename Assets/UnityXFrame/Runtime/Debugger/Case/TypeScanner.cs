@@ -74,7 +74,7 @@ namespace UnityXFrame.Core.Diagnotics
                 if (info.Show)
                 {
                     GUIContent list = new GUIContent(info.List.ToString());
-                    info.ScrollPos = DebugGUI.BeginScrollView(info.ScrollPos, GUILayout.Height(m_BoxStyle.fontSize * info.Count));
+                    info.ScrollPos = DebugGUI.BeginScrollView(info.ScrollPos, DebugGUI.Height(m_BoxStyle.fontSize * info.Count));
                     GUILayout.Box(list, m_BoxStyle);
                     GUILayout.EndScrollView();
                 }

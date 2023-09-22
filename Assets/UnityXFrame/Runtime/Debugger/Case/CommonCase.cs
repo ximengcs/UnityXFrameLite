@@ -34,7 +34,7 @@ namespace UnityXFrame.Core.Diagnotics
             bool timerCD = DebugGUI.Power(m_TimerCD);
             if (timerCD && m_TimerDebugTask == null)
             {
-                m_TimerDebugTask = TaskModule.Inst.GetOrNew<RepeatActionTask>().Add(1.0f, InnerTestTimerCD);
+                m_TimerDebugTask = TaskModule.Inst.GetOrNew<ActionTask>().Add(1.0f, InnerTestTimerCD);
                 m_TimerDebugTask.Start();
             }
             m_TimerCD = timerCD;

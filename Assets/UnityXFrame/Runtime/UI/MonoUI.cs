@@ -137,6 +137,8 @@ namespace UnityXFrame.Core.UIElements
 
         int IPoolObject.PoolKey => 0;
 
+        public string MarkName { get; set; }
+
         IPool IPoolObject.InPool { get; set; }
 
         void IPoolObject.OnCreate()

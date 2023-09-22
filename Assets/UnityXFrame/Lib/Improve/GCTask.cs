@@ -1,11 +1,10 @@
 ﻿using System.Diagnostics;
 using XFrame.Modules.Tasks;
-using XFrame.Modules.Times;
 using UnityEngine.Scripting;
 
 namespace UnityXFrameLib.Improve
 {
-    public class GCTask : ProActionTask
+    public class GCTask : ActionTask
     {
         private float m_Pro;
         private Stopwatch m_Watch;
@@ -14,6 +13,11 @@ namespace UnityXFrameLib.Improve
         {
             base.OnInit();
             m_Pro = 0;
+        }
+
+        protected override void OnCreateFromPool()
+        {
+            base.OnCreateFromPool();
             m_Watch = new Stopwatch();
             Add(InnerStart);
         }
