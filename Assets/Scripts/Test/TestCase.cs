@@ -56,7 +56,7 @@ namespace Game.Test
 
         public void OnDraw()
         {
-            if (DebugGUI.Button("Download 1"))
+            if (DebugGUI.Button("Download ▲"))
             {
                 Download(new HashSet<string>() { "Config/Perch.txt" });
             }

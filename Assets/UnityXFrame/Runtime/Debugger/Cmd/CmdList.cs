@@ -28,6 +28,18 @@ namespace UnityXFrame.Core.Diagnotics
         }
 
         [DebugCommand]
+        public static void collapse()
+        {
+            Debuger.Inst.InnerCollapse(1);
+        }
+
+        [DebugCommand]
+        public static void expend()
+        {
+            Debuger.Inst.InnerCollapse(0);
+        }
+
+        [DebugCommand]
         public static void fps(string on)
         {
             bool open = true;
