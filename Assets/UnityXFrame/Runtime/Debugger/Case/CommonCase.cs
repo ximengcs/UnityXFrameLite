@@ -24,6 +24,7 @@ namespace UnityXFrame.Core.Diagnotics
 
         public void OnAwake()
         {
+            m_TimeScale = Time.timeScale;
             m_LockFPS = true;
             m_FPS = Mathf.Clamp(m_FPS, m_FPSMin, m_FPSMax);
         }
