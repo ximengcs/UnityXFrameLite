@@ -21,6 +21,7 @@ namespace UnityXFrame.Core.Diagnotics
         private GUIStyle m_TitleStyle;
         private GUIStyle m_CloseButtonStyle;
         private GUIStyle m_EnterButtonStyle;
+        private GUIStyle m_HelpButtonStyle;
         private GUIStyle m_TipTitleStyle;
         private GUIStyle m_TipContentStyle;
         private GUIStyle m_DebugArea;
@@ -37,6 +38,7 @@ namespace UnityXFrame.Core.Diagnotics
         private bool m_HelpOpen;
         private Rect m_RootRect;
         private float m_RootHeight;
+        private float m_HelpHeight;
         private bool m_OnGUIInit;
         private Rect m_HelpRect;
         private Vector2 m_ContentPos;
@@ -113,6 +115,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Style.Rect = Skin.customStyles[18];
             DebugGUI.Style.Title = Skin.customStyles[19];
             m_CollapseButton = Skin.customStyles[20];
+            m_HelpButtonStyle = Skin.customStyles[21];
 
             m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
@@ -137,6 +140,7 @@ namespace UnityXFrame.Core.Diagnotics
             FitStyle(m_TitleStyle);
             FitStyle(m_EnterButtonStyle);
             FitStyle(m_TipTitleStyle);
+            FitStyle(m_HelpButtonStyle);
             FitStyle(m_TipContentStyle);
             FitStyle(m_CmdContentStyle);
             FitStyle(m_HelpWindowStyle);
@@ -200,6 +204,8 @@ namespace UnityXFrame.Core.Diagnotics
             Skin.window.fixedWidth = Screen.width;
             Skin.window.fixedHeight = Mathf.Min(Skin.window.fixedHeight, Screen.height);
             m_HelpRect.y = Skin.window.fixedHeight;
+            m_HelpHeight = m_HelpWindowStyle.fixedHeight;
+            m_HelpWindowStyle.fixedHeight = 0;
             InnerFixScreen();
         }
 
@@ -258,7 +264,7 @@ namespace UnityXFrame.Core.Diagnotics
 
         private void InternalDrawHelpWindow(int windowId)
         {
-            if (m_HelpWindowStyle.fixedHeight < m_RootHeight)
+            if (m_HelpWindowStyle.fixedHeight < m_HelpHeight)
                 return;
 
             GUILayout.BeginHorizontal();
@@ -268,7 +274,13 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            m_HelpSelect = DebugGUI.Toolbar(m_HelpSelect, new string[] { "Cmd", "Menu" });
+            string[] helpTitles;
+            if (m_Collapsing)
+                helpTitles = new string[] { "Cmd" };
+            else
+                helpTitles = new string[] { "Cmd", "Menu" };
+            m_HelpSelect = Mathf.Clamp(m_HelpSelect, 0, helpTitles.Length);
+            m_HelpSelect = DebugGUI.Toolbar(m_HelpSelect, helpTitles);
             GUILayout.EndHorizontal();
 
             m_HelpScrollPos = DebugGUI.BeginScrollView(m_HelpScrollPos);
@@ -389,6 +401,14 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.Label(TITLE, m_TitleStyle);
             GUILayout.FlexibleSpace();
 
+            if (GUILayout.Button("?", m_HelpButtonStyle))
+            {
+                m_HelpOpen = !m_HelpOpen;
+                float target = m_HelpOpen ? m_HelpHeight : 0;
+                m_TweenModule.Do("?", target, 0.1f,
+                    () => m_HelpWindowStyle.fixedHeight,
+                    (v) => m_HelpWindowStyle.fixedHeight = v);
+            }
             if (GUILayout.Button(m_Collapsing ? "▷" : "▼", m_CollapseButton))
                 InnerCollapse();
             if (GUILayout.Button("X", m_CloseButtonStyle))
@@ -432,14 +452,6 @@ namespace UnityXFrame.Core.Diagnotics
 
                 #region Tip
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("?", m_TipTitleStyle))
-                {
-                    m_HelpOpen = !m_HelpOpen;
-                    float target = m_HelpOpen ? m_RootHeight : 0;
-                    m_TweenModule.Do("?", target, 0.1f,
-                        () => m_HelpWindowStyle.fixedHeight,
-                        (v) => m_HelpWindowStyle.fixedHeight = v);
-                }
                 bool alwaysTip = GUILayout.Toggle(m_AlwaysTip, "Tip", m_TipTitleStyle);
                 if (alwaysTip != m_AlwaysTip)
                 {
