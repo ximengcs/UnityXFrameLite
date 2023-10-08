@@ -10,6 +10,7 @@ namespace UnityXFrame.Core.Diagnotics
     public class CommonCase : IDebugWindow
     {
         private bool m_TimerCD;
+        private float m_TimeScale;
         private bool m_LockFPS;
         private int m_FPS;
         private int m_FPSMin = 10;
@@ -58,6 +59,14 @@ namespace UnityXFrame.Core.Diagnotics
             }
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
+
+            GUILayout.BeginHorizontal();
+            DebugGUI.Label("Time Scale", GUILayout.Width(Debuger.Inst.FitWidth(200)));
+            DebugGUI.Label($"{m_TimeScale}", GUILayout.Width(Debuger.Inst.FitWidth(50)));
+            m_TimeScale = (int)DebugGUI.Slider(m_TimeScale, 0, 5);
+            if (m_TimeScale != Time.timeScale)
+                Time.timeScale = m_TimeScale;
+            GUILayout.EndHorizontal();
 
             if (DebugGUI.Button("Clear User Data"))
             {

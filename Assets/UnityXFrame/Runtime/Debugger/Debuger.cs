@@ -258,7 +258,7 @@ namespace UnityXFrame.Core.Diagnotics
 
         private string InnerCalculateFps()
         {
-            float fps = 1 / Time.deltaTime;
+            float fps = 1 / Time.unscaledDeltaTime;
             return string.Format("FPS {0:F2}", fps);
         }
 

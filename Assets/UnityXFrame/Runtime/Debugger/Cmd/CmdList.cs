@@ -59,5 +59,12 @@ namespace UnityXFrame.Core.Diagnotics
             }
             Debuger.Inst.InnerSwitchFPS(open);
         }
+
+        [DebugCommand]
+        public void time_scale(float scale)
+        {
+            scale = Mathf.Clamp(scale, 0, 5);
+            Time.timeScale = scale;
+        }
     }
 }
