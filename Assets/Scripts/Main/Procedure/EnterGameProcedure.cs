@@ -19,9 +19,8 @@ namespace Game.Core.Procedure
             base.OnEnter();
             Log.Debug("EnterGameProcedure");
 
-            string langFile = Entry.GetModule<ResModule>(Constant.LOCAL_RES_MODULE)
-                .Load<TextAsset>(Constant.LANG_FILE_PATH).text;
-            Module.Local.Parse(langFile);
+            string langFile = Module.LocalRes.Load<TextAsset>(Constant.LANG_FILE_PATH).text;
+            Module.I18N.Parse(langFile);
             //Entry.AddModule<GCModule>();
         }
     }

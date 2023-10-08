@@ -1,4 +1,5 @@
-﻿using UnityXFrame.Core.Audios;
+﻿using UnityXFrame.Core;
+using UnityXFrame.Core.Audios;
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.UIElements;
 using XFrame.Modules.Archives;
@@ -38,24 +39,19 @@ namespace XFrame.Core
         public static IEventModule Event => ModuleUtility.Event;
         public static IFsmModule Fsm => ModuleUtility.Fsm;
         public static IIdModule Id => ModuleUtility.Id;
-        public static ILocalizeModule Local => ModuleUtility.Local;
+        public static ILocalizeModule I18N => ModuleUtility.I18N;
         public static ILogModule Log => ModuleUtility.Log;
         public static IPlotModule Plot => ModuleUtility.Plot;
         public static IPoolModule Pool => ModuleUtility.Pool;
         public static IProcedureModule Procedure => ModuleUtility.Procedure;
         public static IRandModule Rand => ModuleUtility.Rand;
         public static IResModule Res => ModuleUtility.Res;
+        public static IResModule LocalRes => m_LocalRes != null ? m_LocalRes : m_LocalRes = Entry.GetModule<ResModule>(Constant.LOCAL_RES_MODULE);
         public static ISerializeModule Serialize => ModuleUtility.Serialize;
         public static ITaskModule Task => ModuleUtility.Task;
         public static ITimeModule Time => ModuleUtility.Time;
-
-        private static IUIModule m_UI;
         public static IUIModule UI => m_UI != null ? m_UI : m_UI = Entry.GetModule<IUIModule>();
-
-        private static IAudioModule m_Audio;
         public static IAudioModule Audio => m_Audio != null ? m_Audio : m_Audio = Entry.GetModule<IAudioModule>();
-
-        private static IDebugger m_Debugger;
         public static IDebugger Debugger => m_Debugger != null ? m_Debugger : m_Debugger = Entry.GetModule<IDebugger>();
     }
 }

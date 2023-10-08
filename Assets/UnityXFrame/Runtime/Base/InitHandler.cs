@@ -36,7 +36,8 @@ namespace UnityXFrame.Core
 
         private void InnerAddExtModule()
         {
-            Entry.AddModule<ResModule>(Constant.LOCAL_RES_MODULE).SetHelper(typeof(ResourcesHelper));
+            Entry.AddModule<ResModule>(Constant.LOCAL_RES_MODULE)
+                 .SetHelper(typeof(ResourcesHelper));
         }
     }
 }

@@ -22,10 +22,10 @@ namespace UnityXFrameLib.Localize
 
             XEventHandler langChangeHandler = (e) =>
             {
-                textCom.font = LoadFont(Module.Local.Lang, Language.English);
+                textCom.font = LoadFont(Module.I18N.Lang, Language.English);
                 handler?.Invoke(textCom);
             };
-            Module.Local.Event.Listen(LanguageChangeEvent.EventId, langChangeHandler);
+            Module.I18N.Event.Listen(LanguageChangeEvent.EventId, langChangeHandler);
             m_LangChangeHandlers.Add(code, langChangeHandler);
             langChangeHandler?.Invoke(null);
         }
@@ -35,7 +35,7 @@ namespace UnityXFrameLib.Localize
             int code = textCom.GetHashCode();
             if (m_LangChangeHandlers.TryGetValue(code, out XEventHandler handler))
             {
-                Module.Local.Event.Unlisten(LanguageChangeEvent.EventId, handler);
+                Module.I18N.Event.Unlisten(LanguageChangeEvent.EventId, handler);
                 m_LangChangeHandlers.Remove(code);
             }
         }
@@ -55,42 +55,42 @@ namespace UnityXFrameLib.Localize
 
         public static void SetLocal(this TextMeshProUGUI textCom, Language language, int key, params object[] values)
         {
-            textCom.text = Module.Local.GetValue(language, key, values);
+            textCom.text = Module.I18N.GetValue(language, key, values);
         }
 
         public static void SetLocal(this TextMeshProUGUI textCom, int key, params object[] values)
         {
-            textCom.text = Module.Local.GetValue(key, values);
+            textCom.text = Module.I18N.GetValue(key, values);
         }
 
         public static void SetLocal(this TextMeshProUGUI textCom, Language language, LanguageParam param)
         {
-            textCom.text = Module.Local.GetValue(language, param);
+            textCom.text = Module.I18N.GetValue(language, param);
         }
 
         public static void SetLocal(this TextMeshProUGUI textCom, LanguageParam param)
         {
-            textCom.text = Module.Local.GetValue(param);
+            textCom.text = Module.I18N.GetValue(param);
         }
 
         public static void SetLocalParam(this TextMeshProUGUI textCom, int key, params int[] args)
         {
-            textCom.text = Module.Local.GetValueParam(key, args);
+            textCom.text = Module.I18N.GetValueParam(key, args);
         }
 
         public static void SetLocalParam(this TextMeshProUGUI textCom, Language language, int key, params int[] args)
         {
-            textCom.text = Module.Local.GetValueParam(language, key, args);
+            textCom.text = Module.I18N.GetValueParam(language, key, args);
         }
 
         public static void SetLocalParam(this TextMeshProUGUI textCom, LanguageIdParam param)
         {
-            textCom.text = Module.Local.GetValueParam(param);
+            textCom.text = Module.I18N.GetValueParam(param);
         }
 
         public static void SetLocalParam(this TextMeshProUGUI textCom, Language language, LanguageIdParam param)
         {
-            textCom.text = Module.Local.GetValueParam(language, param);
+            textCom.text = Module.I18N.GetValueParam(language, param);
         }
     }
 }

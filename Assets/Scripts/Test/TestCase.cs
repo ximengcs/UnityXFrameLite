@@ -168,7 +168,7 @@ namespace Game.Test
             if (DebugGUI.Button("Test Init GameObject"))
             {
                 var sw = System.Diagnostics.Stopwatch.StartNew();
-                GameObject prefab = Entry.GetModule<ResModule>(Constant.LOCAL_RES_MODULE).Load<GameObject>("Data/Prefab/Test.prefab");
+                GameObject prefab = Module.LocalRes.Load<GameObject>("Data/Prefab/Test.prefab");
                 GameObject.Instantiate(prefab);
                 sw.Stop();
                 Log.Debug("Debugger", sw.ElapsedMilliseconds);
