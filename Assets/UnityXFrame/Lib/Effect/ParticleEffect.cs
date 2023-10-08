@@ -42,7 +42,7 @@ namespace UnityXFrameLib.Effects
         void IPoolObject.OnCreate()
         {
             m_Inited = false;
-            Module.Res.LoadAsync<GameObject>($"{LibConstant.EFFECT_RES_PATH}/{m_ResName}.prefab").OnComplete((prefab) =>
+            XModule.Res.LoadAsync<GameObject>($"{LibConstant.EFFECT_RES_PATH}/{m_ResName}.prefab").OnComplete((prefab) =>
             {
                 m_Inst = GameObject.Instantiate(prefab);
                 m_Tf = m_Inst.transform;

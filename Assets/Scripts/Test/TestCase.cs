@@ -83,7 +83,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("New EvtSys"))
             {
-                m_Sys = Module.Event.NewSys();
+                m_Sys = XModule.Event.NewSys();
             }
             if (DebugGUI.Button("Test1"))
             {
@@ -104,7 +104,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Add Table"))
             {
-                Module.Res.LoadAsync<TextAsset>("Config/Prop.csv").OnComplete((asset) =>
+                XModule.Res.LoadAsync<TextAsset>("Config/Prop.csv").OnComplete((asset) =>
                 {
                     //DataModule.Inst.Add<Prop>(asset.text, Constant.CSV_TYPE);
                     Debug.LogWarning("complete");
@@ -116,51 +116,51 @@ namespace Game.Test
 
             if (DebugGUI.Button("Read Table"))
             {
-                Debug.LogWarning(Module.Data.GetItem<Prop>(1).ToString());
+                Debug.LogWarning(XModule.Data.GetItem<Prop>(1).ToString());
             }
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Main");
             if (DebugGUI.Button("-"))
-                Module.UI.MainGroup.Layer--;
+                XModule.UI.MainGroup.Layer--;
             if (DebugGUI.Button("+"))
-                Module.UI.MainGroup.Layer++;
+                XModule.UI.MainGroup.Layer++;
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test1");
             if (DebugGUI.Button("-"))
-                Module.UI.GetOrNewGroup("Test1").Layer--;
+                XModule.UI.GetOrNewGroup("Test1").Layer--;
             if (DebugGUI.Button("+"))
-                Module.UI.GetOrNewGroup("Test1").Layer++;
+                XModule.UI.GetOrNewGroup("Test1").Layer++;
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test2");
             if (DebugGUI.Button("-"))
-                Module.UI.GetOrNewGroup("Test2").Layer--;
+                XModule.UI.GetOrNewGroup("Test2").Layer--;
             if (DebugGUI.Button("+"))
-                Module.UI.GetOrNewGroup("Test2").Layer++;
+                XModule.UI.GetOrNewGroup("Test2").Layer++;
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test1 UI");
             if (DebugGUI.Button("-"))
-                Module.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer--;
+                XModule.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer--;
             if (DebugGUI.Button("+"))
-                Module.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer++;
+                XModule.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer++;
             if (DebugGUI.Button("Close"))
-                Module.UI.Close<DialogUI>();
+                XModule.UI.Close<DialogUI>();
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test2 UI");
             if (DebugGUI.Button("-"))
-                Module.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer--;
+                XModule.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer--;
             if (DebugGUI.Button("+"))
-                Module.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer++;
+                XModule.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer++;
             if (DebugGUI.Button("Close"))
-                Module.UI.Close<DialogUI>(2);
+                XModule.UI.Close<DialogUI>(2);
             GUILayout.EndHorizontal();
 
             DebugGUI.Label("Test UI");
@@ -168,7 +168,7 @@ namespace Game.Test
             if (DebugGUI.Button("Test Init GameObject"))
             {
                 var sw = System.Diagnostics.Stopwatch.StartNew();
-                GameObject prefab = Module.LocalRes.Load<GameObject>("Data/Prefab/Test.prefab");
+                GameObject prefab = XModule.LocalRes.Load<GameObject>("Data/Prefab/Test.prefab");
                 GameObject.Instantiate(prefab);
                 sw.Stop();
                 Log.Debug("Debugger", sw.ElapsedMilliseconds);
@@ -176,13 +176,13 @@ namespace Game.Test
 
             if (DebugGUI.Button("Init Group1"))
             {
-                Module.UI.GetOrNewGroup("Test");
-                OnlyOneUIGroupHelper helper = Module.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
+                XModule.UI.GetOrNewGroup("Test");
+                OnlyOneUIGroupHelper helper = XModule.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
                 helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
             }
             if (DebugGUI.Button("Init Group2"))
             {
-                MultiUIGroupHelper helper = Module.UI.MainGroup.AddHelper<MultiUIGroupHelper>();
+                MultiUIGroupHelper helper = XModule.UI.MainGroup.AddHelper<MultiUIGroupHelper>();
                 //helper.SetEffect(
                 //        new AnimatorTriggerEffect("Open", "Open"),
                 //        new AnimatorTriggerEffect("Close", "Close"));
@@ -190,8 +190,8 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Init Group3"))
             {
-                Module.UI.GetOrNewGroup("Test");
-                OnlyOneUIGroupHelper helper = Module.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
+                XModule.UI.GetOrNewGroup("Test");
+                OnlyOneUIGroupHelper helper = XModule.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
                 helper.SetEffect(new ScaleEffect(Vector2.one, 2), new ScaleEffect(Vector2.one, Vector2.zero, 2));
             }
             if (DebugGUI.Button("Init Group4"))
@@ -203,15 +203,15 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Open Setting"))
             {
-                Module.UI.Open<SettingUI>("Test", null, Constant.LOCAL_RES_MODULE);
+                XModule.UI.Open<SettingUI>("Test", null, Constant.LOCAL_RES_MODULE);
             }
             if (DebugGUI.Button("Open Setting2"))
             {
-                Module.UI.Open<SettingUI>(null, Constant.LOCAL_RES_MODULE);
+                XModule.UI.Open<SettingUI>(null, Constant.LOCAL_RES_MODULE);
             }
             if (DebugGUI.Button("Open Dialog 1"))
             {
-                Module.UI.Open<DialogUI>((ui) =>
+                XModule.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0.2f, 0, 0, 1));
                 }, Constant.LOCAL_RES_MODULE, 1);
@@ -219,7 +219,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Open Dialog 2"))
             {
-                Module.UI.Open<DialogUI>((ui) =>
+                XModule.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.2f, 0, 1));
                 }, Constant.LOCAL_RES_MODULE, 2);
@@ -227,7 +227,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Open Dialog 3"))
             {
-                Module.UI.Open<DialogUI>((ui) =>
+                XModule.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.5f, 0, 1));
                 }, Constant.LOCAL_RES_MODULE, 3);
@@ -235,7 +235,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Open Dialog 4"))
             {
-                Module.UI.Open<DialogUI>((ui) =>
+                XModule.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.8f, 0, 1));
                 }, Constant.LOCAL_RES_MODULE, 4);
@@ -243,19 +243,19 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Close Dialog 1"))
             {
-                Module.UI.Close<DialogUI>(1);
+                XModule.UI.Close<DialogUI>(1);
             }
             if (DebugGUI.Button("Close Dialog 2"))
             {
-                Module.UI.Close<DialogUI>(2);
+                XModule.UI.Close<DialogUI>(2);
             }
             if (DebugGUI.Button("Close Dialog 3"))
             {
-                Module.UI.Close<DialogUI>(3);
+                XModule.UI.Close<DialogUI>(3);
             }
             if (DebugGUI.Button("Close Dialog 4"))
             {
-                Module.UI.Close<DialogUI>(4);
+                XModule.UI.Close<DialogUI>(4);
             }
             if (DebugGUI.Button("GC"))
             {
@@ -265,21 +265,21 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                Module.Audio.PlayAsync("TestAudio.mp3", "Bgm")
+                XModule.Audio.PlayAsync("TestAudio.mp3", "Bgm")
                     .OnComplete((audio) => m_TestAudio = audio);
             }
             if (DebugGUI.Button("Test2"))
             {
-                Module.Audio.PlayLoopAsync("TestAudio.mp3", "Bgm")
+                XModule.Audio.PlayLoopAsync("TestAudio.mp3", "Bgm")
                     .OnComplete((audio) => m_TestAudio = audio);
             }
             if (DebugGUI.Button("Test2"))
             {
-                Module.Audio.PlayAsync("TestAudio.mp3", "Bgm");
+                XModule.Audio.PlayAsync("TestAudio.mp3", "Bgm");
             }
             if (DebugGUI.Button("Stop Bgm Group"))
             {
-                Module.Audio.GetOrNewGroup("Bgm").Stop();
+                XModule.Audio.GetOrNewGroup("Bgm").Stop();
             }
             if (DebugGUI.Button("Stop"))
             {
@@ -300,7 +300,7 @@ namespace Game.Test
 
             if (DebugGUI.Button("Set cmd info"))
             {
-                Module.Debugger.SetCmdHelpInfo("" +
+                XModule.Debugger.SetCmdHelpInfo("" +
                     "close\n" +
                     "open_ui");
             }
@@ -322,7 +322,7 @@ namespace Game.Test
         public void Download(HashSet<string> perchs)
         {
             Log.Debug("Start hot update check task.");
-            HotUpdateCheckTask checkTask = Module.Task.GetOrNew<HotUpdateCheckTask>();
+            HotUpdateCheckTask checkTask = XModule.Task.GetOrNew<HotUpdateCheckTask>();
             checkTask.OnComplete(() =>
             {
                 if (checkTask.Success)
@@ -330,7 +330,7 @@ namespace Game.Test
                 else
                     Log.Debug("Hot update check task has failure.");
                 Log.Debug("Start hot update download task.");
-                HotUpdateDownTask downTask = Module.Task.GetOrNew<HotUpdateDownTask>();
+                HotUpdateDownTask downTask = XModule.Task.GetOrNew<HotUpdateDownTask>();
                 downTask.AddList(checkTask.ResList, perchs).OnComplete(() =>
                 {
                     if (downTask.Success)

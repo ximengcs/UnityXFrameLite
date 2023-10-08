@@ -5,7 +5,7 @@ using XFrame.Modules.Archives;
 
 namespace Game.Test
 {
-    [XModule]
+    [CommonModule]
     public class SettingData : SingletonModule<SettingData>
     {
         private JsonArchive m_Archive;
@@ -13,11 +13,11 @@ namespace Game.Test
         protected override void OnStart()
         {
             base.OnStart();
-            m_Archive = Module.Archive.GetOrNew<JsonArchive>("setting");
+            m_Archive = XModule.Archive.GetOrNew<JsonArchive>("setting");
             Lang = new ValueBinder<Language>(
                 () => m_Archive.Get(nameof(Lang), Language.English),
                 (v) => m_Archive.Set(nameof(Lang), v));
-            Lang.AddHandler((oldLang, newLang) => Module.I18N.Lang = newLang, true);
+            Lang.AddHandler((oldLang, newLang) => XModule.I18N.Lang = newLang, true);
         }
 
         public ValueBinder<Language> Lang { get; private set; }

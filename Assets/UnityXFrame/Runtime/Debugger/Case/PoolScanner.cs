@@ -32,7 +32,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Title(" ", DebugGUI.Width(70));
             GUILayout.EndHorizontal();
 
-            foreach (IPool pool in Module.Pool.AllPool)
+            foreach (IPool pool in XModule.Pool.AllPool)
             {
                 GUILayout.BeginHorizontal();
                 DebugGUI.Label(TypeUtility.GetSimpleName(pool.ObjectType));

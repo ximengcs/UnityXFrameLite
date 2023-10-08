@@ -232,7 +232,7 @@ namespace UnityXFrame.Core.HotUpdate
             {
                 Debug.LogWarning("1");
                 AsyncOperationHandle<IList<IAssetBundleResource>> downHandle = Addressables.LoadAssetsAsync<IAssetBundleResource>(locations, null, true);
-                ActionTask task = Module.Task.GetOrNew<ActionTask>();
+                ActionTask task = XModule.Task.GetOrNew<ActionTask>();
                 task.Add(() =>
                 {
                     bool isDone = downHandle.IsDone;
@@ -262,7 +262,7 @@ namespace UnityXFrame.Core.HotUpdate
             private void InnerDownloadWithEnum(IEnumerable keys)
             {
                 AsyncOperationHandle downHandle = Addressables.DownloadDependenciesAsync(keys, Addressables.MergeMode.Union);
-                ActionTask task = Module.Task.GetOrNew<ActionTask>();
+                ActionTask task = XModule.Task.GetOrNew<ActionTask>();
                 task.Add(() =>
                 {
                     bool isDone = downHandle.IsDone;

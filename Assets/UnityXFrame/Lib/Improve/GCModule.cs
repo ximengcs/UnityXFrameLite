@@ -1,8 +1,10 @@
-﻿using XFrame.Core;
+﻿using XFrame.Collections;
+using XFrame.Core;
 
 namespace UnityXFrameLib.Improve
 {
-    public class GCModule : ModuleBase, IModule
+    [XType(typeof(IGCModule))]
+    public class GCModule : ModuleBase, IGCModule
     {
         protected override void OnInit(object data)
         {
@@ -12,7 +14,7 @@ namespace UnityXFrameLib.Improve
 
         public GCTask Request()
         {
-            return Module.Task.GetOrNew<GCTask>();
+            return XModule.Task.GetOrNew<GCTask>();
         }
 
         private void InnerToMunal()

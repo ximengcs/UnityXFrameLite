@@ -14,19 +14,19 @@ namespace UnityXFrame.Core
 
         public ITask BeforeHandle()
         {
-            return Module.Task.GetOrNew<EmptyTask>();
+            return XModule.Task.GetOrNew<EmptyTask>();
         }
 
         public ITask AfterHandle()
         {
             InnerConfigLog();
             InnerAddExtModule();
-            return Module.Task.GetOrNew<EmptyTask>();
+            return XModule.Task.GetOrNew<EmptyTask>();
         }
 
         private void InnerConfigLog()
         {
-            Diagnotics.Logger logger = Module.Log.GetLogger<Diagnotics.Logger>();
+            Diagnotics.Logger logger = XModule.Log.GetLogger<Diagnotics.Logger>();
             foreach (DebugColor colorData in Init.Inst.Data.LogMark)
             {
                 if (colorData.Value)

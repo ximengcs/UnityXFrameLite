@@ -26,7 +26,7 @@ using XFrame.Modules.XType;
 
 namespace XFrame.Core
 {
-    public static partial class Module
+    public static partial class XModule
     {
         public static ITypeModule Type => ModuleUtility.Type;
         public static IArchiveModule Archive => ModuleUtility.Archive;

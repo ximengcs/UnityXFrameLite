@@ -48,7 +48,7 @@ namespace UnityXFrameLib.UIElements
             Vector2 end;
             Direct direct = m_Direct;
             if (m_Direct == Direct.Rand)
-                direct = Module.Rand.RandEnum(Direct.Rand);
+                direct = XModule.Rand.RandEnum(Direct.Rand);
             switch (direct)
             {
                 case Direct.FromLeft:

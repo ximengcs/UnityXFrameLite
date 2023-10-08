@@ -79,7 +79,7 @@ namespace UnityXFrame.Core.Diagnotics
                 case LogType.Error:
                 case LogType.Assert:
                 case LogType.Exception:
-                    Module.Debugger.SetTip(this, "LogScanner has new error");
+                    XModule.Debugger.SetTip(this, "LogScanner has new error");
                     m_Error.Append("<color=#CC423B>");
                     m_Error.Append(condition);
                     m_Error.Append("\n");

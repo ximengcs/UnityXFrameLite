@@ -24,7 +24,7 @@ namespace Game.Test
             m_Auto = DebugGUI.Power(m_Auto);
             if (DebugGUI.Button("Play"))
             {
-                Module.Audio.PlayAsync(m_Name, m_Auto)
+                XModule.Audio.PlayAsync(m_Name, m_Auto)
                     .OnComplete((audio) =>
                     {
                         m_Audio = audio;
@@ -32,7 +32,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("PlayLoop"))
             {
-                Module.Audio.PlayLoopAsync(m_Name, m_Auto)
+                XModule.Audio.PlayLoopAsync(m_Name, m_Auto)
                     .OnComplete((audio) =>
                     {
                         m_Audio = audio;

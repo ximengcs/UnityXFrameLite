@@ -69,7 +69,7 @@ namespace UnityXFrame.Core.Diagnotics
                             }
                             else
                             {
-                                Debugger debugger = (Debugger)XFrame.Core.Module.Debugger;
+                                Debugger debugger = (Debugger)XFrame.Core.XModule.Debugger;
                                 if (debugger.m_CmdParsers.TryGetValue(info.ParameterType, out IParser parser))
                                 {
                                     paramList[i] = parser.Parse(value);
@@ -119,7 +119,7 @@ namespace UnityXFrame.Core.Diagnotics
             };
             m_CmdInsts = new Dictionary<Type, object>();
             m_CmdHandlers = new Dictionary<string, CmdHandler>();
-            TypeSystem typeSys = XFrame.Core.Module.Type.GetOrNewWithAttr<DebugCommandClassAttribute>();
+            TypeSystem typeSys = XFrame.Core.XModule.Type.GetOrNewWithAttr<DebugCommandClassAttribute>();
             foreach (Type type in typeSys)
             {
                 object inst;
@@ -135,7 +135,7 @@ namespace UnityXFrame.Core.Diagnotics
                 {
                     if (!m_CmdInsts.TryGetValue(type, out inst))
                     {
-                        inst = XFrame.Core.Module.Type.CreateInstance(type);
+                        inst = XFrame.Core.XModule.Type.CreateInstance(type);
                         m_CmdInsts.Add(type, inst);
                     }
                 }
@@ -172,7 +172,7 @@ namespace UnityXFrame.Core.Diagnotics
                     continue;
                 if (m_CmdHandlers.TryGetValue(cmdline.Name, out CmdHandler cmd))
                 {
-                    XFrame.Core.Module.Debugger.SetTip($"Run {cmdline.Name}", Color.yellow);
+                    SetTip($"Run {cmdline.Name}", Color.yellow);
                     cmd.Exec(cmdline);
                 }
                 else

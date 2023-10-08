@@ -17,10 +17,8 @@ namespace Game.Core.Procedure
         protected override void OnEnter()
         {
             base.OnEnter();
-            Log.Debug("EnterGameProcedure");
-
-            string langFile = Module.LocalRes.Load<TextAsset>(Constant.LANG_FILE_PATH).text;
-            Module.I18N.Parse(langFile);
+            string langFile = XModule.LocalRes.Load<TextAsset>(Constant.LANG_FILE_PATH).text;
+            XModule.I18N.Parse(langFile);
             //Entry.AddModule<GCModule>();
         }
     }

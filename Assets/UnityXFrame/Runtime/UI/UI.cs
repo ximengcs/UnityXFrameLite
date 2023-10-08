@@ -122,7 +122,7 @@ namespace UnityXFrame.Core.UIElements
             if (m_CanvasGroup == null)
                 m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
             m_Transform = m_Root.GetComponent<RectTransform>();
-            Event = Module.Event.NewSys();
+            Event = XModule.Event.NewSys();
             m_IsOpen = false;
             Active = false;
         }

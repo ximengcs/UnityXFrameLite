@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using XFrame.Core;
 using System.Reflection;
@@ -6,9 +6,11 @@ using XFrame.Modules.Times;
 using XFrame.Modules.XType;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using XFrame.Collections;
 
 namespace UnityXFrame.Core.Diagnotics
 {
+    [XType(typeof(IDebugger))]
     public partial class Debugger : ModuleBase, IDebugger
     {
         #region Internal Field
@@ -28,10 +30,12 @@ namespace UnityXFrame.Core.Diagnotics
         private GUIStyle m_ContentArea;
         private GUIStyle m_HelpWindowStyle;
         private GUIStyle m_MenuButton;
+        private GUIStyle m_CollapseButton;
         private GUIStyle m_CmdRunButton;
         private GUIStyle m_CmdContentStyle;
 
         private bool m_IsOpen;
+        private bool m_Collapsing;
         private bool m_HelpOpen;
         private Rect m_RootRect;
         private float m_RootHeight;
@@ -110,6 +114,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_CmdContentStyle = Skin.customStyles[17];
             DebugGUI.Style.Rect = Skin.customStyles[18];
             DebugGUI.Style.Title = Skin.customStyles[19];
+            m_CollapseButton = Skin.customStyles[20];
 
             m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
@@ -140,6 +145,7 @@ namespace UnityXFrame.Core.Diagnotics
             FitStyle(m_DebugArea);
             FitStyle(m_MenuArea);
             FitStyle(m_ContentArea);
+            FitStyle(m_CollapseButton);
             FitStyle(m_MenuButton);
             FitStyle(m_CmdRunButton);
             FitStyle(DebugGUI.Style.HorizontalSlider);
@@ -295,11 +301,11 @@ namespace UnityXFrame.Core.Diagnotics
 
         private void InternalLoadInst()
         {
-            TypeSystem typeSys = XFrame.Core.Module.Type.GetOrNew<IDebugWindow>();
+            TypeSystem typeSys = XFrame.Core.XModule.Type.GetOrNew<IDebugWindow>();
             foreach (Type t in typeSys)
                 InnerAddWindowInfo(t);
             m_Windows.Sort((info1, info2) => info2.Order - info1.Order);
-            XFrame.Core.Module.Type.OnTypeChange(InnerNewWindowHandle);
+            XFrame.Core.XModule.Type.OnTypeChange(InnerNewWindowHandle);
         }
 
         private void InnerNewWindowHandle()
@@ -308,7 +314,7 @@ namespace UnityXFrame.Core.Diagnotics
             foreach (WindowInfo info in m_Windows)
                 types.Add(info.Window.GetType());
 
-            TypeSystem typeSys = XFrame.Core.Module.Type.GetOrNew<IDebugWindow>();
+            TypeSystem typeSys = XFrame.Core.XModule.Type.GetOrNew<IDebugWindow>();
             foreach (Type t in typeSys)
             {
                 if (!types.Contains(t))
@@ -358,6 +364,14 @@ namespace UnityXFrame.Core.Diagnotics
             m_ShowFps = open;
         }
 
+        internal void InnerCollapse(int collapse = -1)
+        {
+            if (collapse == -1)
+                m_Collapsing = !m_Collapsing;
+            else
+                m_Collapsing = collapse != 0;
+        }
+
         internal void InnerClose()
         {
             m_IsOpen = false;
@@ -377,62 +391,69 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.Label(TITLE, m_TitleStyle);
             GUILayout.FlexibleSpace();
 
+            if (GUILayout.Button(m_Collapsing ? "▷" : "▼", m_CollapseButton))
+                InnerCollapse();
             if (GUILayout.Button("X", m_CloseButtonStyle))
                 InnerClose();
 
             GUILayout.EndHorizontal();
 
-            GUILayout.BeginVertical(m_DebugArea);
-            GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-            GUILayout.BeginVertical(m_MenuArea);
-
-            m_DebugMenuPos = DebugGUI.BeginScrollView(m_DebugMenuPos);
-            foreach (WindowInfo windowInfo in m_Windows)
+            if (!m_Collapsing)
             {
-                string title = windowInfo.Name;
-                int code = windowInfo.Window.GetHashCode();
-                if (m_TipNewMsg.Contains(code))
-                    title = $"<color=#FF0000>{title}</color>";
-                if (windowInfo.Window == m_Current.Window)
-                    title = $"<color=#2A89FF>{title}</color>";
+                GUILayout.BeginVertical(m_DebugArea);
+                GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+                GUILayout.BeginVertical(m_MenuArea);
 
-                if (GUILayout.Button(title, m_MenuButton))
-                    InternalSelectMenu(windowInfo);
+                m_DebugMenuPos = DebugGUI.BeginScrollView(m_DebugMenuPos);
+                foreach (WindowInfo windowInfo in m_Windows)
+                {
+                    string title = windowInfo.Name;
+                    int code = windowInfo.Window.GetHashCode();
+                    if (m_TipNewMsg.Contains(code))
+                        title = $"<color=#FF0000>{title}</color>";
+                    if (windowInfo.Window == m_Current.Window)
+                        title = $"<color=#2A89FF>{title}</color>";
 
-                code = m_Current.Window.GetHashCode();
-                if (m_TipNewMsg.Contains(code))
-                    m_TipNewMsg.Remove(code);
+                    if (GUILayout.Button(title, m_MenuButton))
+                        InternalSelectMenu(windowInfo);
+
+                    code = m_Current.Window.GetHashCode();
+                    if (m_TipNewMsg.Contains(code))
+                        m_TipNewMsg.Remove(code);
+                }
+                GUILayout.EndScrollView();
+                GUILayout.EndVertical();
+
+                GUILayout.BeginVertical(m_ContentArea);
+                m_ContentPos = DebugGUI.BeginScrollView(m_ContentPos);
+                m_Current.Window?.OnDraw();
+                GUILayout.EndScrollView();
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
+                GUILayout.EndVertical();
+
+                #region Tip
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("?", m_TipTitleStyle))
+                {
+                    m_HelpOpen = !m_HelpOpen;
+                    float target = m_HelpOpen ? m_RootHeight : 0;
+                    m_TweenModule.Do("?", target, 0.1f,
+                        () => m_HelpWindowStyle.fixedHeight,
+                        (v) => m_HelpWindowStyle.fixedHeight = v);
+                }
+                bool alwaysTip = GUILayout.Toggle(m_AlwaysTip, "Tip", m_TipTitleStyle);
+                if (alwaysTip != m_AlwaysTip)
+                {
+                    SetTip($"tip mode change to {(alwaysTip ? "always" : "cd")}", Color.yellow);
+                    m_AlwaysTip = alwaysTip;
+                }
+                if (!m_AlwaysTip && m_Timer.Check(TIP_CD_KEY, true))
+                    m_Tip = string.Empty;
+                GUILayout.Label(m_Tip, m_TipContentStyle);
+                GUILayout.EndHorizontal();
+                #endregion 
             }
-            GUILayout.EndScrollView();
-            GUILayout.EndVertical();
-
-            GUILayout.BeginVertical(m_ContentArea);
-            m_ContentPos = DebugGUI.BeginScrollView(m_ContentPos);
-            m_Current.Window?.OnDraw();
-            GUILayout.EndScrollView();
-            GUILayout.EndVertical();
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("?", m_TipTitleStyle))
-            {
-                m_HelpOpen = !m_HelpOpen;
-                float target = m_HelpOpen ? m_RootHeight : 0;
-                m_TweenModule.Do("?", target, 0.1f,
-                    () => m_HelpWindowStyle.fixedHeight,
-                    (v) => m_HelpWindowStyle.fixedHeight = v);
-            }
-            bool alwaysTip = GUILayout.Toggle(m_AlwaysTip, "Tip", m_TipTitleStyle);
-            if (alwaysTip != m_AlwaysTip)
-            {
-                SetTip($"tip mode change to {(alwaysTip ? "always" : "cd")}", Color.yellow);
-                m_AlwaysTip = alwaysTip;
-            }
-            if (!m_AlwaysTip && m_Timer.Check(TIP_CD_KEY, true))
-                m_Tip = string.Empty;
-            GUILayout.Label(m_Tip, m_TipContentStyle);
-            GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
 

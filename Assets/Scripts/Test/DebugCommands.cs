@@ -8,6 +8,7 @@ using UnityXFrame.Core.Parser;
 using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
 using XFrame.Core;
+using XFrame.Modules.Pools;
 
 namespace Game.Test
 {
@@ -59,13 +60,20 @@ namespace Game.Test
         public void test2(CommandLine cmd)
         {
             Debug.LogWarning($"test2 exec => {cmd}");
-            Module.Task.GetOrNew<EmptyTask>().Start();
+            XModule.Task.GetOrNew<EmptyTask>().Start();
         }
 
         [DebugCommand]
         public void test3(string param)
         {
             Debug.LogWarning($"test3 exec {param}");
+
+            ArrayParser<UniversalParser> parser = References.Require<ArrayParser<UniversalParser>>();
+            parser.Split = '|';
+            parser.Parse(param);
+            Debug.LogWarning(parser.Get(0).IntValue);
+            Debug.LogWarning(parser.Get(1).FloatValue);
+            Debug.LogWarning(parser.Get(2).GetOrAddParser<Vector2Parser>().Value);
         }
 
         [DebugCommand]
@@ -95,24 +103,24 @@ namespace Game.Test
         [DebugCommand]
         public void task()
         {
-            Debug.LogWarning($"start {Module.Time.Frame}");
-            TaskExt.NextFrame(() => Debug.LogWarning($"nextframe {Module.Time.Frame}"))
-                .NextFrame(() => Debug.LogWarning($"nextframe2 {Module.Time.Frame}"))
-                .Delay(1.0f, () => Debug.LogWarning($"delay 1s {Module.Time.Frame}"))
-                .Invoke(() => Debug.LogWarning($"invoke 1 {Module.Time.Frame}"))
+            Debug.LogWarning($"start {XModule.Time.Frame}");
+            TaskExt.NextFrame(() => Debug.LogWarning($"nextframe {XModule.Time.Frame}"))
+                .NextFrame(() => Debug.LogWarning($"nextframe2 {XModule.Time.Frame}"))
+                .Delay(1.0f, () => Debug.LogWarning($"delay 1s {XModule.Time.Frame}"))
+                .Invoke(() => Debug.LogWarning($"invoke 1 {XModule.Time.Frame}"))
                 .Invoke(() =>
                 {
-                    Debug.LogWarning($"invoke 2 {Module.Time.Frame}");
+                    Debug.LogWarning($"invoke 2 {XModule.Time.Frame}");
                     return UnityEngine.Random.Range(0, 3) == 0;
                 })
                 .Invoke(() =>
                 {
-                    Debug.LogWarning($"invoke 3 {Module.Time.Frame}");
+                    Debug.LogWarning($"invoke 3 {XModule.Time.Frame}");
                     return TaskBase.MAX_PRO;
                 })
                 .Beat(1.0f, () =>
                 {
-                    Debug.LogWarning($"beat {Module.Time.Frame}");
+                    Debug.LogWarning($"beat {XModule.Time.Frame}");
                     return UnityEngine.Random.Range(0, 10) == 0;
                 });
         }

@@ -7,7 +7,8 @@ using System.Collections.Generic;
 
 namespace UnityXFrameLib.Commercial
 {
-    public class AdsModule : SingletonModule<AdsModule>
+    [XType(typeof(IAdsModule))]
+    public class AdsModule : ModuleBase, IAdsModule
     {
         private bool m_Inited;
         private IAdsHelper m_Helper;
@@ -21,22 +22,22 @@ namespace UnityXFrameLib.Commercial
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-            Event = Module.Event.NewSys();
+            Event = XModule.Event.NewSys();
             m_Views = new XCollection<IAdView>();
             m_Configs = new Dictionary<int, Dictionary<int, AdsConfig>>();
             m_Types = new Dictionary<int, Type>();
-            TypeSystem typeSys = Module.Type.GetOrNewWithAttr<AdsImplementAttribute>();
+            TypeSystem typeSys = XModule.Type.GetOrNewWithAttr<AdsImplementAttribute>();
             foreach (Type type in typeSys)
             {
-                AdsImplementAttribute attr = Module.Type.GetAttribute<AdsImplementAttribute>(type);
+                AdsImplementAttribute attr = XModule.Type.GetAttribute<AdsImplementAttribute>(type);
                 m_Types.Add(attr.Type, type);
             }
             m_Inited = false;
 
-            typeSys = Module.Type.GetOrNew<IAdsHelper>();
+            typeSys = XModule.Type.GetOrNew<IAdsHelper>();
             foreach (Type type in typeSys)
             {
-                m_Helper = (IAdsHelper)Module.Type.CreateInstance(type);
+                m_Helper = (IAdsHelper)XModule.Type.CreateInstance(type);
                 m_Helper.OnInit(InnerInitCompleteHandle);
                 break;
             }

@@ -46,7 +46,7 @@ namespace UnityXFrame.Editor
 
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
-            ResLoadTask<T> loadTask = Module.Task.GetOrNew<ResLoadTask<T>>();
+            ResLoadTask<T> loadTask = XModule.Task.GetOrNew<ResLoadTask<T>>();
             if (m_ResCache.TryGetFile(resPath, out object res))
             {
                 loadTask.Add(new ResHandler(res));
@@ -66,7 +66,7 @@ namespace UnityXFrame.Editor
 
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
-            ResLoadTask loadTask = Module.Task.GetOrNew<ResLoadTask>();
+            ResLoadTask loadTask = XModule.Task.GetOrNew<ResLoadTask>();
             if (m_ResCache.TryGetFile(resPath, out object res))
             {
                 loadTask.Add(new ResHandler(res));

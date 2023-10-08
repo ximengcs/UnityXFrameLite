@@ -40,7 +40,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_BoxStyle = new GUIStyle(GUI.skin.box);
             m_BoxStyle.fontSize = 30;
 
-            Debugger debugger = (Debugger)Module.Debugger;
+            Debugger debugger = (Debugger)XModule.Debugger;
             debugger.FitStyle(m_BoxStyle);
         }
 
@@ -93,7 +93,7 @@ namespace UnityXFrame.Core.Diagnotics
         private void InnerRefresh(TypesInfo info)
         {
             info.List.Clear();
-            Type[] types = Module.Type.GetAllType();
+            Type[] types = XModule.Type.GetAllType();
             foreach (Type type in types)
             {
                 string name = type.Name;

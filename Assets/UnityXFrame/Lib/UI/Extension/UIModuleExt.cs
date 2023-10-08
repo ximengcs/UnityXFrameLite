@@ -40,19 +40,19 @@ namespace UnityXFrameLib.UIElements
 
         public static ITask CollectAutoTask()
         {
-            XTask task = Module.Task.GetOrNew<XTask>();
-            task.Add(InnerFactoryTask(Module.Type.GetOrNewWithAttr<AutoLoadUIAttribute>(), Module.UI.PreloadResource));
-            task.Add(InnerFactoryTask(Module.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), Module.UI.Spwan));
+            XTask task = XModule.Task.GetOrNew<XTask>();
+            task.Add(InnerFactoryTask(XModule.Type.GetOrNewWithAttr<AutoLoadUIAttribute>(), XModule.UI.PreloadResource));
+            task.Add(InnerFactoryTask(XModule.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), XModule.UI.Spwan));
             return task;
         }
 
         private static ITask InnerFactoryTask(TypeSystem typeSys, Func<IEnumerable<Type>, int, ITask> handler)
         {
-            XTask task = Module.Task.GetOrNew<XTask>();
+            XTask task = XModule.Task.GetOrNew<XTask>();
             Dictionary<int, List<Type>> map = new Dictionary<int, List<Type>>();
             foreach (Type type in typeSys)
             {
-                UIAutoAttribute attr = Module.Type.GetAttribute<UIAutoAttribute>(type);
+                UIAutoAttribute attr = XModule.Type.GetAttribute<UIAutoAttribute>(type);
                 if (!map.TryGetValue(attr.UseResModule, out List<Type> list))
                 {
                     list = new List<Type>(typeSys.Count);

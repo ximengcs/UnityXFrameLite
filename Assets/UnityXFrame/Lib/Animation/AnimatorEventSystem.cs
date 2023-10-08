@@ -14,7 +14,7 @@ namespace UnityXFrameLib.Animations
             get
             {
                 if (m_Event == null)
-                    m_Event = Module.Event.NewSys();
+                    m_Event = XModule.Event.NewSys();
                 return m_Event;
             }
         }

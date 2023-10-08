@@ -11,15 +11,15 @@ namespace UnityXFrameLib.Pools
     {
         public static ITask CollectSpwanTask()
         {
-            ActionTask task = Module.Task.GetOrNew<ActionTask>();
-            TypeSystem typeSys = Module.Type.GetOrNewWithAttr<AutoSpwanAttribute>();
+            ActionTask task = XModule.Task.GetOrNew<ActionTask>();
+            TypeSystem typeSys = XModule.Type.GetOrNewWithAttr<AutoSpwanAttribute>();
             foreach (Type type in typeSys)
             {
                 task.Add(() =>
                 {
                     Debug.LogWarning(type.GetHashCode());
-                    AutoSpwanAttribute attr = Module.Type.GetAttribute<AutoSpwanAttribute>(type);
-                    IPool pool = Module.Pool.GetOrNew(type);
+                    AutoSpwanAttribute attr = XModule.Type.GetAttribute<AutoSpwanAttribute>(type);
+                    IPool pool = XModule.Pool.GetOrNew(type);
                     pool.Spawn(attr.PoolKey, attr.Count, attr.UserData);
                 });
             }

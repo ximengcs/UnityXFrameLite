@@ -23,8 +23,8 @@ namespace UnityXFrame.Core.Diagnotics
         {
             m_CachePath = new List<string>();
             Caching.GetAllCachePaths(m_CachePath);
-            m_DownTask = Module.Task.Get<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
-            m_CheckTask = Module.Task.Get<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
+            m_DownTask = XModule.Task.Get<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
+            m_CheckTask = XModule.Task.Get<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
         }
 
         public void OnDraw()
@@ -75,7 +75,7 @@ namespace UnityXFrame.Core.Diagnotics
         private void InnerUpdateRes()
         {
             Log.Debug("Start hot update check task.");
-            m_CheckTask = Module.Task.GetOrNew<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
+            m_CheckTask = XModule.Task.GetOrNew<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
             m_CheckTask.OnComplete(() =>
             {
                 if (m_CheckTask.Success)
@@ -83,7 +83,7 @@ namespace UnityXFrame.Core.Diagnotics
                 else
                     Log.Debug("Hot update check task has failure.");
                 Log.Debug("Start hot update download task.");
-                m_DownTask = Module.Task.GetOrNew<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
+                m_DownTask = XModule.Task.GetOrNew<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
                 m_DownTask.AddList(m_CheckTask.ResList).OnComplete(() =>
                 {
                     if (m_DownTask.Success)
