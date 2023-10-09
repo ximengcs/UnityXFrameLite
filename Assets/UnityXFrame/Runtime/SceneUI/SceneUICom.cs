@@ -184,7 +184,7 @@ namespace UnityXFrame.Core.UIElements
         protected override void OnCreateFromPool()
         {
             base.OnCreateFromPool();
-            m_UIModule = Entry.AddModule<IUIModule>(ModuleId);
+            m_UIModule = Entry.AddModule<UIModule>(ModuleId);
         }
     }
 }

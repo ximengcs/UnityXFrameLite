@@ -56,6 +56,26 @@ namespace Game.Test
 
         public void OnDraw()
         {
+            if (DebugGUI.Button("Test"))
+            {
+                ResLoadTask<TextAsset> task = XModule.Res.LoadAsync<TextAsset>("Config/Perch.txt");
+                Log.Debug($"Task {task.GetHashCode()}");
+                task.OnComplete((asset) =>
+                {
+                    Log.Debug(asset.text);
+                }).StartWithDelete();
+                GameObject prefab = XModule.LocalRes.Load<GameObject>("Data/Prefab/Test.prefab");
+                Log.Debug(prefab.name);
+            }
+            if (DebugGUI.Button("Test2"))
+            {
+                ResLoadTask<TextAsset> task = XModule.Res.LoadAsync<TextAsset>("Config/Prop.csv");
+                Log.Debug($"Task {task.GetHashCode()}");
+                task.OnComplete((asset) =>
+                {
+                    Log.Debug(asset.text);
+                }).StartWithDelete();
+            }
             if (DebugGUI.Button("Download 1"))
             {
                 Download(new HashSet<string>() { "Config/Perch.txt" });
