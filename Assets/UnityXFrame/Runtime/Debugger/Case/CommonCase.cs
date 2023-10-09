@@ -63,8 +63,15 @@ namespace UnityXFrame.Core.Diagnotics
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Time Scale", GUILayout.Width(Debuger.Inst.FitWidth(200)));
-            DebugGUI.Label($"{m_TimeScale}", GUILayout.Width(Debuger.Inst.FitWidth(50)));
-            m_TimeScale = (int)DebugGUI.Slider(m_TimeScale, 0, 5);
+            DebugGUI.Label($"{m_TimeScale}", GUILayout.Width(Debuger.Inst.FitWidth(80)));
+            m_TimeScale = DebugGUI.Slider(m_TimeScale, 0, 5);
+            if (m_TimeScale >= 1)
+                m_TimeScale = (int)m_TimeScale;
+            else if (m_TimeScale >= 0.5f)
+                m_TimeScale = 0.5f;
+            else
+                m_TimeScale = 0.25f;
+
             if (m_TimeScale != Time.timeScale)
                 Time.timeScale = m_TimeScale;
             GUILayout.EndHorizontal();
