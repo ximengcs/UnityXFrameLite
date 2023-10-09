@@ -1,12 +1,12 @@
 ﻿using System;
 using UnityEngine;
 using System.Reflection;
-using XFrame.Modules.XType;
 using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
 using XFrame.Core;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Conditions;
+using XFrame.Modules.Reflection;
 
 namespace UnityXFrame.Core.Diagnotics
 {

@@ -2,8 +2,8 @@
 using UnityEditor;
 using UnityEngine;
 using UnityXFrame.Core;
-using XFrame.Modules.XType;
 using System.Collections.Generic;
+using XFrame.Modules.Reflection;
 
 namespace UnityXFrame.Editor
 {

@@ -3,12 +3,12 @@ using UnityEngine;
 using XFrame.Core;
 using XFrame.Collections;
 using XFrame.Modules.Pools;
-using XFrame.Modules.XType;
 using System.Collections.Generic;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Event;
 using XFrame.Modules.Diagnotics;
+using XFrame.Modules.Reflection;
 
 namespace UnityXFrame.Core.UIElements
 {

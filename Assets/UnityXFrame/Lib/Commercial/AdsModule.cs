@@ -2,8 +2,8 @@
 using XFrame.Core;
 using XFrame.Collections;
 using XFrame.Modules.Event;
-using XFrame.Modules.XType;
 using System.Collections.Generic;
+using XFrame.Modules.Reflection;
 
 namespace UnityXFrameLib.Commercial
 {

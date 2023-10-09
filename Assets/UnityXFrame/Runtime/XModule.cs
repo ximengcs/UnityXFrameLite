@@ -17,12 +17,12 @@ using XFrame.Modules.Plots;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Procedure;
 using XFrame.Modules.Rand;
+using XFrame.Modules.Reflection;
 using XFrame.Modules.Resource;
 using XFrame.Modules.Serialize;
 using XFrame.Modules.StateMachine;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Times;
-using XFrame.Modules.XType;
 
 namespace XFrame.Core
 {

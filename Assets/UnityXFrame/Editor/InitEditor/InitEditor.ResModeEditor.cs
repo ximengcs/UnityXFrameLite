@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEditor;
-using XFrame.Modules.XType;
+using XFrame.Modules.Reflection;
 using XFrame.Modules.Resource;
 
 namespace UnityXFrame.Editor

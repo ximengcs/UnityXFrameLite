@@ -3,10 +3,10 @@ using UnityEngine;
 using XFrame.Core;
 using System.Reflection;
 using XFrame.Modules.Times;
-using XFrame.Modules.XType;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using XFrame.Collections;
+using XFrame.Modules.Reflection;
 
 namespace UnityXFrame.Core.Diagnotics
 {

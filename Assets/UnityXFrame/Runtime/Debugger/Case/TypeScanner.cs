@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using UnityEngine;
-using XFrame.Modules.XType;
 using System.Collections.Generic;
 using XFrame.Core;
 

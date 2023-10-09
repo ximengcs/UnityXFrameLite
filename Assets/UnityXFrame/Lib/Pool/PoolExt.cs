@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
-using XFrame.Modules.Tasks;
-using XFrame.Modules.XType;
-using XFrame.Modules.Pools;
 using XFrame.Core;
+using XFrame.Modules.Tasks;
+using XFrame.Modules.Pools;
+using XFrame.Modules.Reflection;
 
 namespace UnityXFrameLib.Pools
 {

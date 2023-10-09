@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEditor;
-using XFrame.Modules.XType;
 using XFrame.Modules.Procedure;
+using XFrame.Modules.Reflection;
 
 namespace UnityXFrame.Editor
 {
