@@ -29,13 +29,13 @@ namespace Game.Test
             m_Dropdown.SetFonts(m_Fonts);
             m_Dropdown.AddOptions(m_Options);
             m_Dropdown.onValueChanged.AddListener(InnerChangeHandler);
-            m_Dropdown.value = m_Languages.IndexOf(XModule.I18N.Lang);
+            m_Dropdown.value = m_Languages.IndexOf(Global.I18N.Lang);
             LocalizeExt.Register(m_Title, InnerSetTitle);
         }
 
         private void InnerSetTitle(TextMeshProUGUI textCom)
         {
-            textCom.text = XModule.I18N.GetValue(5);
+            textCom.text = Global.I18N.GetValue(5);
             m_Dropdown.captionText.font = textCom.font;
         }
 
@@ -52,7 +52,7 @@ namespace Game.Test
                 {
                     m_Languages.Add(language);
                     m_Fonts.Add(asset);
-                    m_Options.Add(XModule.I18N.GetValue(language, 4));
+                    m_Options.Add(Global.I18N.GetValue(language, 4));
                 }
             }
         }

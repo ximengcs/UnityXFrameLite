@@ -69,7 +69,7 @@ namespace UnityXFrame.Core.Diagnotics
                             }
                             else
                             {
-                                Debugger debugger = (Debugger)XFrame.Core.XModule.Debugger;
+                                Debugger debugger = (Debugger)Global.Debugger;
                                 if (debugger.m_CmdParsers.TryGetValue(info.ParameterType, out IParser parser))
                                 {
                                     paramList[i] = parser.Parse(value);
@@ -119,7 +119,7 @@ namespace UnityXFrame.Core.Diagnotics
             };
             m_CmdInsts = new Dictionary<Type, object>();
             m_CmdHandlers = new Dictionary<string, CmdHandler>();
-            TypeSystem typeSys = XFrame.Core.XModule.Type.GetOrNewWithAttr<DebugCommandClassAttribute>();
+            TypeSystem typeSys = Global.Type.GetOrNewWithAttr<DebugCommandClassAttribute>();
             foreach (Type type in typeSys)
             {
                 object inst;
@@ -135,7 +135,7 @@ namespace UnityXFrame.Core.Diagnotics
                 {
                     if (!m_CmdInsts.TryGetValue(type, out inst))
                     {
-                        inst = XFrame.Core.XModule.Type.CreateInstance(type);
+                        inst = Global.Type.CreateInstance(type);
                         m_CmdInsts.Add(type, inst);
                     }
                 }

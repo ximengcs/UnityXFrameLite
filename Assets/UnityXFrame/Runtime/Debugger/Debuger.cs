@@ -312,11 +312,11 @@ namespace UnityXFrame.Core.Diagnotics
 
         private void InternalLoadInst()
         {
-            TypeSystem typeSys = XFrame.Core.XModule.Type.GetOrNew<IDebugWindow>();
+            TypeSystem typeSys = Global.Type.GetOrNew<IDebugWindow>();
             foreach (Type t in typeSys)
                 InnerAddWindowInfo(t);
             m_Windows.Sort((info1, info2) => info2.Order - info1.Order);
-            XFrame.Core.XModule.Type.OnTypeChange(InnerNewWindowHandle);
+            Global.Type.OnTypeChange(InnerNewWindowHandle);
         }
 
         private void InnerNewWindowHandle()
@@ -325,7 +325,7 @@ namespace UnityXFrame.Core.Diagnotics
             foreach (WindowInfo info in m_Windows)
                 types.Add(info.Window.GetType());
 
-            TypeSystem typeSys = XFrame.Core.XModule.Type.GetOrNew<IDebugWindow>();
+            TypeSystem typeSys = Global.Type.GetOrNew<IDebugWindow>();
             foreach (Type t in typeSys)
             {
                 if (!types.Contains(t))

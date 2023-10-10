@@ -1,5 +1,6 @@
-﻿using XFrame.Collections;
-using XFrame.Core;
+﻿using XFrame.Core;
+using UnityXFrame.Core;
+using XFrame.Collections;
 
 namespace UnityXFrameLib.Improve
 {
@@ -14,7 +15,7 @@ namespace UnityXFrameLib.Improve
 
         public GCTask Request()
         {
-            return XModule.Task.GetOrNew<GCTask>();
+            return Global.Task.GetOrNew<GCTask>();
         }
 
         private void InnerToMunal()

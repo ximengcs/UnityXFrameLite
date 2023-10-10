@@ -37,7 +37,6 @@ namespace Game.Test
 
         public void OnAwake()
         {
-
             m_Time = 0.5f;
         }
         private IEventSystem m_Sys;
@@ -58,18 +57,18 @@ namespace Game.Test
         {
             if (DebugGUI.Button("Test"))
             {
-                ResLoadTask<TextAsset> task = XModule.Res.LoadAsync<TextAsset>("Config/Perch.txt");
+                ResLoadTask<TextAsset> task = Global.Res.LoadAsync<TextAsset>("Config/Perch.txt");
                 Log.Debug($"Task {task.GetHashCode()}");
                 task.OnComplete((asset) =>
                 {
                     Log.Debug(asset.text);
                 }).StartWithDelete();
-                GameObject prefab = XModule.LocalRes.Load<GameObject>("Data/Prefab/Test.prefab");
+                GameObject prefab = Global.LocalRes.Load<GameObject>("Data/Prefab/Test.prefab");
                 Log.Debug(prefab.name);
             }
             if (DebugGUI.Button("Test2"))
             {
-                ResLoadTask<TextAsset> task = XModule.Res.LoadAsync<TextAsset>("Config/Prop.csv");
+                ResLoadTask<TextAsset> task = Global.Res.LoadAsync<TextAsset>("Config/Prop.csv");
                 Log.Debug($"Task {task.GetHashCode()}");
                 task.OnComplete((asset) =>
                 {
@@ -103,7 +102,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("New EvtSys"))
             {
-                m_Sys = XModule.Event.NewSys();
+                m_Sys = Global.Event.NewSys();
             }
             if (DebugGUI.Button("Test1"))
             {
@@ -124,7 +123,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Add Table"))
             {
-                XModule.Res.LoadAsync<TextAsset>("Config/Prop.csv").OnComplete((asset) =>
+                Global.Res.LoadAsync<TextAsset>("Config/Prop.csv").OnComplete((asset) =>
                 {
                     //DataModule.Inst.Add<Prop>(asset.text, Constant.CSV_TYPE);
                     Debug.LogWarning("complete");
@@ -136,51 +135,51 @@ namespace Game.Test
 
             if (DebugGUI.Button("Read Table"))
             {
-                Debug.LogWarning(XModule.Data.GetItem<Prop>(1).ToString());
+                Debug.LogWarning(Global.Data.GetItem<Prop>(1).ToString());
             }
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Main");
             if (DebugGUI.Button("-"))
-                XModule.UI.MainGroup.Layer--;
+                Global.UI.MainGroup.Layer--;
             if (DebugGUI.Button("+"))
-                XModule.UI.MainGroup.Layer++;
+                Global.UI.MainGroup.Layer++;
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test1");
             if (DebugGUI.Button("-"))
-                XModule.UI.GetOrNewGroup("Test1").Layer--;
+                Global.UI.GetOrNewGroup("Test1").Layer--;
             if (DebugGUI.Button("+"))
-                XModule.UI.GetOrNewGroup("Test1").Layer++;
+                Global.UI.GetOrNewGroup("Test1").Layer++;
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test2");
             if (DebugGUI.Button("-"))
-                XModule.UI.GetOrNewGroup("Test2").Layer--;
+                Global.UI.GetOrNewGroup("Test2").Layer--;
             if (DebugGUI.Button("+"))
-                XModule.UI.GetOrNewGroup("Test2").Layer++;
+                Global.UI.GetOrNewGroup("Test2").Layer++;
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test1 UI");
             if (DebugGUI.Button("-"))
-                XModule.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer--;
+                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer--;
             if (DebugGUI.Button("+"))
-                XModule.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer++;
+                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer++;
             if (DebugGUI.Button("Close"))
-                XModule.UI.Close<DialogUI>();
+                Global.UI.Close<DialogUI>();
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test2 UI");
             if (DebugGUI.Button("-"))
-                XModule.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer--;
+                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer--;
             if (DebugGUI.Button("+"))
-                XModule.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer++;
+                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer++;
             if (DebugGUI.Button("Close"))
-                XModule.UI.Close<DialogUI>(2);
+                Global.UI.Close<DialogUI>(2);
             GUILayout.EndHorizontal();
 
             DebugGUI.Label("Test UI");
@@ -188,7 +187,7 @@ namespace Game.Test
             if (DebugGUI.Button("Test Init GameObject"))
             {
                 var sw = System.Diagnostics.Stopwatch.StartNew();
-                GameObject prefab = XModule.LocalRes.Load<GameObject>("Data/Prefab/Test.prefab");
+                GameObject prefab = Global.LocalRes.Load<GameObject>("Data/Prefab/Test.prefab");
                 GameObject.Instantiate(prefab);
                 sw.Stop();
                 Log.Debug("Debugger", sw.ElapsedMilliseconds);
@@ -196,13 +195,13 @@ namespace Game.Test
 
             if (DebugGUI.Button("Init Group1"))
             {
-                XModule.UI.GetOrNewGroup("Test");
-                OnlyOneUIGroupHelper helper = XModule.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
+                Global.UI.GetOrNewGroup("Test");
+                OnlyOneUIGroupHelper helper = Global.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
                 helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
             }
             if (DebugGUI.Button("Init Group2"))
             {
-                MultiUIGroupHelper helper = XModule.UI.MainGroup.AddHelper<MultiUIGroupHelper>();
+                MultiUIGroupHelper helper = Global.UI.MainGroup.AddHelper<MultiUIGroupHelper>();
                 //helper.SetEffect(
                 //        new AnimatorTriggerEffect("Open", "Open"),
                 //        new AnimatorTriggerEffect("Close", "Close"));
@@ -210,8 +209,8 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Init Group3"))
             {
-                XModule.UI.GetOrNewGroup("Test");
-                OnlyOneUIGroupHelper helper = XModule.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
+                Global.UI.GetOrNewGroup("Test");
+                OnlyOneUIGroupHelper helper = Global.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
                 helper.SetEffect(new ScaleEffect(Vector2.one, 2), new ScaleEffect(Vector2.one, Vector2.zero, 2));
             }
             if (DebugGUI.Button("Init Group4"))
@@ -223,15 +222,15 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Open Setting"))
             {
-                XModule.UI.Open<SettingUI>("Test", null, Constant.LOCAL_RES_MODULE);
+                Global.UI.Open<SettingUI>("Test", null, Constant.LOCAL_RES_MODULE);
             }
             if (DebugGUI.Button("Open Setting2"))
             {
-                XModule.UI.Open<SettingUI>(null, Constant.LOCAL_RES_MODULE);
+                Global.UI.Open<SettingUI>(null, Constant.LOCAL_RES_MODULE);
             }
             if (DebugGUI.Button("Open Dialog 1"))
             {
-                XModule.UI.Open<DialogUI>((ui) =>
+                Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0.2f, 0, 0, 1));
                 }, Constant.LOCAL_RES_MODULE, 1);
@@ -239,7 +238,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Open Dialog 2"))
             {
-                XModule.UI.Open<DialogUI>((ui) =>
+                Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.2f, 0, 1));
                 }, Constant.LOCAL_RES_MODULE, 2);
@@ -247,7 +246,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Open Dialog 3"))
             {
-                XModule.UI.Open<DialogUI>((ui) =>
+                Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.5f, 0, 1));
                 }, Constant.LOCAL_RES_MODULE, 3);
@@ -255,7 +254,7 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Open Dialog 4"))
             {
-                XModule.UI.Open<DialogUI>((ui) =>
+                Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.8f, 0, 1));
                 }, Constant.LOCAL_RES_MODULE, 4);
@@ -263,19 +262,19 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Close Dialog 1"))
             {
-                XModule.UI.Close<DialogUI>(1);
+                Global.UI.Close<DialogUI>(1);
             }
             if (DebugGUI.Button("Close Dialog 2"))
             {
-                XModule.UI.Close<DialogUI>(2);
+                Global.UI.Close<DialogUI>(2);
             }
             if (DebugGUI.Button("Close Dialog 3"))
             {
-                XModule.UI.Close<DialogUI>(3);
+                Global.UI.Close<DialogUI>(3);
             }
             if (DebugGUI.Button("Close Dialog 4"))
             {
-                XModule.UI.Close<DialogUI>(4);
+                Global.UI.Close<DialogUI>(4);
             }
             if (DebugGUI.Button("GC"))
             {
@@ -285,21 +284,21 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Test"))
             {
-                XModule.Audio.PlayAsync("TestAudio.mp3", "Bgm")
+                Global.Audio.PlayAsync("TestAudio.mp3", "Bgm")
                     .OnComplete((audio) => m_TestAudio = audio);
             }
             if (DebugGUI.Button("Test2"))
             {
-                XModule.Audio.PlayLoopAsync("TestAudio.mp3", "Bgm")
+                Global.Audio.PlayLoopAsync("TestAudio.mp3", "Bgm")
                     .OnComplete((audio) => m_TestAudio = audio);
             }
             if (DebugGUI.Button("Test2"))
             {
-                XModule.Audio.PlayAsync("TestAudio.mp3", "Bgm");
+                Global.Audio.PlayAsync("TestAudio.mp3", "Bgm");
             }
             if (DebugGUI.Button("Stop Bgm Group"))
             {
-                XModule.Audio.GetOrNewGroup("Bgm").Stop();
+                Global.Audio.GetOrNewGroup("Bgm").Stop();
             }
             if (DebugGUI.Button("Stop"))
             {
@@ -320,7 +319,7 @@ namespace Game.Test
 
             if (DebugGUI.Button("Set cmd info"))
             {
-                XModule.Debugger.SetCmdHelpInfo("" +
+                Global.Debugger.SetCmdHelpInfo("" +
                     "close\n" +
                     "open_ui");
             }
@@ -342,7 +341,7 @@ namespace Game.Test
         public void Download(HashSet<string> perchs)
         {
             Log.Debug("Start hot update check task.");
-            HotUpdateCheckTask checkTask = XModule.Task.GetOrNew<HotUpdateCheckTask>();
+            HotUpdateCheckTask checkTask = Global.Task.GetOrNew<HotUpdateCheckTask>();
             checkTask.OnComplete(() =>
             {
                 if (checkTask.Success)
@@ -350,7 +349,7 @@ namespace Game.Test
                 else
                     Log.Debug("Hot update check task has failure.");
                 Log.Debug("Start hot update download task.");
-                HotUpdateDownTask downTask = XModule.Task.GetOrNew<HotUpdateDownTask>();
+                HotUpdateDownTask downTask = Global.Task.GetOrNew<HotUpdateDownTask>();
                 downTask.AddList(checkTask.ResList, perchs).OnComplete(() =>
                 {
                     if (downTask.Success)

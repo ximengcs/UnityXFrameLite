@@ -4,6 +4,7 @@ using XFrame.Collections;
 using XFrame.Modules.Event;
 using System.Collections.Generic;
 using XFrame.Modules.Reflection;
+using UnityXFrame.Core;
 
 namespace UnityXFrameLib.Commercial
 {
@@ -22,22 +23,22 @@ namespace UnityXFrameLib.Commercial
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-            Event = XModule.Event.NewSys();
+            Event = Global.Event.NewSys();
             m_Views = new XCollection<IAdView>();
             m_Configs = new Dictionary<int, Dictionary<int, AdsConfig>>();
             m_Types = new Dictionary<int, Type>();
-            TypeSystem typeSys = XModule.Type.GetOrNewWithAttr<AdsImplementAttribute>();
+            TypeSystem typeSys = Global.Type.GetOrNewWithAttr<AdsImplementAttribute>();
             foreach (Type type in typeSys)
             {
-                AdsImplementAttribute attr = XModule.Type.GetAttribute<AdsImplementAttribute>(type);
+                AdsImplementAttribute attr = Global.Type.GetAttribute<AdsImplementAttribute>(type);
                 m_Types.Add(attr.Type, type);
             }
             m_Inited = false;
 
-            typeSys = XModule.Type.GetOrNew<IAdsHelper>();
+            typeSys = Global.Type.GetOrNew<IAdsHelper>();
             foreach (Type type in typeSys)
             {
-                m_Helper = (IAdsHelper)XModule.Type.CreateInstance(type);
+                m_Helper = (IAdsHelper)Global.Type.CreateInstance(type);
                 m_Helper.OnInit(InnerInitCompleteHandle);
                 break;
             }

@@ -27,13 +27,13 @@ namespace UnityXFrame.Core.Diagnotics
 
         public static GUILayoutOption Width(float width)
         {
-            Debugger debugger = (Debugger)XModule.Debugger;
+            Debugger debugger = (Debugger)Global.Debugger;
             return GUILayout.Width(width * debugger.m_FitWidth);
         }
 
         public static GUILayoutOption Height(float height)
         {
-            Debugger debugger = (Debugger)XModule.Debugger;
+            Debugger debugger = (Debugger)Global.Debugger;
             return GUILayout.Height(height * debugger.m_FitWidth);
         }
 
@@ -45,7 +45,7 @@ namespace UnityXFrame.Core.Diagnotics
 
         public static void Progress(float value, float startValue, float endValue)
         {
-            Debugger debugger = (Debugger)XModule.Debugger;
+            Debugger debugger = (Debugger)Global.Debugger;
             float rate = (value - startValue) / (endValue - startValue);
             rate = Mathf.Clamp(rate, 0, 1);
             Rect rect = GUILayoutUtility.GetAspectRect(10f / 1f);

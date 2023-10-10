@@ -3,9 +3,9 @@ using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.UIElements;
 using XFrame.Modules.Resource;
 
-namespace XFrame.Core
+namespace UnityXFrame.Core
 {
-    public static partial class XModule
+    public static partial class Global
     {
         private static IResModule m_LocalRes;
         private static IUIModule m_UI;

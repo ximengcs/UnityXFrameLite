@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using XFrame.Modules.Pools;
 using UnityXFrameLib.Tasks;
-using XFrame.Modules.Resource;
 using UnityXFrameLib.Utilities;
-using UnityEngine.UIElements;
-using XFrame.Core;
+using UnityXFrame.Core;
 
 namespace UnityXFrameLib.Effects
 {
@@ -42,7 +40,7 @@ namespace UnityXFrameLib.Effects
         void IPoolObject.OnCreate()
         {
             m_Inited = false;
-            XModule.Res.LoadAsync<GameObject>($"{LibConstant.EFFECT_RES_PATH}/{m_ResName}.prefab").OnComplete((prefab) =>
+            Global.Res.LoadAsync<GameObject>($"{LibConstant.EFFECT_RES_PATH}/{m_ResName}.prefab").OnComplete((prefab) =>
             {
                 m_Inst = GameObject.Instantiate(prefab);
                 m_Tf = m_Inst.transform;

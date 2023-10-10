@@ -21,7 +21,7 @@ namespace UnityXFrame.Core.Serialize
 
         public CsvSerializeHelper()
         {
-            TypeSystem typeSys = XFrame.Core.XModule.Type.GetOrNew<ITypeHandler>();
+            TypeSystem typeSys = Global.Type.GetOrNew<ITypeHandler>();
             m_Handlers = new Dictionary<string, TypeHandlerAction>();
             foreach (Type type in typeSys)
             {

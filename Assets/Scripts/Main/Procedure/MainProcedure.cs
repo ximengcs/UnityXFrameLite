@@ -15,7 +15,9 @@ namespace Game.Core.Procedure
         protected override void OnEnter()
         {
             base.OnEnter();
+#if CONSOLE
             Entry.AddModule<Debugger>();
+#endif
             Application.targetFrameRate = 60;
             ChangeState<EnterGameProcedure>();
             //ChangeState<CheckResUpdateProcedure>();

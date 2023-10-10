@@ -3,6 +3,7 @@ using UnityXFrame.Core.UIElements;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using XFrame.Core;
+using UnityXFrame.Core;
 
 namespace UnityXFrameLib.UIElements
 {
@@ -88,7 +89,7 @@ namespace UnityXFrameLib.UIElements
             {
                 if (Input.GetMouseButton(0))
                 {
-                    Vector2 pos = (m_CurPos - lastPos) * XModule.UI.PixelScale;
+                    Vector2 pos = (m_CurPos - lastPos) * Global.UI.PixelScale;
                     m_MoveTarget.anchoredPosition += pos;
                 }
                 else if (Input.GetMouseButtonUp(0))

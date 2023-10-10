@@ -65,14 +65,14 @@ namespace UnityXFrame.Core.Diagnotics
                 Setter = setter;
                 IsComplete = false;
                 m_SuplusTime = duration;
-                m_LastTime = XModule.Time.Time;
+                m_LastTime = Global.Time.Time;
                 m_StartValue = Getter();
             }
 
             public void Update()
             {
-                float escapeTime = XModule.Time.Time - m_LastTime;
-                m_LastTime = XModule.Time.Time;
+                float escapeTime = Global.Time.Time - m_LastTime;
+                m_LastTime = Global.Time.Time;
                 m_SuplusTime -= escapeTime;
                 float rate = 1 - m_SuplusTime / Duration;
 

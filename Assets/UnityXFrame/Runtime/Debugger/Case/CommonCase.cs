@@ -35,7 +35,7 @@ namespace UnityXFrame.Core.Diagnotics
             bool timerCD = DebugGUI.Power(m_TimerCD);
             if (timerCD && m_TimerDebugTask == null)
             {
-                m_TimerDebugTask = XModule.Task.GetOrNew<ActionTask>().Add(1.0f, InnerTestTimerCD);
+                m_TimerDebugTask = Global.Task.GetOrNew<ActionTask>().Add(1.0f, InnerTestTimerCD);
                 m_TimerDebugTask.Start();
             }
             m_TimerCD = timerCD;
@@ -68,7 +68,7 @@ namespace UnityXFrame.Core.Diagnotics
 
         private bool InnerTestTimerCD()
         {
-            foreach (CDTimer timer in XModule.Time.GetTimers())
+            foreach (CDTimer timer in Global.Time.GetTimers())
             {
                 float t = timer.CheckTime();
                 Log.Debug("Timer", $"{timer.Name} {(t > 0 ? t : "has reach")}");

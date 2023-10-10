@@ -51,7 +51,7 @@ namespace UnityXFrame.Core.Audios
                         m_AutoRelease = value;
                         if (m_WaitTask == null)
                         {
-                            m_WaitTask = XModule.Task.GetOrNew<ActionTask>();
+                            m_WaitTask = Global.Task.GetOrNew<ActionTask>();
                             m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
                                 .OnComplete(() =>
                                 {
@@ -144,7 +144,7 @@ namespace UnityXFrame.Core.Audios
                 }
 
                 m_Group.Remove(this);
-                XModule.Pool.GetOrNew<Audio>().Release(this);
+                Global.Pool.GetOrNew<Audio>().Release(this);
             }
 
             public void Play(Action callback = null)
@@ -169,7 +169,7 @@ namespace UnityXFrame.Core.Audios
 
                 if (AutoRelease)
                 {
-                    m_WaitTask = XModule.Task.GetOrNew<ActionTask>();
+                    m_WaitTask = Global.Task.GetOrNew<ActionTask>();
                     m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
                         .OnComplete(() =>
                         {
@@ -252,7 +252,7 @@ namespace UnityXFrame.Core.Audios
 
             private void InnerUpdateSourceVolume()
             {
-                m_Source.volume = XModule.Audio.Volume * Group.Volume * m_Volume;
+                m_Source.volume = Global.Audio.Volume * Group.Volume * m_Volume;
             }
         }
     }

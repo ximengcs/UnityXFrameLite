@@ -79,7 +79,7 @@ namespace UnityXFrame.Core.Resource
             if (m_FileMap.FileToABMap.TryGetValue(resPath, out string abName))
             {
                 BundleInfo info = InnerLoadBundle(abName);
-                ResLoadTask task = XModule.Task.GetOrNew<ResLoadTask>();
+                ResLoadTask task = Global.Task.GetOrNew<ResLoadTask>();
                 task.Add(new ResHandler(info, resPath, type));
                 task.Start();
                 return task;
@@ -94,7 +94,7 @@ namespace UnityXFrame.Core.Resource
             if (m_FileMap.FileToABMap.TryGetValue(resPath, out string abName))
             {
                 BundleInfo info = InnerLoadBundle(abName);
-                ResLoadTask<T> task = XModule.Task.GetOrNew<ResLoadTask<T>>();
+                ResLoadTask<T> task = Global.Task.GetOrNew<ResLoadTask<T>>();
                 task.Add(new ResHandler(info, resPath, typeof(T)));
                 task.Start();
                 return task;

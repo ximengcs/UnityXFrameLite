@@ -1,5 +1,5 @@
 ﻿using System;
-using XFrame.Core;
+using UnityXFrame.Core;
 using XFrame.Modules.Tasks;
 
 namespace UnityXFrameLib.Tasks
@@ -8,7 +8,7 @@ namespace UnityXFrameLib.Tasks
     {
         public static ActionTask Invoke(Action handler)
         {
-            ActionTask task = XModule.Task.GetOrNew<ActionTask>().Add(handler);
+            ActionTask task = Global.Task.GetOrNew<ActionTask>().Add(handler);
             task.Start();
             return task;
         }
@@ -22,7 +22,7 @@ namespace UnityXFrameLib.Tasks
 
         public static ActionTask NextFrame(Action handler)
         {
-            ActionTask task = XModule.Task.GetOrNew<ActionTask>().Add(handler, true);
+            ActionTask task = Global.Task.GetOrNew<ActionTask>().Add(handler, true);
             task.Start();
             return task;
         }
@@ -36,7 +36,7 @@ namespace UnityXFrameLib.Tasks
 
         public static ActionTask Delay(float delayTime, Action handler, bool nextFrame = false)
         {
-            ActionTask task = XModule.Task.GetOrNew<ActionTask>().Add(delayTime, handler, nextFrame);
+            ActionTask task = Global.Task.GetOrNew<ActionTask>().Add(delayTime, handler, nextFrame);
             task.Start();
             return task;
         }
@@ -50,7 +50,7 @@ namespace UnityXFrameLib.Tasks
 
         public static ActionTask Invoke(Func<bool> handler, bool nextFrame = false)
         {
-            ActionTask task = XModule.Task.GetOrNew<ActionTask>().Add(handler, nextFrame);
+            ActionTask task = Global.Task.GetOrNew<ActionTask>().Add(handler, nextFrame);
             task.Start();
             return task;
         }
@@ -64,7 +64,7 @@ namespace UnityXFrameLib.Tasks
 
         public static ActionTask Invoke(Func<float> handler, bool nextFrame = false)
         {
-            ActionTask task = XModule.Task.GetOrNew<ActionTask>().Add(handler, nextFrame);
+            ActionTask task = Global.Task.GetOrNew<ActionTask>().Add(handler, nextFrame);
             task.Start();
             return task;
         }
@@ -78,7 +78,7 @@ namespace UnityXFrameLib.Tasks
 
         public static ActionTask Beat(float gapTime, Func<bool> handler, bool nextFrame = false)
         {
-            ActionTask task = XModule.Task.GetOrNew<ActionTask>().Add(gapTime, handler, nextFrame);
+            ActionTask task = Global.Task.GetOrNew<ActionTask>().Add(gapTime, handler, nextFrame);
             task.Start();
             return task;
         }

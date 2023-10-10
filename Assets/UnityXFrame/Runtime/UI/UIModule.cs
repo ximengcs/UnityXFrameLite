@@ -35,7 +35,7 @@ namespace UnityXFrame.Core.UIElements
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-            m_Event = XModule.Event.NewSys();
+            m_Event = Global.Event.NewSys();
             m_Helper = new DefaultUIPoolHelper();
             InnerCheckCanvas(data);
             if (m_Canvas != null)
@@ -83,7 +83,7 @@ namespace UnityXFrame.Core.UIElements
 
         public ITask Spwan(IEnumerable<Type> types, int useResModule)
         {
-            ActionTask task = XModule.Task.GetOrNew<ActionTask>();
+            ActionTask task = Global.Task.GetOrNew<ActionTask>();
             foreach (Type uiType in types)
             {
                 if (uiType != null)
@@ -91,7 +91,7 @@ namespace UnityXFrame.Core.UIElements
                     task.Add(() =>
                     {
                         XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
-                        XModule.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
+                        Global.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
                         InnerInitSpwanUI(list);
                         list.Clear();
                         References.Release(list);
@@ -113,11 +113,11 @@ namespace UnityXFrame.Core.UIElements
 
         public ITask Spwan(Type uiType, int useResModule)
         {
-            ActionTask task = XModule.Task.GetOrNew<ActionTask>();
+            ActionTask task = Global.Task.GetOrNew<ActionTask>();
             task.Add(() =>
             {
                 XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
-                XModule.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
+                Global.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
                 InnerInitSpwanUI(list);
                 list.Clear();
                 References.Release(list);
@@ -186,7 +186,7 @@ namespace UnityXFrame.Core.UIElements
         /// <returns>UI实例</returns>
         public IUI Open(string uiName, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default)
         {
-            TypeSystem typeSys = XModule.Type.GetOrNew<IUI>();
+            TypeSystem typeSys = Global.Type.GetOrNew<IUI>();
             Type uiType = typeSys.GetByName(uiName);
             return Open(uiType, dataHandler, useResModule, id);
         }
@@ -202,7 +202,7 @@ namespace UnityXFrame.Core.UIElements
         /// <returns>UI实例</returns>
         public IUI Open(string uiName, string groupName, OnDataProviderReady dataHandler = null, int useResModule = Constant.COMMON_RES_MODULE, int id = default)
         {
-            Type uiType = XModule.Type.GetOrNew<IUI>().GetByName(uiName);
+            Type uiType = Global.Type.GetOrNew<IUI>().GetByName(uiName);
             return Open(uiType, groupName, dataHandler, useResModule, id);
         }
 
@@ -314,7 +314,7 @@ namespace UnityXFrame.Core.UIElements
         /// <param name="id">UI Id</param>
         public void Close(string uiName, int id = default)
         {
-            Type uiType = XModule.Type.GetOrNew<IUI>().GetByName(uiName);
+            Type uiType = Global.Type.GetOrNew<IUI>().GetByName(uiName);
             InnerCloseUI(uiType, id);
         }
 
@@ -355,7 +355,7 @@ namespace UnityXFrame.Core.UIElements
         /// <returns>UI实例</returns>
         public IUI Get(string uiName, int id = default)
         {
-            Type uiType = XModule.Type.GetOrNew<IUI>().GetByName(uiName);
+            Type uiType = Global.Type.GetOrNew<IUI>().GetByName(uiName);
             return InnerGetUI(uiType, id);
         }
 
@@ -397,7 +397,7 @@ namespace UnityXFrame.Core.UIElements
         /// <param name="id">UI Id</param>
         public void DestroyUI(string uiName, int id = default)
         {
-            Type uiType = XModule.Type.GetOrNew<IUI>().GetByName(uiName);
+            Type uiType = Global.Type.GetOrNew<IUI>().GetByName(uiName);
             DestroyUI(uiType, id);
         }
         #endregion
@@ -442,7 +442,7 @@ namespace UnityXFrame.Core.UIElements
             IUI ui = m_UIList.Get(uiType, id);
             if (ui == null)
             {
-                IPool pool = XModule.Pool.GetOrNew(uiType, m_Helper);
+                IPool pool = Global.Pool.GetOrNew(uiType, m_Helper);
                 ui = (IUI)pool.Require(default, useResModule);
                 ui.OnInit(id, default, onReady);
                 onReady = null;
@@ -469,7 +469,7 @@ namespace UnityXFrame.Core.UIElements
             group?.RemoveUI(ui);
             ui.OnDestroy();
             m_UIList.Remove(ui);
-            IPool pool = XModule.Pool.GetOrNew(ui.GetType(), m_Helper);
+            IPool pool = Global.Pool.GetOrNew(ui.GetType(), m_Helper);
             pool.Release(ui);
         }
 

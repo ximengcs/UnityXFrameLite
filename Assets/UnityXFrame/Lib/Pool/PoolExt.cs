@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using XFrame.Core;
+using UnityXFrame.Core;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Reflection;
@@ -11,15 +11,15 @@ namespace UnityXFrameLib.Pools
     {
         public static ITask CollectSpwanTask()
         {
-            ActionTask task = XModule.Task.GetOrNew<ActionTask>();
-            TypeSystem typeSys = XModule.Type.GetOrNewWithAttr<AutoSpwanAttribute>();
+            ActionTask task = Global.Task.GetOrNew<ActionTask>();
+            TypeSystem typeSys = Global.Type.GetOrNewWithAttr<AutoSpwanAttribute>();
             foreach (Type type in typeSys)
             {
                 task.Add(() =>
                 {
                     Debug.LogWarning(type.GetHashCode());
-                    AutoSpwanAttribute attr = XModule.Type.GetAttribute<AutoSpwanAttribute>(type);
-                    IPool pool = XModule.Pool.GetOrNew(type);
+                    AutoSpwanAttribute attr = Global.Type.GetAttribute<AutoSpwanAttribute>(type);
+                    IPool pool = Global.Pool.GetOrNew(type);
                     pool.Spawn(attr.PoolKey, attr.Count, attr.UserData);
                 });
             }

@@ -8,6 +8,7 @@ using XFrame.Modules.Tasks;
 using System.Collections.Generic;
 using UnityXFrame.Core.UIElements;
 using XFrame.Modules.Reflection;
+using UnityXFrame.Core;
 
 namespace UnityXFrameLib.UIElements
 {
@@ -40,19 +41,19 @@ namespace UnityXFrameLib.UIElements
 
         public static ITask CollectAutoTask()
         {
-            XTask task = XModule.Task.GetOrNew<XTask>();
-            task.Add(InnerFactoryTask(XModule.Type.GetOrNewWithAttr<AutoLoadUIAttribute>(), XModule.UI.PreloadResource));
-            task.Add(InnerFactoryTask(XModule.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), XModule.UI.Spwan));
+            XTask task = Global.Task.GetOrNew<XTask>();
+            task.Add(InnerFactoryTask(Global.Type.GetOrNewWithAttr<AutoLoadUIAttribute>(), Global.UI.PreloadResource));
+            task.Add(InnerFactoryTask(Global.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), Global.UI.Spwan));
             return task;
         }
 
         private static ITask InnerFactoryTask(TypeSystem typeSys, Func<IEnumerable<Type>, int, ITask> handler)
         {
-            XTask task = XModule.Task.GetOrNew<XTask>();
+            XTask task = Global.Task.GetOrNew<XTask>();
             Dictionary<int, List<Type>> map = new Dictionary<int, List<Type>>();
             foreach (Type type in typeSys)
             {
-                UIAutoAttribute attr = XModule.Type.GetAttribute<UIAutoAttribute>(type);
+                UIAutoAttribute attr = Global.Type.GetAttribute<UIAutoAttribute>(type);
                 if (!map.TryGetValue(attr.UseResModule, out List<Type> list))
                 {
                     list = new List<Type>(typeSys.Count);

@@ -30,7 +30,7 @@ namespace UnityXFrame.Core.Resource
 
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
-            ResLoadTask loadTask = XModule.Task.GetOrNew<ResLoadTask>();
+            ResLoadTask loadTask = Global.Task.GetOrNew<ResLoadTask>();
             object handle = Ext.LoadAssetAsync(resPath, type);
             ReflectResHandler handler = new ReflectResHandler(handle, type);
             loadTask.OnComplete((asset) =>
@@ -48,7 +48,7 @@ namespace UnityXFrame.Core.Resource
 
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
-            ResLoadTask<T> loadTask = XModule.Task.GetOrNew<ResLoadTask<T>>();
+            ResLoadTask<T> loadTask = Global.Task.GetOrNew<ResLoadTask<T>>();
             AsyncOperationHandle handle = Addressables.LoadAssetAsync<T>(resPath);
             ResHandler handler = new ResHandler(handle);
             loadTask.OnComplete((asset) =>

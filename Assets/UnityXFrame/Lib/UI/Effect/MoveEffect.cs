@@ -1,9 +1,9 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityXFrame.Core;
 using UnityXFrame.Core.UIElements;
 using System.Collections.Generic;
-using XFrame.Core;
 
 namespace UnityXFrameLib.UIElements
 {
@@ -48,7 +48,7 @@ namespace UnityXFrameLib.UIElements
             Vector2 end;
             Direct direct = m_Direct;
             if (m_Direct == Direct.Rand)
-                direct = XModule.Rand.RandEnum(Direct.Rand);
+                direct = Global.Rand.RandEnum(Direct.Rand);
             switch (direct)
             {
                 case Direct.FromLeft:

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityXFrame.Core;
-using XFrame.Core;
 using XFrame.Modules.Event;
 
 namespace UnityXFrameLib.Animations
@@ -14,7 +13,7 @@ namespace UnityXFrameLib.Animations
             get
             {
                 if (m_Event == null)
-                    m_Event = XModule.Event.NewSys();
+                    m_Event = Global.Event.NewSys();
                 return m_Event;
             }
         }

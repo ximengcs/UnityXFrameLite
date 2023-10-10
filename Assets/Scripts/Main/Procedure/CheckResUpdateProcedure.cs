@@ -13,7 +13,7 @@ namespace Game.Core.Procedure
         {
             base.OnEnter();
             Log.Debug("Start hot update check task.");
-            HotUpdateCheckTask checkTask = XModule.Task.GetOrNew<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
+            HotUpdateCheckTask checkTask = Global.Task.GetOrNew<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
             checkTask.OnComplete(() =>
             {
                 if (checkTask.Success)
@@ -21,7 +21,7 @@ namespace Game.Core.Procedure
                 else
                     Log.Debug("Hot update check task has failure.");
                 Log.Debug("Start hot update download task.");
-                HotUpdateDownTask downTask = XModule.Task.GetOrNew<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
+                HotUpdateDownTask downTask = Global.Task.GetOrNew<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
                 downTask.AddList(checkTask.ResList).OnComplete(() =>
                 {
                     if (downTask.Success)

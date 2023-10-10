@@ -9,7 +9,7 @@ namespace UnityXFrame.Core.Diagnotics
         [DebugCommand]
         public static void clear_user_data()
         {
-            XModule.Archive.DeleteAll();
+            Global.Archive.DeleteAll();
             PlayerPrefs.DeleteAll();
             Application.Quit();
         }
@@ -17,28 +17,28 @@ namespace UnityXFrame.Core.Diagnotics
         [DebugCommand]
         public static void clear()
         {
-            Debugger debugger = (Debugger)XModule.Debugger;
+            Debugger debugger = (Debugger)Global.Debugger;
             debugger.InnerClearCmd();
         }
 
         [DebugCommand]
         public static void close()
         {
-            Debugger debugger = (Debugger)XModule.Debugger;
+            Debugger debugger = (Debugger)Global.Debugger;
             debugger.InnerClose();
         }
 
         [DebugCommand]
         public static void collapse()
         {
-            Debugger debugger = (Debugger)XModule.Debugger;
+            Debugger debugger = (Debugger)Global.Debugger;
             debugger.InnerCollapse(1);
         }
 
         [DebugCommand]
         public static void expend()
         {
-            Debugger debugger = (Debugger)XModule.Debugger;
+            Debugger debugger = (Debugger)Global.Debugger;
             debugger.InnerCollapse(0);
         }
 
@@ -60,7 +60,7 @@ namespace UnityXFrame.Core.Diagnotics
                         open = false;
                 }
             }
-            Debugger debugger = (Debugger)XModule.Debugger;
+            Debugger debugger = (Debugger)Global.Debugger;
             debugger.InnerSwitchFPS(open);
         }
     }

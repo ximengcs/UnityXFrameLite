@@ -24,14 +24,14 @@ namespace UnityXFrame.Core.UIElements
                 List<string> uiPaths = new List<string>();
                 foreach (Type type in types)
                     uiPaths.Add(InnerUIPath(type));
-                return Entry.GetModule<ResModule>(useResModule).Preload<GameObject>(uiPaths);
+                return Entry.GetModule<IResModule>(useResModule).Preload<GameObject>(uiPaths);
             }
 
             IPoolObject IPoolHelper.Factory(Type type, int poolKey, object userData)
             {
                 int useResModule = (int)userData;
                 string uiPath = InnerUIPath(type);
-                GameObject prefab = Entry.GetModule<ResModule>(useResModule).Load<GameObject>(uiPath);
+                GameObject prefab = Entry.GetModule<IResModule>(useResModule).Load<GameObject>(uiPath);
                 GameObject inst = GameObject.Instantiate(prefab);
 
                 IUI ui;
