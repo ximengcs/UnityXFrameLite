@@ -184,7 +184,13 @@ namespace UnityXFrame.Core.UIElements
         protected override void OnCreateFromPool()
         {
             base.OnCreateFromPool();
-            m_UIModule = Entry.AddModule<UIModule>(ModuleId);
+
+            GameObject canvasInst = new GameObject();
+            Canvas canvas = canvasInst.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.WorldSpace;
+            canvas.worldCamera = Camera.main;
+            canvas.transform.localScale = Vector3.one * canvas.worldCamera.orthographicSize * 2 / Screen.height;
+            m_UIModule = Entry.AddModule<UIModule>(ModuleId, canvas);
         }
     }
 }
