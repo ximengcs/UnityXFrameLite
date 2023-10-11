@@ -6,10 +6,13 @@ using XFrame.Modules.Event;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Containers;
 using System.Collections.Generic;
+using UnityXFrame.Core.Entities;
+using XFrame.Modules.Entities;
+using UnityEngine.UI;
 
 namespace UnityXFrame.Core.UIElements
 {
-    public class SceneUICom : Com, IUIManager
+    public class SceneUICom : EntityShareCom, IUIManager
     {
         private static int s_MODULE_ID = 1000;
         private int m_ModuleId;
@@ -29,7 +32,7 @@ namespace UnityXFrame.Core.UIElements
 
         public IUIGroup MainGroup => m_UIModule.MainGroup;
 
-        public IEventSystem Event => m_UIModule.Event;
+        public IEventSystem UIEvent => m_UIModule.Event;
 
         public void Close<T>(int id = 0) where T : IUI
         {
@@ -181,16 +184,24 @@ namespace UnityXFrame.Core.UIElements
             return m_UIModule.Spwan<T>(useResModule);
         }
 
-        protected override void OnCreateFromPool()
+        protected override void OnInit()
         {
-            base.OnCreateFromPool();
+            base.OnInit();
 
-            GameObject canvasInst = new GameObject();
+            GameObjectCom objCom = GetCom<GameObjectCom>();
+            GameObject canvasInst = objCom.AddChild("SceneUICanvas");
+            RectTransform tf = canvasInst.AddComponent<RectTransform>();
             Canvas canvas = canvasInst.AddComponent<Canvas>();
+            canvasInst.AddComponent<GraphicRaycaster>();
             canvas.renderMode = RenderMode.WorldSpace;
-            canvas.worldCamera = Camera.main;
-            canvas.transform.localScale = Vector3.one * canvas.worldCamera.orthographicSize * 2 / Screen.height;
-            m_UIModule = Entry.AddModule<UIModule>(ModuleId, canvas);
+            Camera camera = GetData<Camera>();
+            canvas.worldCamera = camera;
+            tf.sizeDelta = new Vector2(Screen.width, Screen.height);
+            tf.localScale = Vector3.one * camera.orthographicSize * 2 / Screen.height;
+
+            UIModule.Data moduleData = new UIModule.Data(Event, canvas);
+            m_UIModule = Entry.AddModule<UIModule>(ModuleId, moduleData);
+            ClearData();
         }
     }
 }

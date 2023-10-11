@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using XFrame.Core;
 using XFrame.Modules.Pools;
 using UnityXFrame.Core;
+using XFrame.Modules.Entities;
+using UnityXFrame.Core.UIElements;
+using UnityXFrameLib.UIElements;
 
 namespace Game.Test
 {
@@ -57,11 +60,33 @@ namespace Game.Test
             //Debug.LogWarning("============");
         }
 
+        private TestChar m_Char;
         [DebugCommand]
         public void test2(CommandLine cmd)
         {
             Debug.LogWarning($"test2 exec => {cmd}");
-            Global.Task.GetOrNew<EmptyTask>().Start();
+            //Global.Task.GetOrNew<EmptyTask>().Start();
+            m_Char = Global.Entity.Create<TestChar>();
+        }
+
+        [DebugCommand]
+        public void test21()
+        {
+            MultiUIGroupHelper helper = Global.UI.MainGroup.AddHelper<MultiUIGroupHelper>();
+            helper.SetEffect(new AnimatorStateEffect("Open"), new AnimatorStateEffect("Close"));
+            m_Char.GetCom<SceneUICom>().MainGroup.AddHelper(helper);
+        }
+
+        [DebugCommand]
+        public void test22()
+        {
+            m_Char.GetCom<SceneUICom>().Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE);
+        }
+
+        [DebugCommand]
+        public void test23()
+        {
+            m_Char.GetCom<SceneUICom>().Close<DialogUI>();
         }
 
         [DebugCommand]

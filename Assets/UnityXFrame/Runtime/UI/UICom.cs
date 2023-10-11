@@ -1,5 +1,4 @@
-﻿using UnityEngine.EventSystems;
-using XFrame.Modules.Containers;
+﻿using XFrame.Modules.Containers;
 
 namespace UnityXFrame.Core.UIElements
 {

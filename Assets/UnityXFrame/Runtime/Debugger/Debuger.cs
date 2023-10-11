@@ -16,8 +16,8 @@ namespace UnityXFrame.Core.Diagnotics
         #region Internal Field
         private const int WIDTH = 1080;
         private const int HEIGHT = 1920;
-        internal float m_FitWidth;
-        internal float m_FitHeight;
+        private float m_FitWidth;
+        private float m_FitHeight;
 
         private GUISkin Skin;
         private GUIStyle m_TitleStyle;
@@ -60,10 +60,17 @@ namespace UnityXFrame.Core.Diagnotics
         private string m_EnterText;
         private EventSystem m_EventSytem;
 
+        private float m_FpsValue;
+        private float m_FpsAmount;
+        private int m_FpsCurTime;
+
         private const string TITLE = "Console";
         private const int TIP_CD_KEY = 0;
         private const int TIP_CD = 3;
         #endregion
+
+        public int FpsTimeGap { get; set; }
+
         public void SetTip(IDebugWindow from, string content, string color = null)
         {
             SetTip(from.GetHashCode(), content, color);
@@ -85,6 +92,8 @@ namespace UnityXFrame.Core.Diagnotics
         protected override void OnInit(object data)
         {
             base.OnInit(data);
+
+            FpsTimeGap = 30;
             m_ShowFps = false;
             m_OnGUIInit = false;
             Skin = ScriptableObject.Instantiate(Init.Inst.Data.DebuggerSkin);
@@ -260,8 +269,17 @@ namespace UnityXFrame.Core.Diagnotics
 
         private string InnerCalculateFps()
         {
-            float fps = 1 / Time.deltaTime;
-            return string.Format("FPS {0:F2}", fps);
+            if (m_FpsValue == 0)
+                m_FpsValue = 1 / Time.unscaledDeltaTime;
+            m_FpsAmount += Time.unscaledDeltaTime;
+            m_FpsCurTime++;
+            if (m_FpsCurTime >= FpsTimeGap)
+            {
+                m_FpsValue = 1 / (m_FpsAmount / FpsTimeGap);
+                m_FpsCurTime = 0;
+                m_FpsAmount = 0;
+            }
+            return string.Format("FPS {0:F2}", m_FpsValue);
         }
 
         private void InternalDrawHelpWindow(int windowId)

@@ -4,6 +4,7 @@ using XFrame.Collections;
 using XFrame.Modules.Event;
 using System.Collections.Generic;
 using XFrame.Core;
+using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.UIElements
 {

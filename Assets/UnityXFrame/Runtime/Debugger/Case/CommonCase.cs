@@ -25,6 +25,7 @@ namespace UnityXFrame.Core.Diagnotics
         public void OnAwake()
         {
             m_LockFPS = true;
+            m_FPS = Application.targetFrameRate;
             m_FPS = Mathf.Clamp(m_FPS, m_FPSMin, m_FPSMax);
         }
 
@@ -59,6 +60,12 @@ namespace UnityXFrame.Core.Diagnotics
             }
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
+
+            GUILayout.BeginHorizontal();
+            Debugger debugger = (Debugger)Global.Debugger;
+            DebugGUI.Label("FPS Refresh Gap", GUILayout.Width(debugger.FitWidth(260)));
+            debugger.FpsTimeGap = (int)DebugGUI.Slider(debugger.FpsTimeGap, 1, 60);
+            GUILayout.EndHorizontal();
 
             if (DebugGUI.Button("Clear User Data"))
             {

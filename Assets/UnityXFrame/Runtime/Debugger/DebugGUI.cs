@@ -28,13 +28,13 @@ namespace UnityXFrame.Core.Diagnotics
         public static GUILayoutOption Width(float width)
         {
             Debugger debugger = (Debugger)Global.Debugger;
-            return GUILayout.Width(width * debugger.m_FitWidth);
+            return GUILayout.Width(debugger.FitWidth(width));
         }
 
         public static GUILayoutOption Height(float height)
         {
             Debugger debugger = (Debugger)Global.Debugger;
-            return GUILayout.Height(height * debugger.m_FitWidth);
+            return GUILayout.Height(debugger.FitHeight(height));
         }
 
 
@@ -50,8 +50,8 @@ namespace UnityXFrame.Core.Diagnotics
             rate = Mathf.Clamp(rate, 0, 1);
             Rect rect = GUILayoutUtility.GetAspectRect(10f / 1f);
             rect.width = rate * rect.width;
-            rect.xMin += 10 * debugger.m_FitWidth;
-            rect.xMax -= 10 * debugger.m_FitWidth;
+            rect.xMin += debugger.FitWidth(10);
+            rect.xMax -= debugger.FitWidth(10);
             GUI.DrawTexture(rect, Style.ProgressSlider.normal.background, ScaleMode.StretchToFill);
         }
 

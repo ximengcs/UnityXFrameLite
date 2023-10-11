@@ -18,6 +18,7 @@ namespace Game.Test
         protected override void OnInit()
         {
             base.OnInit();
+            AddCom<UICloseButtonCom>();
             AddCom<DragUICom>((db) => DragUICom.SetTarget(db, "Rect", "BackGround"));
             m_Transform.anchoredPosition += GetData<Vector2>();
             m_BackGround.color = GetData<Color>();

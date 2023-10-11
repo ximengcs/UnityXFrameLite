@@ -32,12 +32,16 @@ namespace UnityXFrame.Core.UIElements
         public Vector2 PixelScale => m_PixelScale;
 
         #region Life Fun
-        protected override void OnInit(object data)
+        protected override void OnInit(object userData)
         {
-            base.OnInit(data);
-            m_Event = Global.Event.NewSys();
+            base.OnInit(userData);
+
+            Data data = userData != null ? (Data)userData : new Data();
+            m_Event = data.Event;
+            if (m_Event == null)
+                m_Event = Global.Event.NewSys();
             m_Helper = new DefaultUIPoolHelper();
-            InnerCheckCanvas(data);
+            InnerCheckCanvas(data.Canvas);
             if (m_Canvas != null)
             {
                 m_Root = m_Canvas.transform;
