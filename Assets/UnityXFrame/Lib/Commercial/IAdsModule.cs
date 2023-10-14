@@ -1,10 +1,12 @@
 ﻿using System;
 using XFrame.Core;
+using XFrame.Modules.Event;
 
 namespace UnityXFrameLib.Commercial
 {
     public interface IAdsModule : IModule
     {
+        IEventSystem Event { get; }
         IAdView Open(AdsData data);
         void Close(AdsConfig config);
         void Close(int adType, int entityId = default);

@@ -238,6 +238,11 @@ namespace UnityXFrame.Editor
                     EditorLog.Debug($"{path} {EditorLog.Color("->", Color.green)} {toPath}");
                 }
             }
+
+            string debuggerSkinPath = Path.Combine(Application.dataPath, "UnityXFrame/Runtime/Debugger/DebugSkin.guiskin");
+            string debuggerSkinToPath = Path.Combine(projectPath, "Resource/DebugSkin.guiskin");
+            File.Copy(debuggerSkinPath, debuggerSkinToPath, true);
+            EditorLog.Debug($"{debuggerSkinPath} {EditorLog.Color("->", Color.green)} {debuggerSkinToPath}");
         }
 
         public void CopyToProject()
