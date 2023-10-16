@@ -1,6 +1,7 @@
 ﻿using Game.Test;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityXFrame.Core;
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.UIElements;

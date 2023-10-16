@@ -2,7 +2,6 @@
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Times;
 using XFrame.Modules.Diagnotics;
-using XFrame.Core;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -11,6 +10,7 @@ namespace UnityXFrame.Core.Diagnotics
     public class CommonCase : IDebugWindow
     {
         private bool m_TimerCD;
+        private float m_TimeScale;
         private bool m_LockFPS;
         private int m_FPS;
         private int m_FPSMin = 10;
@@ -25,8 +25,8 @@ namespace UnityXFrame.Core.Diagnotics
         public void OnAwake()
         {
             m_LockFPS = true;
-            m_FPS = Application.targetFrameRate;
             m_FPS = Mathf.Clamp(m_FPS, m_FPSMin, m_FPSMax);
+            m_TimeScale = Time.timeScale;
         }
 
         public void OnDraw()
@@ -62,9 +62,17 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.EndVertical();
 
             GUILayout.BeginHorizontal();
-            Debugger debugger = (Debugger)Global.Debugger;
-            DebugGUI.Label("FPS Refresh Gap", GUILayout.Width(debugger.FitWidth(260)));
-            debugger.FpsTimeGap = (int)DebugGUI.Slider(debugger.FpsTimeGap, 1, 60);
+            DebugGUI.Label("Time Scale", GUILayout.Width(Global.Debugger.FitWidth(200)));
+            DebugGUI.Label($"{m_TimeScale}", GUILayout.Width(Global.Debugger.FitWidth(80)));
+            m_TimeScale = DebugGUI.Slider(m_TimeScale, 0, 5);
+            if (m_TimeScale >= 1)
+                m_TimeScale = (int)m_TimeScale;
+            else if (m_TimeScale >= 0.5f)
+                m_TimeScale = 0.5f;
+            else
+                m_TimeScale = 0.25f;
+            if (m_TimeScale != Time.timeScale)
+                Time.timeScale = m_TimeScale;
             GUILayout.EndHorizontal();
 
             if (DebugGUI.Button("Clear User Data"))

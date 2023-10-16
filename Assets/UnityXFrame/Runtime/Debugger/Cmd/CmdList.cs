@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityXFrame.Core.UIElements;
 using XFrame.Core;
+using XFrame.Modules.Reflection;
+using XFrame.Utility;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -62,6 +66,47 @@ namespace UnityXFrame.Core.Diagnotics
             }
             Debugger debugger = (Debugger)Global.Debugger;
             debugger.InnerSwitchFPS(open);
+        }
+
+        [DebugCommand]
+        public static void time_scale(float timeScale)
+        {
+            Time.timeScale = timeScale;
+        }
+
+        [DebugCommand]
+        public static void open_ui(string uiName, int resModule)
+        {
+            Type type = InnerGetUIType(uiName);
+            if (type != null)
+                Global.UI.Open(type, null, resModule);
+        }
+
+        public static void close_ui(string uiName)
+        {
+            Type type = InnerGetUIType(uiName);
+            if (type != null)
+                Global.UI.Close(type);
+        }
+
+        private static Type InnerGetUIType(string uiName)
+        {
+            if (string.IsNullOrEmpty(uiName))
+                return null;
+            TypeSystem typeSys = Global.Type.GetOrNew<IUI>();
+            if (!typeSys.TryGetByName(uiName, out Type type))
+            {
+                foreach (Type uiType in typeSys)
+                {
+                    string simpleName = TypeUtility.GetSimpleName(uiType);
+                    if (simpleName == uiName)
+                    {
+                        type = uiType;
+                        break;
+                    }
+                }
+            }
+            return type;
         }
     }
 }

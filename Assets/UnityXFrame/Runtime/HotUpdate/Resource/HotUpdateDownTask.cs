@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using UnityEngine;
+using System.Linq;
+using System.Collections;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
@@ -7,25 +10,45 @@ using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.ResourceManagement.ResourceProviders;
-using UnityEngine;
-using System.Linq;
-using XFrame.Core;
 
 namespace UnityXFrame.Core.HotUpdate
 {
-    public class HotUpdateDownTask : TaskBase
+    public partial class HotUpdateDownTask : TaskBase
     {
+        private List<Handler> m_Handlers = new List<Handler>();
+
         public bool Success { get; private set; }
 
         protected override void OnCreateFromPool()
         {
             base.OnCreateFromPool();
+            m_Handlers = new List<Handler>();
             AddStrategy(new Strategy());
+        }
+
+        protected override void OnReleaseFromPool()
+        {
+            base.OnReleaseFromPool();
+            m_Handlers.Clear();
+        }
+
+        public void OnComplete(string key, Action callback)
+        {
+            foreach (Handler handler in m_Handlers)
+            {
+                if (handler.Containes(key))
+                {
+                    handler.OnComplete(key, callback);
+                    return;
+                }
+            }
         }
 
         public HotUpdateDownTask AddList(List<string> downList, HashSet<string> perchs = null)
         {
-            Add(new Handler(downList, perchs));
+            Handler handler = new Handler(downList, perchs);
+            Add(handler);
+            m_Handlers.Add(handler);
             return this;
         }
 
@@ -259,9 +282,38 @@ namespace UnityXFrame.Core.HotUpdate
                 }).Start();
             }
 
-            private void InnerDownloadWithEnum(IEnumerable keys)
+            public bool Containes(string key)
             {
-                AsyncOperationHandle downHandle = Addressables.DownloadDependenciesAsync(keys, Addressables.MergeMode.Union);
+                return m_DownloadingDependency.ContainsKey(key);
+            }
+
+            public void OnComplete(string key, Action callback)
+            {
+                if (m_DownloadingDependency.TryGetValue(key, out DownLoadInfo dependency))
+                {
+                    dependency.OnComplete(callback);
+                }
+            }
+
+            private Dictionary<string, DownLoadInfo> m_DownloadingDependency;
+
+            private void InnerDownloadWithEnum(List<object> keys)
+            {
+                AsyncOperationHandle downHandle = Addressables.DownloadDependenciesAsync((IEnumerable)keys, Addressables.MergeMode.Union);
+                m_DownloadingDependency = new Dictionary<string, DownLoadInfo>();
+
+                List<AsyncOperationHandle> waitHandles = new List<AsyncOperationHandle>();
+                downHandle.GetDependencies(waitHandles);
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    AsyncOperationHandle waitHandle = waitHandles[i];
+                    string key = (string)keys[i];
+                    if (!m_DownloadingDependency.ContainsKey(key))
+                    {
+                        m_DownloadingDependency.Add(key, new DownLoadInfo(key, waitHandle));
+                    }
+                }
+
                 ActionTask task = Global.Task.GetOrNew<ActionTask>();
                 task.Add(() =>
                 {

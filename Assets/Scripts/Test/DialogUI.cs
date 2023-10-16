@@ -21,7 +21,11 @@ namespace Game.Test
             AddCom<UICloseButtonCom>();
             AddCom<DragUICom>((db) => DragUICom.SetTarget(db, "Rect", "BackGround"));
             m_Transform.anchoredPosition += GetData<Vector2>();
+
+            Color orginColor = m_BackGround.color;
             m_BackGround.color = GetData<Color>();
+            if (m_BackGround.color != Color.black)
+                m_BackGround.color = orginColor;
 
             LocalizeExt.Register(m_Title, InnerLangChange);
         }

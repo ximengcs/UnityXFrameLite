@@ -510,7 +510,7 @@ namespace UnityXFrame.Core.UIElements
 
             GameObject groupRoot = new GameObject(groupName, typeof(RectTransform), typeof(CanvasGroup));
             groupRoot.transform.SetParent(m_Root, false);
-            IUIGroup newGroup = new UIGroup(groupRoot, groupName, layer);
+            IUIGroup newGroup = new UIGroup(this, groupRoot, groupName, layer);
             newGroup.OnInit();
             m_GroupList.AddLast(newGroup);
             return newGroup;

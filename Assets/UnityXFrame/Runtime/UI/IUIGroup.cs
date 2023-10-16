@@ -12,6 +12,8 @@ namespace UnityXFrame.Core.UIElements
     /// </summary>
     public interface IUIGroup : IUIElement, IXEnumerable<IUI>
     {
+        IUIManager Domain { get; }
+
         IEventSystem Event { get; }
 
         RectTransform Root { get; }

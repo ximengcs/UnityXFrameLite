@@ -16,7 +16,10 @@ namespace UnityXFrame.Core.UIElements
         private GameObject m_Inst;
         private XLinkList<IUI> m_UIs;
         private CanvasGroup m_CanvasGroup;
+        private IUIManager m_Domain;
         private XLinkList<IUIGroupHelper> m_UIHelper;
+
+        public IUIManager Domain => m_Domain;
 
         public RectTransform Root => m_Root;
 
@@ -64,8 +67,9 @@ namespace UnityXFrame.Core.UIElements
             }
         }
 
-        public UIGroup(GameObject root, string name, int layer)
+        public UIGroup(IUIManager domain, GameObject root, string name, int layer)
         {
+            m_Domain = domain;
             Name = name;
             Layer = layer;
             m_Inst = root;
