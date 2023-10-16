@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,6 +20,14 @@ namespace UnityXFrame.Editor
             EditorUtility.RevealInFinder(Application.persistentDataPath);
         }
 
+        [MenuItem("UnityXFrame/To Cache Folder")]
+        public static void ToCacheFolder()
+        {
+            List<string> pathes = new List<string>();
+            Caching.GetAllCachePaths(pathes);
+            EditorUtility.RevealInFinder(pathes[0]);
+        }
+
         [MenuItem("UnityXFrame/Useful Tool")]
         public static void UseFul()
         {
@@ -37,6 +46,12 @@ namespace UnityXFrame.Editor
             PlayerPrefs.DeleteAll();
             if (Directory.Exists(Application.persistentDataPath))
                 Directory.Delete(Application.persistentDataPath, true);
+        }
+
+        [MenuItem("UnityXFrame/Clear Cache Data")]
+        public static void ClearCacheData()
+        {
+            Caching.ClearCache();
         }
 
         [MenuItem("UnityXFrame/Check Error")]
