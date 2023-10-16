@@ -9,28 +9,56 @@ namespace UnityXFrame.Core.HotUpdate
         private class DownLoadInfo
         {
             private string m_Key;
+            private float m_Size;
             private AsyncOperationHandle m_OpHandle;
-            private Action m_OnComplete;
+            private Action<string> m_OnComplete;
 
             public float Pro => m_OpHandle.PercentComplete;
+
+            public float Size => m_Size;
 
             public DownLoadInfo(string key, AsyncOperationHandle opHandle)
             {
                 m_Key = key;
                 m_OpHandle = opHandle;
                 m_OpHandle.Completed += InnerCompleteHandler;
-                Log.Debug("XFrame", $"DownloadInfo {m_Key} Start");
             }
 
-            public void OnComplete(Action callback)
+            public DownLoadInfo(string key)
             {
-                m_OnComplete += callback;
+                m_Key = key;
+            }
+
+            internal void SetSize(float size)
+            {
+                m_Size = size;
+            }
+
+            internal void SetHandle(AsyncOperationHandle opHandle)
+            {
+                m_OpHandle = opHandle;
+                m_OpHandle.Completed += InnerCompleteHandler;
+            }
+
+            public void OnComplete(Action<string> callback)
+            {
+                if (m_OpHandle.IsDone)
+                {
+                    if (m_OpHandle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        m_OnComplete?.Invoke(m_Key);
+                        m_OnComplete = null;
+                    }
+                }
+                else
+                {
+                    m_OnComplete += callback;
+                }
             }
 
             private void InnerCompleteHandler(AsyncOperationHandle op)
             {
-                Log.Debug("XFrame", $"DownloadInfo {m_Key} Complete");
-                m_OnComplete?.Invoke();
+                m_OnComplete?.Invoke(m_Key);
                 m_OnComplete = null;
             }
         }
