@@ -167,7 +167,7 @@ namespace UnityXFrame.Core.HotUpdate
                 }
                 else
                 {
-                    InnerInit();
+                    State = State.DownloadSuccess;
                 }
             }
 
