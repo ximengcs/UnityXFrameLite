@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
+using UnityXFrame.Core;
 using XFrame.Modules.Pools;
 using UnityXFrameLib.Tasks;
 using UnityXFrameLib.Utilities;
-using UnityXFrame.Core;
 
 namespace UnityXFrameLib.Effects
 {
@@ -50,10 +50,14 @@ namespace UnityXFrameLib.Effects
                     m_Color = m_Particle.main.startColor.color;
                 if (!m_SetScaleDirty)
                     m_Scale = m_Tf.localScale;
-                CommonUtility.SetLayer(m_Inst, LayerMask.NameToLayer(LibConstant.EFFECT_LAYER));
                 m_Inited = true;
                 InnerRefreshState();
             }).Start();
+        }
+
+        public void SetLayer(string layer)
+        {
+            CommonUtility.SetLayer(m_Inst, LayerMask.NameToLayer(layer));
         }
 
         public void SetColor(Color color)

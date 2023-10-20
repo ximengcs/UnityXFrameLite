@@ -29,6 +29,8 @@ namespace UnityXFrame.Core.UIElements
         private XLinkList<IUIGroup> m_GroupList;
         #endregion
 
+        public Canvas Canvas => m_Canvas;
+
         public Vector2 PixelScale => m_PixelScale;
 
         #region Life Fun

@@ -10,6 +10,8 @@ namespace UnityXFrame.Core.UIElements
 {
     public interface IUIManager
     {
+        Canvas Canvas { get; }
+
         Vector2 PixelScale { get; }
 
         ITask PreloadResource(Type[] types, int useResModule);

@@ -28,6 +28,8 @@ namespace UnityXFrame.Core.UIElements
             }
         }
 
+        public Canvas Canvas => m_UIModule.Canvas;
+
         public Vector2 PixelScale => m_UIModule.PixelScale;
 
         public IUIGroup MainGroup => m_UIModule.MainGroup;
