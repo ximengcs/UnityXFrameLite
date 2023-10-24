@@ -132,6 +132,11 @@ namespace Game.Test
                     Debug.LogWarning(pro);
                 }).Start();
             };
+            if (DebugGUI.Button("Table"))
+            {
+                TextAsset text = Global.Res.Load<TextAsset>("Config/Prop.csv");
+                Debug.LogWarning(text.text);
+            }
 
             if (DebugGUI.Button("Read Table"))
             {

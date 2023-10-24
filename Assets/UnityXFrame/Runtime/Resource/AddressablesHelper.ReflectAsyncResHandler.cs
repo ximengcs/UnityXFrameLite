@@ -1,6 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -8,7 +8,7 @@ namespace UnityXFrame.Core.Resource
 {
     public partial class AddressablesHelper
     {
-        private class ReflectResHandler : IAddresableResHandler
+        private class ReflectAsyncResHandler : IAddresableResHandler
         {
             private object m_Handle;
             private object m_Data;
@@ -16,7 +16,7 @@ namespace UnityXFrame.Core.Resource
             private static PropertyInfo s_Result;
             private static PropertyInfo s_IsDone;
             private static PropertyInfo s_PercentComplete;
-            private static MethodInfo s_WaitComplete;
+            private static PropertyInfo s_Task;
 
             public object Data
             {
@@ -32,7 +32,7 @@ namespace UnityXFrame.Core.Resource
 
             public float Pro => InnerPercentComplete(m_Handle);
 
-            public ReflectResHandler(object handle, Type resType)
+            public ReflectAsyncResHandler(object handle, Type resType)
             {
                 m_Handle = handle;
 
@@ -41,7 +41,7 @@ namespace UnityXFrame.Core.Resource
                 s_Result = realType.GetProperty("Result");
                 s_IsDone = realType.GetProperty("IsDone");
                 s_PercentComplete = realType.GetProperty("PercentComplete");
-                s_WaitComplete = realType.GetMethod("WaitForCompletion", BindingFlags.Public & BindingFlags.Instance);
+                s_Task = realType.GetProperty("Task");
             }
 
             public void Start()
@@ -60,9 +60,9 @@ namespace UnityXFrame.Core.Resource
                 m_Data = null;
             }
 
-            private void InnerStart()
+            private async void InnerStart()
             {
-                m_Data = InnerWaitComplete(m_Handle);
+                await InnerTask(m_Handle);
             }
 
             private object InnerResult(object handle)
@@ -80,9 +80,9 @@ namespace UnityXFrame.Core.Resource
                 return (float)s_PercentComplete.GetValue(handle);
             }
 
-            private static object InnerWaitComplete(object handle)
+            private static Task InnerTask(object handle)
             {
-                return s_WaitComplete.Invoke(handle, null);
+                return (Task)s_Task.GetValue(handle);
             }
         }
     }

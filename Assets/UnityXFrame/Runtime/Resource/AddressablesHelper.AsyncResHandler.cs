@@ -1,11 +1,17 @@
-﻿using UnityEngine.AddressableAssets;
+﻿using XFrame.Modules.Resource;
+using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace UnityXFrame.Core.Resource
 {
     public partial class AddressablesHelper
     {
-        private class ResHandler : IAddresableResHandler
+        private interface IAddresableResHandler : IResHandler
+        {
+            void Release();
+        }
+
+        private class AsyncResHandler : IAddresableResHandler
         {
             private AsyncOperationHandle m_Handle;
             private object m_Data;
@@ -24,14 +30,14 @@ namespace UnityXFrame.Core.Resource
 
             public float Pro => m_Handle.PercentComplete;
 
-            public ResHandler(AsyncOperationHandle handle)
+            public AsyncResHandler(AsyncOperationHandle handle)
             {
                 m_Handle = handle;
             }
 
             public void Start()
             {
-                m_Data = m_Handle.WaitForCompletion();
+                InnerStart();
             }
 
             public void Dispose()
@@ -43,6 +49,11 @@ namespace UnityXFrame.Core.Resource
             {
                 Addressables.Release(m_Handle);
                 m_Data = null;
+            }
+
+            private async void InnerStart()
+            {
+                await m_Handle.Task;
             }
         }
     }

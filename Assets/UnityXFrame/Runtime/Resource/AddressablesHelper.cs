@@ -1,10 +1,8 @@
 ﻿using System;
-using XFrame.Modules.Tasks;
 using XFrame.Modules.Resource;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using XFrame.Core;
 
 namespace UnityXFrame.Core.Resource
 {
@@ -20,19 +18,33 @@ namespace UnityXFrame.Core.Resource
 
         public object Load(string resPath, Type type)
         {
-            return default;
+            object handle = Ext.LoadAssetAsync(resPath, type);
+            ReflectResHandler handler = new ReflectResHandler(handle, type);
+            handler.Start();
+            object asset = handler.Data;
+            int code = asset.GetHashCode();
+            if (m_LoadMap.ContainsKey(code))
+                m_LoadMap.Add(code, handler);
+            return asset;
         }
 
         public T Load<T>(string resPath)
         {
-            return default;
+            AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(resPath);
+            ResHandler handler = new ResHandler(handle);
+            handler.Start();
+            T asset = (T)handler.Data;
+            int code = asset.GetHashCode();
+            if (m_LoadMap.ContainsKey(code))
+                m_LoadMap.Add(code, handler);
+            return asset;
         }
 
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
             ResLoadTask loadTask = Global.Task.GetOrNew<ResLoadTask>();
             object handle = Ext.LoadAssetAsync(resPath, type);
-            ReflectResHandler handler = new ReflectResHandler(handle, type);
+            ReflectAsyncResHandler handler = new ReflectAsyncResHandler(handle, type);
             loadTask.OnComplete((asset) =>
             {
                 if (asset != null)
@@ -50,7 +62,7 @@ namespace UnityXFrame.Core.Resource
         {
             ResLoadTask<T> loadTask = Global.Task.GetOrNew<ResLoadTask<T>>();
             AsyncOperationHandle handle = Addressables.LoadAssetAsync<T>(resPath);
-            ResHandler handler = new ResHandler(handle);
+            AsyncResHandler handler = new AsyncResHandler(handle);
             loadTask.OnComplete((asset) =>
             {
                 if (asset != null)
@@ -76,7 +88,7 @@ namespace UnityXFrame.Core.Resource
 
         public void UnloadAll()
         {
-            foreach (ResHandler handler in m_LoadMap.Values)
+            foreach (AsyncResHandler handler in m_LoadMap.Values)
                 handler.Release();
             m_LoadMap.Clear();
         }
