@@ -5,7 +5,7 @@ namespace UnityXFrame.Core.Diagnotics
 {
     internal class CommandLineBatch : IEnumerable
     {
-        private CommandLine[] Lines;
+        private CommandLineData[] Lines;
 
         public CommandLineBatch(string origin)
         {
@@ -20,15 +20,15 @@ namespace UnityXFrame.Core.Diagnotics
         private void InnerAnalyze(string param)
         {
             string[] listStr = param.Split('\n');
-            Lines = new CommandLine[listStr.Length];
+            Lines = new CommandLineData[listStr.Length];
             for (int i = 0; i < listStr.Length; i++)
-                Lines[i] = new CommandLine(listStr[i]);
+                Lines[i] = new CommandLineData(listStr[i]);
         }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (CommandLine line in Lines)
+            foreach (CommandLineData line in Lines)
                 sb.AppendLine(line.ToString());
             return sb.ToString();
         }

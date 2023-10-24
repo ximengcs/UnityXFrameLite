@@ -12,7 +12,13 @@ namespace UnityXFrame.Core.Diagnotics
 {
     public partial class Debugger
     {
-        private struct CmdHandler
+        private interface ICmdHandler
+        {
+            void Exec(CommandLineData param);
+        }
+
+        #region Method Command Handler
+        private struct MethodCmdHandler : ICmdHandler
         {
             private ParameterInfo[] m_ParamInfos;
             private int m_ParamCount;
@@ -21,7 +27,7 @@ namespace UnityXFrame.Core.Diagnotics
             public MethodInfo Method;
             public object Inst;
 
-            public CmdHandler(object inst, string name, MethodInfo method)
+            public MethodCmdHandler(object inst, string name, MethodInfo method)
             {
                 Inst = inst;
                 Name = name;
@@ -30,7 +36,7 @@ namespace UnityXFrame.Core.Diagnotics
                 m_ParamCount = m_ParamInfos.Length;
             }
 
-            public void Exec(CommandLine param)
+            public void Exec(CommandLineData param)
             {
                 if (m_ParamCount == 0)
                 {
@@ -40,7 +46,7 @@ namespace UnityXFrame.Core.Diagnotics
                 {
                     if (m_ParamCount == 1)
                     {
-                        if (m_ParamInfos[0].ParameterType == typeof(CommandLine))
+                        if (m_ParamInfos[0].ParameterType == typeof(CommandLineData))
                         {
                             Method.Invoke(Inst, new object[] { param });
                             return;
@@ -86,10 +92,34 @@ namespace UnityXFrame.Core.Diagnotics
                 }
             }
         }
+        #endregion
+
+        #region Class Command Handler
+        private class ClassCmdHandler : ICmdHandler
+        {
+            public string Name;
+            public MethodInfo Method;
+            public IDebugCommandLine Inst;
+
+            public ClassCmdHandler(IDebugCommandLine inst, string name, MethodInfo method)
+            {
+                Inst = inst;
+                Name = name;
+                Method = method;
+            }
+
+            public void Exec(CommandLineData param)
+            {
+                if (param.ParamCount > 0)
+                    CommandLine.Parser.Default.ParseArguments<object>(() => Inst, param.Params);
+                Method.Invoke(Inst, null);
+            }
+        }
+        #endregion
 
         private Dictionary<Type, IParser> m_CmdParsers;
         private Dictionary<Type, object> m_CmdInsts;
-        private Dictionary<string, CmdHandler> m_CmdHandlers;
+        private Dictionary<string, ICmdHandler> m_CmdHandlers;
         private string m_CmdHelpInfo;
 
         public void SetCmdHelpInfo(string info)
@@ -118,7 +148,9 @@ namespace UnityXFrame.Core.Diagnotics
                 { typeof(ConditionData), References.Require<ConditionParser>() }
             };
             m_CmdInsts = new Dictionary<Type, object>();
-            m_CmdHandlers = new Dictionary<string, CmdHandler>();
+            m_CmdHandlers = new Dictionary<string, ICmdHandler>();
+
+            #region Method Command
             TypeSystem typeSys = Global.Type.GetOrNewWithAttr<DebugCommandClassAttribute>();
             foreach (Type type in typeSys)
             {
@@ -140,20 +172,32 @@ namespace UnityXFrame.Core.Diagnotics
                     }
                 }
 
+                IDebugCommandLine instCmdLine = inst as IDebugCommandLine;
                 MethodInfo[] methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
                 foreach (MethodInfo method in methods)
                 {
                     DebugCommandAttribute attr = method.GetCustomAttribute<DebugCommandAttribute>();
                     if (attr != null)
                     {
-                        CmdHandler cmd = new CmdHandler(inst, method.Name, method);
-                        if (!m_CmdHandlers.ContainsKey(cmd.Name))
-                            m_CmdHandlers.Add(method.Name, cmd);
+                        string name = method.Name;
+                        ICmdHandler cmd;
+                        if (instCmdLine != null)
+                        {
+                            cmd = new ClassCmdHandler(instCmdLine, method.Name, method);
+                        }
                         else
-                            Log.Debug("XFrame", $"cmd {cmd.Name} is duplicate, ignore after");
+                        {
+                            cmd = new MethodCmdHandler(inst, method.Name, method);
+                        }
+
+                        if (!m_CmdHandlers.ContainsKey(name))
+                            m_CmdHandlers.Add(name, cmd);
+                        else
+                            Log.Debug("XFrame", $"cmd {name} is duplicate, ignore after");
                     }
                 }
             }
+            #endregion
         }
 
         internal void InnerClearCmd()
@@ -166,11 +210,11 @@ namespace UnityXFrame.Core.Diagnotics
             if (string.IsNullOrEmpty(param))
                 return;
             CommandLineBatch batch = new CommandLineBatch(param);
-            foreach (CommandLine cmdline in batch)
+            foreach (CommandLineData cmdline in batch)
             {
                 if (cmdline.Empty)
                     continue;
-                if (m_CmdHandlers.TryGetValue(cmdline.Name, out CmdHandler cmd))
+                if (m_CmdHandlers.TryGetValue(cmdline.Name, out ICmdHandler cmd))
                 {
                     SetTip($"Run {cmdline.Name}", Color.yellow);
                     cmd.Exec(cmdline);

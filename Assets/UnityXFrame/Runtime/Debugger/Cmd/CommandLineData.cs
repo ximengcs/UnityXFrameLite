@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UnityXFrame.Core.Diagnotics
 {
-    public struct CommandLine
+    public struct CommandLineData
     {
         private string m_Name;
         private string[] m_Params;
@@ -23,7 +23,7 @@ namespace UnityXFrame.Core.Diagnotics
             }
         }
 
-        internal CommandLine(string param)
+        internal CommandLineData(string param)
         {
             param = param.Trim();
             if (string.IsNullOrEmpty(param))

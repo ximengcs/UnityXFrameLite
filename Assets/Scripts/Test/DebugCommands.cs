@@ -62,7 +62,7 @@ namespace Game.Test
 
         private TestChar m_Char;
         [DebugCommand]
-        public void test2(CommandLine cmd)
+        public void test2(CommandLineData cmd)
         {
             Debug.LogWarning($"test2 exec => {cmd}");
             //Global.Task.GetOrNew<EmptyTask>().Start();
