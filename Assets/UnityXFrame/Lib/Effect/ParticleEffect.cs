@@ -3,10 +3,11 @@ using UnityXFrame.Core;
 using XFrame.Modules.Pools;
 using UnityXFrameLib.Tasks;
 using UnityXFrameLib.Utilities;
+using XFrame.Modules.Event;
 
 namespace UnityXFrameLib.Effects
 {
-    public class ParticleEffect : IPoolObject
+    public partial class ParticleEffect : IPoolObject
     {
         private int m_TypeId;
         private string m_ResName;
@@ -20,12 +21,15 @@ namespace UnityXFrameLib.Effects
         private bool m_Playing;
         private Vector3 m_Pos;
         private Vector3 m_Scale;
+        private string m_Layer;
+        private IEventSystem m_Event;
 
         private bool m_SetColorDirty;
         private bool m_SetScaleDirty;
 
         int IPoolObject.PoolKey => m_TypeId;
 
+        public IEventSystem Event => m_Event;
         public string MarkName { get; set; }
 
         IPool IPoolObject.InPool { get; set; }
@@ -39,6 +43,7 @@ namespace UnityXFrameLib.Effects
 
         void IPoolObject.OnCreate()
         {
+            m_Event = Global.Event.NewSys();
             m_Inited = false;
             Global.Res.LoadAsync<GameObject>($"{LibConstant.EFFECT_RES_PATH}/{m_ResName}.prefab").OnComplete((prefab) =>
             {
@@ -52,12 +57,15 @@ namespace UnityXFrameLib.Effects
                     m_Scale = m_Tf.localScale;
                 m_Inited = true;
                 InnerRefreshState();
+                Event.Trigger(CreateEvent.Create(this));
             }).Start();
         }
 
         public void SetLayer(string layer)
         {
-            CommonUtility.SetLayer(m_Inst, LayerMask.NameToLayer(layer));
+            m_Layer = layer;
+            if (m_Inst != null)
+                CommonUtility.SetLayer(m_Inst, LayerMask.NameToLayer(layer));
         }
 
         public void SetColor(Color color)
@@ -96,6 +104,13 @@ namespace UnityXFrameLib.Effects
         {
             if (m_Inited)
             {
+                if (!string.IsNullOrEmpty(m_Layer))
+                {
+                    int layerMask = LayerMask.NameToLayer(m_Layer);
+                    if (m_Inst.layer != layerMask)
+                        CommonUtility.SetLayer(m_Inst, layerMask);
+                }
+
                 if (m_Playing)
                 {
                     m_Tf.position = m_Pos;
@@ -113,6 +128,7 @@ namespace UnityXFrameLib.Effects
 
         private void InnerDispose()
         {
+            Event.Trigger(PlayCompleteEvent.Create(this));
             References.Release(this);
         }
 
@@ -125,6 +141,7 @@ namespace UnityXFrameLib.Effects
         {
             m_Particle.Stop();
             m_Inst?.SetActive(false);
+            Event.Trigger(DestroyEvent.Create(this));
         }
 
         void IPoolObject.OnRequest()
@@ -132,7 +149,12 @@ namespace UnityXFrameLib.Effects
             m_Playing = false;
             m_SetColorDirty = false;
             m_SetScaleDirty = false;
-            m_Inst?.SetActive(true);
+            Event.Unlisten();
+            if (m_Inst != null)
+            {
+                m_Inst.SetActive(true);
+                Event.Trigger(CreateEvent.Create(this));
+            }
         }
     }
 }

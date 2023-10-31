@@ -52,6 +52,7 @@ namespace UnityXFrame.Core.HotUpdate
 
             public void OnFinish()
             {
+                m_Handler.Dispose();
                 m_Handler = null;
             }
         }
@@ -62,12 +63,12 @@ namespace UnityXFrame.Core.HotUpdate
 
             public void Start()
             {
-                Op = Addressables.CheckForCatalogUpdates(true);
+                Op = Addressables.CheckForCatalogUpdates(false);
             }
 
             public void Dispose()
             {
-
+                Addressables.Release(Op);
             }
         }
     }

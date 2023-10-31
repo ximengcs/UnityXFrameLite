@@ -10,20 +10,35 @@ using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.ResourceManagement.ResourceProviders;
-using System.Threading;
 
 namespace UnityXFrame.Core.HotUpdate
 {
     public partial class HotUpdateDownTask : TaskBase
     {
         private Action m_OnStart;
+        private bool m_Staring;
         private List<Handler> m_Handlers = new List<Handler>();
 
         public bool Success { get; private set; }
 
+        public bool Starting
+        {
+            get => m_Staring;
+            internal set
+            {
+                if (m_Staring)
+                    return;
+
+                m_Staring = true;
+                m_OnStart?.Invoke();
+                m_OnStart = null;
+            }
+        }
+
         protected override void OnCreateFromPool()
         {
             base.OnCreateFromPool();
+            m_Staring = false;
             m_Handlers = new List<Handler>();
             AddStrategy(new Strategy());
         }
@@ -32,11 +47,12 @@ namespace UnityXFrame.Core.HotUpdate
         {
             base.OnReleaseFromPool();
             m_Handlers.Clear();
+            m_Staring = false;
         }
 
         public void OnStart(Action callback)
         {
-            if (m_Handlers.Count > 0)
+            if (m_Staring)
             {
                 callback?.Invoke();
             }
@@ -130,6 +146,9 @@ namespace UnityXFrame.Core.HotUpdate
             private HotUpdateDownTask m_ParentTask;
             private List<string> m_CheckList;
             private HashSet<string> m_Perchs;
+
+            private Dictionary<string, DownLoadInfo> m_DownloadingDependency;
+            private HashSet<AsyncOperationHandle> m_Handles;
 
             public State State { get; private set; }
             public float Pro { get; private set; }
@@ -272,11 +291,9 @@ namespace UnityXFrame.Core.HotUpdate
                         List<IResourceLocation> list = GatherDependenciesFromLocations(handle.Result);
                         foreach (IResourceLocation location in list)
                         {
-                            Debug.LogWarning($"{location.InternalId} {m_Perchs.Contains(location.InternalId)}");
                             if (m_Perchs.Contains(location.InternalId))
                             {
                                 filterList.Add(location);
-                                Debug.LogWarning(location.InternalId);
                             }
                         }
 
@@ -286,14 +303,12 @@ namespace UnityXFrame.Core.HotUpdate
                 }
                 else
                 {
-                    Debug.LogWarning("2");
                     InnerDownloadWithEnum(keys);
                 }
             }
 
             private void InnerDownloadWithEnum(IList<IResourceLocation> locations)
             {
-                Debug.LogWarning("1");
                 AsyncOperationHandle<IList<IAssetBundleResource>> downHandle = Addressables.LoadAssetsAsync<IAssetBundleResource>(locations, null, true);
                 ActionTask task = Global.Task.GetOrNew<ActionTask>();
                 task.Add(() =>
@@ -334,9 +349,6 @@ namespace UnityXFrame.Core.HotUpdate
                     dependency.OnComplete(callback);
                 }
             }
-
-            private Dictionary<string, DownLoadInfo> m_DownloadingDependency;
-            private HashSet<AsyncOperationHandle> m_Handles;
 
             private void InnerDownloadWithEnum(List<object> keys)
             {
@@ -424,8 +436,7 @@ namespace UnityXFrame.Core.HotUpdate
                     return isDone;
                 }).Start();
 
-                m_ParentTask.m_OnStart?.Invoke();
-                m_ParentTask.m_OnStart = null;
+                m_ParentTask.Starting = true;
             }
         }
     }

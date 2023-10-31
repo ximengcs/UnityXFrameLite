@@ -23,7 +23,7 @@ namespace UnityXFrame.Core.Resource
             handler.Start();
             object asset = handler.Data;
             int code = asset.GetHashCode();
-            if (m_LoadMap.ContainsKey(code))
+            if (!m_LoadMap.ContainsKey(code))
                 m_LoadMap.Add(code, handler);
             return asset;
         }
@@ -35,7 +35,7 @@ namespace UnityXFrame.Core.Resource
             handler.Start();
             T asset = (T)handler.Data;
             int code = asset.GetHashCode();
-            if (m_LoadMap.ContainsKey(code))
+            if (!m_LoadMap.ContainsKey(code))
                 m_LoadMap.Add(code, handler);
             return asset;
         }

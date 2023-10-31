@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityXFrame.Core.UIElements;
 using XFrame.Core;
+using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Reflection;
 using XFrame.Utility;
 
@@ -75,6 +76,22 @@ namespace UnityXFrame.Core.Diagnotics
         }
 
         [DebugCommand]
+        public static void download(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return;
+            Global.Download.Down(url).OnComplete((string text) =>
+            {
+                if (!string.IsNullOrEmpty(text))
+                    Log.Debug(text);
+            }).OnComplete((byte[] data) =>
+            {
+                if (data != null)
+                    Log.Debug($"data size {data.Length}");
+            }).Start();
+        }
+
+        [DebugCommand]
         public static void open_ui(string uiName, int resModule)
         {
             Type type = InnerGetUIType(uiName);
@@ -82,6 +99,7 @@ namespace UnityXFrame.Core.Diagnotics
                 Global.UI.Open(type, null, resModule);
         }
 
+        [DebugCommand]
         public static void close_ui(string uiName)
         {
             Type type = InnerGetUIType(uiName);

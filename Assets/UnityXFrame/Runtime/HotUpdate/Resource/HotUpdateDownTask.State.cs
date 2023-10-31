@@ -1,6 +1,7 @@
 ﻿using System;
 using XFrame.Modules.Diagnotics;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine;
 
 namespace UnityXFrame.Core.HotUpdate
 {
@@ -42,13 +43,9 @@ namespace UnityXFrame.Core.HotUpdate
 
             public void OnComplete(Action<string> callback)
             {
-                if (m_OpHandle.IsDone)
+                if (m_OpHandle.IsDone && m_OpHandle.Status == AsyncOperationStatus.Succeeded)
                 {
-                    if (m_OpHandle.Status == AsyncOperationStatus.Succeeded)
-                    {
-                        m_OnComplete?.Invoke(m_Key);
-                        m_OnComplete = null;
-                    }
+                    callback?.Invoke(m_Key);
                 }
                 else
                 {
