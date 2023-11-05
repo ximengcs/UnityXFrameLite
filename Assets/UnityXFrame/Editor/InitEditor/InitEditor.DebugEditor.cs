@@ -101,6 +101,11 @@ namespace UnityXFrame.Editor
                 EditorGUILayout.BeginHorizontal();
                 bool all = true;
                 bool dirty = false;
+                if (colors == null)
+                {
+                    colors = new List<DebugColor>();
+                    m_Data.LogMark = colors;
+                }
                 foreach (DebugColor data in colors)
                 {
                     if (data.Value)

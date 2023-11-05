@@ -221,7 +221,10 @@ namespace UnityXFrame.Editor
             {
                 if (Path.GetFileName(path).Contains("UnityXFrame.Editor"))
                 {
-                    string toPath = Path.Combine(projectPath, "Editor", Path.GetFileName(path));
+                    string toPathDir = Path.Combine(projectPath, "Editor");
+                    string toPath = Path.Combine(toPathDir, Path.GetFileName(path));
+                    if (!Directory.Exists(toPathDir))
+                        Directory.CreateDirectory(toPathDir);
                     File.Copy(path, toPath, true);
                     EditorLog.Debug($"{path} {EditorLog.Color("->", Color.green)} {toPath}");
                 }
@@ -239,10 +242,23 @@ namespace UnityXFrame.Editor
                 }
             }
 
-            string guiSkinPathFrom = Path.Combine(Application.dataPath, "UnityXFrame/Runtime/Debugger/DebugSkin.guiskin");
-            string guiSkinPath = Path.Combine(projectPath, "Resource", "DebugSkin.guiskin");
-            File.Copy(guiSkinPathFrom, guiSkinPath, true);
-            EditorLog.Debug($"{guiSkinPathFrom} {EditorLog.Color("->", Color.green)} {guiSkinPath}");
+            string guiSkinDirPath = Path.Combine(projectPath, "Resource");
+            if (!Directory.Exists(guiSkinDirPath))
+                Directory.CreateDirectory(guiSkinDirPath);
+
+            string[] guiSkinPathesFrom = new string[]
+            {
+                Path.Combine(Application.dataPath, "UnityXFrame/Runtime/Debugger/DebugSkin.guiskin"),
+                Path.Combine(Application.dataPath, "UnityXFrame/Runtime/Debugger/Res/pro.png"),
+                Path.Combine(Application.dataPath, "UnityXFrame/Runtime/Audio/XAudioMixer.mixer")
+            };
+
+            foreach (string guiSkinPathFrom in guiSkinPathesFrom)
+            {
+                string guiSkinPath = Path.Combine(guiSkinDirPath, Path.GetFileName(guiSkinPathFrom));
+                File.Copy(guiSkinPathFrom, guiSkinPath, true);
+                EditorLog.Debug($"{guiSkinPathFrom} {EditorLog.Color("->", Color.green)} {guiSkinPath}");
+            }
         }
 
         public void CopyToProject()
