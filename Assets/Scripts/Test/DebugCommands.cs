@@ -13,6 +13,9 @@ using UnityXFrame.Core;
 using XFrame.Modules.Entities;
 using UnityXFrame.Core.UIElements;
 using UnityXFrameLib.UIElements;
+using XFrame.Modules.Conditions;
+using XFrame.Modules.Reflection;
+using System;
 
 namespace Game.Test
 {
@@ -173,6 +176,40 @@ namespace Game.Test
                 Log.Debug($"{name}({name.GetHashCode()}) containes {type}, value is {name.Get(type)}");
             }
             name.Release();
+        }
+
+        private IConditionGroupHandle m_Group;
+
+        [DebugCommand]
+        public void cond1()
+        {
+            ConditionData data = new ConditionData("1|3");
+            ConditionSetting cond = new ConditionSetting("test", data);
+            cond.SetConditionHelperSetting(ConditionConst.LEVEL, new ConditionHelperSetting(1, false));
+            m_Group = Global.Condition.Register(cond);
+            m_Group.OnComplete((h) =>
+            {
+                Debug.LogWarning("complete");
+            });
+        }
+
+        [DebugCommand]
+        public void cond2(int level)
+        {
+            Global.Condition.Event.TriggerNow(ConditionEvent.Create(ConditionConst.LEVEL, level));
+        }
+
+        [DebugCommand]
+        public void cond3(int level)
+        {
+            Global.Condition.Event.TriggerNow(ConditionGroupEvent.Create(m_Group, ConditionConst.LEVEL, level));
+        }
+
+
+        [DebugCommand]
+        public void cond4(int level)
+        {
+            Global.Condition.Event.TriggerNow(ConditionGroupEvent.Create(m_Group, ConditionConst.LEVEL, level));
         }
     }
 }
