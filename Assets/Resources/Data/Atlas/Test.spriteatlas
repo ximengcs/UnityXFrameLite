@@ -7,6 +7,7 @@ SpriteAtlas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Test
+  serializedVersion: 2
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -51,8 +52,11 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: d4e2138566c3c404f9332af8c669581c, type: 3}
+  - {fileID: 21300000, guid: 4afbc0ab480e31f44a39203dbffd77e7, type: 3}
   m_PackedSpriteNamesToIndex:
   - test3
+  - test2
   m_RenderDataMap: {}
   m_Tag: Test
   m_IsVariant: 0
+  m_IsPlaceholder: 0

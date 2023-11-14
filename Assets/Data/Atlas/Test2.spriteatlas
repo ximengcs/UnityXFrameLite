@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Test2
+  serializedVersion: 2
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: e7b69be89ba124349879a3b3df0bf37e, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 602da960e8dd0cd4886d56890da78826, type: 3}
+  - {fileID: 21300000, guid: fbd9b094ffddf6d45b2fb4275d791ad9, type: 3}
+  - {fileID: 21300000, guid: eec8d439152bf404781e5e24dabe254a, type: 3}
+  - {fileID: 21300000, guid: 418380dccf0452c43b2ad6a7a79cd1f3, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - test2
+  - test2
+  - test
+  - iloveu
+  m_RenderDataMap: {}
+  m_Tag: Test2
+  m_IsVariant: 0
+  m_IsPlaceholder: 0

@@ -2,6 +2,7 @@ using XFrame.Core;
 using UnityEngine;
 using XFrame.Modules.Config;
 using XFrame.Modules.Archives;
+using System.Collections;
 
 namespace UnityXFrame.Core
 {
@@ -29,6 +30,14 @@ namespace UnityXFrame.Core
         private void Update()
         {
             Entry.Trigger<IUpdater>(Time.deltaTime);
+            if (!Global.EndOfFrame.Empty)
+                StartCoroutine(InnerEndOfFrameHandler());
+        }
+
+        private IEnumerator InnerEndOfFrameHandler()
+        {
+            yield return Global.EndOfFrame.WaitYield;
+            Entry.Trigger<IEndOfFrame>();
         }
 
         private void OnGUI()

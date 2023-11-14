@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using UnityEngine;
 using UnityXFrame.Core;
+using XFrame.Core;
 using XFrame.Modules.Tasks;
 
 namespace UnityXFrameLib.Tasks
@@ -87,6 +90,24 @@ namespace UnityXFrameLib.Tasks
         {
             task.Add(gapTime, handler, nextFrame);
             task.Start();
+            return task;
+        }
+
+        public static ActionTask EndFrame(Action handler)
+        {
+            ActionTask task = Global.Task.GetOrNew<ActionTask>();
+            task.AddStrategy(new EndOfFrameModule.TaskStrategy());
+            task.Add(Entry.GetModule<EndOfFrameModule>().Request(handler));
+            return task;
+        }
+
+        public static ActionTask EndFrame(this ActionTask task, Action handler)
+        {
+            if (task.GetStrategy(typeof(EndOfFrameModule.TaskHandler)) == null)
+            {
+                task.AddStrategy(new EndOfFrameModule.TaskStrategy());
+            }
+            task.Add(Entry.GetModule<EndOfFrameModule>().Request(handler));
             return task;
         }
     }

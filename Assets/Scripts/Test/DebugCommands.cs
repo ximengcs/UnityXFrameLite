@@ -16,6 +16,7 @@ using UnityXFrameLib.UIElements;
 using XFrame.Modules.Conditions;
 using XFrame.Modules.Reflection;
 using System;
+using UnityEngine.U2D;
 
 namespace Game.Test
 {
@@ -89,7 +90,25 @@ namespace Game.Test
         [DebugCommand]
         public void test23()
         {
-            m_Char.GetCom<SceneUICom>().Close<DialogUI>();
+            TaskExt.Invoke(() =>
+            {
+                Debug.LogWarning("Action 1");
+            }).Delay(1.0f, () =>
+            {
+                Debug.LogWarning("Delay 1");
+            }).EndFrame(() =>
+            {
+                Debug.LogWarning("Exec");
+            }).EndFrame(() =>
+            {
+                Debug.LogWarning("Exec");
+            }).Delay(1.0f, () =>
+            {
+                Debug.LogWarning("Delay 2");
+            }).Invoke(() =>
+            {
+                Debug.LogWarning("Action 2");
+            });
         }
 
         [DebugCommand]
@@ -210,6 +229,26 @@ namespace Game.Test
         public void cond4(int level)
         {
             Global.Condition.Event.TriggerNow(ConditionGroupEvent.Create(m_Group, ConditionConst.LEVEL, level));
+        }
+
+        [DebugCommand]
+        public void s1()
+        {
+            //Sprite sprite = Global.Res.Load<Sprite>("Assets/Data/Textures/test2.png");
+            //Debug.LogWarning($"{sprite.GetInstanceID()} {sprite.GetHashCode()}");
+            //Sprite sprite1 = Global.Res.Load<SpriteAtlas>("Assets/Data/Atlas/Test2.spriteatlas").GetSprite("test2");
+            //Debug.LogWarning($"{sprite1.GetInstanceID()} {sprite1.GetHashCode()}");
+            //Debug.LogWarning(sprite.textureRect);
+            //Debug.LogWarning(sprite.textureRectOffset);
+            //Debug.LogWarning(sprite1.textureRect);
+            //Debug.LogWarning(sprite1.textureRectOffset);
+
+            Sprite sprite3 = Global.Res.Load<SpriteAtlas>("Assets/Data/Atlas/Test3.spriteatlas").GetSprite("Common_68 1");
+            GameObject t = new GameObject();
+            t.AddComponent<SpriteRenderer>().sprite = sprite3;
+            Debug.LogWarning(sprite3.uv[0]);
+            Debug.LogWarning(sprite3.textureRect);
+            Debug.LogWarning(sprite3.textureRectOffset);
         }
     }
 }
