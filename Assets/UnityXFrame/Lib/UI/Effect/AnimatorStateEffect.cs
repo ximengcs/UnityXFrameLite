@@ -25,7 +25,7 @@ namespace UnityXFrameLib.UIElements
         public bool Do(IUI ui, Action onComplete)
         {
             Animator animator = ui.Root.GetComponent<Animator>();
-            if (animator != null)
+            if (animator != null && animator.enabled)
             {
                 animator.Play(m_StateName);
                 Add(animator, m_StateName, m_Layer, onComplete);
@@ -41,7 +41,7 @@ namespace UnityXFrameLib.UIElements
         public bool Kill(IUI ui)
         {
             Animator animator = ui.Root.GetComponent<Animator>();
-            if (animator != null)
+            if (animator != null && animator.enabled)
             {
                 Remove(animator);
                 return true;
