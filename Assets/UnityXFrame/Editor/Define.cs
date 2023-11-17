@@ -74,5 +74,12 @@ namespace UnityXFrame.Editor
             NameEditor w = EditorWindow.GetWindow<NameEditor>("NameEditor");
             w.ShowUtility();
         }
+
+        [MenuItem("UnityXFrame/Atlas Res")]
+        public static void AtlasRes()
+        {
+            AtlasResEditor w = EditorWindow.GetWindow<AtlasResEditor>("AtlasResEditor");
+            w.ShowUtility();
+        }
     }
 }

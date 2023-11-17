@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: f0b9f5a613cc30442a913b8b7e9b9da0
   m_SerializeEntries:
   - m_GUID: 36dfe0509cfbe9b4cb64b38bdb982c1a
-    m_Address: Assets/Data/Atlas
+    m_Address: Atlas1Test
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

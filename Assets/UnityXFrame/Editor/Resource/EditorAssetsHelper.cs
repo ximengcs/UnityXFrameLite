@@ -16,6 +16,11 @@ namespace UnityXFrame.Editor
             m_ResCache = new FileNode<object>(string.Empty);
         }
 
+        public void SetResDirectHelper(IResRedirectHelper helper)
+        {
+
+        }
+
         public T Load<T>(string resPath)
         {
             if (m_ResCache.TryGetFile(resPath, out object res))

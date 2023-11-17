@@ -30,6 +30,7 @@ namespace UnityXFrame.Core
         public static string AUDIO_PATH = "Assets/Data/Audio";
         public static string SCENEUI_RES_PATH = "Data/SceneUI";
         public static string UI_RES_PATH = "Data/UI";
+        public static string CONFIG_PATH = "Data/Config";
         public static string MAIN_GROUPUI = "Main";
 
         public static string UPDATE_CHECK_TASK = "UpdateCheckTask";

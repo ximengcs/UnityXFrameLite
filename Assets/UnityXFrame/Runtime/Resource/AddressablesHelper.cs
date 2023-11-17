@@ -8,6 +8,7 @@ namespace UnityXFrame.Core.Resource
 {
     public partial class AddressablesHelper : IResourceHelper
     {
+        private IResRedirectHelper m_DirectHelper;
         private Dictionary<int, IAddresableResHandler> m_LoadMap;
 
         void IResourceHelper.OnInit(string rootPath)
@@ -16,8 +17,18 @@ namespace UnityXFrame.Core.Resource
             m_LoadMap = new Dictionary<int, IAddresableResHandler>();
         }
 
+        public void SetResDirectHelper(IResRedirectHelper helper)
+        {
+            m_DirectHelper = helper;
+        }
+
         public object Load(string resPath, Type type)
         {
+            if (m_DirectHelper != null && m_DirectHelper.CanRedirect(resPath, type))
+            {
+                return m_DirectHelper.Load(resPath, type);
+            }
+
             object handle = Ext.LoadAssetAsync(resPath, type);
             ReflectResHandler handler = new ReflectResHandler(handle, type);
             handler.Start();
@@ -30,6 +41,10 @@ namespace UnityXFrame.Core.Resource
 
         public T Load<T>(string resPath)
         {
+            if (m_DirectHelper != null && m_DirectHelper.CanRedirect(resPath, typeof(T)))
+            {
+                return m_DirectHelper.Load<T>(resPath);
+            }
             AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(resPath);
             ResHandler handler = new ResHandler(handle);
             handler.Start();
@@ -42,6 +57,10 @@ namespace UnityXFrame.Core.Resource
 
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
+            if (m_DirectHelper != null && m_DirectHelper.CanRedirect(resPath, type))
+            {
+                return m_DirectHelper.LoadAsync(resPath, type);
+            }
             ResLoadTask loadTask = Global.Task.GetOrNew<ResLoadTask>();
             object handle = Ext.LoadAssetAsync(resPath, type);
             ReflectAsyncResHandler handler = new ReflectAsyncResHandler(handle, type);
@@ -60,6 +79,10 @@ namespace UnityXFrame.Core.Resource
 
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
+            if (m_DirectHelper != null && m_DirectHelper.CanRedirect(resPath, typeof(T)))
+            {
+                return m_DirectHelper.LoadAsync<T>(resPath);
+            }
             ResLoadTask<T> loadTask = Global.Task.GetOrNew<ResLoadTask<T>>();
             AsyncOperationHandle handle = Addressables.LoadAssetAsync<T>(resPath);
             AsyncResHandler handler = new AsyncResHandler(handle);

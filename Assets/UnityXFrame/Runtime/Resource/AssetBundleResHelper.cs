@@ -43,6 +43,11 @@ namespace UnityXFrame.Core.Resource
             }
         }
 
+        public void SetResDirectHelper(IResRedirectHelper helper)
+        {
+
+        }
+
         /// <summary>
         /// 加载资源
         /// </summary>

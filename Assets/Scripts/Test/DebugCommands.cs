@@ -17,6 +17,7 @@ using XFrame.Modules.Conditions;
 using XFrame.Modules.Reflection;
 using System;
 using UnityEngine.U2D;
+using UnityEngine.AddressableAssets;
 
 namespace Game.Test
 {
@@ -234,21 +235,46 @@ namespace Game.Test
         [DebugCommand]
         public void s1()
         {
-            //Sprite sprite = Global.Res.Load<Sprite>("Assets/Data/Textures/test2.png");
-            //Debug.LogWarning($"{sprite.GetInstanceID()} {sprite.GetHashCode()}");
-            //Sprite sprite1 = Global.Res.Load<SpriteAtlas>("Assets/Data/Atlas/Test2.spriteatlas").GetSprite("test2");
-            //Debug.LogWarning($"{sprite1.GetInstanceID()} {sprite1.GetHashCode()}");
-            //Debug.LogWarning(sprite.textureRect);
-            //Debug.LogWarning(sprite.textureRectOffset);
-            //Debug.LogWarning(sprite1.textureRect);
-            //Debug.LogWarning(sprite1.textureRectOffset);
+            Global.SpriteAtlas.AddEntry(Global.Res.Load<TextAsset>("Config/atlas_map.txt").text);
+            Sprite sprite = Global.Res.Load<Sprite>("Assets/Data/Textures/test2.png");
+            Debug.LogWarning(sprite.name);
+            GameObject inst = new GameObject();
+            inst.AddComponent<SpriteRenderer>().sprite = sprite;
+        }
 
-            Sprite sprite3 = Global.Res.Load<SpriteAtlas>("Assets/Data/Atlas/Test3.spriteatlas").GetSprite("Common_68 1");
-            GameObject t = new GameObject();
-            t.AddComponent<SpriteRenderer>().sprite = sprite3;
-            Debug.LogWarning(sprite3.uv[0]);
-            Debug.LogWarning(sprite3.textureRect);
-            Debug.LogWarning(sprite3.textureRectOffset);
+        [DebugCommand]
+        public void s2()
+        {
+            Global.SpriteAtlas.AddEntry(Global.Res.Load<TextAsset>("Config/atlas_map.txt").text);
+            Global.Res.LoadAsync<Sprite>("Assets/Data/Textures/test2.png").OnComplete((sprite) =>
+            {
+                Debug.LogWarning(sprite.name);
+                GameObject inst = new GameObject();
+                inst.AddComponent<SpriteRenderer>().sprite = sprite;
+            }).Start();
+        }
+
+        [DebugCommand]
+        public void s3()
+        {
+            Global.SpriteAtlas.AddEntry(Global.Res.Load<TextAsset>("Config/atlas_map.txt").text);
+            Sprite sprite = (Sprite)Global.Res.Load("Assets/Data/Textures/test2.png", typeof(Sprite));
+            Debug.LogWarning(sprite.name);
+            GameObject inst = new GameObject();
+            inst.AddComponent<SpriteRenderer>().sprite = sprite;
+        }
+
+        [DebugCommand]
+        public void s4()
+        {
+            Global.SpriteAtlas.AddEntry(Global.Res.Load<TextAsset>("Config/atlas_map.txt").text);
+            Global.Res.LoadAsync("Assets/Data/Textures/test2.png", typeof(Sprite)).OnComplete((obj) =>
+            {
+                Sprite sprite = obj as Sprite;
+                Debug.LogWarning(sprite.name);
+                GameObject inst = new GameObject();
+                inst.AddComponent<SpriteRenderer>().sprite = sprite;
+            }).Start();
         }
     }
 }

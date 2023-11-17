@@ -1,5 +1,6 @@
 ﻿using UnityXFrame.Core.Audios;
 using UnityXFrame.Core.Diagnotics;
+using UnityXFrame.Core.Resource;
 using UnityXFrame.Core.UIElements;
 using XFrame.Core;
 using XFrame.Modules.Archives;
@@ -53,6 +54,7 @@ namespace UnityXFrame.Core
         public static IUIModule UI => m_UI ??= Entry.GetModule<IUIModule>();
         public static IAudioModule Audio => m_Audio ??= Entry.GetModule<IAudioModule>();
         public static IDebugger Debugger => m_Debugger ??= Entry.GetModule<IDebugger>();
+        public static ISpriteAtlasModule SpriteAtlas => m_SpriteAtlas ??= Entry.GetModule<ISpriteAtlasModule>();
 
         internal static EndOfFrameModule EndOfFrame => m_EndOfFrame ??= Entry.GetModule<EndOfFrameModule>();
     }
