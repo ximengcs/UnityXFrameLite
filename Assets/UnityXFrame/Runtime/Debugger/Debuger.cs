@@ -362,7 +362,10 @@ namespace UnityXFrame.Core.Diagnotics
             InnerKeyboardHandler3('O', 80);
             InnerKeyboardHandler3('P', 80);
             if (DebugGUI.Button("←"))
-                m_Cmd = m_Cmd.Substring(0, m_Cmd.Length - 1);
+            {
+                if (!string.IsNullOrEmpty(m_Cmd))
+                    m_Cmd = m_Cmd.Substring(0, m_Cmd.Length - 1);
+            }
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
