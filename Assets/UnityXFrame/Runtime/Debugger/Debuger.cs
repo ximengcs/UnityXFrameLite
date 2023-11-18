@@ -399,7 +399,7 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            InnerKeyboardHandler1('_', 80);
+            InnerKeyboardHandler1('\"', 80);
             InnerKeyboardHandler1('|', 80);
             InnerKeyboardHandler1('<', 80);
             if (DebugGUI.Button("SPACE", GUILayout.Width(FitWidth(230))))
