@@ -17,10 +17,22 @@ namespace UnityXFrame.Core.Diagnotics
         private Vector2 m_WarningScrollPos;
         private Vector2 m_ErrorScrollPos;
 
+        private bool m_ErrorProtect;
+        private string m_LastError;
+        private int m_MaxErrorCount;
+        private int m_ErrorCount;
+        private long m_LastErrorFrame;
+
         private int m_TabIndex;
 
         public void OnAwake()
         {
+            m_ErrorProtect = false;
+            m_LastError = null;
+            m_ErrorCount = 0;
+            m_LastErrorFrame = 0;
+            m_MaxErrorCount = 30;
+
             m_Common = new StringBuilder();
             m_Warning = new StringBuilder();
             m_Error = new StringBuilder();
@@ -79,6 +91,10 @@ namespace UnityXFrame.Core.Diagnotics
                 case LogType.Error:
                 case LogType.Assert:
                 case LogType.Exception:
+                    if (m_ErrorProtect)
+                        break;
+
+                    InnerCheckErrorProtect(condition);
                     Global.Debugger.SetTip(this, "LogScanner has new error");
                     m_Error.Append("<color=#CC423B>");
                     m_Error.Append(condition);
@@ -87,6 +103,28 @@ namespace UnityXFrame.Core.Diagnotics
                     m_Error.Append("</color>\n\n");
                     break;
             }
+        }
+
+        private void InnerCheckErrorProtect(string condition)
+        {
+            long curFrame = Global.Time.Frame;
+            if (curFrame == m_LastErrorFrame + 1)
+            {
+                if (condition == m_LastError)
+                {
+                    m_ErrorCount++;
+                }
+
+                if (m_ErrorCount > m_MaxErrorCount)
+                    m_ErrorProtect = true;
+            }
+            else
+            {
+                m_ErrorCount = 0;
+            }
+
+            m_LastError = condition;
+            m_LastErrorFrame = curFrame;
         }
     }
 }

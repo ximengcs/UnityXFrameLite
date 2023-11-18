@@ -276,5 +276,20 @@ namespace Game.Test
                 inst.AddComponent<SpriteRenderer>().sprite = sprite;
             }).Start();
         }
+
+        [DebugCommand]
+        public void s5()
+        {
+            throw new NullReferenceException();
+        }
+
+        [DebugCommand]
+        public void s6()
+        {
+            TaskExt.Beat(0, () =>
+            {
+                throw new NullReferenceException();
+            });
+        }
     }
 }
