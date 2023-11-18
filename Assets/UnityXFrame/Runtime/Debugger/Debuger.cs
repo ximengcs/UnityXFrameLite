@@ -51,7 +51,6 @@ namespace UnityXFrame.Core.Diagnotics
         private Vector2 m_HelpScrollPos;
         private int m_HelpSelect;
         private bool m_ShowFps;
-        private TweenModule m_TweenModule;
         private HashSet<int> m_TipNewMsg;
         private bool m_AlwaysTip;
         private string m_Tip;
@@ -127,8 +126,8 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Style.Title = Skin.customStyles[19];
             m_CollapseButton = Skin.customStyles[20];
             m_HelpButtonStyle = Skin.customStyles[21];
+            DebugGUI.Style.Button2 = Skin.customStyles[22];
 
-            m_TweenModule = new TweenModule();
             m_Timer = CDTimer.Create();
             m_Timer.Record(TIP_CD_KEY, TIP_CD);
             m_TipNewMsg = new HashSet<int>();
@@ -144,9 +143,6 @@ namespace UnityXFrame.Core.Diagnotics
 
         private void InnerFixScreen()
         {
-            m_FitWidth = Screen.width / (float)WIDTH;
-            m_FitHeight = Screen.height / (float)HEIGHT;
-
             FitStyle(m_CloseButtonStyle);
             FitStyle(m_TitleStyle);
             FitStyle(m_EnterButtonStyle);
@@ -174,6 +170,7 @@ namespace UnityXFrame.Core.Diagnotics
             FitStyle(DebugGUI.Style.ProgressThumb);
             FitStyle(DebugGUI.Style.Rect);
             FitStyle(DebugGUI.Style.Title);
+            FitStyle(DebugGUI.Style.Button2);
             FitStyle(Skin.verticalScrollbarThumb);
             FitStyle(Skin.horizontalScrollbarThumb);
             FitStyle(Skin.box);
@@ -209,13 +206,16 @@ namespace UnityXFrame.Core.Diagnotics
 
         private void InnerGUIInit()
         {
+            m_FitWidth = Screen.width / (float)WIDTH;
+            m_FitHeight = Screen.height / (float)HEIGHT;
+
             GUI.skin.verticalScrollbarThumb = Skin.verticalScrollbarThumb;
             GUI.skin.horizontalScrollbarThumb = Skin.horizontalScrollbarThumb;
             GUI.skin.box = Skin.box;
             Skin.window.fixedWidth = Screen.width;
             Skin.window.fixedHeight = Mathf.Min(Skin.window.fixedHeight, Screen.height);
             m_HelpRect.y = Skin.window.fixedHeight;
-            m_HelpHeight = m_HelpWindowStyle.fixedHeight;
+            m_HelpHeight = FitHeight(m_HelpWindowStyle.fixedHeight);
             m_HelpWindowStyle.fixedHeight = 0;
             InnerFixScreen();
         }
@@ -249,7 +249,6 @@ namespace UnityXFrame.Core.Diagnotics
                     m_HelpRect.width = m_RootRect.width;
                     m_HelpRect = GUILayout.Window(1, m_HelpRect, InternalDrawHelpWindow, string.Empty, m_HelpWindowStyle);
                 }
-                m_TweenModule.OnUpdate();
             }
             else
             {
@@ -293,11 +292,7 @@ namespace UnityXFrame.Core.Diagnotics
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            string[] helpTitles;
-            if (m_Collapsing)
-                helpTitles = new string[] { "Cmd" };
-            else
-                helpTitles = new string[] { "Cmd", "Menu" };
+            string[] helpTitles = new string[] { "Cmd", "Menu", "Input" };
             m_HelpSelect = Mathf.Clamp(m_HelpSelect, 0, helpTitles.Length);
             m_HelpSelect = DebugGUI.Toolbar(m_HelpSelect, helpTitles);
             GUILayout.EndHorizontal();
@@ -307,8 +302,127 @@ namespace UnityXFrame.Core.Diagnotics
             {
                 case 0: GUILayout.Box(m_CmdHelpInfo, Skin.box); break;
                 case 1: GUILayout.Box(m_Current.HelpInfo, Skin.box); break;
+                case 2: InnerDrawKeyboard(); break;
             }
             GUILayout.EndScrollView();
+        }
+
+        private bool m_CapsLock;
+        private string InnerGetAlphabet(char alphabet)
+        {
+            return m_CapsLock ? alphabet.ToString() : ((char)(alphabet + 32)).ToString();
+        }
+
+        private void InnerKeyboardHandler1(char ch, float width)
+        {
+            if (DebugGUI.Button(ch.ToString(), GUILayout.Width(FitWidth(width))))
+                m_Cmd += ch;
+        }
+
+        private void InnerKeyboardHandler2(char ch)
+        {
+            if (DebugGUI.Button(ch.ToString()))
+                m_Cmd += ch;
+        }
+
+        private void InnerKeyboardHandler3(char ch, float width)
+        {
+            string chStr = InnerGetAlphabet(ch);
+            if (DebugGUI.Button2(chStr, GUILayout.Width(FitWidth(width))))
+                m_Cmd += chStr;
+        }
+
+        private void InnerDrawKeyboard()
+        {
+            GUILayout.BeginVertical(Skin.box);
+
+            GUILayout.BeginHorizontal();
+            InnerKeyboardHandler1('1', 80);
+            InnerKeyboardHandler1('2', 80);
+            InnerKeyboardHandler1('3', 80);
+            InnerKeyboardHandler1('4', 80);
+            InnerKeyboardHandler1('5', 80);
+            InnerKeyboardHandler1('6', 80);
+            InnerKeyboardHandler1('7', 80);
+            InnerKeyboardHandler1('8', 80);
+            InnerKeyboardHandler1('9', 80);
+            InnerKeyboardHandler1('0', 80);
+            InnerKeyboardHandler2('_');
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            InnerKeyboardHandler3('Q', 80);
+            InnerKeyboardHandler3('W', 80);
+            InnerKeyboardHandler3('E', 80);
+            InnerKeyboardHandler3('R', 80);
+            InnerKeyboardHandler3('T', 80);
+            InnerKeyboardHandler3('Y', 80);
+            InnerKeyboardHandler3('U', 80);
+            InnerKeyboardHandler3('I', 80);
+            InnerKeyboardHandler3('O', 80);
+            InnerKeyboardHandler3('P', 80);
+            if (DebugGUI.Button("←"))
+                m_Cmd = m_Cmd.Substring(0, m_Cmd.Length - 1);
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            m_CapsLock = DebugGUI.Toggle(m_CapsLock, "■", GUILayout.Width(FitWidth(50)));
+            InnerKeyboardHandler3('A', 80);
+            InnerKeyboardHandler3('S', 80);
+            InnerKeyboardHandler3('D', 80);
+            InnerKeyboardHandler3('F', 80);
+            InnerKeyboardHandler3('G', 80);
+            InnerKeyboardHandler3('H', 80);
+            InnerKeyboardHandler3('J', 80);
+            InnerKeyboardHandler3('K', 80);
+            InnerKeyboardHandler3('L', 80);
+            if (DebugGUI.Button("ENT"))
+                m_Cmd += '\n';
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            if (DebugGUI.Button("CLR", GUILayout.Width(FitWidth(90))))
+                InnerClearCmd();
+            InnerKeyboardHandler3('Z', 80);
+            InnerKeyboardHandler3('X', 80);
+            InnerKeyboardHandler3('C', 80);
+            InnerKeyboardHandler3('V', 80);
+            InnerKeyboardHandler3('B', 80);
+            InnerKeyboardHandler3('N', 80);
+            InnerKeyboardHandler3('M', 80);
+            InnerKeyboardHandler1(',', 80);
+            InnerKeyboardHandler1('.', 80);
+            InnerKeyboardHandler2('?');
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            InnerKeyboardHandler1('_', 80);
+            InnerKeyboardHandler1('|', 80);
+            InnerKeyboardHandler1('<', 80);
+            if (DebugGUI.Button("SPACE", GUILayout.Width(FitWidth(230))))
+                m_Cmd += " ";
+            InnerKeyboardHandler1('>', 80);
+            InnerKeyboardHandler1('+', 80);
+            InnerKeyboardHandler1('-', 80);
+            InnerKeyboardHandler1('*', 80);
+            InnerKeyboardHandler2('/');
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            InnerKeyboardHandler1('=', 80);
+            InnerKeyboardHandler1('\\', 80);
+            InnerKeyboardHandler1('~', 80);
+            InnerKeyboardHandler1('!', 80);
+            InnerKeyboardHandler1('@', 80);
+            InnerKeyboardHandler1('#', 80);
+            InnerKeyboardHandler1('$', 80);
+            InnerKeyboardHandler1('%', 80);
+            InnerKeyboardHandler1('(', 80);
+            InnerKeyboardHandler1(')', 80);
+            InnerKeyboardHandler2(';');
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndVertical();
         }
 
         #region Internal Implement
@@ -424,9 +538,7 @@ namespace UnityXFrame.Core.Diagnotics
             {
                 m_HelpOpen = !m_HelpOpen;
                 float target = m_HelpOpen ? m_HelpHeight : 0;
-                m_TweenModule.Do("?", target, 0.1f,
-                    () => m_HelpWindowStyle.fixedHeight,
-                    (v) => m_HelpWindowStyle.fixedHeight = v);
+                m_HelpWindowStyle.fixedHeight = target;
             }
             if (GUILayout.Button(m_Collapsing ? "▷" : "▼", m_CollapseButton))
                 InnerCollapse();
@@ -489,7 +601,8 @@ namespace UnityXFrame.Core.Diagnotics
             float cmdHeight = m_CmdRunButton.fixedHeight;
             if (!string.IsNullOrEmpty(m_Cmd))
             {
-                cmdHeight = Mathf.Max(cmdHeight, m_Cmd.Split('\n').Length * m_CmdContentStyle.lineHeight);
+                float gap = m_CmdContentStyle.lineHeight + m_CmdContentStyle.margin.top + m_CmdContentStyle.padding.top;
+                cmdHeight = Mathf.Max(cmdHeight, m_Cmd.Split('\n').Length * gap);
             }
             m_Cmd = GUILayout.TextArea(m_Cmd, m_CmdContentStyle, GUILayout.Height(cmdHeight));
             if (GUILayout.Button("RUN", m_CmdRunButton))

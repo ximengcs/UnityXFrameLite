@@ -6,6 +6,7 @@ namespace UnityXFrame.Core.Diagnotics
     {
         public GUISkin Skin;
         public GUIStyle Button;
+        public GUIStyle Button2;
         public GUIStyle Text;
         public GUIStyle Lable;
         public GUIStyle TextArea;

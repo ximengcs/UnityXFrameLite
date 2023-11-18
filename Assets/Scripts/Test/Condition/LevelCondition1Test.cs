@@ -33,7 +33,6 @@ namespace Game.Test
         {
             get
             {
-                Debug.LogWarning(ConditionConst.LEVEL);
                 return ConditionConst.LEVEL;
             }
         }

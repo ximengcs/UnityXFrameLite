@@ -71,6 +71,11 @@ namespace UnityXFrame.Core.Diagnotics
             return GUILayout.Button(title, Style.Button, options);
         }
 
+        public static bool Button2(string title, params GUILayoutOption[] options)
+        {
+            return GUILayout.Button(title, Style.Button2, options);
+        }
+
         public static bool Toggle(bool value, string title, params GUILayoutOption[] options)
         {
             return GUILayout.Toggle(value, title, Style.Toolbar, options);
