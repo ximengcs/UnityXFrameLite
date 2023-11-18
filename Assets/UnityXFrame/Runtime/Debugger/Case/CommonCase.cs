@@ -25,6 +25,7 @@ namespace UnityXFrame.Core.Diagnotics
         public void OnAwake()
         {
             m_LockFPS = true;
+            m_FPS = Application.targetFrameRate;
             m_FPS = Mathf.Clamp(m_FPS, m_FPSMin, m_FPSMax);
             m_TimeScale = Time.timeScale;
         }
@@ -78,6 +79,13 @@ namespace UnityXFrame.Core.Diagnotics
             if (DebugGUI.Button("Clear User Data"))
             {
                 CmdList.clear_user_data();
+            }
+            if (DebugGUI.Button("Quit Game"))
+            {
+                Application.Quit();
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
             }
         }
 
