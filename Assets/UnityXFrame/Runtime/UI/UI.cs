@@ -2,7 +2,7 @@
 using XFrame.Modules.Event;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Diagnotics;
-using XFrame.Core;
+using XFrame.Modules.Pools;
 
 namespace UnityXFrame.Core.UIElements
 {
@@ -115,9 +115,8 @@ namespace UnityXFrame.Core.UIElements
             m_UIFinder = GetOrAddCom<UIFinder>();
         }
 
-        protected override void OnCreateFromPool()
+        void IPoolObject.OnCreate()
         {
-            base.OnCreateFromPool();
             m_CanvasGroup = m_Root.GetComponent<CanvasGroup>();
             if (m_CanvasGroup == null)
                 m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
@@ -125,11 +124,24 @@ namespace UnityXFrame.Core.UIElements
             Event = Global.Event.NewSys();
             m_IsOpen = false;
             Active = false;
+            OnCreateFromPool();
         }
+
+        IPool IPoolObject.InPool { get; set; }
+        int IPoolObject.PoolKey { get; }
+        string IPoolObject.MarkName { get; set; }
+
+        void IPoolObject.OnRequest() { OnRequestFromPool(); }
+        void IPoolObject.OnRelease() { OnReleaseFromPool(); }
+        void IPoolObject.OnDelete() { OnDestroyFromPool(); }
 
         #region Sub Class Implement Life Fun
         protected virtual void OnOpen() { }
         protected virtual void OnClose() { }
+        protected virtual void OnCreateFromPool() { }
+        protected virtual void OnRequestFromPool() { }
+        protected virtual void OnDestroyFromPool() { }
+        protected virtual void OnReleaseFromPool() { }
         #endregion
     }
 }

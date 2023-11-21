@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Event;
+using XFrame.Modules.Pools;
 
 namespace UnityXFrame.Core.UIElements
 {
     /// <summary>
     /// UI
     /// </summary>
-    public interface IUI : IUIElement, IContainer
+    public interface IUI : IUIElement, IContainer, IPoolObject
     {
         /// <summary>
         /// 根节点

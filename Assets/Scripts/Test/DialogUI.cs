@@ -24,9 +24,6 @@ namespace Game.Test
 
             Color orginColor = m_BackGround.color;
             m_BackGround.color = GetData<Color>();
-            if (m_BackGround.color != Color.black)
-                m_BackGround.color = orginColor;
-
             LocalizeExt.Register(m_Title, InnerLangChange);
         }
 

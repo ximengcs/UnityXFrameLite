@@ -23,7 +23,6 @@ namespace UnityXFrame.Core.UIElements
         protected UIFinder m_UIFinder;
 
         private IContainer m_Container;
-        private MonoContainer m_MonoContainer;
 
         public int Layer
         {
@@ -144,10 +143,7 @@ namespace UnityXFrame.Core.UIElements
 
         void IPoolObject.OnCreate()
         {
-            m_MonoContainer = new MonoContainer();
-            m_Container = m_MonoContainer;
-            m_MonoContainer.TriggerOnCreateFromPool();
-
+            m_Container = new Container();
             m_Root = gameObject;
             m_CanvasGroup = m_Root.GetComponent<CanvasGroup>();
             if (m_CanvasGroup == null)
@@ -161,21 +157,18 @@ namespace UnityXFrame.Core.UIElements
 
         void IPoolObject.OnRequest()
         {
-            m_MonoContainer.TriggerOnRequestFromPool();
             OnRequestFromPool();
         }
 
         void IPoolObject.OnRelease()
         {
             OnReleaseFromPool();
-            m_MonoContainer.TriggerOnReleaseFromPool();
         }
 
         void IPoolObject.OnDelete()
         {
             OnDestroyFromPool();
             GameObject.Destroy(m_Root);
-            m_MonoContainer.TriggerOnDestroyFromPool();
         }
 
         protected virtual void OnInit() { }
@@ -256,6 +249,16 @@ namespace UnityXFrame.Core.UIElements
         public void ClearCom()
         {
             m_Container.ClearCom();
+        }
+
+        public bool HasData<T>()
+        {
+            return m_Container.HasData<T>();
+        }
+
+        public bool HasData<T>(string name)
+        {
+            return m_Container.HasData<T>(name);
         }
 
         public void SetData<T>(T value)

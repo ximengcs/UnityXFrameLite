@@ -43,6 +43,7 @@ namespace UnityXFrameLib.UIElements
             base.OnInit();
             m_Draging = false;
             m_EvtData = new PointerEventData(EventSystem.current);
+            m_Results = new List<RaycastResult>();
 
             string move = GetData<string>("MoveTarget");
             string drag = GetData<string>("DragTarget");
@@ -58,15 +59,10 @@ namespace UnityXFrameLib.UIElements
             m_OrgPos = m_MoveTarget.anchoredPosition;
         }
 
-        protected override void OnCreateFromPool()
+        protected override void OnDestroy()
         {
-            base.OnCreateFromPool();
-            m_Results = new List<RaycastResult>();
-        }
+            base.OnDestroy();
 
-        protected override void OnReleaseFromPool()
-        {
-            base.OnReleaseFromPool();
             m_Results.Clear();
             m_MoveTarget = null;
             m_DragTarget = null;
