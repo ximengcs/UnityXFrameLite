@@ -94,10 +94,12 @@ namespace UnityXFrame.Core.Resource
             {
                 if (m_ObjectMap.TryGetValue(assetPath, out string newAssetPath))
                 {
+                    Log.Debug("XFrame", $"Sprite Redirect To Atlas, {assetPath} -> {newAssetPath}");
                     return newAssetPath;
                 }
                 else
                 {
+                    Log.Debug("XFrame", $"Sprite Not Redirect To Atlas, {assetPath} -> {newAssetPath}");
                     return assetPath;
                 }
             }

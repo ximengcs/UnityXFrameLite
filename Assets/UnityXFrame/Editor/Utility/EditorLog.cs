@@ -13,5 +13,10 @@ namespace UnityXFrame.Editor
         {
             UnityEngine.Debug.Log($"<color=yellow>[UnityXFrame]</color><color=cyan>{msg}</color>");
         }
+
+        public static void Error(object msg)
+        {
+            UnityEngine.Debug.LogError(msg);
+        }
     }
 }
