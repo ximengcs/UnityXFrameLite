@@ -32,6 +32,8 @@ namespace UnityXFrame.Core.UIElements
                 int useResModule = (int)userData;
                 string uiPath = InnerUIPath(type);
                 GameObject prefab = Entry.GetModule<IResModule>(useResModule).Load<GameObject>(uiPath);
+                if (prefab == null)
+                    throw new Exception($"UI prefab is null, {uiPath} {type.FullName}");
                 GameObject inst = GameObject.Instantiate(prefab);
 
                 IUI ui;

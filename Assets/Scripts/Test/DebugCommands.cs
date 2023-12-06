@@ -280,7 +280,7 @@ namespace Game.Test
         [DebugCommand]
         public void s5()
         {
-            throw new NullReferenceException();
+            Debug.LogWarning(Entry.GetModule<ITypeModule>() == Entry.GetModule<TypeModule>());
         }
 
         [DebugCommand]

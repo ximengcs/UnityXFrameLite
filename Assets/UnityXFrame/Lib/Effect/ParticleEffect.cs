@@ -4,6 +4,7 @@ using XFrame.Modules.Pools;
 using UnityXFrameLib.Tasks;
 using UnityXFrameLib.Utilities;
 using XFrame.Modules.Event;
+using static UnityEngine.ParticleSystem;
 
 namespace UnityXFrameLib.Effects
 {
@@ -119,7 +120,7 @@ namespace UnityXFrameLib.Effects
                     var module = m_Particle.main;
                     if (!module.loop)
                     {
-                        TaskExt.Delay(module.duration, InnerDispose);
+                        TaskExt.Delay(module.duration + 1f, InnerDispose);
                     }
                     module.startColor = m_Color;
                 }
