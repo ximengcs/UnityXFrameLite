@@ -1,7 +1,7 @@
 ﻿
 namespace UnityXFrame.Editor
 {
-    public partial class AtlasResEditor
+    public partial class HandleResEditor
     {
         public interface IAtlasResHandler
         {

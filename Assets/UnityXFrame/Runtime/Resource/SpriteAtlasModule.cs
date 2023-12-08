@@ -12,13 +12,19 @@ namespace UnityXFrame.Core.Resource
 {
     [CommonModule]
     [XType(typeof(ISpriteAtlasModule))]
-    public partial class SpriteAtlasModule : ModuleBase, ISpriteAtlasModule
+    public partial class SpriteAtlasModule : ModuleBase, ISpriteAtlasModule, IResourceHelper
     {
         public const string ITEM_SPLIT = " ";
         private Type m_SpriteType;
         private Dictionary<string, string> m_ObjectMap;
+        private IResRedirectHelper m_DirectHelper;
 
-        public IResourceHelper Helper => throw new NotImplementedException();
+        public IResourceHelper Helper => m_DirectHelper;
+
+        void IResourceHelper.OnInit(string rootPath)
+        {
+
+        }
 
         protected override void OnStart()
         {
@@ -62,6 +68,8 @@ namespace UnityXFrame.Core.Resource
 
         public bool CanRedirect(string assetPath, Type assetType)
         {
+            if (m_DirectHelper != null)
+                assetPath = m_DirectHelper.Redirect(assetPath, assetType);
             if (assetType == m_SpriteType)
                 return m_ObjectMap.ContainsKey(assetPath);
             else
@@ -70,6 +78,8 @@ namespace UnityXFrame.Core.Resource
 
         public bool Redirect(string assetPath, Type assetType, out string newAssetPath)
         {
+            if (m_DirectHelper != null)
+                assetPath = m_DirectHelper.Redirect(assetPath, assetType);
             if (assetType == m_SpriteType)
             {
                 if (m_ObjectMap.TryGetValue(assetPath, out newAssetPath))
@@ -78,18 +88,21 @@ namespace UnityXFrame.Core.Resource
                 }
                 else
                 {
+                    newAssetPath = assetPath;
                     return false;
                 }
             }
             else
             {
-                newAssetPath = null;
+                newAssetPath = assetPath;
                 return false;
             }
         }
 
         public string Redirect(string assetPath, Type assetType)
         {
+            if (m_DirectHelper != null)
+                assetPath = m_DirectHelper.Redirect(assetPath, assetType);
             if (assetType == m_SpriteType)
             {
                 if (m_ObjectMap.TryGetValue(assetPath, out string newAssetPath))
@@ -99,7 +112,6 @@ namespace UnityXFrame.Core.Resource
                 }
                 else
                 {
-                    Log.Debug("XFrame", $"Sprite Not Redirect To Atlas, {assetPath} -> {newAssetPath}");
                     return assetPath;
                 }
             }
@@ -109,14 +121,17 @@ namespace UnityXFrame.Core.Resource
             }
         }
 
-        void IResourceHelper.OnInit(string rootPath)
-        {
-
-        }
-
         public void SetResDirectHelper(IResRedirectHelper helper)
         {
-
+            if (m_DirectHelper == null)
+            {
+                m_DirectHelper = helper;
+                m_DirectHelper.OnInit(null);
+            }
+            else
+            {
+                m_DirectHelper.SetResDirectHelper(helper);
+            }
         }
 
         public object Load(string resPath, Type type)

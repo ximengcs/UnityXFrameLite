@@ -14,35 +14,41 @@ using System;
 using XFrame.Modules.Reflection;
 using XFrame.Core;
 using XFrame.Modules.Config;
+using UnityEngine.AddressableAssets;
 
 namespace UnityXFrame.Editor
 {
-    public partial class AtlasResEditor : EditorWindow
+    public partial class HandleResEditor : EditorWindow
     {
         private Dictionary<string, string> m_Maps;
         private string m_SavePath;
         private HashSet<string> m_DuplicateCheck;
-        private AtlasResData m_Data;
+        private HandleResData m_Data;
         private SerializedObject m_Obj;
         private SerializedProperty m_ListProp;
+        private SerializedProperty m_AliasListProp;
         private XCore m_FrameCore;
+
+        private Dictionary<int, List<string>> m_FileList;
 
         private void OnEnable()
         {
-            string dataPath = "Assets/UnityXFrame/Editor/AtlasResData.asset";
-            m_Data = AssetDatabase.LoadAssetAtPath<AtlasResData>(dataPath);
+            string dataPath = "Assets/UnityXFrame/Editor/HandleResData.asset";
+            m_Data = AssetDatabase.LoadAssetAtPath<HandleResData>(dataPath);
             if (m_Data == null)
             {
-                m_Data = ScriptableObject.CreateInstance<AtlasResData>();
+                m_Data = ScriptableObject.CreateInstance<HandleResData>();
                 AssetDatabase.CreateAsset(m_Data, dataPath);
                 AssetDatabase.Refresh();
             }
+            m_FileList = new Dictionary<int, List<string>>();
             m_Maps = new Dictionary<string, string>();
             m_DuplicateCheck = new HashSet<string>();
             m_SavePath = Constant.CONFIG_PATH;
 
             m_Obj = new SerializedObject(m_Data);
             m_ListProp = m_Obj.FindProperty("ExcludeList");
+            m_AliasListProp = m_Obj.FindProperty("IncludeGroupList");
 
             XConfig.UseClassModule = new string[] { "Assembly-CSharp", "Assembly-CSharp-Editor", "UnityXFrame", "UnityXFrame.Lib", "UnityXFrame.Editor" };
             m_FrameCore = XCore.Create(typeof(TypeModule));
@@ -51,15 +57,91 @@ namespace UnityXFrame.Editor
         private void OnGUI()
         {
             EditorGUILayout.PropertyField(m_ListProp);
-            if (GUILayout.Button("Collect Map"))
+            if (GUILayout.Button("Collect Atlas Map"))
             {
                 m_Maps.Clear();
                 m_DuplicateCheck.Clear();
                 InnerFindAllAtlas();
                 InnerSaveFile();
             }
-            if (GUILayout.Button("Save"))
+            EditorGUILayout.PropertyField(m_AliasListProp);
+            if (GUILayout.Button("Collect Res Alias"))
+            {
+                m_FileList.Clear();
+                InnerFindAllFile();
+                InnerSaveAliasFile();
+            }
+            if (GUILayout.Button("Save Data"))
                 m_Obj.ApplyModifiedProperties();
+        }
+
+        private void InnerSaveAliasFile()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var entry in m_FileList)
+            {
+                sb.AppendLine(entry.Key.ToString());
+                foreach (string file in entry.Value)
+                {
+                    string fileName = Path.GetFileName(file);
+                    sb.AppendLine($"{fileName} {file}");
+                }
+            }
+
+            string tarFile = Path.Combine(Application.dataPath, m_SavePath, "alias_map.txt");
+            if (!Directory.Exists(m_SavePath))
+                Directory.CreateDirectory(m_SavePath);
+            if (File.Exists(tarFile))
+                File.Delete(tarFile);
+
+            File.WriteAllText(tarFile, sb.ToString());
+            EditorLog.Debug($"save -> {tarFile}");
+            AssetDatabase.Refresh();
+        }
+
+        private void InnerFindAllFile()
+        {
+            foreach (ResAliasGroupData groupData in m_Data.IncludeGroupList)
+            {
+                List<string> result = new List<string>();
+                HashSet<string> checker = new HashSet<string>();
+                foreach (string path in groupData.IncludeList)
+                {
+                    InnerFindPath(path, result, checker);
+                }
+                EditorLog.Debug($"Add Group {groupData.GroupId}, amount {result.Count}");
+                m_FileList.Add(groupData.GroupId, result);
+            }
+        }
+
+        private void InnerFindPath(string path, List<string> result, HashSet<string> checker)
+        {
+            foreach (string _file in Directory.EnumerateFiles(path))
+            {
+                if (_file.Contains(".meta"))
+                    continue;
+                string file = PathUtility.Format1(_file);
+                string target;
+                if (IsAssetAddressable(file, out string newPath))
+                {
+                    EditorLog.Debug($"NewPath {file} -> {newPath}");
+                    target = newPath;
+                }
+                else
+                {
+                    target = file;
+                }
+
+                result.Add(target);
+                if (!checker.Contains(target))
+                    checker.Add(target);
+                else
+                    EditorLog.Error($"Duplicate {target} -> {file}");
+            }
+            foreach (string dir in Directory.EnumerateDirectories(path))
+            {
+                InnerFindPath(dir, result, checker);
+            }
         }
 
         private void InnerSaveFile()
@@ -197,11 +279,19 @@ namespace UnityXFrame.Editor
             AddressableAssetEntry entry = settings.FindAssetEntry(AssetDatabase.AssetPathToGUID(assetPath), true);
             if (entry != null)
             {
-                path = InnerGetAddress(entry.ParentEntry);
+                path = entry.address;
+                if (entry.ParentEntry != null)
+                {
+                    if (path.StartsWith(entry.ParentEntry.address))
+                    {
+                        path = path.Replace(entry.ParentEntry.address, $"{entry.ParentEntry.address}/");
+                    }
+                }
+                //path = InnerGetAddress(entry.ParentEntry);
                 if (string.IsNullOrEmpty(path))
                     path = Path.GetFileName(entry.AssetPath);
-                else
-                    path = $"{path}/{Path.GetFileName(entry.AssetPath)}";
+                //else
+                //    path = $"{path}/{Path.GetFileName(entry.AssetPath)}";
             }
             else
                 path = null;

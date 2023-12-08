@@ -18,6 +18,7 @@ using XFrame.Modules.Reflection;
 using System;
 using UnityEngine.U2D;
 using UnityEngine.AddressableAssets;
+using UnityXFrame.Core.Resource;
 
 namespace Game.Test
 {
@@ -290,6 +291,21 @@ namespace Game.Test
             {
                 throw new NullReferenceException();
             });
+        }
+
+        [DebugCommand]
+        public void alias()
+        {
+            ResourceAlaisRedirector redirector = new ResourceAlaisRedirector(Global.Res.Helper);
+            Global.Res.Helper.SetResDirectHelper(redirector);
+            redirector.AddEntry(Global.Res.Load<TextAsset>("Config/alias_map.txt").text);
+        }
+
+        [DebugCommand]
+        public void load(string res)
+        {
+            Sprite sprite = Global.Res.Load<Sprite>(res);
+            Log.Debug($"load complete {res} {sprite.name}");
         }
     }
 }

@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da99bbde74b146848a2eada88bfd95a7, type: 3}
-  m_Name: AtlasResData
+  m_Script: {fileID: 11500000, guid: 76c04f66747c39d42925b6ceb438c345, type: 3}
+  m_Name: HandleResData
   m_EditorClassIdentifier: 
   ExcludeList: []
+  IncludeGroupList:
+  - GroupId: 0
+    IncludeList:
+    - Assets/Data

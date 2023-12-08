@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
-using XFrame.Modules.Tasks;
 using XFrame.Modules.Resource;
-using XFrame.Core;
 
 namespace UnityXFrame.Core.Resource
 {
