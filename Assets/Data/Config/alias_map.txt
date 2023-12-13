@@ -1,19 +1,19 @@
 0
-Test2.spriteatlas Atlas1Test/Test2.spriteatlas
-Test3.spriteatlas Atlas1Test/Test3.spriteatlas
-a1.wav Assets/Data/Audio/a1.wav
-a2.wav Assets/Data/Audio/a2.wav
-a3.wav Assets/Data/Audio/a3.wav
-TestAudio.mp3 Assets/Data/Audio/TestAudio.mp3
-TestAudio2.mp3 Assets/Data/Audio/TestAudio2.mp3
-alias_map.txt Config/alias_map.txt
-atlas_map.txt Config/atlas_map.txt
-Perch.txt Config/Perch.txt
-Prop.csv Config/Prop.csv
-Common_67 1.png Data2/temp/Common_67 1.png
-Common_68 1.png Data2/temp/Common_68 1.png
-iloveu.png Data2/Textures/QQQ/iloveu.png
-Perch.txt Data2/Textures/QQQ/Perch.txt
-test.png Data2/Textures/QQQ/test.png
-test2.jpg Data2/Textures/QQQ/test2.jpg
-test2.png Data2/Textures/QQQ/test2.png
+Test2 Atlas1Test/Test2.spriteatlas
+Test3 Atlas1Test/Test3.spriteatlas
+a1 Assets/Data/Audio/a1.wav
+a2 Assets/Data/Audio/a2.wav
+a3 Assets/Data/Audio/a3.wav
+TestAudio Assets/Data/Audio/TestAudio.mp3
+TestAudio2 Assets/Data/Audio/TestAudio2.mp3
+alias_map Config/alias_map.txt
+atlas_map Config/atlas_map.txt
+Perch Config/Perch.txt
+Prop Config/Prop.csv
+Common_67 1 Data2/temp/Common_67 1.png
+Common_68 1 Data2/temp/Common_68 1.png
+iloveu Data2/Textures/QQQ/iloveu.png
+Perch Data2/Textures/QQQ/Perch.txt
+test Data2/Textures/QQQ/test.png
+test2 Data2/Textures/QQQ/test2.jpg
+test2 Data2/Textures/QQQ/test2.png

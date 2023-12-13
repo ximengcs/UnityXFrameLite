@@ -9,25 +9,34 @@ namespace UnityXFrame.Core.Resource
     public class ResourceAlaisRedirector : IResRedirectHelper
     {
         public const string ITEM_SPLIT = " ";
-        private int m_CurrentGroup;
+        private HashSet<int> m_CurrentGroup;
         private IResourceHelper m_ResRefHelper;
         private Dictionary<int, Dictionary<string, string>> m_AliasMap;
 
-        public int Group
-        {
-            get => m_CurrentGroup;
-            set => m_CurrentGroup = value;
-        }
+        public IEnumerable<int> Group => m_CurrentGroup;
 
         public ResourceAlaisRedirector(IResourceHelper resHelper)
         {
             m_ResRefHelper = resHelper;
             m_AliasMap = new Dictionary<int, Dictionary<string, string>>();
+            m_CurrentGroup = new HashSet<int>();
         }
 
         void IResourceHelper.OnInit(string rootPath)
         {
-            m_CurrentGroup = 0;
+
+        }
+
+        public void AddGroup(int group)
+        {
+            if (!m_CurrentGroup.Contains(group))
+                m_CurrentGroup.Add(group);
+        }
+
+        public void RemoveGroup(int group)
+        {
+            if (m_CurrentGroup.Contains(group))
+                m_CurrentGroup.Remove(group);
         }
 
         public void AddEntry(string entryItems)
@@ -94,23 +103,28 @@ namespace UnityXFrame.Core.Resource
 
         bool IResRedirectHelper.CanRedirect(string assetPath, Type assetType)
         {
-            if (m_AliasMap.TryGetValue(m_CurrentGroup, out Dictionary<string, string> map))
+            foreach (int group in m_CurrentGroup)
             {
-                return map.ContainsKey(assetPath);
+                if (m_AliasMap.TryGetValue(group, out Dictionary<string, string> map))
+                {
+                    if (map.ContainsKey(assetPath))
+                        return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         bool IResRedirectHelper.Redirect(string assetPath, Type assetType, out string newAssetPath)
         {
-            if (m_AliasMap.TryGetValue(m_CurrentGroup, out Dictionary<string, string> map))
+            foreach (int group in m_CurrentGroup)
             {
-                if (map.TryGetValue(assetPath, out newAssetPath))
+                if (m_AliasMap.TryGetValue(group, out Dictionary<string, string> map))
                 {
-                    return true;
+                    if (map.TryGetValue(assetPath, out newAssetPath))
+                    {
+                        return true;
+                    }
                 }
             }
 
@@ -118,13 +132,16 @@ namespace UnityXFrame.Core.Resource
             return false;
         }
 
-        string IResRedirectHelper.Redirect(string assetPath, Type assetType)
+        public string Redirect(string assetPath, Type assetType)
         {
-            if (m_AliasMap.TryGetValue(m_CurrentGroup, out Dictionary<string, string> map))
+            foreach (int group in m_CurrentGroup)
             {
-                if (map.TryGetValue(assetPath, out string newAssetPath))
+                if (m_AliasMap.TryGetValue(group, out Dictionary<string, string> map))
                 {
-                    return newAssetPath;
+                    if (map.TryGetValue(assetPath, out string newAssetPath))
+                    {
+                        return newAssetPath;
+                    }
                 }
             }
 
@@ -139,21 +156,25 @@ namespace UnityXFrame.Core.Resource
 
         object IResourceHelper.Load(string resPath, Type type)
         {
+            resPath = Redirect(resPath, type);
             return m_ResRefHelper.Load(resPath, type);
         }
 
         T IResourceHelper.Load<T>(string resPath)
         {
+            resPath = Redirect(resPath, typeof(T));
             return m_ResRefHelper.Load<T>(resPath);
         }
 
         ResLoadTask IResourceHelper.LoadAsync(string resPath, Type type)
         {
+            resPath = Redirect(resPath, type);
             return m_ResRefHelper.LoadAsync(resPath, type);
         }
 
         ResLoadTask<T> IResourceHelper.LoadAsync<T>(string resPath)
         {
+            resPath = Redirect(resPath, typeof(T));
             return m_ResRefHelper.LoadAsync<T>(resPath);
         }
 

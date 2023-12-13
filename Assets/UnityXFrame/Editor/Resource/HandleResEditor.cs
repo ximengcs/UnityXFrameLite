@@ -28,6 +28,7 @@ namespace UnityXFrame.Editor
         private SerializedProperty m_ListProp;
         private SerializedProperty m_AliasListProp;
         private XCore m_FrameCore;
+        private bool m_ContainsSuffix;
 
         private Dictionary<int, List<string>> m_FileList;
 
@@ -71,6 +72,7 @@ namespace UnityXFrame.Editor
                 InnerFindAllFile();
                 InnerSaveAliasFile();
             }
+            m_ContainsSuffix = EditorGUILayout.Toggle("ContainsSuffix", m_ContainsSuffix);
             if (GUILayout.Button("Save Data"))
                 m_Obj.ApplyModifiedProperties();
         }
@@ -83,8 +85,12 @@ namespace UnityXFrame.Editor
                 sb.AppendLine(entry.Key.ToString());
                 foreach (string file in entry.Value)
                 {
-                    string fileName = Path.GetFileName(file);
-                    sb.AppendLine($"{fileName} {file}");
+                    string fileName;
+                    if (m_ContainsSuffix)
+                        fileName= Path.GetFileName(file);
+                    else
+                        fileName = Path.GetFileNameWithoutExtension(file);
+                    sb.AppendLine($"{fileName}{ResourceAlaisRedirector.ITEM_SPLIT}{file}");
                 }
             }
 
