@@ -5,7 +5,8 @@ namespace UnityXFrame.Editor
     {
         public interface IAtlasResHandler
         {
-            void OnSavePath(string resPath, string atlasPath, out string newResPath, out string newAtlasPath);
+            void OnSaveAtlasPath(string resPath, string atlasPath, out string newResPath, out string newAtlasPath);
+            void OnSaveAliasPath(string rootPath, string originPath, out string newPath);
         }
     }
 }

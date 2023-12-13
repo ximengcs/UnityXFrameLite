@@ -1,7 +1,7 @@
-Assets/Data/Textures/iloveu.png Atlas1Test/Test2.spriteatlas
-Assets/Data/Textures/test.png Atlas1Test/Test2.spriteatlas
-Assets/Data/Textures/test2.jpg Atlas1Test/Test2.spriteatlas
-Assets/Data/Textures/test2.png Atlas1Test/Test2.spriteatlas
+Assets/Data/Textures/QQQ/iloveu.png Atlas1Test/Test2.spriteatlas
+Assets/Data/Textures/QQQ/test.png Atlas1Test/Test2.spriteatlas
+Assets/Data/Textures/QQQ/test2.jpg Atlas1Test/Test2.spriteatlas
+Assets/Data/Textures/QQQ/test2.png Atlas1Test/Test2.spriteatlas
 Assets/Data/temp/Common_67 1.png Atlas1Test/Test3.spriteatlas
 Assets/Data/temp/Common_68 1.png Atlas1Test/Test3.spriteatlas
 Assets/Resources/Data/Textures/test2.png Assets/Resources/Data/Atlas/Test.spriteatlas
