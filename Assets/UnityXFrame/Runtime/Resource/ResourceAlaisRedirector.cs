@@ -27,6 +27,11 @@ namespace UnityXFrame.Core.Resource
 
         }
 
+        public void ClearGroup()
+        {
+            m_CurrentGroup.Clear();
+        }
+
         public void AddGroup(int group)
         {
             if (!m_CurrentGroup.Contains(group))
