@@ -19,7 +19,6 @@ namespace UnityXFrame.Editor
         private XCore m_FrameCore;
         private IAtlasResHandler m_Handler;
 
-
         private void OnEnable()
         {
             string dataPath = "Assets/UnityXFrame/Editor/HandleResData.asset";
@@ -38,7 +37,7 @@ namespace UnityXFrame.Editor
 
             ITypeModule typeModule = m_FrameCore.GetModule<ITypeModule>();
             TypeSystem typeSystem = typeModule.GetOrNew<IAtlasResHandler>();
-            
+
             foreach (Type type in typeSystem)
             {
                 m_Handler = (IAtlasResHandler)typeModule.CreateInstance(type);
@@ -51,10 +50,18 @@ namespace UnityXFrame.Editor
 
         private void OnGUI()
         {
+            GUILayout.BeginVertical(StyleUtility.Style1);
             InnerRenderAtlasGUI();
+            GUILayout.EndVertical();
+
+            GUILayout.BeginVertical(StyleUtility.Style1);
             InnerRenderAliasGUI();
+            GUILayout.EndVertical();
+
+            GUILayout.BeginVertical(StyleUtility.Style1);
             if (GUILayout.Button("Save Data"))
                 m_Obj.ApplyModifiedProperties();
+            GUILayout.EndVertical();
         }
 
         private bool IsAssetAddressable(string assetPath, out string path)

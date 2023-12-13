@@ -7,9 +7,6 @@ namespace UnityXFrame.Editor
 {
     public class NameEditor : EditorWindow
     {
-        private GUIStyle m_Style1 => GUI.skin.customStyles[205];
-        private GUIStyle m_Style2 => GUI.skin.customStyles[487];
-
         private string m_SrcPath;
         private string m_DstPath;
         private SerializedObject m_SerObj;
@@ -25,8 +22,8 @@ namespace UnityXFrame.Editor
 
         private void OnGUI()
         {
-            GUILayout.BeginVertical(m_Style1);
-            EditorGUILayout.LabelField("Name", m_Style2);
+            GUILayout.BeginVertical(StyleUtility.Style1);
+            EditorGUILayout.LabelField("Name", StyleUtility.Style2);
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Source Path");

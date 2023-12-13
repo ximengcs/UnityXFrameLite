@@ -13,10 +13,6 @@ namespace UnityXFrame.Editor
         private UsefulToolData m_Data;
         [NonSerialized] private Vector2 m_Pos;
 
-        private GUIStyle m_Style1 => GUI.skin.customStyles[205];
-        private GUIStyle m_Style2 => GUI.skin.customStyles[487];
-        private GUIStyle m_Style3 => GUI.skin.customStyles[506];
-
         private void OnEnable()
         {
             string dataPath = "Assets/UnityXFrame/Editor/UserfulToolData.asset";
@@ -36,8 +32,8 @@ namespace UnityXFrame.Editor
             select = GUILayout.Toolbar(select, new string[] { "Debug", "Release" });
             m_Data.IsRelease = select == 1 ? true : false;
 
-            GUILayout.BeginVertical(m_Style1);
-            EditorGUILayout.LabelField("XFrame", m_Style2);
+            GUILayout.BeginVertical(StyleUtility.Style1);
+            EditorGUILayout.LabelField("XFrame", StyleUtility.Style2);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Project", GUILayout.Width(50));
             m_Data.XFrameProjectPath = EditorGUILayout.TextField(m_Data.XFrameProjectPath);
@@ -58,8 +54,8 @@ namespace UnityXFrame.Editor
                 CompileXFrame((s, e) => ImportXFrame());
             GUILayout.EndVertical();
 
-            GUILayout.BeginVertical(m_Style1);
-            EditorGUILayout.LabelField("UnityXFrame", m_Style2);
+            GUILayout.BeginVertical(StyleUtility.Style1);
+            EditorGUILayout.LabelField("UnityXFrame", StyleUtility.Style2);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Platform", GUILayout.Width(80));
             m_Data.CurrentBuildTarget = (BuildTarget)EditorGUILayout.EnumPopup(m_Data.CurrentBuildTarget);
@@ -73,7 +69,7 @@ namespace UnityXFrame.Editor
                 EditorUtility.RevealInFinder(m_Data.BuildDllPath);
             EditorGUILayout.EndHorizontal();
 
-            m_Pos = EditorGUILayout.BeginScrollView(m_Pos, m_Style1, GUILayout.Height(100));
+            m_Pos = EditorGUILayout.BeginScrollView(m_Pos, StyleUtility.Style1, GUILayout.Height(100));
             List<int> removes = new List<int>();
             if (m_Data.ToProjectDllPath == null)
                 m_Data.ToProjectDllPath = new List<string>();

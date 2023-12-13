@@ -10,13 +10,10 @@ namespace UnityXFrame.Editor
     {
         private string m_StringFormatTxt;
 
-        private GUIStyle m_Style1 => GUI.skin.customStyles[205];
-        private GUIStyle m_Style2 => GUI.skin.customStyles[487];
-
         private void OnGUI()
         {
-            GUILayout.BeginVertical(m_Style1);
-            EditorGUILayout.LabelField("Check String Format", m_Style2);
+            GUILayout.BeginVertical(StyleUtility.Style1);
+            EditorGUILayout.LabelField("Check String Format", StyleUtility.Style2);
             m_StringFormatTxt = EditorGUILayout.TextField(m_StringFormatTxt);
             if (GUILayout.Button("Check String Format"))
                 InnerCheckStringFormat(m_StringFormatTxt);
