@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using XFrame.Modules.Resource;
@@ -60,6 +61,11 @@ namespace UnityXFrame.Core.Resource
         public void UnloadAll()
         {
             Resources.UnloadUnusedAssets();
+        }
+
+        public List<object> DumpAll()
+        {
+            throw new NotImplementedException();
         }
 
         private string InnerCheckResPath(string resPath, Type type)

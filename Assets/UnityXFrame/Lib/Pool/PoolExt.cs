@@ -17,7 +17,6 @@ namespace UnityXFrameLib.Pools
             {
                 task.Add(() =>
                 {
-                    Debug.LogWarning(type.GetHashCode());
                     AutoSpwanAttribute attr = Global.Type.GetAttribute<AutoSpwanAttribute>(type);
                     IPool pool = Global.Pool.GetOrNew(type);
                     pool.Spawn(attr.PoolKey, attr.Count, attr.UserData);

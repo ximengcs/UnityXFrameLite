@@ -1,6 +1,7 @@
 ﻿using XFrame.Modules.Resource;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine;
 
 namespace UnityXFrame.Core.Resource
 {

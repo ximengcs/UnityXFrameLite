@@ -4,6 +4,8 @@ using XFrame.Modules.Tasks;
 using XFrame.Modules.Resource;
 using XFrame.Core;
 using UnityXFrame.Core;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace UnityXFrame.Editor
 {
@@ -97,6 +99,11 @@ namespace UnityXFrame.Editor
         public void UnloadAll()
         {
             m_ResCache.Clear();
+        }
+
+        public List<object> DumpAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

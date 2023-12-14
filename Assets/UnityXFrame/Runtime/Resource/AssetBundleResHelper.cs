@@ -119,6 +119,11 @@ namespace UnityXFrame.Core.Resource
             AssetBundle.UnloadAllAssetBundles(true);
         }
 
+        public List<object> DumpAll()
+        {
+            throw new NotImplementedException();
+        }
+
         #region Inner Implement
         private BundleInfo InnerLoadBundle(string abName)
         {

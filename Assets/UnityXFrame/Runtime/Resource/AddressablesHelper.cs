@@ -3,6 +3,7 @@ using XFrame.Modules.Resource;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine;
 
 namespace UnityXFrame.Core.Resource
 {
@@ -137,6 +138,16 @@ namespace UnityXFrame.Core.Resource
             foreach (AsyncResHandler handler in m_LoadMap.Values)
                 handler.Release();
             m_LoadMap.Clear();
+        }
+
+        public List<object> DumpAll()
+        {
+            List<object> list = new List<object>(m_LoadMap.Count);
+            foreach (var entry in m_LoadMap)
+            {
+                list.Add(entry.Value.Data);
+            }
+            return list;
         }
     }
 }

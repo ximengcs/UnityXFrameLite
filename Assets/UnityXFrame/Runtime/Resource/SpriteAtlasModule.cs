@@ -183,5 +183,10 @@ namespace UnityXFrame.Core.Resource
         {
             Global.Res.UnloadAll();
         }
+
+        public List<object> DumpAll()
+        {
+            return Global.Res.Helper.DumpAll();
+        }
     }
 }

@@ -27,6 +27,14 @@ namespace UnityXFrame.Core.Resource
 
         }
 
+        public void AddAllGroup()
+        {
+            foreach (int key in m_AliasMap.Keys)
+            {
+                AddGroup(key);
+            }
+        }
+
         public void ClearGroup()
         {
             m_CurrentGroup.Clear();
@@ -151,6 +159,11 @@ namespace UnityXFrame.Core.Resource
             }
 
             return assetPath;
+        }
+
+        public List<object> DumpAll()
+        {
+            throw new NotImplementedException();
         }
 
         void IResourceHelper.SetResDirectHelper(IResRedirectHelper helper)

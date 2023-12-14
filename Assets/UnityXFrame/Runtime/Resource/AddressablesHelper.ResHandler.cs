@@ -1,4 +1,5 @@
-﻿using UnityEngine.AddressableAssets;
+﻿using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace UnityXFrame.Core.Resource
