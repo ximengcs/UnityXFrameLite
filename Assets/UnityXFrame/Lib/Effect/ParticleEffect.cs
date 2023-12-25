@@ -140,8 +140,11 @@ namespace UnityXFrameLib.Effects
 
         void IPoolObject.OnRelease()
         {
-            m_Particle.Stop();
-            m_Inst?.SetActive(false);
+            if (m_Inst != null)
+            {
+                m_Particle.Stop();
+                m_Inst.SetActive(false);
+            }
             Event.Trigger(DestroyEvent.Create(this));
         }
 

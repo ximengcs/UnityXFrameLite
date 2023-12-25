@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine.U2D;
 using XFrame.Modules.Resource;
 
@@ -11,7 +12,15 @@ namespace UnityXFrame.Core.Resource
             private ResLoadTask<SpriteAtlas> m_AtlasTask;
             private string m_SpriteName;
 
-            public object Data => m_AtlasTask.Res.GetSprite(m_SpriteName);
+            public object Data
+            {
+                get
+                {
+                    if (m_AtlasTask.Res == null)
+                        throw new NullReferenceException($"SpriteAtlasModule Handler Error, Name : {m_SpriteName}");
+                    return m_AtlasTask.Res.GetSprite(m_SpriteName);
+                }
+            }
 
             public bool IsDone => m_AtlasTask.IsComplete;
 

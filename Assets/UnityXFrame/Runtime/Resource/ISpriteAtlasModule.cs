@@ -5,6 +5,7 @@ namespace UnityXFrame.Core.Resource
 {
     public interface ISpriteAtlasModule : IResRedirectHelper, IModule
     {
+        string[] AllEntry { get; }
         void AddEntry(string entryText);
     }
 }

@@ -21,6 +21,18 @@ namespace UnityXFrame.Core.Resource
 
         public IResourceHelper Helper => m_DirectHelper;
 
+        public string[] AllEntry
+        {
+            get
+            {
+                string[] entries = new string[m_ObjectMap.Count];
+                int index = 0;
+                foreach (var key in m_ObjectMap.Keys)
+                    entries[index++] = key;
+                return entries;
+            }
+        }
+
         void IResourceHelper.OnInit(string rootPath)
         {
 
