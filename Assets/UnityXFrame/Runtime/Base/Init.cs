@@ -48,6 +48,7 @@ namespace UnityXFrame.Core
         private void OnApplicationFocus(bool focus)
         {
             Entry.Trigger<ISaveable>();
+            Entry.Trigger<IAppFocus>();
         }
 
         private void OnApplicationPause(bool pause)
