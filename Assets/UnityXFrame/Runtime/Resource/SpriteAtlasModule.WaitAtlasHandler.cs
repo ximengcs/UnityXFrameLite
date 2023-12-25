@@ -1,6 +1,7 @@
 ﻿
 using System;
 using UnityEngine.U2D;
+using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Resource;
 
 namespace UnityXFrame.Core.Resource
@@ -17,7 +18,9 @@ namespace UnityXFrame.Core.Resource
                 get
                 {
                     if (m_AtlasTask.Res == null)
+                    {
                         throw new NullReferenceException($"SpriteAtlasModule Handler Error, Name : {m_SpriteName}");
+                    }
                     return m_AtlasTask.Res.GetSprite(m_SpriteName);
                 }
             }
