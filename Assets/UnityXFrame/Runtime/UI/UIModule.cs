@@ -520,7 +520,21 @@ namespace UnityXFrame.Core.UIElements
 
         internal int SetUIGroupLayer(IUIGroup group, int layer)
         {
-            return SetLayer(m_Root, group, layer);
+            return SetLayer(m_Root, group, layer, InnerGroupLayerChange);
+        }
+
+        internal void InnerGroupLayerChange(Transform tf, int index)
+        {
+            foreach (var uiGroupNode in m_GroupList)
+            {
+                IUIGroup group = uiGroupNode.Value;
+                ICanUpdateLayerValue valueUpdater = group as ICanUpdateLayerValue;
+                if (group.Root == tf && valueUpdater != null)
+                {
+                    valueUpdater.SetLayerValue(index);
+                    break;
+                }
+            }
         }
         #endregion
     }

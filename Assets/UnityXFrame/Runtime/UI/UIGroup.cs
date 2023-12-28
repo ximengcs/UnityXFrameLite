@@ -3,12 +3,10 @@ using UnityEngine;
 using XFrame.Collections;
 using XFrame.Modules.Event;
 using System.Collections.Generic;
-using XFrame.Core;
-using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.UIElements
 {
-    public partial class UIGroup : IUIGroup
+    public partial class UIGroup : IUIGroup, ICanUpdateLayerValue
     {
         private int m_Layer;
         private bool m_Active;
@@ -347,6 +345,25 @@ namespace UnityXFrame.Core.UIElements
         public void SetIt(XItType type)
         {
             m_UIs.SetIt(type);
+        }
+
+        internal void InnerUIIndexChange(Transform tf, int index)
+        {
+            foreach (var uiNode in m_UIs)
+            {
+                IUI ui = uiNode.Value;
+                ICanUpdateLayerValue valueUpdater = ui as ICanUpdateLayerValue;
+                if (ui.Root == tf && valueUpdater != null)
+                {
+                    valueUpdater.SetLayerValue(index);
+                    break;
+                }
+            }
+        }
+
+        void ICanUpdateLayerValue.SetLayerValue(int layer)
+        {
+            m_Layer = layer;
         }
     }
 }

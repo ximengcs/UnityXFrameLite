@@ -239,7 +239,7 @@ namespace Game.Test
                 Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0.2f, 0, 0, 1));
-                }, Constant.LOCAL_RES_MODULE, 1);
+                }, Constant.COMMON_RES_MODULE, 1);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Open Dialog 2"))
@@ -247,7 +247,7 @@ namespace Game.Test
                 Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.2f, 0, 1));
-                }, Constant.LOCAL_RES_MODULE, 2);
+                }, Constant.COMMON_RES_MODULE, 2);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Open Dialog 3"))
@@ -255,7 +255,7 @@ namespace Game.Test
                 Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.5f, 0, 1));
-                }, Constant.LOCAL_RES_MODULE, 3);
+                }, Constant.COMMON_RES_MODULE, 3);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Open Dialog 4"))
@@ -263,7 +263,7 @@ namespace Game.Test
                 Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.8f, 0, 1));
-                }, Constant.LOCAL_RES_MODULE, 4);
+                }, Constant.COMMON_RES_MODULE, 4);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Close Dialog 1"))

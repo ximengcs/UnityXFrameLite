@@ -26,6 +26,16 @@ namespace Game.Test
     public class DebugCommands
     {
         [DebugCommand]
+        public void layer(string l)
+        {
+            IUIGroup group = Global.UI.GetOrNewGroup(l);
+            foreach (IUI ui in group)
+            {
+                Debug.LogWarning($"{ui.Name} {ui.Layer}");
+            }
+        }
+
+        [DebugCommand]
         public void test()
         {
             Name name = "yanying_series#1_layer#2_pos#l";

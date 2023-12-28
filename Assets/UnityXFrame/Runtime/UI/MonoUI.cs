@@ -11,7 +11,7 @@ using XFrame.Core;
 namespace UnityXFrame.Core.UIElements
 {
     [DefaultExecutionOrder(Constant.EXECORDER_AFTER)]
-    public abstract partial class MonoUI : MonoBehaviour, IUI
+    public abstract partial class MonoUI : MonoBehaviour, IUI, ICanUpdateLayerValue
     {
         private bool m_Active;
         protected bool m_IsOpen;
@@ -27,7 +27,11 @@ namespace UnityXFrame.Core.UIElements
         public int Layer
         {
             get { return m_Layer; }
-            set { m_Layer = UIModule.SetLayer(m_Transform.parent, this, value); }
+            set
+            {
+                UIGroup group = m_Group as UIGroup;
+                m_Layer = UIModule.SetLayer(m_Transform.parent, this, value, group.InnerUIIndexChange);
+            }
         }
 
         public bool Active
@@ -67,6 +71,11 @@ namespace UnityXFrame.Core.UIElements
         public string Name => m_Root.name;
 
         public IContainer Master => m_Container.Master;
+
+        void ICanUpdateLayerValue.SetLayerValue(int layer)
+        {
+            m_Layer = layer;
+        }
 
         public void Open()
         {

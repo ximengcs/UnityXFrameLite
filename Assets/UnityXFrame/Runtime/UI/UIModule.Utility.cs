@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UnityXFrame.Core.UIElements
 {
     public partial class UIModule
     {
-        internal static int SetLayer(Transform root, IUIElement element, int layer)
+        internal static int SetLayer(Transform root, IUIElement element, int layer, Action<Transform, int> onIndexChange)
         {
             if (root.childCount == 0)
                 return 0;
@@ -38,7 +39,10 @@ namespace UnityXFrame.Core.UIElements
             {
                 Transform child = list[i];
                 if (child.GetSiblingIndex() != i)
+                {
                     child.SetSiblingIndex(i);
+                    onIndexChange(child, i);
+                }
             }
             return layer;
         }

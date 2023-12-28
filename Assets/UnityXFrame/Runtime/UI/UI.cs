@@ -9,11 +9,11 @@ namespace UnityXFrame.Core.UIElements
     /// <summary>
     /// UI基类
     /// </summary>
-    public abstract partial class UI : Container, IUI
+    public abstract partial class UI : Container, IUI, ICanUpdateLayerValue
     {
         private bool m_Active;
+        private int m_Layer;
 
-        protected int m_Layer;
         protected bool m_IsOpen;
         protected IUIGroup m_Group;
         protected internal GameObject m_Root;
@@ -25,7 +25,11 @@ namespace UnityXFrame.Core.UIElements
         public int Layer
         {
             get { return m_Layer; }
-            set { m_Layer = UIModule.SetLayer(m_Transform.parent, this, value); }
+            set
+            {
+                UIGroup uiGroup = m_Group as UIGroup;
+                m_Layer = UIModule.SetLayer(m_Transform.parent, this, value, uiGroup.InnerUIIndexChange);
+            }
         }
 
         public bool Active
@@ -61,6 +65,11 @@ namespace UnityXFrame.Core.UIElements
         public RectTransform Root => m_Transform;
 
         public string Name => m_Root.name;
+
+        void ICanUpdateLayerValue.SetLayerValue(int layer)
+        {
+            m_Layer = layer;
+        }
 
         public void Open()
         {
