@@ -58,14 +58,7 @@ namespace Game.Test
         {
             if (DebugGUI.Button("Test"))
             {
-                ResLoadTask<TextAsset> task = Global.Res.LoadAsync<TextAsset>("Config/Perch.txt");
-                Log.Debug($"Task {task.GetHashCode()}");
-                task.OnComplete((asset) =>
-                {
-                    Log.Debug(asset.text);
-                }).StartWithDelete();
-                GameObject prefab = Global.LocalRes.Load<GameObject>("Data/Prefab/Test.prefab");
-                Log.Debug(prefab.name);
+                UIModuleExt.CollectAutoTask().Start();
             }
             if (DebugGUI.Button("Test2"))
             {
@@ -239,7 +232,7 @@ namespace Game.Test
                 Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0.2f, 0, 0, 1));
-                }, Constant.COMMON_RES_MODULE, 1);
+                }, Constant.LOCAL_RES_MODULE, 1);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Open Dialog 2"))
@@ -247,7 +240,7 @@ namespace Game.Test
                 Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.2f, 0, 1));
-                }, Constant.COMMON_RES_MODULE, 2);
+                }, Constant.LOCAL_RES_MODULE, 2);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Open Dialog 3"))
@@ -255,7 +248,7 @@ namespace Game.Test
                 Global.UI.Open<DialogUI>((ui) =>
                 {
                     ui.SetData(new Color(0, 0.5f, 0, 1));
-                }, Constant.COMMON_RES_MODULE, 3);
+                }, Constant.LOCAL_RES_MODULE, 3);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
             if (DebugGUI.Button("Open Dialog 4"))

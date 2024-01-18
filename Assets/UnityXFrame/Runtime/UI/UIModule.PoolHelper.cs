@@ -13,6 +13,8 @@ namespace UnityXFrame.Core.UIElements
         private interface IUIPoolHelper : IPoolHelper
         {
             ITask PreloadRes(IEnumerable<Type> types, int useResModule);
+
+            ITask PreloadRes(Type type, int useResModule);
         }
 
         private class DefaultUIPoolHelper : IUIPoolHelper
@@ -25,6 +27,11 @@ namespace UnityXFrame.Core.UIElements
                 foreach (Type type in types)
                     uiPaths.Add(InnerUIPath(type));
                 return Entry.GetModule<IResModule>(useResModule).Preload<GameObject>(uiPaths);
+            }
+
+            ITask IUIPoolHelper.PreloadRes(Type type, int useResModule)
+            {
+                return Entry.GetModule<IResModule>(useResModule).Preload<GameObject>(InnerUIPath(type));
             }
 
             IPoolObject IPoolHelper.Factory(Type type, int poolKey, object userData)

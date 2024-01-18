@@ -161,6 +161,11 @@ namespace UnityXFrame.Core.UIElements
             return m_UIModule.PreloadResource(types, useResModule);
         }
 
+        public ITask PreloadResource(Type type, int useResModule)
+        {
+            return m_UIModule.PreloadResource(type, useResModule);
+        }
+
         public ITask Spwan(IEnumerable<Type> types, int useResModule)
         {
             return m_UIModule.Spwan(types, useResModule);

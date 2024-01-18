@@ -1,0 +1,6 @@
+<linker>
+	<assembly fullname="XFrame" preserve="all"/>
+	<assembly fullname="UnityXFrame" preserve="all"/>
+	<assembly fullname="UnityXFrame.Lib" preserve="all"/>
+	<assembly fullname="UnityEngine.ResourceManagement" preserve="all"/>
+</linker>

@@ -9,7 +9,7 @@ namespace UnityXFrameLib.UIElements
 
         public UIAutoAttribute(int useResModule)
         {
-            useResModule = UseResModule;
+            UseResModule = useResModule;
         }
     }
 }

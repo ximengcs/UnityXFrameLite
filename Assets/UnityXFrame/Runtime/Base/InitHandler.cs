@@ -9,7 +9,7 @@ namespace UnityXFrame.Core
     {
         public void EnterHandle()
         {
-            
+
         }
 
         public ITask BeforeHandle()

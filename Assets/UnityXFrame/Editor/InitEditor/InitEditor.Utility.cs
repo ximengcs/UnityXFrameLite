@@ -49,6 +49,7 @@ namespace UnityXFrame.Editor
                 PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, symbols.ToString());
                 PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Android, symbols.ToString());
                 PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.iOS, symbols.ToString());
+                PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.WebGL, symbols.ToString());
             }
 
             public static void Lable(string lable)

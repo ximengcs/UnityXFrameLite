@@ -19,6 +19,7 @@ namespace UnityXFrame.Core.UIElements
         ITask PreloadResource(IEnumerable<Type> types, int useResModule);
 
         ITask PreloadResource(IXEnumerable<Type> types, int useResModule);
+        ITask PreloadResource(Type type, int useResModule);
 
         ITask Spwan(IEnumerable<Type> types, int useResModule);
 

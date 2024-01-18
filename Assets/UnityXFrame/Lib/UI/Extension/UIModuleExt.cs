@@ -1,7 +1,6 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
-using XFrame.Core;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using XFrame.Modules.Tasks;
@@ -39,6 +38,14 @@ namespace UnityXFrameLib.UIElements
             return DOTween.To(() => group.alpha, (pos) => group.alpha = pos, target, duration);
         }
 
+        public static List<ITask> CollectAllAutoTask()
+        {
+            List<ITask> list = new List<ITask>(16);
+            InnerCollectInfo(Global.Type.GetOrNewWithAttr<AutoLoadUIAttribute>(), Global.UI.PreloadResource, list);
+            InnerCollectInfo(Global.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), Global.UI.Spwan, list);
+            return list;
+        }
+
         public static ITask CollectAutoTask()
         {
             XTask task = Global.Task.GetOrNew<XTask>();
@@ -65,6 +72,19 @@ namespace UnityXFrameLib.UIElements
             foreach (var entry in map)
                 task.Add(handler(entry.Value, entry.Key));
             return task;
+        }
+
+        private static void InnerCollectInfo(TypeSystem typeSys, Func<Type, int, ITask> handler, List<ITask> result)
+        {
+            foreach (Type type in typeSys)
+            {
+                UIAutoAttribute attr = Global.Type.GetAttribute<UIAutoAttribute>(type);
+                if (attr != null)
+                {
+                    ITask task = handler(type, attr.UseResModule);
+                    result.Add(task);
+                }
+            }
         }
     }
 }

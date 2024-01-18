@@ -87,6 +87,11 @@ namespace UnityXFrame.Core.UIElements
             return m_Helper.PreloadRes((IEnumerable<Type>)types, useResModule);
         }
 
+        public ITask PreloadResource(Type type, int useResModule)
+        {
+            return m_Helper.PreloadRes(type, useResModule);
+        }
+
         public ITask Spwan(IEnumerable<Type> types, int useResModule)
         {
             ActionTask task = Global.Task.GetOrNew<ActionTask>();
