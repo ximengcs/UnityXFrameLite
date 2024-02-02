@@ -17,6 +17,7 @@ namespace UnityXFrame.Core
             XConfig.DefaultRes = Data.ResMode;
             XConfig.DefaultLogger = Data.Logger;
             XConfig.ArchivePath = Constant.ArchivePath;
+            XConfig.ArchiveUtilityHelper = Data.ArchiveUtilityHelper;
             XConfig.DefaultDownloadHelper = Data.DownloadHelper;
             XConfig.UseClassModule = Constant.TYPESYSTEM_MODULE;
             Entry.Init();
