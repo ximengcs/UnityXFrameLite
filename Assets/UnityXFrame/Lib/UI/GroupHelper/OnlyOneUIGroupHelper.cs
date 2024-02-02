@@ -34,9 +34,9 @@ namespace UnityXFrameLib.UIElements
             {
                 m_Opening = null;
                 m_CurOpenUI = ui;
+                InnerOpenUI(m_CurOpenUI);
                 if (!m_IsOpen)
                 {
-                    InnerOpenUI(m_CurOpenUI);
                     m_IsOpen = true;
                 }
             });
@@ -59,11 +59,11 @@ namespace UnityXFrameLib.UIElements
             DoClose(ui, () =>
             {
                 InnerSetUIActive(ui, false);
+                InnerCloseUI(ui);
                 if (m_CurOpenUI == ui)
                 {
                     if (m_IsOpen)
                     {
-                        InnerCloseUI(ui);
                         m_IsOpen = false;
                     }
                     m_CurOpenUI = null;
