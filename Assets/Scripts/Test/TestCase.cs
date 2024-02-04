@@ -58,7 +58,8 @@ namespace Game.Test
         {
             if (DebugGUI.Button("Test"))
             {
-                UIModuleExt.CollectAutoTask().Start();
+                foreach (Type type in Global.Type.GetAllType())
+                    Debug.LogWarning(type.FullName);
             }
             if (DebugGUI.Button("Test2"))
             {

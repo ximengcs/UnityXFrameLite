@@ -32,7 +32,12 @@ namespace UnityXFrame.Editor
 
             m_SavePath = Constant.CONFIG_PATH;
             m_Obj = new SerializedObject(m_Data);
-            XConfig.UseClassModule = new string[] { "Assembly-CSharp", "Assembly-CSharp-Editor", "UnityXFrame", "UnityXFrame.Lib", "UnityXFrame.Editor" };
+            TypeChecker.IncludeModule("Assembly-CSharp");
+            TypeChecker.IncludeModule("Assembly-CSharp-Editor");
+            TypeChecker.IncludeModule("UnityXFrame");
+            TypeChecker.IncludeModule("UnityXFrame.Lib");
+            TypeChecker.IncludeModule("UnityXFrame.Editor");
+            XConfig.TypeChecker = new TypeChecker();
             m_FrameCore = XCore.Create(typeof(TypeModule));
 
             ITypeModule typeModule = m_FrameCore.GetModule<ITypeModule>();
