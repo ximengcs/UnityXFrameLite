@@ -42,7 +42,6 @@ namespace UnityXFrame.Core
             TypeChecker.ExcludeNameSpace("CsvHelper.Expressions");
             TypeChecker.ExcludeNameSpace("CsvHelper.TypeConversion");
             TypeChecker.ExcludeNameSpace("RailwaySharp.ErrorHandling");
-            TypeChecker.ExcludeNameSpace("RailwaySharp.ErrorHandling");
         }
 
         private void Start()
