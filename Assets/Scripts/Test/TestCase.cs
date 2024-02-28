@@ -5,9 +5,12 @@ using Game.Core.Procedure;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
 using Test;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 using UnityXFrame.Core;
@@ -24,9 +27,9 @@ using XFrame.Modules.Datas;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Event;
 using XFrame.Modules.Local;
+using XFrame.Modules.NewTasks;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
-using XFrame.Modules.Tasks;
 using XFrame.Modules.Times;
 
 namespace Game.Test
@@ -54,21 +57,70 @@ namespace Game.Test
             return finish;
         }
 
+        private XTask m_Task;
+        private XTask m_Task2;
+
+        private async XTask InnerTest()
+        {
+            Debug.LogWarning("1");
+            await Task.Delay(1000);
+            Debug.LogWarning("2");
+            await Task.Delay(3000);
+            Debug.LogWarning("3");
+            m_Task2 = InnerTest2();
+            m_Task2.OnCancel(() =>
+            {
+                Log.Debug("Cancel task2");
+            }).OnComplete(() =>
+            {
+                Log.Debug("Complete task2");
+            });
+            await m_Task2;
+        }
+
+        private async XTask InnerTest2()
+        {
+            Debug.LogWarning("4");
+            throw new Exception("4 exp");
+            await Task.Delay(3000);
+            Debug.LogWarning("5");
+        }
+
         public void OnDraw()
         {
             if (DebugGUI.Button("Test"))
             {
-                foreach (Type type in Global.Type.GetAllType())
-                    Debug.LogWarning(type.FullName);
+                //foreach (Type type in Global.Type.GetAllType())
+                //    Debug.LogWarning(type.FullName);
+                XTask.ExceptionHandler += (e) =>
+                {
+                    Debug.LogException(e);
+                };
+                m_Task = InnerTest();
+                m_Task.OnCancel(() =>
+                {
+                    Log.Debug("Cancel task1");
+                }).OnComplete(() =>
+                {
+                    Log.Debug("Complete task1");
+                });
+            }
+            if (DebugGUI.Button("Cancel"))
+            {
+                m_Task.Cancel();
+            }
+            if (DebugGUI.Button("Cancel2"))
+            {
+                m_Task2.Cancel();
             }
             if (DebugGUI.Button("Test2"))
             {
-                ResLoadTask<TextAsset> task = Global.Res.LoadAsync<TextAsset>("Config/Prop.csv");
-                Log.Debug($"Task {task.GetHashCode()}");
-                task.OnComplete((asset) =>
-                {
-                    Log.Debug(asset.text);
-                }).StartWithDelete();
+                //ResLoadTask<TextAsset> task = Global.Res.LoadAsync<TextAsset>("Config/Prop.csv");
+                //Log.Debug($"Task {task.GetHashCode()}");
+                //task.OnComplete((asset) =>
+                //{
+                //    Log.Debug(asset.text);
+                //}).StartWithDelete();
             }
             if (DebugGUI.Button("Download 1"))
             {
