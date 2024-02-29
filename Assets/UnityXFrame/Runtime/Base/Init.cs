@@ -13,13 +13,35 @@ namespace UnityXFrame.Core
 
         private void Awake()
         {
+            InnerConfigType();
             XConfig.Entrance = Data.Entrance;
             XConfig.DefaultRes = Data.ResMode;
             XConfig.DefaultLogger = Data.Logger;
             XConfig.ArchivePath = Constant.ArchivePath;
+            XConfig.ArchiveUtilityHelper = Data.ArchiveUtilityHelper;
             XConfig.DefaultDownloadHelper = Data.DownloadHelper;
-            XConfig.UseClassModule = Constant.TYPESYSTEM_MODULE;
+            XConfig.TypeChecker = new TypeChecker();
+
             Entry.Init();
+        }
+
+        private void InnerConfigType()
+        {
+            TypeChecker.IncludeModule("Assembly-CSharp");
+            TypeChecker.IncludeModule("UnityXFrame");
+            TypeChecker.IncludeModule("UnityXFrame.Lib");
+            TypeChecker.ExcludeNameSpace("CommandLine");
+            TypeChecker.ExcludeNameSpace("CommandLine.Core");
+            TypeChecker.ExcludeNameSpace("CommandLine.Infrastructure");
+            TypeChecker.ExcludeNameSpace("CommandLine.Text");
+            TypeChecker.ExcludeNameSpace("CSharpx");
+            TypeChecker.ExcludeNameSpace("CsvHelper");
+            TypeChecker.ExcludeNameSpace("CsvHelper.Configuration");
+            TypeChecker.ExcludeNameSpace("CsvHelper.Configuration.Attributes");
+            TypeChecker.ExcludeNameSpace("CsvHelper.Delegates");
+            TypeChecker.ExcludeNameSpace("CsvHelper.Expressions");
+            TypeChecker.ExcludeNameSpace("CsvHelper.TypeConversion");
+            TypeChecker.ExcludeNameSpace("RailwaySharp.ErrorHandling");
         }
 
         private void Start()

@@ -27,7 +27,12 @@ namespace UnityXFrame.Editor
                 return;
             m_Inst = this;
             Utility.Init();
-            XConfig.UseClassModule = new string[] { "Assembly-CSharp", "UnityXFrame", "UnityXFrame.Lib", "UnityXFrame.Editor" };
+
+            TypeChecker.IncludeModule("Assembly-CSharp");
+            TypeChecker.IncludeModule("UnityXFrame");
+            TypeChecker.IncludeModule("UnityXFrame.Lib");
+            TypeChecker.IncludeModule("UnityXFrame.Editor");
+            XConfig.TypeChecker = new TypeChecker();
             m_FrameCore = XCore.Create(typeof(TypeModule));
             m_Editors = new XLinkList<IDataEditor>();
             m_EditorType = m_FrameCore.GetModule<TypeModule>().GetOrNew<IDataEditor>();

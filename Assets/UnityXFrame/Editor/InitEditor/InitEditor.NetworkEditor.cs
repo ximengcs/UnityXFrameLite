@@ -22,8 +22,8 @@ namespace UnityXFrame.Editor
                 m_HelperTypeNames = new string[Types.Length];
                 for (int i = 0; i < Types.Length; i++)
                 {
-                    string name = Types[i].Name;
-                    m_HelperTypeNames[i] = name;
+                    string name = Types[i].FullName;
+                    m_HelperTypeNames[i] = Types[i].Name;
                     if (name == m_Data.DownloadHelper)
                         m_HelperTypeIndex = i;
                 }

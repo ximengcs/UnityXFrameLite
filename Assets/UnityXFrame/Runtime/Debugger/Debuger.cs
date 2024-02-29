@@ -543,7 +543,7 @@ namespace UnityXFrame.Core.Diagnotics
                 float target = m_HelpOpen ? m_HelpHeight : 0;
                 m_HelpWindowStyle.fixedHeight = target;
             }
-            if (GUILayout.Button(m_Collapsing ? "▷" : "▼", m_CollapseButton))
+            if (GUILayout.Button(m_Collapsing ? ">" : "v", m_CollapseButton))
                 InnerCollapse();
             if (GUILayout.Button("X", m_CloseButtonStyle))
                 InnerClose();
