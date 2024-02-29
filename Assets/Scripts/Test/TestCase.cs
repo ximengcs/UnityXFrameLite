@@ -43,6 +43,7 @@ namespace Game.Test
         {
             m_Time = 0.5f;
         }
+
         private IEventSystem m_Sys;
 
         private void Inner1(XEvent e)
@@ -51,6 +52,7 @@ namespace Game.Test
         }
 
         private bool finish = false;
+
         private bool Inner2(XEvent e)
         {
             Debug.LogWarning("Inner2");
@@ -68,22 +70,59 @@ namespace Game.Test
             await Task.Delay(3000);
             Debug.LogWarning("3");
             m_Task2 = InnerTest2();
-            m_Task2.OnCancel(() =>
-            {
-                Log.Debug("Cancel task2");
-            }).OnComplete(() =>
-            {
-                Log.Debug("Complete task2");
-            });
+            m_Task2.OnCancel(() => { Log.Debug("Cancel task2"); }).OnComplete(() => { Log.Debug("Complete task2"); });
             await m_Task2;
+        }
+
+        private bool TheData;
+
+        public async Task<bool> GetTheData()
+        {
+            while (TheData != true)
+                await Task.Yield();
+
+            return TheData;
         }
 
         private async XTask InnerTest2()
         {
             Debug.LogWarning("4");
-            throw new Exception("4 exp");
             await Task.Delay(3000);
             Debug.LogWarning("5");
+            int value = await InnerTest3();
+            Debug.LogWarning($"value {value}");
+            InnerTest4();
+        }
+
+        private async XTask<int> InnerTest3()
+        {
+            await Task.Delay(1000);
+            return 9;
+        }
+
+        private async XVoid InnerTest4()
+        {
+            Debug.LogWarning("InnerTest4 1");
+            await Task.Delay(1000);
+            InnerTest5();
+            Debug.LogWarning("InnerTest4 2");
+        }
+
+        private async XVoid InnerTest5()
+        {
+            Debug.LogWarning("InnerTest4 1");
+            Debug.LogWarning("InnerTest4 2");
+        }
+
+        private XProTask protask;
+        private async XTask InnerTest6()
+        {
+            Debug.LogWarning("Start");
+            protask = new XProTask(new DOTweenProgress());
+            protask.OnUpdate((pro) => Debug.LogWarning($"Pro {pro}"));
+            protask.OnComplete(() => Debug.LogWarning("OnComplete"));
+            await protask;
+            Debug.LogWarning("End");
         }
 
         public void OnDraw()
@@ -92,44 +131,41 @@ namespace Game.Test
             {
                 //foreach (Type type in Global.Type.GetAllType())
                 //    Debug.LogWarning(type.FullName);
-                XTask.ExceptionHandler += (e) =>
-                {
-                    Debug.LogException(e);
-                };
+                XTask.ExceptionHandler += (e) => { Debug.LogException(e); };
                 m_Task = InnerTest();
-                m_Task.OnCancel(() =>
-                {
-                    Log.Debug("Cancel task1");
-                }).OnComplete(() =>
-                {
-                    Log.Debug("Complete task1");
-                });
+                m_Task.OnCancel(() => { Log.Debug("Cancel task1"); })
+                    .OnComplete(() => { Log.Debug("Complete task1"); });
             }
+
             if (DebugGUI.Button("Cancel"))
             {
                 m_Task.Cancel();
             }
+
             if (DebugGUI.Button("Cancel2"))
             {
                 m_Task2.Cancel();
             }
+
             if (DebugGUI.Button("Test2"))
             {
-                //ResLoadTask<TextAsset> task = Global.Res.LoadAsync<TextAsset>("Config/Prop.csv");
-                //Log.Debug($"Task {task.GetHashCode()}");
-                //task.OnComplete((asset) =>
-                //{
-                //    Log.Debug(asset.text);
-                //}).StartWithDelete();
+                InnerTest6().Coroutine();
             }
+            if (DebugGUI.Button("Cancel Test2"))
+            {
+                protask.Cancel();
+            }
+
             if (DebugGUI.Button("Download 1"))
             {
                 Download(new HashSet<string>() { "Config/Perch.txt" });
             }
+
             if (DebugGUI.Button("Download 2"))
             {
                 Download(new HashSet<string>() { "Assets/Data/Textures/Perch.txt" });
             }
+
             if (DebugGUI.Button("Download 3"))
             {
                 Download(new HashSet<string>() { "Config/Perch.txt", "Assets/Data/Textures/Perch.txt" });
@@ -147,38 +183,42 @@ namespace Game.Test
                 timer3.Record(30);
                 timer3.Reset();
             }
+
             if (DebugGUI.Button("New EvtSys"))
             {
                 m_Sys = Global.Event.NewSys();
             }
+
             if (DebugGUI.Button("Test1"))
             {
                 m_Sys.Listen(1, Inner1);
-
             }
+
             if (DebugGUI.Button("Test2"))
             {
                 m_Sys.Listen(1, Inner2);
             }
+
             if (DebugGUI.Button("Test3"))
             {
                 m_Sys.Trigger(1);
             }
+
             if (DebugGUI.Button("Test4"))
             {
                 finish = true;
             }
+
             if (DebugGUI.Button("Add Table"))
             {
                 Global.Res.LoadAsync<TextAsset>("Config/Prop.csv").OnComplete((asset) =>
                 {
                     //DataModule.Inst.Add<Prop>(asset.text, Constant.CSV_TYPE);
                     Debug.LogWarning("complete");
-                }).OnUpdate((pro) =>
-                {
-                    Debug.LogWarning(pro);
-                }).Start();
-            };
+                }).OnUpdate((pro) => { Debug.LogWarning(pro); }).Start();
+            }
+
+            ;
             if (DebugGUI.Button("Table"))
             {
                 TextAsset text = Global.Res.Load<TextAsset>("Config/Prop.csv");
@@ -217,9 +257,11 @@ namespace Game.Test
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test1 UI");
             if (DebugGUI.Button("-"))
-                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer--;
+                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE)
+                    .Layer--;
             if (DebugGUI.Button("+"))
-                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE).Layer++;
+                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE)
+                    .Layer++;
             if (DebugGUI.Button("Close"))
                 Global.UI.Close<DialogUI>();
             GUILayout.EndHorizontal();
@@ -227,9 +269,11 @@ namespace Game.Test
             GUILayout.BeginHorizontal();
             DebugGUI.Label("Test2 UI");
             if (DebugGUI.Button("-"))
-                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer--;
+                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2)
+                    .Layer--;
             if (DebugGUI.Button("+"))
-                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2).Layer++;
+                Global.UI.Open<DialogUI>((ui) => ui.SetData(new Color(0.2f, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE, 2)
+                    .Layer++;
             if (DebugGUI.Button("Close"))
                 Global.UI.Close<DialogUI>(2);
             GUILayout.EndHorizontal();
@@ -251,6 +295,7 @@ namespace Game.Test
                 OnlyOneUIGroupHelper helper = Global.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
                 helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
             }
+
             if (DebugGUI.Button("Init Group2"))
             {
                 MultiUIGroupHelper helper = Global.UI.MainGroup.AddHelper<MultiUIGroupHelper>();
@@ -259,12 +304,14 @@ namespace Game.Test
                 //        new AnimatorTriggerEffect("Close", "Close"));
                 helper.SetEffect(new AnimatorStateEffect("Open"), new AnimatorStateEffect("Close"));
             }
+
             if (DebugGUI.Button("Init Group3"))
             {
                 Global.UI.GetOrNewGroup("Test");
                 OnlyOneUIGroupHelper helper = Global.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
                 helper.SetEffect(new ScaleEffect(Vector2.one, 2), new ScaleEffect(Vector2.one, Vector2.zero, 2));
             }
+
             if (DebugGUI.Button("Init Group4"))
             {
                 //UIModule.Inst.MainGroup.AddHelper<OnlyOneUIGroupHelper>((helper) =>
@@ -272,98 +319,109 @@ namespace Game.Test
                 //    helper.SetEffect(new FadeEffect(1, 0.5f), new FadeEffect(1, 0, 0.5f));
                 //});
             }
+
             if (DebugGUI.Button("Open Setting"))
             {
                 Global.UI.Open<SettingUI>("Test", null, Constant.LOCAL_RES_MODULE);
             }
+
             if (DebugGUI.Button("Open Setting2"))
             {
                 Global.UI.Open<SettingUI>(null, Constant.LOCAL_RES_MODULE);
             }
+
             if (DebugGUI.Button("Open Dialog 1"))
             {
-                Global.UI.Open<DialogUI>((ui) =>
-                {
-                    ui.SetData(new Color(0.2f, 0, 0, 1));
-                }, Constant.LOCAL_RES_MODULE, 1);
+                Global.UI.Open<DialogUI>((ui) => { ui.SetData(new Color(0.2f, 0, 0, 1)); }, Constant.LOCAL_RES_MODULE,
+                    1);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
+
             if (DebugGUI.Button("Open Dialog 2"))
             {
-                Global.UI.Open<DialogUI>((ui) =>
-                {
-                    ui.SetData(new Color(0, 0.2f, 0, 1));
-                }, Constant.LOCAL_RES_MODULE, 2);
+                Global.UI.Open<DialogUI>((ui) => { ui.SetData(new Color(0, 0.2f, 0, 1)); }, Constant.LOCAL_RES_MODULE,
+                    2);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
+
             if (DebugGUI.Button("Open Dialog 3"))
             {
-                Global.UI.Open<DialogUI>((ui) =>
-                {
-                    ui.SetData(new Color(0, 0.5f, 0, 1));
-                }, Constant.LOCAL_RES_MODULE, 3);
+                Global.UI.Open<DialogUI>((ui) => { ui.SetData(new Color(0, 0.5f, 0, 1)); }, Constant.LOCAL_RES_MODULE,
+                    3);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
+
             if (DebugGUI.Button("Open Dialog 4"))
             {
-                Global.UI.Open<DialogUI>((ui) =>
-                {
-                    ui.SetData(new Color(0, 0.8f, 0, 1));
-                }, Constant.COMMON_RES_MODULE, 4);
+                Global.UI.Open<DialogUI>((ui) => { ui.SetData(new Color(0, 0.8f, 0, 1)); }, Constant.COMMON_RES_MODULE,
+                    4);
                 //AudioModule.Inst.PlayAsync("a1.wav");
             }
+
             if (DebugGUI.Button("Close Dialog 1"))
             {
                 Global.UI.Close<DialogUI>(1);
             }
+
             if (DebugGUI.Button("Close Dialog 2"))
             {
                 Global.UI.Close<DialogUI>(2);
             }
+
             if (DebugGUI.Button("Close Dialog 3"))
             {
                 Global.UI.Close<DialogUI>(3);
             }
+
             if (DebugGUI.Button("Close Dialog 4"))
             {
                 Global.UI.Close<DialogUI>(4);
             }
+
             if (DebugGUI.Button("GC"))
             {
                 //GCModule.Inst.Request()
                 //    .OnComplete(() => Log.Debug("Complete GC"))
                 //    .Start();
             }
+
             if (DebugGUI.Button("Test"))
             {
                 Global.Audio.PlayAsync("TestAudio.mp3", "Bgm")
                     .OnComplete((audio) => m_TestAudio = audio);
             }
+
             if (DebugGUI.Button("Test2"))
             {
                 Global.Audio.PlayLoopAsync("TestAudio.mp3", "Bgm")
                     .OnComplete((audio) => m_TestAudio = audio);
             }
+
             if (DebugGUI.Button("Test2"))
             {
                 Global.Audio.PlayAsync("TestAudio.mp3", "Bgm");
             }
+
             if (DebugGUI.Button("Stop Bgm Group"))
             {
                 Global.Audio.GetOrNewGroup("Bgm").Stop();
             }
+
             if (DebugGUI.Button("Stop"))
             {
                 m_TestAudio.Stop();
             }
+
             if (DebugGUI.Button("Play"))
             {
                 m_TestAudio.Play();
             }
+
             if (DebugGUI.Button("Pause"))
             {
                 m_TestAudio.Pause();
             }
+
             if (DebugGUI.Button("Auto UI Task"))
             {
                 UIModuleExt.CollectAutoTask().Start();
@@ -372,11 +430,12 @@ namespace Game.Test
             if (DebugGUI.Button("Set cmd info"))
             {
                 Global.Debugger.SetCmdHelpInfo("" +
-                    "close\n" +
-                    "open_ui");
+                                               "close\n" +
+                                               "open_ui");
             }
 
-            m_Slider = GUILayout.HorizontalSlider(m_Slider, 1, 120, DebugGUI.Style.HorizontalSlider, DebugGUI.Style.HorizontalSliderThumb);
+            m_Slider = GUILayout.HorizontalSlider(m_Slider, 1, 120, DebugGUI.Style.HorizontalSlider,
+                DebugGUI.Style.HorizontalSliderThumb);
         }
 
         private float m_Slider = 80;
@@ -387,7 +446,6 @@ namespace Game.Test
 
         public void Dispose()
         {
-
         }
 
         public void Download(HashSet<string> perchs)
@@ -410,6 +468,23 @@ namespace Game.Test
                         Log.Debug("Hot update download task has failure.");
                 }).Start();
             }).Start();
+        }
+    }
+
+    public class DOTweenProgress : IProTaskHandler
+    {
+        private float m_Pro;
+
+        public object Data { get; }
+        public bool IsDone => m_Pro >= 1;
+        public float Pro => m_Pro;
+
+        public DOTweenProgress()
+        {
+            m_Pro = 0;
+            DOTween.To(
+                () => m_Pro,
+                (v) => m_Pro = v, 1, 10);
         }
     }
 }

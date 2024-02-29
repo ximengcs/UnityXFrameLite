@@ -9,7 +9,7 @@ namespace XFrame.Modules.NewTasks
         public static ConcurrentQueue<StateMachineWraper<T>>
             s_CacheQueue = new ConcurrentQueue<StateMachineWraper<T>>();
 
-        public static StateMachineWraper<T> Require(ref T stateMachine, ICanelTask task, ITaskBinder binder)
+        public static StateMachineWraper<T> Require(ref T stateMachine, ICancelTask task)
         {
             if (!s_CacheQueue.TryDequeue(out StateMachineWraper<T> wraper))
             {
@@ -18,7 +18,6 @@ namespace XFrame.Modules.NewTasks
 
             wraper.m_StateMachine = stateMachine;
             wraper.m_Task = task;
-            wraper.m_Binder = binder;
             return wraper;
         }
 

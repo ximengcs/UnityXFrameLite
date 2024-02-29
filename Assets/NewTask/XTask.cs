@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using UnityEngine;
 
 namespace XFrame.Modules.NewTasks
 {
     [AsyncMethodBuilder(typeof(XTaskAsyncMethodBuilder))]
-    public class XTask : ICriticalNotifyCompletion, ICanelTask
+    public class XTask : ICriticalNotifyCompletion, ICancelTask
     {
         public static Action<Exception> ExceptionHandler;
 
@@ -14,30 +13,33 @@ namespace XFrame.Modules.NewTasks
         private ITaskBinder m_Binder;
         private XTaskCancelToken m_CancelToken;
 
-        XTaskCancelToken ICanelTask.Token
+        XTaskCancelToken ICancelTask.Token
         {
             get
             {
-                if (m_CancelToken == null)
+                if (XTaskHelper.UseToken != null)
+                    m_CancelToken = XTaskHelper.UseToken;
+                else if (m_CancelToken == null)
                     m_CancelToken = XTaskCancelToken.Require();
                 return m_CancelToken;
             }
         }
 
-        internal ITaskBinder Binder => m_Binder;
+        ITaskBinder ICancelTask.Binder => m_Binder;
 
         public bool IsCompleted => m_IsCompleted;
-
-        public XTask()
+        
+        public XTask(XTaskCancelToken cancelToken = null)
         {
+            m_CancelToken = cancelToken;
         }
 
         public void Coroutine()
         {
-            InnerCoroutine();
+            InnerCoroutine().Coroutine();
         }
 
-        private async void InnerCoroutine()
+        private async XVoid InnerCoroutine()
         {
             await this;
         }
@@ -48,7 +50,7 @@ namespace XFrame.Modules.NewTasks
             return this;
         }
 
-        void ICanelTask.Cancel()
+        void ICancelTask.Cancel()
         {
             m_IsCompleted = true;
             m_OnComplete = null;
@@ -58,7 +60,7 @@ namespace XFrame.Modules.NewTasks
         {
             if (m_CancelToken != null)
                 XTaskCancelToken.Release(m_CancelToken);
-            
+
             m_IsCompleted = true;
             if (m_OnComplete != null)
             {
@@ -78,13 +80,13 @@ namespace XFrame.Modules.NewTasks
 
         public void Cancel()
         {
-            ICanelTask cancelTask = this;
+            ICancelTask cancelTask = this;
             cancelTask.Token.Cancel();
         }
-        
+
         public XTask OnCancel(Action handler)
         {
-            ICanelTask cancelTask = this;
+            ICancelTask cancelTask = this;
             cancelTask.Token.AddHandler(handler);
             return this;
         }

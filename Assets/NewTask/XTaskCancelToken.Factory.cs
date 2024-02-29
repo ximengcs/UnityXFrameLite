@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 
 namespace XFrame.Modules.NewTasks
 {
-    internal partial class XTaskCancelToken
+    public partial class XTaskCancelToken
     {
         public const int MAX_CACHE = 1024;
 

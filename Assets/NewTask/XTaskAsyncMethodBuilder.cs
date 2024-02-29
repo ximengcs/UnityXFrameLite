@@ -7,7 +7,7 @@ namespace XFrame.Modules.NewTasks
     public struct XTaskAsyncMethodBuilder
     {
         private XTask m_Task;
-        private ICanelTask m_CanelTask;
+        private ICancelTask m_CancelTask;
 
         public XTask Task => m_Task;
 
@@ -15,12 +15,8 @@ namespace XFrame.Modules.NewTasks
         {
             XTaskAsyncMethodBuilder builder = new XTaskAsyncMethodBuilder();
             builder.m_Task = new XTask();
-            builder.m_CanelTask = builder.m_Task;
+            builder.m_CancelTask = builder.m_Task;
             return builder;
-        }
-
-        public void Coroutine()
-        {
         }
 
         public void SetResult()
@@ -42,10 +38,10 @@ namespace XFrame.Modules.NewTasks
         {
             InnerCheckCancel();
             StateMachineWraper<TStateMachine> wraper =
-                StateMachineWraper<TStateMachine>.Require(ref stateMachine, m_Task, m_Task.Binder);
+                StateMachineWraper<TStateMachine>.Require(ref stateMachine, m_Task);
             awaiter.OnCompleted(wraper.Run);
 
-            ICanelTask cancelTask = awaiter as ICanelTask;
+            ICancelTask cancelTask = awaiter as ICancelTask;
             if (cancelTask != null)
             {
                 cancelTask.Token.AddHandler(stateMachine.MoveNext);
@@ -59,10 +55,10 @@ namespace XFrame.Modules.NewTasks
         {
             InnerCheckCancel();
             StateMachineWraper<TStateMachine> wraper =
-                StateMachineWraper<TStateMachine>.Require(ref stateMachine, m_Task, m_Task.Binder);
+                StateMachineWraper<TStateMachine>.Require(ref stateMachine, m_Task);
             awaiter.UnsafeOnCompleted(wraper.Run);
 
-            ICanelTask cancelTask = awaiter as ICanelTask;
+            ICancelTask cancelTask = awaiter as ICancelTask;
             if (cancelTask != null)
             {
                 cancelTask.Token.AddHandler(stateMachine.MoveNext);
@@ -71,11 +67,7 @@ namespace XFrame.Modules.NewTasks
 
         public void SetException(Exception e)
         {
-            if (e is OperationCanceledException)
-            {
-                Log.Debug(e.ToString());
-            }
-            else
+            if (e is not OperationCanceledException)
             {
                 XTask.ExceptionHandler.Invoke(e);
             }
@@ -87,13 +79,13 @@ namespace XFrame.Modules.NewTasks
 
         private void InnerCheckCancel()
         {
-            if (m_Task.Binder != null)
+            if (m_CancelTask.Binder != null)
             {
-                if (m_Task.Binder.IsDisposed)
-                    m_CanelTask.Token.Cancel();
+                if (m_CancelTask.Binder.IsDisposed)
+                    m_CancelTask.Token.Cancel();
             }
 
-            m_CanelTask.Token.Invoke();
+            m_CancelTask.Token.Invoke();
         }
     }
 }

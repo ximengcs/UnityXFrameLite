@@ -2,7 +2,7 @@
 
 namespace XFrame.Modules.NewTasks
 {
-    internal partial class XTaskCancelToken
+    public partial class XTaskCancelToken
     {
         private bool m_Canceled;
         private Action m_Handler;

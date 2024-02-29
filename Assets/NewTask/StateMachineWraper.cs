@@ -1,24 +1,22 @@
-﻿using XFrame.Modules.Diagnotics;
-using System.Runtime.CompilerServices;
-using UnityEngine;
+﻿using System.Runtime.CompilerServices;
 
 namespace XFrame.Modules.NewTasks
 {
     internal partial class StateMachineWraper<T> where T : IAsyncStateMachine
     {
         private T m_StateMachine;
-        private ICanelTask m_Task;
+        private ICancelTask m_Task;
         private ITaskBinder m_Binder;
 
         private StateMachineWraper()
         {
         }
 
-        private StateMachineWraper(ref T stateMachine, ICanelTask task, ITaskBinder binder)
+        private StateMachineWraper(ref T stateMachine, ICancelTask task)
         {
             m_StateMachine = stateMachine;
             m_Task = task;
-            m_Binder = binder;
+            m_Binder = task.Binder;
         }
 
         public void Clear()
