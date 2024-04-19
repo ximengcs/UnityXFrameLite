@@ -21,6 +21,14 @@ namespace XFrame.Modules.NewTasks
             set => m_Complete = value;
         }
 
+        public XComplete(T defaultValue)
+        {
+            m_Value = defaultValue;
+            m_Complete = false;
+            m_Handler = null;
+            m_Handler2 = null;
+        }
+        
         public void Invoke()
         {
             if (!m_Complete)

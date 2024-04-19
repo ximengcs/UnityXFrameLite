@@ -553,7 +553,7 @@ namespace Game.Test
             m_Pro = 0;
             DOTween.To(
                 () => m_Pro,
-                (v) => m_Pro = v, 1, 10);
+                (v) => m_Pro = v, 1, 5);
         }
     }
 }

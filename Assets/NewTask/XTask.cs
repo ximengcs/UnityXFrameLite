@@ -43,7 +43,7 @@ namespace XFrame.Modules.NewTasks
 
         public XTask(XTaskCancelToken cancelToken = null)
         {
-            m_OnComplete = new XComplete<XTaskState>();
+            m_OnComplete = new XComplete<XTaskState>(XTaskState.Normal);
             m_CancelToken = cancelToken;
             m_Children = new List<ITask>();
         }

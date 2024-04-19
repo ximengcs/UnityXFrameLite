@@ -38,6 +38,22 @@ namespace Game.Test
             {
                 m_Task3.Cancel(true);
             }
+
+            if (DebugGUI.Button("Task 4"))
+            {
+                m_Task4 = Task4();
+                m_Task4.OnCompleted((state) => { Log.Debug($"Task4 complete {state}"); });
+            }
+
+            if (DebugGUI.Button("Cancel Task 4"))
+            {
+                m_Task4.Cancel(true);
+            }
+
+            if (DebugGUI.Button("Cancel pro Task 4"))
+            {
+                m_ProTask4.Cancel(true);
+            }
         }
 
         private XTask m_Task1;
@@ -82,6 +98,20 @@ namespace Game.Test
             await Task.Delay(1000);
             return 9;
         }
+
+        private XTask m_Task4;
+        private XProTask_ m_ProTask4;
+
+        private async XTask Task4()
+        {
+            Log.Debug("Start");
+            m_ProTask4 = new XProTask_(new DOTweenProgress());
+            //m_ProTask4.OnUpdate((pro) => Debug.LogWarning($"Pro {pro}"));
+            m_ProTask4.OnCompleted((state) => Log.Debug($"pro task 4 OnComplete {state}"));
+            await m_ProTask4;
+            Log.Debug("End");
+        }
+
 
         public void Dispose()
         {

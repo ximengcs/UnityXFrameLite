@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Runtime.CompilerServices;
+using Async;
+using UnityEngine;
+using XFrame.Core;
 
 namespace XFrame.Modules.NewTasks
 {
-    [AsyncMethodBuilder(typeof(XTaskAsyncMethodBuilder<>))]
-    public class XTask<T> : ICriticalNotifyCompletion, ICancelTask, ITask
+    public class XProTask_ : ICriticalNotifyCompletion, IUpdater, ICancelTask, ITask
     {
-        private T m_Result;
+        private Action<float> m_OnUpdate;
+        private IProTaskHandler m_ProHandler;
         private XComplete<XTaskState> m_OnComplete;
         private ITaskBinder m_Binder;
         private XTaskCancelToken m_CancelToken;
-        private List<ITask> m_Children;
 
         XTaskCancelToken ICancelTask.Token
         {
@@ -36,27 +37,62 @@ namespace XFrame.Modules.NewTasks
             return this;
         }
 
-        public bool IsCompleted => m_OnComplete.IsComplete;
-        
-        public float Progress => m_OnComplete.IsComplete ? XTaskHelper.MAX_PROGRESS : XTaskHelper.MIN_PROGRESS;
-
-        public XTask(XTaskCancelToken cancelToken = null)
+        public object GetResult()
         {
-            m_OnComplete = new XComplete<XTaskState>(XTaskState.Normal);
-            m_CancelToken = cancelToken;
-            m_Children = new List<ITask>();
+            return m_ProHandler.Data;
         }
 
-        internal void AddChild(ITask task)
+        public bool IsCompleted => m_OnComplete.IsComplete;
+
+        public float Progress => m_ProHandler.Pro;
+
+        public XProTask_(IProTaskHandler handler, XTaskCancelToken cancelToken = null)
         {
-            m_Children.Add(task);
+            m_ProHandler = handler;
+            m_OnComplete = new XComplete<XTaskState>(XTaskState.Normal);
+            m_CancelToken = cancelToken;
+            TestModule.Inst.Register(this);
+        }
+
+        void IUpdater.OnUpdate(float escapeTime)
+        {
+            if (m_CancelToken != null)
+            {
+                if (!m_CancelToken.Canceled && m_OnComplete.IsComplete)
+                    return;
+            }
+            else
+            {
+                if (m_OnComplete.IsComplete)
+                    return;
+            }
+
+            m_OnUpdate?.Invoke(Progress);
+            if (m_Binder != null && m_Binder.IsDisposed)
+            {
+                m_OnComplete.Value = XTaskState.BinderDispose;
+                m_OnComplete.IsComplete = true;
+                m_OnComplete.Invoke();
+            }
+            else if (m_CancelToken != null && m_CancelToken.Canceled)
+            {
+                m_OnComplete.Value = XTaskState.Cancel;
+                m_OnComplete.IsComplete = true;
+                m_OnComplete.Invoke();
+            }
+            else if (m_ProHandler.IsDone)
+            {
+                m_OnComplete.Value = XTaskState.Normal;
+                m_OnComplete.IsComplete = true;
+                m_OnComplete.Invoke();
+            }
         }
 
         void ICancelTask.SetState(XTaskState state)
         {
             m_OnComplete.Value = state;
         }
-        
+
         public void Coroutine()
         {
             InnerCoroutine().Coroutine();
@@ -73,46 +109,40 @@ namespace XFrame.Modules.NewTasks
             return this;
         }
 
+        public void SetResult()
+        {
+            Debug.LogWarning("Set Result");
+            if (m_CancelToken != null && !m_CancelToken.Disposed)
+                XTaskCancelToken.Release(m_CancelToken);
+
+            m_OnUpdate = null;
+            TestModule.Inst.UnRegister(this);
+        }
+
+        public XProTask_ GetAwaiter()
+        {
+            return this;
+        }
+
         public void Cancel(bool subTask)
         {
-            InnerCancel(subTask);
+            InnerCancel();
         }
-        
-        private void InnerCancel(bool subTask)
+
+        private void InnerCancel()
         {
             if (m_OnComplete.IsComplete)
                 return;
             m_OnComplete.IsComplete = true;
 
-            if (subTask)
-            {
-                foreach (ITask task in m_Children)
-                {
-                    task.Cancel(subTask);
-                }
-            }
-
             ICancelTask cancelTask = this;
             cancelTask.Token.Cancel();
         }
 
-        public void SetResult(T result)
-        {
-            if (m_CancelToken != null && !m_CancelToken.Disposed)
-                XTaskCancelToken.Release(m_CancelToken);
 
-            m_Result = result;
-            m_OnComplete.IsComplete = true;
-            m_OnComplete.Invoke();
-        }
-
-        public T GetResult()
+        public ITask OnUpdate(Action<float> handler)
         {
-            return m_Result;
-        }
-
-        public XTask<T> GetAwaiter()
-        {
+            m_OnUpdate += handler;
             return this;
         }
 
