@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace XFrame.Modules.NewTasks
 {
     [AsyncMethodBuilder(typeof(XTaskAsyncMethodBuilder<>))]
-    public class XTask<T> : ICriticalNotifyCompletion, ICancelTask
+    public class XTask<T> : ICriticalNotifyCompletion, ICancelTask, ITask
     {
         private T m_Result;
-        private Action m_OnComplete;
-        private bool m_IsCompleted;
+        private XComplete<XTaskState> m_OnComplete;
         private ITaskBinder m_Binder;
         private XTaskCancelToken m_CancelToken;
+        private List<ITask> m_Children;
 
         XTaskCancelToken ICancelTask.Token
         {
@@ -26,48 +27,83 @@ namespace XFrame.Modules.NewTasks
 
         ITaskBinder ICancelTask.Binder => m_Binder;
 
-        public bool IsCompleted => m_IsCompleted;
+        private XTaskAction m_TaskAction;
+        public XTaskAction TaskAction => m_TaskAction;
+
+        public ITask SetAction(XTaskAction action)
+        {
+            m_TaskAction = action;
+            return this;
+        }
+
+        public bool IsCompleted => m_OnComplete.IsComplete;
+        
+        public float Progress => m_OnComplete.IsComplete ? XTaskHelper.MAX_PROGRESS : XTaskHelper.MIN_PROGRESS;
 
         public XTask(XTaskCancelToken cancelToken = null)
         {
+            m_OnComplete = new XComplete<XTaskState>();
             m_CancelToken = cancelToken;
+            m_Children = new List<ITask>();
         }
 
+        internal void AddChild(ITask task)
+        {
+            m_Children.Add(task);
+        }
+
+        void ICancelTask.SetState(XTaskState state)
+        {
+            m_OnComplete.Value = state;
+        }
+        
         public void Coroutine()
         {
-            InnerCoroutine();
+            InnerCoroutine().Coroutine();
         }
 
-        private async void InnerCoroutine()
+        private async XVoid InnerCoroutine()
         {
             await this;
         }
 
-        public XTask<T> Bind(ITaskBinder binder)
+        public ITask Bind(ITaskBinder binder)
         {
             m_Binder = binder;
             return this;
         }
 
-        void ICancelTask.Cancel()
+        public void Cancel(bool subTask)
         {
-            m_Result = default;
-            m_IsCompleted = true;
-            m_OnComplete = null;
+            InnerCancel(subTask);
+        }
+        
+        private void InnerCancel(bool subTask)
+        {
+            if (m_OnComplete.IsComplete)
+                return;
+            m_OnComplete.IsComplete = true;
+
+            if (subTask)
+            {
+                foreach (ITask task in m_Children)
+                {
+                    task.Cancel(subTask);
+                }
+            }
+
+            ICancelTask cancelTask = this;
+            cancelTask.Token.Cancel();
         }
 
         public void SetResult(T result)
         {
-            if (m_CancelToken != null)
+            if (m_CancelToken != null && !m_CancelToken.Disposed)
                 XTaskCancelToken.Release(m_CancelToken);
 
             m_Result = result;
-            m_IsCompleted = true;
-            if (m_OnComplete != null)
-            {
-                m_OnComplete();
-                m_OnComplete = null;
-            }
+            m_OnComplete.IsComplete = true;
+            m_OnComplete.Invoke();
         }
 
         public T GetResult()
@@ -80,41 +116,27 @@ namespace XFrame.Modules.NewTasks
             return this;
         }
 
-        public void Cancel()
-        {
-            ICancelTask cancelTask = this;
-            cancelTask.Token.Cancel();
-        }
 
-        public XTask<T> OnCancel(Action handler)
+        public ITask OnCompleted(Action<XTaskState> handler)
         {
-            ICancelTask cancelTask = this;
-            cancelTask.Token.AddHandler(handler);
+            m_OnComplete.On(handler);
             return this;
         }
 
-        public XTask<T> OnComplete(Action handler)
+        public ITask OnCompleted(Action handler)
         {
-            if (m_IsCompleted)
-            {
-                handler();
-            }
-            else
-            {
-                m_OnComplete += handler;
-            }
-
+            m_OnComplete.On(handler);
             return this;
         }
 
         void INotifyCompletion.OnCompleted(Action handler)
         {
-            OnComplete(handler);
+            m_OnComplete.On(handler);
         }
 
         void ICriticalNotifyCompletion.UnsafeOnCompleted(Action handler)
         {
-            OnComplete(handler);
+            m_OnComplete.On(handler);
         }
     }
 }

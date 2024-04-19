@@ -42,7 +42,7 @@ namespace XFrame.Modules.NewTasks
         {
             if (e is not OperationCanceledException)
             {
-                XTask.ExceptionHandler.Invoke(e);
+                XTask.ExceptionHandler?.Invoke(e);
             }
         }
 

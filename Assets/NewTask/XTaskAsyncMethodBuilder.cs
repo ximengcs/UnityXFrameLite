@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using XFrame.Modules.Diagnotics;
 
 namespace XFrame.Modules.NewTasks
@@ -38,13 +39,17 @@ namespace XFrame.Modules.NewTasks
         {
             InnerCheckCancel();
             StateMachineWraper<TStateMachine> wraper =
-                StateMachineWraper<TStateMachine>.Require(ref stateMachine, m_Task);
-            awaiter.OnCompleted(wraper.Run);
-
-            ICancelTask cancelTask = awaiter as ICancelTask;
-            if (cancelTask != null)
+                StateMachineWraper<TStateMachine>.Require(ref stateMachine, m_Task, SetResult);
+            ITask task = awaiter as ITask;
+            if (task == null)
             {
-                cancelTask.Token.AddHandler(stateMachine.MoveNext);
+                Log.Warning("XFrame", "Please use new task.");
+                awaiter.OnCompleted(wraper.RunNoState);
+            }
+            else
+            {
+                task.OnCompleted(wraper.Run);
+                m_Task.AddChild(task);
             }
         }
 
@@ -53,23 +58,14 @@ namespace XFrame.Modules.NewTasks
             where TAwaiter : ICriticalNotifyCompletion
             where TStateMachine : IAsyncStateMachine
         {
-            InnerCheckCancel();
-            StateMachineWraper<TStateMachine> wraper =
-                StateMachineWraper<TStateMachine>.Require(ref stateMachine, m_Task);
-            awaiter.UnsafeOnCompleted(wraper.Run);
-
-            ICancelTask cancelTask = awaiter as ICancelTask;
-            if (cancelTask != null)
-            {
-                cancelTask.Token.AddHandler(stateMachine.MoveNext);
-            }
+            AwaitOnCompleted(ref awaiter, ref stateMachine);
         }
 
         public void SetException(Exception e)
         {
             if (e is not OperationCanceledException)
             {
-                XTask.ExceptionHandler.Invoke(e);
+                XTask.ExceptionHandler?.Invoke(e);
             }
         }
 

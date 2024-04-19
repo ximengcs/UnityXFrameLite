@@ -5,11 +5,15 @@ using Game.Core.Procedure;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Test;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.Networking;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
@@ -70,7 +74,7 @@ namespace Game.Test
             await Task.Delay(3000);
             Debug.LogWarning("3");
             m_Task2 = InnerTest2();
-            m_Task2.OnCancel(() => { Log.Debug("Cancel task2"); }).OnComplete(() => { Log.Debug("Complete task2"); });
+            m_Task2.OnCompleted(() => { Log.Debug("Complete task2"); });
             await m_Task2;
         }
 
@@ -115,6 +119,7 @@ namespace Game.Test
         }
 
         private XProTask protask;
+
         private async XTask InnerTest6()
         {
             Debug.LogWarning("Start");
@@ -125,32 +130,96 @@ namespace Game.Test
             Debug.LogWarning("End");
         }
 
+        private async XTask InnerTestPost()
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("Id", 1);
+            var op = Addressables.LoadAssetAsync<Texture2D>("Data2/Textures/QQQ/test2.png");
+            op.WaitForCompletion();
+
+            var data = op.Result.GetRawTextureData();
+            
+            Debug.LogWarning(data.Length);
+            form.AddBinaryData("portrait", data, "screenShot.png", "image/png");
+            Debug.LogWarning(op.Result.width + " " + op.Result.height);
+            UnityWebRequest req = UnityWebRequest.Post("http://10.104.15.229:3000/users/update-basic", form);
+            req.SetRequestHeader("UserId", "1");
+            await GetAwaiter(req.SendWebRequest());
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(req.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+                //Debug.Log(req.downloadHandler.text);
+            }
+        }
+
+        private byte[] data;
+        private async XTask InnerTestGet()
+        {
+            UnityWebRequest req = UnityWebRequest.Get("http://localhost:3000/users/basic?Id=1");
+            req.SetRequestHeader("UserId", "1");
+            await GetAwaiter(req.SendWebRequest());
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(req.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+                Debug.LogWarning(req.downloadHandler.text);
+            }
+            req = UnityWebRequest.Get($"http://localhost:3000/users/portrait?Id=1");
+            req.SetRequestHeader("UserId", "1");
+            await GetAwaiter(req.SendWebRequest());
+            if (req.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(req.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+                data = req.downloadHandler.data;
+                Debug.LogWarning(data == null);
+            }
+        }
+
+        public static Task GetAwaiter(AsyncOperation asyncOp)
+        {
+            var tcs = new TaskCompletionSource<object>();
+            asyncOp.completed += obj => { tcs.SetResult(null); };
+            return tcs.Task;
+        }
+
         public void OnDraw()
         {
             if (DebugGUI.Button("Test"))
             {
-                //foreach (Type type in Global.Type.GetAllType())
-                //    Debug.LogWarning(type.FullName);
-                XTask.ExceptionHandler += (e) => { Debug.LogException(e); };
-                m_Task = InnerTest();
-                m_Task.OnCancel(() => { Log.Debug("Cancel task1"); })
-                    .OnComplete(() => { Log.Debug("Complete task1"); });
+                InnerTest().Coroutine();
             }
 
             if (DebugGUI.Button("Cancel"))
             {
-                m_Task.Cancel();
+                m_Task.Cancel(true);
             }
 
             if (DebugGUI.Button("Cancel2"))
             {
-                m_Task2.Cancel();
+                Texture2D tex = new Texture2D(320, 320, TextureFormat.ASTC_6x6, 1, true);
+                Debug.LogWarning(data.Length);
+                tex.LoadRawTextureData(data);
+                tex.Apply();
+                GameObject obj = new GameObject();
+                obj.AddComponent<SpriteRenderer>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
             }
 
             if (DebugGUI.Button("Test2"))
             {
                 InnerTest6().Coroutine();
             }
+
             if (DebugGUI.Button("Cancel Test2"))
             {
                 protask.Cancel();

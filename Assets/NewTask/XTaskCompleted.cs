@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace XFrame.Modules.NewTasks
 {
     [AsyncMethodBuilder(typeof(XTaskCompletedAsyncMethodBuilder))]
-    public struct XTaskCompleted : ICriticalNotifyCompletion
+    public struct XTaskCompleted : ICriticalNotifyCompletion, ITask
     {
         public XTaskCompleted GetAwaiter()
         {
@@ -12,17 +12,57 @@ namespace XFrame.Modules.NewTasks
         }
 
         public bool IsCompleted => true;
+        
+        public float Progress => XTaskHelper.MAX_PROGRESS;
+        
+        private XTaskAction m_TaskAction;
+        public XTaskAction TaskAction => m_TaskAction;
 
-        public void GetResult()
+        public ITask SetAction(XTaskAction action)
+        {
+            m_TaskAction = action;
+            return this;
+        }
+
+        public void Coroutine()
         {
         }
 
-        public void OnCompleted(Action continuation)
+        public void Cancel(bool subTask)
         {
+            
         }
 
-        public void UnsafeOnCompleted(Action continuation)
+        public ITask Bind(ITaskBinder binder)
         {
+            return this;
+        }
+
+        public ITask OnCompleted(Action<XTaskState> hanlder)
+        {
+            if (hanlder != null)
+                hanlder(XTaskState.Normal);
+            
+            return this;
+        }
+
+        ITask ITask.OnCompleted(Action handler)
+        {
+            if(handler != null)
+                handler();
+            return this;
+        }
+
+        public void OnCompleted(Action handler)
+        {
+            if(handler != null)
+                handler();
+        }
+
+        public void UnsafeOnCompleted(Action handler)
+        {
+            if(handler != null)
+                handler();
         }
     }
 }

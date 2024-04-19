@@ -6,6 +6,9 @@ namespace XFrame.Modules.NewTasks
     {
         private bool m_Canceled;
         private Action m_Handler;
+        private bool m_Disposed;
+
+        public bool Disposed => m_Disposed;
 
         public bool Canceled => m_Canceled;
 
@@ -26,6 +29,12 @@ namespace XFrame.Modules.NewTasks
         public void RemoveHandler(Action handler)
         {
             m_Handler -= handler;
+        }
+
+        public void Dispose()
+        {
+            m_Disposed = true;
+            Clear();
         }
 
         public void Clear()

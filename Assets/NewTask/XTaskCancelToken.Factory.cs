@@ -17,6 +17,7 @@ namespace XFrame.Modules.NewTasks
             }
 
             token.m_Canceled = false;
+            token.m_Disposed = false;
             return token;
         }
 
@@ -26,7 +27,7 @@ namespace XFrame.Modules.NewTasks
                 return;
             if (s_CacheQueue.Count > MAX_CACHE)
                 return;
-            token.Clear();
+            token.Dispose();
             s_CacheQueue.Enqueue(token);
         }
     }

@@ -7,6 +7,6 @@ namespace XFrame.Modules.NewTasks
 
         ITaskBinder Binder { get; }
         
-        void Cancel();
+        void SetState(XTaskState state);
     }
 }
