@@ -17,6 +17,7 @@ namespace XFrame.Modules.NewTasks
             XTaskAsyncMethodBuilder builder = new XTaskAsyncMethodBuilder();
             builder.m_Task = new XTask();
             builder.m_CancelTask = builder.m_Task;
+            builder.m_Task.SetAction(XTaskHelper.UseAction);
             return builder;
         }
 

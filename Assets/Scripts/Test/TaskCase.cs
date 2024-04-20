@@ -100,12 +100,12 @@ namespace Game.Test
         }
 
         private XTask m_Task4;
-        private XProTask_ m_ProTask4;
+        private XProTask m_ProTask4;
 
         private async XTask Task4()
         {
             Log.Debug("Start");
-            m_ProTask4 = new XProTask_(new DOTweenProgress());
+            m_ProTask4 = new XProTask(new DOTweenProgress());
             //m_ProTask4.OnUpdate((pro) => Debug.LogWarning($"Pro {pro}"));
             m_ProTask4.OnCompleted((state) => Log.Debug($"pro task 4 OnComplete {state}"));
             await m_ProTask4;

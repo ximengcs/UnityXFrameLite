@@ -1,64 +1,39 @@
 using System;
-using XFrame.Core;
 using System.Runtime.CompilerServices;
 using Async;
+using UnityEngine;
+using XFrame.Core;
 
 namespace XFrame.Modules.NewTasks
 {
-    public class XProTask : ICriticalNotifyCompletion, IUpdater
+    public class XProTask : ICriticalNotifyCompletion, IUpdater, ICancelTask, ITask
     {
-        private Action m_OnComplete;
-        private Action m_OnContinue;
         private Action<float> m_OnUpdate;
         private IProTaskHandler m_ProHandler;
+        private XComplete<XTaskState> m_OnComplete;
+        private ITaskBinder m_Binder;
         private XTaskCancelToken m_CancelToken;
 
-        public bool IsCompleted => InnerCheckComplete();
-
-        private bool InnerCheckComplete()
+        XTaskCancelToken ICancelTask.Token
         {
-            if (m_CancelToken.Canceled)
+            get
             {
-                m_CancelToken.InvokeWithoutException();
-                XTaskCancelToken.Release(m_CancelToken);
-                m_CancelToken = null;
-                m_OnContinue();
-                m_OnComplete = null;
-                m_OnContinue = null;
-                m_OnUpdate = null;
-                m_ProHandler = null;
-                TestModule.Inst.UnRegister(this);
-                return true;
-            }
-            else
-            {
-                bool done = m_ProHandler.IsDone;
-                m_OnUpdate?.Invoke(Pro);
-                if (done)
-                {
-                    m_OnContinue();
-                    m_OnContinue = null;
-                    if (m_OnComplete != null)
-                    {
-                        m_OnComplete();
-                        m_OnComplete = null;
-                    }
-
-                    XTaskCancelToken.Release(m_CancelToken);
-                    m_CancelToken = null;
-                    m_OnUpdate = null;
-                    m_ProHandler = null;
-                    TestModule.Inst.UnRegister(this);
-                }
-
-                return done;
+                if (XTaskHelper.UseToken != null)
+                    m_CancelToken = XTaskHelper.UseToken;
+                else if (m_CancelToken == null)
+                    m_CancelToken = XTaskCancelToken.Require();
+                return m_CancelToken;
             }
         }
 
-        public float Pro => m_ProHandler.Pro;
+        ITaskBinder ICancelTask.Binder => m_Binder;
 
-        public XProTask GetAwaiter()
+        private XTaskAction m_TaskAction;
+        public XTaskAction TaskAction => m_TaskAction;
+
+        public ITask SetAction(XTaskAction action)
         {
+            m_TaskAction = action;
             return this;
         }
 
@@ -67,54 +42,131 @@ namespace XFrame.Modules.NewTasks
             return m_ProHandler.Data;
         }
 
+        public bool IsCompleted => m_OnComplete.IsComplete;
+
+        public float Progress => m_ProHandler.Pro;
+
         public XProTask(IProTaskHandler handler, XTaskCancelToken cancelToken = null)
         {
             m_ProHandler = handler;
+            m_OnComplete = new XComplete<XTaskState>(XTaskState.Normal);
             m_CancelToken = cancelToken;
-            if (m_CancelToken == null)
-                m_CancelToken = XTaskHelper.UseToken;
-            if (m_CancelToken == null)
-                m_CancelToken = XTaskCancelToken.Require();
             TestModule.Inst.Register(this);
-        }
-
-        public void Cancel()
-        {
-            m_CancelToken.Cancel();
         }
 
         void IUpdater.OnUpdate(float escapeTime)
         {
-            InnerCheckComplete();
+            if (m_CancelToken != null)
+            {
+                if (!m_CancelToken.Canceled && m_OnComplete.IsComplete)
+                    return;
+            }
+            else
+            {
+                if (m_OnComplete.IsComplete)
+                    return;
+            }
+
+            m_OnUpdate?.Invoke(Progress);
+            if (m_Binder != null && m_Binder.IsDisposed)
+            {
+                m_OnComplete.Value = XTaskState.BinderDispose;
+                m_OnComplete.IsComplete = true;
+                m_OnComplete.Invoke();
+            }
+            else if (m_CancelToken != null && m_CancelToken.Canceled)
+            {
+                m_OnComplete.Value = XTaskState.Cancel;
+                m_OnComplete.IsComplete = true;
+                m_OnComplete.Invoke();
+            }
+            else if (m_ProHandler.IsDone)
+            {
+                m_OnComplete.Value = XTaskState.Normal;
+                m_OnComplete.IsComplete = true;
+                m_OnComplete.Invoke();
+            }
         }
 
-        public void OnUpdate(Action<float> handler)
+        void ICancelTask.SetState(XTaskState state)
+        {
+            m_OnComplete.Value = state;
+        }
+
+        public void Coroutine()
+        {
+            InnerCoroutine();
+        }
+
+        private async void InnerCoroutine()
+        {
+            await this;
+        }
+
+        public ITask Bind(ITaskBinder binder)
+        {
+            m_Binder = binder;
+            return this;
+        }
+
+        public void SetResult()
+        {
+            Debug.LogWarning("Set Result");
+            if (m_CancelToken != null && !m_CancelToken.Disposed)
+                XTaskCancelToken.Release(m_CancelToken);
+
+            m_OnUpdate = null;
+            TestModule.Inst.UnRegister(this);
+        }
+
+        public XProTask GetAwaiter()
+        {
+            return this;
+        }
+
+        public void Cancel(bool subTask)
+        {
+            InnerCancel();
+        }
+
+        private void InnerCancel()
+        {
+            if (m_OnComplete.IsComplete)
+                return;
+            m_OnComplete.IsComplete = true;
+
+            ICancelTask cancelTask = this;
+            cancelTask.Token.Cancel();
+        }
+
+
+        public ITask OnUpdate(Action<float> handler)
         {
             m_OnUpdate += handler;
+            return this;
         }
 
-        public void OnComplete(Action handler)
+
+        public ITask OnCompleted(Action<XTaskState> handler)
         {
-            if (m_ProHandler.IsDone)
-                handler();
-            else
-                m_OnComplete += handler;
+            m_OnComplete.On(handler);
+            return this;
         }
 
-        void INotifyCompletion.OnCompleted(Action continuation)
+        public ITask OnCompleted(Action handler)
         {
-            if (m_ProHandler.IsDone)
-                continuation();
-            else
-                m_OnContinue += continuation;
+            m_OnComplete.On(handler);
+            return this;
         }
 
-        void ICriticalNotifyCompletion.UnsafeOnCompleted(Action continuation)
+        void INotifyCompletion.OnCompleted(Action handler)
         {
-            if (m_ProHandler.IsDone)
-                continuation();
-            else
-                m_OnContinue += continuation;
+            m_OnComplete.On(handler);
+        }
+
+        void ICriticalNotifyCompletion.UnsafeOnCompleted(Action handler)
+        {
+            m_OnComplete.On(handler);
         }
     }
 }

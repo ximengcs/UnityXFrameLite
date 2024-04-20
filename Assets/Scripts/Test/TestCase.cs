@@ -95,39 +95,12 @@ namespace Game.Test
             Debug.LogWarning("5");
             int value = await InnerTest3();
             Debug.LogWarning($"value {value}");
-            InnerTest4();
         }
 
         private async XTask<int> InnerTest3()
         {
             await Task.Delay(1000);
             return 9;
-        }
-
-        private async XVoid InnerTest4()
-        {
-            Debug.LogWarning("InnerTest4 1");
-            await Task.Delay(1000);
-            InnerTest5();
-            Debug.LogWarning("InnerTest4 2");
-        }
-
-        private async XVoid InnerTest5()
-        {
-            Debug.LogWarning("InnerTest4 1");
-            Debug.LogWarning("InnerTest4 2");
-        }
-
-        private XProTask protask;
-
-        private async XTask InnerTest6()
-        {
-            Debug.LogWarning("Start");
-            protask = new XProTask(new DOTweenProgress());
-            protask.OnUpdate((pro) => Debug.LogWarning($"Pro {pro}"));
-            protask.OnComplete(() => Debug.LogWarning("OnComplete"));
-            await protask;
-            Debug.LogWarning("End");
         }
 
         private async XTask InnerTestPost()
@@ -213,16 +186,6 @@ namespace Game.Test
                 tex.Apply();
                 GameObject obj = new GameObject();
                 obj.AddComponent<SpriteRenderer>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-            }
-
-            if (DebugGUI.Button("Test2"))
-            {
-                InnerTest6().Coroutine();
-            }
-
-            if (DebugGUI.Button("Cancel Test2"))
-            {
-                protask.Cancel();
             }
 
             if (DebugGUI.Button("Download 1"))

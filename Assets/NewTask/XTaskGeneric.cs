@@ -59,10 +59,10 @@ namespace XFrame.Modules.NewTasks
         
         public void Coroutine()
         {
-            InnerCoroutine().Coroutine();
+            InnerCoroutine();
         }
 
-        private async XVoid InnerCoroutine()
+        private async void InnerCoroutine()
         {
             await this;
         }

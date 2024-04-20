@@ -58,12 +58,12 @@ namespace XFrame.Modules.NewTasks
             m_OnComplete.Value = state;
         }
 
-        public void Coroutine()
+        public void Coroutine() 
         {
-            InnerCoroutine().Coroutine();
+            InnerCoroutine();
         }
 
-        private async XVoid InnerCoroutine()
+        private async void InnerCoroutine()
         {
             await this;
         }

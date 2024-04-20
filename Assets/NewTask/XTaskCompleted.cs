@@ -15,12 +15,10 @@ namespace XFrame.Modules.NewTasks
         
         public float Progress => XTaskHelper.MAX_PROGRESS;
         
-        private XTaskAction m_TaskAction;
-        public XTaskAction TaskAction => m_TaskAction;
+        public XTaskAction TaskAction => XTaskAction.CompleteWhenSubTaskFailure;
 
         public ITask SetAction(XTaskAction action)
         {
-            m_TaskAction = action;
             return this;
         }
 
