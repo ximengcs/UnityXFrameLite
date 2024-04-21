@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityXFrame.Core;
 using UnityXFrame.Core.Diagnotics;
 using XFrame.Modules.Diagnotics;
@@ -60,7 +62,8 @@ namespace Game.Test
 
             if (DebugGUI.Button("Load Res"))
             {
-                InnerLoadResTask().Coroutine();
+                InnerTestWaitForCompletion();
+                //InnerLoadResTask().Coroutine();
             }
 
             if (DebugGUI.Button("Load Res Atlas"))
@@ -80,6 +83,17 @@ namespace Game.Test
         {
             Sprite sprite = await Global.Res.LoadAsync<Sprite>($"Data2/Textures/QQQ/test2.png");
             new GameObject().AddComponent<SpriteRenderer>().sprite = sprite;
+
+            AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>($"Data/UI/DialogUI.prefab");
+            handle.WaitForCompletion();
+            //GameObject obj = Global.Res.Load<GameObject>($"Data/UI/DialogUI.prefab");
+            //Log.Debug(obj == null);
+        }
+
+        private void InnerTestWaitForCompletion()
+        {
+            AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>($"Data/UI/DialogUI.prefab");
+            handle.WaitForCompletion();
         }
 
         private async XTask InnerTestDelay()
