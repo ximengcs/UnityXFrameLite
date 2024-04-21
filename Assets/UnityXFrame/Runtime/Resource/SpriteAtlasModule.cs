@@ -17,6 +17,7 @@ namespace UnityXFrame.Core.Resource
         public const string ITEM_SPLIT = " ";
         private Type m_SpriteType;
         private Dictionary<string, string> m_ObjectMap;
+        private IResModule m_ResModule;
         private IResRedirectHelper m_DirectHelper;
 
         public IResourceHelper Helper => m_DirectHelper;
@@ -43,7 +44,8 @@ namespace UnityXFrame.Core.Resource
             base.OnStart();
             m_SpriteType = typeof(Sprite);
             m_ObjectMap = new Dictionary<string, string>();
-            Global.Res.Helper.SetResDirectHelper(this);
+            m_ResModule = Domain.GetModule<IResModule>(Id);
+            m_ResModule.Helper.SetResDirectHelper(this);
         }
 
         public void PreloadAsset()
@@ -149,7 +151,7 @@ namespace UnityXFrame.Core.Resource
         public object Load(string resPath, Type type)
         {
             string atlasPath = Redirect(resPath, type);
-            SpriteAtlas atlas = Global.Res.Load<SpriteAtlas>(atlasPath);
+            SpriteAtlas atlas = m_ResModule.Load<SpriteAtlas>(atlasPath);
             string spriteName = System.IO.Path.GetFileNameWithoutExtension(resPath);
             return atlas.GetSprite(spriteName);
         }
@@ -157,7 +159,7 @@ namespace UnityXFrame.Core.Resource
         public T Load<T>(string resPath)
         {
             string atlasPath = Redirect(resPath, typeof(T));
-            SpriteAtlas atlas = Global.Res.Load<SpriteAtlas>(atlasPath);
+            SpriteAtlas atlas = m_ResModule.Load<SpriteAtlas>(atlasPath);
             string spriteName = System.IO.Path.GetFileNameWithoutExtension(resPath);
             object obj = atlas.GetSprite(spriteName);
             if (obj != null)
@@ -169,7 +171,7 @@ namespace UnityXFrame.Core.Resource
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
             string atlasPath = Redirect(resPath, type);
-            ResLoadTask<SpriteAtlas> atlasTask = Global.Res.LoadAsync<SpriteAtlas>(atlasPath);
+            ResLoadTask<SpriteAtlas> atlasTask = m_ResModule.LoadAsync<SpriteAtlas>(atlasPath);
             atlasTask.Coroutine();
             string spriteName = System.IO.Path.GetFileNameWithoutExtension(resPath);
             return new ResLoadTask(new WaitAtlasHandler(atlasTask, spriteName, type));
@@ -178,7 +180,7 @@ namespace UnityXFrame.Core.Resource
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
             string atlasPath = Redirect(resPath, typeof(T));
-            ResLoadTask<SpriteAtlas> atlasTask = Global.Res.LoadAsync<SpriteAtlas>(atlasPath);
+            ResLoadTask<SpriteAtlas> atlasTask = m_ResModule.LoadAsync<SpriteAtlas>(atlasPath);
             atlasTask.Coroutine();
             string spriteName = System.IO.Path.GetFileNameWithoutExtension(resPath);
             return new ResLoadTask<T>(new WaitAtlasHandler(atlasTask, spriteName, typeof(T)));
@@ -186,17 +188,17 @@ namespace UnityXFrame.Core.Resource
 
         public void Unload(object target)
         {
-            Global.Res.Unload(target);
+            m_ResModule.Unload(target);
         }
 
         public void UnloadAll()
         {
-            Global.Res.UnloadAll();
+            m_ResModule.UnloadAll();
         }
 
         public List<object> DumpAll()
         {
-            return Global.Res.Helper.DumpAll();
+            return m_ResModule.Helper.DumpAll();
         }
     }
 }

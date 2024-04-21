@@ -130,7 +130,7 @@ namespace UnityXFrame.Core.UIElements
             if (m_CanvasGroup == null)
                 m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
             m_Transform = m_Root.GetComponent<RectTransform>();
-            Event = Global.Event.NewSys();
+            Event = m_Module.Domain.GetModule<IEventModule>().NewSys();
             m_IsOpen = false;
             Active = false;
             OnCreateFromPool();

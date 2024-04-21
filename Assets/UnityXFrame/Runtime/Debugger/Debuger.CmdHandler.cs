@@ -20,6 +20,7 @@ namespace UnityXFrame.Core.Diagnotics
         #region Method Command Handler
         private struct MethodCmdHandler : ICmdHandler
         {
+            private Debugger Debugger;
             private ParameterInfo[] m_ParamInfos;
             private int m_ParamCount;
 
@@ -27,11 +28,12 @@ namespace UnityXFrame.Core.Diagnotics
             public MethodInfo Method;
             public object Inst;
 
-            public MethodCmdHandler(object inst, string name, MethodInfo method)
+            public MethodCmdHandler(Debugger debugger, object inst, string name, MethodInfo method)
             {
                 Inst = inst;
                 Name = name;
                 Method = method;
+                Debugger = debugger;
                 m_ParamInfos = Method.GetParameters();
                 m_ParamCount = m_ParamInfos.Length;
             }
@@ -75,8 +77,7 @@ namespace UnityXFrame.Core.Diagnotics
                             }
                             else
                             {
-                                Debugger debugger = (Debugger)Global.Debugger;
-                                if (debugger.m_CmdParsers.TryGetValue(info.ParameterType, out IParser parser))
+                                if (Debugger.m_CmdParsers.TryGetValue(info.ParameterType, out IParser parser))
                                 {
                                     paramList[i] = parser.Parse(value);
                                 }
@@ -151,7 +152,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_CmdHandlers = new Dictionary<string, ICmdHandler>();
 
             #region Method Command
-            TypeSystem typeSys = Global.Type.GetOrNewWithAttr<DebugCommandClassAttribute>();
+            TypeSystem typeSys = Domain.TypeModule.GetOrNewWithAttr<DebugCommandClassAttribute>();
             foreach (Type type in typeSys)
             {
                 object inst;
@@ -167,7 +168,7 @@ namespace UnityXFrame.Core.Diagnotics
                 {
                     if (!m_CmdInsts.TryGetValue(type, out inst))
                     {
-                        inst = Global.Type.CreateInstance(type);
+                        inst = Domain.TypeModule.CreateInstance(type);
                         m_CmdInsts.Add(type, inst);
                     }
                 }
@@ -187,7 +188,7 @@ namespace UnityXFrame.Core.Diagnotics
                         }
                         else
                         {
-                            cmd = new MethodCmdHandler(inst, method.Name, method);
+                            cmd = new MethodCmdHandler(this, inst, method.Name, method);
                         }
 
                         if (!m_CmdHandlers.ContainsKey(name))

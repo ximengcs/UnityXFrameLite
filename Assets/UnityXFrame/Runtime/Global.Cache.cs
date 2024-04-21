@@ -54,7 +54,6 @@ namespace UnityXFrame.Core
         private static IUIModule m_UI;
         private static IAudioModule m_Audio;
         private static IDebugger m_Debugger;
-        private static EndOfFrameModule m_EndOfFrame;
         private static ISpriteAtlasModule m_SpriteAtlas;
 
         public static void Refresh()
@@ -84,7 +83,6 @@ namespace UnityXFrame.Core
             m_UI = null;
             m_Audio = null;
             m_Debugger = null;
-            m_EndOfFrame = null;
         }
     }
 }

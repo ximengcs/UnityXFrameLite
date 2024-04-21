@@ -7,7 +7,7 @@ namespace UnityXFrame.Core
     {
         public EndOfFrameXTask() : base(null)
         {
-            m_ProHandler = Global.EndOfFrame.InnerRequestHandler(this);
+            m_ProHandler = XTaskHelper.Domain.GetModule<EndOfFrameModule>().InnerRequestHandler(this);
         }
     }
 

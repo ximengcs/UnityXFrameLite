@@ -35,7 +35,7 @@ namespace UnityXFrame.Core.Audios
             m_Volume = 1.0f;
             m_Mixer = Init.Inst.Data.AudioMixer;
             m_Root = new GameObject("Audios").transform;
-            m_AudioPool = Global.Pool.GetOrNew<Audio>();
+            m_AudioPool = Domain.GetModule<IPoolModule>().GetOrNew<Audio>();
             m_Groups = new Dictionary<string, Group>();
             m_MainGroup = m_Mixer.FindMatchingGroups("Master")[0];
         }
@@ -176,19 +176,19 @@ namespace UnityXFrame.Core.Audios
 
         private Audio InnerCreateAudio(string name, bool autoRelease)
         {
-            AudioClip clip = Global.Res.Load<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
+            AudioClip clip = Domain.GetModule<IResModule>().Load<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
             Audio audio = m_AudioPool.Require();
-            audio.OnInit(m_Root, m_MainGroup, clip, autoRelease);
+            audio.OnInit(this, m_Root, m_MainGroup, clip, autoRelease);
             return audio;
         }
 
         private async XTask<IAudio> InnerCreateAudioAsync(string name, bool autoRelease)
         {
-            AudioClip clip = await Global.Res.LoadAsync<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
+            AudioClip clip = await Domain.GetModule<IResModule>().LoadAsync<AudioClip>($"{Constant.AUDIO_PATH}/{name}");
             if (clip != null)
             {
                 Audio audio = m_AudioPool.Require();
-                audio.OnInit(m_Root, m_MainGroup, clip, autoRelease);
+                audio.OnInit(this, m_Root, m_MainGroup, clip, autoRelease);
                 return audio;
             }
             else

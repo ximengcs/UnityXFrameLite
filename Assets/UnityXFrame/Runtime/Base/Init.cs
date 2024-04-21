@@ -12,6 +12,8 @@ namespace UnityXFrame.Core
     [DefaultExecutionOrder(Constant.EXECORDER_INIT)]
     public class Init : SingletonMono<Init>
     {
+        private EndOfFrameModule m_EndOfFrame;
+
         public InitData Data;
 
         private void Awake()
@@ -50,19 +52,20 @@ namespace UnityXFrame.Core
 
         private void Start()
         {
+            m_EndOfFrame = Entry.GetModule<EndOfFrameModule>();
             Entry.Start();
         }
 
         private void Update()
         {
             Entry.Trigger<IUpdater>(Time.deltaTime);
-            if (!Global.EndOfFrame.Empty)
+            if (!m_EndOfFrame.Empty)
                 StartCoroutine(InnerEndOfFrameHandler());
         }
 
         private IEnumerator InnerEndOfFrameHandler()
         {
-            yield return Global.EndOfFrame.WaitYield;
+            yield return m_EndOfFrame.WaitYield;
             Entry.Trigger<IEndOfFrame>();
         }
 

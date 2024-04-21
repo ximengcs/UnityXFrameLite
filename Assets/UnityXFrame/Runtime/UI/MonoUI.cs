@@ -21,6 +21,7 @@ namespace UnityXFrame.Core.UIElements
         protected CanvasGroup m_CanvasGroup;
         protected RectTransform m_Transform;
         protected UIFinder m_UIFinder;
+        protected IPoolModule m_Module;
 
         private IContainer m_Container;
 
@@ -152,13 +153,14 @@ namespace UnityXFrame.Core.UIElements
 
         void IPoolObject.OnCreate(IPoolModule module)
         {
+            m_Module = module;
             m_Container = new Container();
             m_Root = gameObject;
             m_CanvasGroup = m_Root.GetComponent<CanvasGroup>();
             if (m_CanvasGroup == null)
                 m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
             m_Transform = m_Root.GetComponent<RectTransform>();
-            Event = Global.Event.NewSys();
+            Event = m_Module.Domain.GetModule<IEventModule>().NewSys();
             m_IsOpen = false;
             Active = false;
             OnCreateFromPool();

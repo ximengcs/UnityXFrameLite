@@ -8,6 +8,11 @@ namespace UnityXFrame.Core.Serialize
     {
         public int HandleType => Constant.JOSN_TYPE;
 
+        void ISerializeHelper.OnInit(ISerializeModule module)
+        {
+
+        }
+
         public object Deserialize(string json, Type dataType)
         {
             return JsonConvert.DeserializeObject(json, dataType);

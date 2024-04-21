@@ -23,22 +23,22 @@ namespace UnityXFrameLib.Commercial
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-            Event = Global.Event.NewSys();
+            Event = Domain.GetModule<IEventModule>().NewSys();
             m_Views = new XCollection<IAdView>(Domain);
             m_Configs = new Dictionary<int, Dictionary<int, AdsConfig>>();
             m_Types = new Dictionary<int, Type>();
-            TypeSystem typeSys = Global.Type.GetOrNewWithAttr<AdsImplementAttribute>();
+            TypeSystem typeSys = Domain.TypeModule.GetOrNewWithAttr<AdsImplementAttribute>();
             foreach (Type type in typeSys)
             {
-                AdsImplementAttribute attr = Global.Type.GetAttribute<AdsImplementAttribute>(type);
+                AdsImplementAttribute attr = Domain.TypeModule.GetAttribute<AdsImplementAttribute>(type);
                 m_Types.Add(attr.Type, type);
             }
             m_Inited = false;
 
-            typeSys = Global.Type.GetOrNew<IAdsHelper>();
+            typeSys = Domain.TypeModule.GetOrNew<IAdsHelper>();
             foreach (Type type in typeSys)
             {
-                m_Helper = (IAdsHelper)Global.Type.CreateInstance(type);
+                m_Helper = (IAdsHelper)Domain.TypeModule.CreateInstance(type);
                 m_Helper.OnInit(InnerInitCompleteHandle);
                 break;
             }

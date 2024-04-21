@@ -15,6 +15,7 @@ namespace UnityXFrame.Core.UIElements
         private XLinkList<IUI> m_UIs;
         private CanvasGroup m_CanvasGroup;
         private IUIManager m_Domain;
+        private UIModule m_Module;
         private XLinkList<IUIGroupHelper> m_UIHelper;
 
         public IUIManager Domain => m_Domain;
@@ -40,8 +41,7 @@ namespace UnityXFrame.Core.UIElements
             get { return m_Layer; }
             set
             {
-                UIModule uiModule = (UIModule)Global.UI;
-                m_Layer = uiModule.SetUIGroupLayer(this, value);
+                m_Layer = m_Module.SetUIGroupLayer(this, value);
             }
         }
 
@@ -68,6 +68,7 @@ namespace UnityXFrame.Core.UIElements
         public UIGroup(IUIManager domain, GameObject root, string name, int layer)
         {
             m_Domain = domain;
+            m_Module = (UIModule)domain;
             Name = name;
             Layer = layer;
             m_Inst = root;
@@ -75,7 +76,7 @@ namespace UnityXFrame.Core.UIElements
             m_UIs = new XLinkList<IUI>();
             m_UIHelper = new XLinkList<IUIGroupHelper>();
             m_CanvasGroup = root.GetComponent<CanvasGroup>();
-            Event = Global.Event.NewSys();
+            Event = m_Module.Domain.GetModule<IEventModule>().NewSys();
 
             m_Root.anchorMin = Vector3.zero;
             m_Root.anchorMax = Vector3.one;
@@ -128,7 +129,7 @@ namespace UnityXFrame.Core.UIElements
             UIEvent clone = e.Clone();
             ui.Event.TriggerNow(e);
             Event.Trigger(clone);
-            Global.UI.Event.Trigger(clone.Clone());
+            m_Domain.Event.Trigger(clone.Clone());
         }
 
         void IUIGroup.OpenUI(IUI ui)

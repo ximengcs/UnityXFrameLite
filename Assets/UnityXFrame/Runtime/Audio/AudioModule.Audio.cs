@@ -19,6 +19,7 @@ namespace UnityXFrame.Core.Audios
             private bool m_Paused;
             private bool m_AutoRelease;
             private Action m_PlayCallback;
+            private IAudioModule m_Module;
 
             private ITask m_WaitTask;
             private Group m_Group;
@@ -88,8 +89,9 @@ namespace UnityXFrame.Core.Audios
 
             public IAudioGroup Group => m_Group;
 
-            public void OnInit(Transform root, AudioMixerGroup group, AudioClip clip, bool autoRelease)
+            public void OnInit(IAudioModule module, Transform root, AudioMixerGroup group, AudioClip clip, bool autoRelease)
             {
+                m_Module = module;
                 m_Volume = 1.0f;
                 m_Name = clip.name;
                 m_Inst.name = m_Name;
@@ -146,7 +148,7 @@ namespace UnityXFrame.Core.Audios
                 }
 
                 m_Group.Remove(this);
-                Global.Pool.GetOrNew<Audio>().Release(this);
+                m_Module.Domain.GetModule<IPoolModule>().GetOrNew<Audio>().Release(this);
             }
 
             public void Play(Action callback = null)
@@ -254,7 +256,7 @@ namespace UnityXFrame.Core.Audios
 
             private void InnerUpdateSourceVolume()
             {
-                m_Source.volume = Global.Audio.Volume * Group.Volume * m_Volume;
+                m_Source.volume = m_Module.Volume * Group.Volume * m_Volume;
             }
         }
     }

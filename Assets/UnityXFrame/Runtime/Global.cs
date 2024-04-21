@@ -55,6 +55,5 @@ namespace UnityXFrame.Core
         public static IAudioModule Audio => m_Audio ??= Entry.GetModule<IAudioModule>();
         public static IDebugger Debugger => m_Debugger ??= Entry.GetModule<IDebugger>();
         public static ISpriteAtlasModule SpriteAtlas => m_SpriteAtlas ??= Entry.GetModule<ISpriteAtlasModule>();
-        internal static EndOfFrameModule EndOfFrame => m_EndOfFrame ??= Entry.GetModule<EndOfFrameModule>();
     }
 }
