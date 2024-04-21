@@ -16,7 +16,7 @@ namespace UnityXFrame.Editor
         public const string InitDataPath = "Assets/UnityXFrame/InitData.asset";
 
         private static InitEditor m_Inst;
-        private XCore m_FrameCore;
+        private XDomain m_FrameCore;
         private InitData m_Data;
         private TypeSystem m_EditorType;
         private XLinkList<IDataEditor> m_Editors;
@@ -33,7 +33,8 @@ namespace UnityXFrame.Editor
             TypeChecker.IncludeModule("UnityXFrame.Lib");
             TypeChecker.IncludeModule("UnityXFrame.Editor");
             XConfig.TypeChecker = new TypeChecker();
-            m_FrameCore = XCore.Create(typeof(TypeModule));
+            m_FrameCore = new XDomain(1);
+            m_FrameCore.SetTypeModule(typeof(TypeModule));
             m_Editors = new XLinkList<IDataEditor>();
             m_EditorType = m_FrameCore.GetModule<TypeModule>().GetOrNew<IDataEditor>();
             m_Data = AssetDatabase.LoadAssetAtPath<InitData>(InitDataPath);

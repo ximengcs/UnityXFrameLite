@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace UnityXFrame.Core
 {
-    [CommonModule]
+    [BaseModule]
     public partial class EndOfFrameModule : ModuleBase, IEndOfFrame
     {
         private List<TaskHandler> m_Handlers;

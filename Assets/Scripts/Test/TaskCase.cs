@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using UnityEngine;
+using UnityXFrame.Core;
 using UnityXFrame.Core.Diagnotics;
 using XFrame.Modules.Diagnotics;
 using XFrame.Tasks;
@@ -17,10 +19,7 @@ namespace Game.Test
             if (DebugGUI.Button("Task1"))
             {
                 m_Task1 = Task1();
-                m_Task1
-                    //.SetAction(XTaskAction.ContinueWhenSubTaskFailure)
-                    .OnCompleted((state) => { Log.Debug($"task1 complete {state}"); })
-                    .Coroutine();
+                m_Task1.OnCompleted((state) => { Log.Debug($"task1 complete {state}"); }).Coroutine();
             }
 
             if (DebugGUI.Button("Task1 Calcel"))
@@ -53,6 +52,42 @@ namespace Game.Test
             {
                 m_ProTask4.Cancel(true);
             }
+
+            if (DebugGUI.Button("DelayTest"))
+            {
+                InnerTestDelay().Coroutine();
+            }
+
+            if (DebugGUI.Button("Load Res"))
+            {
+                InnerLoadResTask().Coroutine();
+            }
+
+            if (DebugGUI.Button("Load Res Atlas"))
+            {
+                InnerLoadResTaskAtlas().Coroutine();
+            }
+        }
+
+        private async XTask InnerLoadResTaskAtlas()
+        {
+            Global.SpriteAtlas.AddEntry(Global.Res.Load<TextAsset>("Config/atlas_map.txt").text);
+            Sprite sprite = await Global.Res.LoadAsync<Sprite>($"Assets/Data/Textures/QQQ/iloveu.png");
+            new GameObject().AddComponent<SpriteRenderer>().sprite = sprite;
+        }
+
+        private async XTask InnerLoadResTask()
+        {
+            Sprite sprite = await Global.Res.LoadAsync<Sprite>($"Data2/Textures/QQQ/test2.png");
+            new GameObject().AddComponent<SpriteRenderer>().sprite = sprite;
+        }
+
+        private async XTask InnerTestDelay()
+        {
+            Log.Debug("1");
+            XProTask task = XTask.Delay(2);
+            await task;
+            Log.Debug("2");
         }
 
         private XTask m_Task1;

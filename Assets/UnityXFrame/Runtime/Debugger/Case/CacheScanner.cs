@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
-using XFrame.Core.Caches;
-using System.Collections.Generic;
 using XFrame.Utility;
+using System.Collections.Generic;
+using XFrame.Modules.Caches;
+using XFrame.Core;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -20,7 +21,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Title("C", DebugGUI.Width(70));
             GUILayout.EndHorizontal();
 
-            ICollection<XCache.ObjectCollection> caches = XCache.Collections;
+            ICollection<XCache.ObjectCollection> caches = Entry.GetModule<XCache>().Collections;
             foreach (var cache in caches)
             {
                 GUILayout.BeginHorizontal();

@@ -101,9 +101,9 @@ namespace UnityXFrame.Core.UIElements
                 Log.Error(nameof(UIModule), "UI Group is null.");
         }
 
-        void IContainer.OnInit(int id, IContainer master, OnDataProviderReady onReady)
+        void IContainer.OnInit(IContainerModule module, int id, IContainer master, OnDataProviderReady onReady)
         {
-            m_Container.OnInit(id, this, null);
+            m_Container.OnInit(module, id, this, null);
             onReady?.Invoke(this);
             m_UIFinder = GetOrAddCom<UIFinder>();
             OnInit();
@@ -150,7 +150,7 @@ namespace UnityXFrame.Core.UIElements
 
         IPool IPoolObject.InPool { get; set; }
 
-        void IPoolObject.OnCreate()
+        void IPoolObject.OnCreate(IPoolModule module)
         {
             m_Container = new Container();
             m_Root = gameObject;

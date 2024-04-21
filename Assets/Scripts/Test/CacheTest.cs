@@ -1,4 +1,5 @@
 ﻿
+using XFrame.Modules.Caches;
 using XFrame.Tasks;
 
 namespace XFrame.Core.Caches

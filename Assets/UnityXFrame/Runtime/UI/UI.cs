@@ -124,7 +124,7 @@ namespace UnityXFrame.Core.UIElements
             m_UIFinder = GetOrAddCom<UIFinder>();
         }
 
-        void IPoolObject.OnCreate()
+        void IPoolObject.OnCreate(IPoolModule module)
         {
             m_CanvasGroup = m_Root.GetComponent<CanvasGroup>();
             if (m_CanvasGroup == null)

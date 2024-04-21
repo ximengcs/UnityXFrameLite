@@ -16,7 +16,7 @@ namespace UnityXFrame.Editor
         private string m_SavePath;
         private HandleResData m_Data;
         private SerializedObject m_Obj;
-        private XCore m_FrameCore;
+        private XDomain m_FrameCore;
         private IAtlasResHandler m_Handler;
 
         private void OnEnable()
@@ -38,7 +38,8 @@ namespace UnityXFrame.Editor
             TypeChecker.IncludeModule("UnityXFrame.Lib");
             TypeChecker.IncludeModule("UnityXFrame.Editor");
             XConfig.TypeChecker = new TypeChecker();
-            m_FrameCore = XCore.Create(typeof(TypeModule));
+            m_FrameCore = new XDomain(1);
+            m_FrameCore.SetTypeModule(typeof(TypeModule));
 
             ITypeModule typeModule = m_FrameCore.GetModule<ITypeModule>();
             TypeSystem typeSystem = typeModule.GetOrNew<IAtlasResHandler>();

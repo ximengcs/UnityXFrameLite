@@ -220,7 +220,7 @@ namespace UnityXFrame.Core.Audios
 
             IPool IPoolObject.InPool { get; set; }
 
-            void IPoolObject.OnCreate()
+            void IPoolObject.OnCreate(IPoolModule module)
             {
                 m_Inst = new GameObject("Audio");
                 m_Source = m_Inst.AddComponent<AudioSource>();

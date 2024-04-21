@@ -48,7 +48,7 @@ namespace UnityXFrame.Core.UIElements
             if (m_Canvas != null)
             {
                 m_Root = m_Canvas.transform;
-                m_UIList = new XCollection<IUI>();
+                m_UIList = new XCollection<IUI>(Domain);
                 m_GroupList = new XLinkList<IUIGroup>();
             }
             Log.Debug("UI", $"UI Canvas pixel scale is {m_PixelScale}");
@@ -448,7 +448,7 @@ namespace UnityXFrame.Core.UIElements
             {
                 IPool pool = Global.Pool.GetOrNew(uiType, m_Helper);
                 ui = (IUI)pool.Require(default, useResModule);
-                ui.OnInit(id, default, onReady);
+                ui.OnInit(Domain.GetModule<IContainerModule>(), id, default, onReady);
                 onReady = null;
                 m_UIList.Add(ui);
             }

@@ -24,7 +24,7 @@ namespace UnityXFrameLib.Commercial
         {
             base.OnInit(data);
             Event = Global.Event.NewSys();
-            m_Views = new XCollection<IAdView>();
+            m_Views = new XCollection<IAdView>(Domain);
             m_Configs = new Dictionary<int, Dictionary<int, AdsConfig>>();
             m_Types = new Dictionary<int, Type>();
             TypeSystem typeSys = Global.Type.GetOrNewWithAttr<AdsImplementAttribute>();

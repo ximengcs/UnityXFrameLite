@@ -83,7 +83,7 @@ namespace UnityXFrame.Core.Parser
             }
         }
 
-        void IPoolObject.OnCreate()
+        void IPoolObject.OnCreate(IPoolModule module)
         {
 
         }

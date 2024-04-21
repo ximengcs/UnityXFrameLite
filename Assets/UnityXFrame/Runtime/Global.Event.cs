@@ -1,5 +1,4 @@
-﻿using XFrame.Core;
-using XFrame.Modules.Event;
+﻿using XFrame.Modules.Event;
 
 namespace UnityXFrame.Core
 {
@@ -11,7 +10,7 @@ namespace UnityXFrame.Core
             get
             {
                 if (s_EventSystemInst == null)
-                    s_EventSystemInst = XModule.Event.NewSys();
+                    s_EventSystemInst = Event.NewSys();
                 return s_EventSystemInst;
             }
         }
