@@ -23,8 +23,8 @@ namespace UnityXFrame.Core.Diagnotics
         {
             m_CachePath = new List<string>();
             Caching.GetAllCachePaths(m_CachePath);
-            m_DownTask = Global.Task.Get<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
-            m_CheckTask = Global.Task.Get<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
+            //m_DownTask = Global.Task.Get<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
+            //m_CheckTask = Global.Task.Get<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
         }
 
         public void OnDraw()
@@ -37,7 +37,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Label("Check Progress");
             GUILayout.BeginHorizontal();
             if (m_CheckTask != null)
-                DebugGUI.Progress(m_CheckTask.Pro);
+                DebugGUI.Progress(m_CheckTask.Progress);
             else
                 DebugGUI.Progress(1);
             GUILayout.EndHorizontal();
@@ -45,7 +45,7 @@ namespace UnityXFrame.Core.Diagnotics
             DebugGUI.Label("Down Progress");
             GUILayout.BeginHorizontal();
             if (m_DownTask != null)
-                DebugGUI.Progress(m_DownTask.Pro);
+                DebugGUI.Progress(m_DownTask.Progress);
             else
                 DebugGUI.Progress(1);
             GUILayout.EndHorizontal();
@@ -75,23 +75,23 @@ namespace UnityXFrame.Core.Diagnotics
         private void InnerUpdateRes()
         {
             Log.Debug("Start hot update check task.");
-            m_CheckTask = Global.Task.GetOrNew<HotUpdateCheckTask>(Constant.UPDATE_CHECK_TASK);
-            m_CheckTask.OnComplete(() =>
+            m_CheckTask = new HotUpdateCheckTask();
+            m_CheckTask.OnCompleted(() =>
             {
                 if (m_CheckTask.Success)
                     Log.Debug($"Hot update check task has success.");
                 else
                     Log.Debug("Hot update check task has failure.");
                 Log.Debug("Start hot update download task.");
-                m_DownTask = Global.Task.GetOrNew<HotUpdateDownTask>(Constant.UPDATE_RES_TASK);
-                m_DownTask.AddList(m_CheckTask.ResList).OnComplete(() =>
+                m_DownTask = new HotUpdateDownTask();
+                m_DownTask.AddList(m_CheckTask.ResList).OnCompleted(() =>
                 {
                     if (m_DownTask.Success)
                         Log.Debug("Hot update download task has success.");
                     else
                         Log.Debug("Hot update download task has failure.");
-                }).Start();
-            }).Start();
+                }).Coroutine();
+            }).Coroutine();
         }
 
         private void InnerCheck()

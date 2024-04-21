@@ -1,7 +1,6 @@
 ﻿
 using System;
 using UnityEngine.U2D;
-using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Resource;
 
 namespace UnityXFrame.Core.Resource
@@ -12,32 +11,44 @@ namespace UnityXFrame.Core.Resource
         {
             private ResLoadTask<SpriteAtlas> m_AtlasTask;
             private string m_SpriteName;
+            private Type m_Type;
 
             public object Data
             {
                 get
                 {
-                    if (m_AtlasTask.Res == null)
+                    SpriteAtlas atlas = m_AtlasTask.GetResult();
+                    if (atlas == null)
                     {
                         throw new NullReferenceException($"SpriteAtlasModule Handler Error, Name : {m_SpriteName}");
                     }
-                    return m_AtlasTask.Res.GetSprite(m_SpriteName);
+                    return atlas.GetSprite(m_SpriteName);
                 }
             }
 
-            public bool IsDone => m_AtlasTask.IsComplete;
+            public string AssetPath => m_SpriteName;
 
-            public float Pro => m_AtlasTask.Pro;
+            public Type AssetType => m_Type;
 
-            public WaitAtlasHandler(ResLoadTask<SpriteAtlas> atlasTask, string spriteName)
+            public bool IsDone => m_AtlasTask.IsCompleted;
+
+            public float Pro => m_AtlasTask.Progress;
+
+            public WaitAtlasHandler(ResLoadTask<SpriteAtlas> atlasTask, string spriteName, Type type)
             {
+                m_Type = type;
                 m_SpriteName = spriteName;
                 m_AtlasTask = atlasTask;
             }
 
+            public void OnCancel()
+            {
+                m_SpriteName = null;
+            }
+
             public void Start()
             {
-                m_AtlasTask.Start();
+                m_AtlasTask.Coroutine();
             }
 
             public void Dispose()

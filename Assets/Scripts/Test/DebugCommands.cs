@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityXFrameLib.Tasks;
-using XFrame.Modules.Tasks;
-using XFrame.Modules.Times;
 using UnityXFrameLib.Pools;
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.Parser;
@@ -10,14 +7,10 @@ using System.Collections.Generic;
 using XFrame.Core;
 using XFrame.Modules.Pools;
 using UnityXFrame.Core;
-using XFrame.Modules.Entities;
 using UnityXFrame.Core.UIElements;
 using UnityXFrameLib.UIElements;
 using XFrame.Modules.Conditions;
 using XFrame.Modules.Reflection;
-using System;
-using UnityEngine.U2D;
-using UnityEngine.AddressableAssets;
 using UnityXFrame.Core.Resource;
 
 namespace Game.Test
@@ -102,25 +95,7 @@ namespace Game.Test
         [DebugCommand]
         public void test23()
         {
-            TaskExt.Invoke(() =>
-            {
-                Debug.LogWarning("Action 1");
-            }).Delay(1.0f, () =>
-            {
-                Debug.LogWarning("Delay 1");
-            }).EndFrame(() =>
-            {
-                Debug.LogWarning("Exec");
-            }).EndFrame(() =>
-            {
-                Debug.LogWarning("Exec");
-            }).Delay(1.0f, () =>
-            {
-                Debug.LogWarning("Delay 2");
-            }).Invoke(() =>
-            {
-                Debug.LogWarning("Action 2");
-            });
+
         }
 
         [DebugCommand]
@@ -164,31 +139,12 @@ namespace Game.Test
         public void task()
         {
             Debug.LogWarning($"start {Global.Time.Frame}");
-            TaskExt.NextFrame(() => Debug.LogWarning($"nextframe {Global.Time.Frame}"))
-                .NextFrame(() => Debug.LogWarning($"nextframe2 {Global.Time.Frame}"))
-                .Delay(1.0f, () => Debug.LogWarning($"delay 1s {Global.Time.Frame}"))
-                .Invoke(() => Debug.LogWarning($"invoke 1 {Global.Time.Frame}"))
-                .Invoke(() =>
-                {
-                    Debug.LogWarning($"invoke 2 {Global.Time.Frame}");
-                    return UnityEngine.Random.Range(0, 3) == 0;
-                })
-                .Invoke(() =>
-                {
-                    Debug.LogWarning($"invoke 3 {Global.Time.Frame}");
-                    return TaskBase.MAX_PRO;
-                })
-                .Beat(1.0f, () =>
-                {
-                    Debug.LogWarning($"beat {Global.Time.Frame}");
-                    return UnityEngine.Random.Range(0, 10) == 0;
-                });
         }
 
         [DebugCommand]
         public void pool()
         {
-            PoolExt.CollectSpwanTask().Start();
+            PoolExt.CollectSpwanTask().Coroutine();
         }
 
         [DebugCommand]
@@ -257,12 +213,12 @@ namespace Game.Test
         public void s2()
         {
             Global.SpriteAtlas.AddEntry(Global.Res.Load<TextAsset>("Config/atlas_map.txt").text);
-            Global.Res.LoadAsync<Sprite>("Assets/Data/Textures/test2.png").OnComplete((sprite) =>
+            Global.Res.LoadAsync<Sprite>("Assets/Data/Textures/test2.png").OnCompleted((sprite) =>
             {
                 Debug.LogWarning(sprite.name);
                 GameObject inst = new GameObject();
                 inst.AddComponent<SpriteRenderer>().sprite = sprite;
-            }).Start();
+            }).Coroutine();
         }
 
         [DebugCommand]
@@ -279,13 +235,13 @@ namespace Game.Test
         public void s4()
         {
             Global.SpriteAtlas.AddEntry(Global.Res.Load<TextAsset>("Config/atlas_map.txt").text);
-            Global.Res.LoadAsync("Assets/Data/Textures/test2.png", typeof(Sprite)).OnComplete((obj) =>
+            Global.Res.LoadAsync("Assets/Data/Textures/test2.png", typeof(Sprite)).OnCompleted((obj) =>
             {
                 Sprite sprite = obj as Sprite;
                 Debug.LogWarning(sprite.name);
                 GameObject inst = new GameObject();
                 inst.AddComponent<SpriteRenderer>().sprite = sprite;
-            }).Start();
+            }).Coroutine();
         }
 
         [DebugCommand]
@@ -297,10 +253,7 @@ namespace Game.Test
         [DebugCommand]
         public void s6()
         {
-            TaskExt.Beat(0, () =>
-            {
-                throw new NullReferenceException();
-            });
+
         }
 
         [DebugCommand]

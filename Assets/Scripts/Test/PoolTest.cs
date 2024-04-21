@@ -32,37 +32,19 @@ namespace Game.Test
             }
             if (DebugGUI.Button("Res1"))
             {
-                ITask task = Global.Res.LoadAsync<TextAsset>("Config/Perch.txt")
-                    .OnComplete((TextAsset asset) => Log.Debug(asset.text))
-                    .AutoDelete();
-                task.Start();
-                Log.Debug($"hash {task.GetHashCode()} {task.Name}");
+                Global.Res.LoadAsync<TextAsset>("Config/Perch.txt")
+                    .OnCompleted((TextAsset asset) => Log.Debug(asset.text))
+                    .Coroutine();
             }
             if (DebugGUI.Button("Res2"))
             {
-                ITask task = Global.Res.LoadAsync<TextAsset>("Config/Prop.csv")
-                    .OnComplete((TextAsset asset) => Log.Debug(asset.text))
-                    .AutoDelete();
-                task.Start();
-                Log.Debug($"hash {task.GetHashCode()} {task.Name}");
+                Global.Res.LoadAsync<TextAsset>("Config/Prop.csv")
+                    .OnCompleted((TextAsset asset) => Log.Debug(asset.text))
+                    .Coroutine();
             }
             if (DebugGUI.Button("Action1"))
             {
-                ITask t1 = TaskExt.Invoke(() =>
-                {
-                    Log.Debug(1);
-                    ITask t2 = TaskExt.Invoke(() =>
-                    {
-                        Log.Debug(2);
-                        ITask t3 = TaskExt.NextFrame(() =>
-                        {
-                            Log.Debug(3);
-                        }).AutoDelete();
-                        Log.Debug(t3.GetHashCode());
-                    }).AutoDelete();
-                    Log.Debug(t2.GetHashCode());
-                }).AutoDelete();
-                Log.Debug(t1.GetHashCode());
+
             }
         }
 

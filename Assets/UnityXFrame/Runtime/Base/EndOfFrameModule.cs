@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using XFrame.Core;
-using XFrame.Modules.Tasks;
+using XFrame.Tasks;
+using System.Collections.Generic;
 
 namespace UnityXFrame.Core
 {
@@ -22,9 +21,9 @@ namespace UnityXFrame.Core
             m_Handlers = new List<TaskHandler>(16);
         }
 
-        public ITaskHandler Request(Action action)
+        internal IProTaskHandler InnerRequestHandler(EndOfFrameXTask task)
         {
-            TaskHandler handler = new TaskHandler(action);
+            TaskHandler handler = new TaskHandler(task);
             m_Handlers.Add(handler);
             return handler;
         }
@@ -34,11 +33,8 @@ namespace UnityXFrame.Core
             for (int i = m_Handlers.Count - 1; i >= 0; i--)
             {
                 TaskHandler handler = m_Handlers[i];
-                if (handler.Start)
-                {
-                    handler.Complete = true;
-                    m_Handlers.RemoveAt(i);
-                }
+                handler.IsDone = true;
+                m_Handlers.RemoveAt(i);
             }
         }
     }

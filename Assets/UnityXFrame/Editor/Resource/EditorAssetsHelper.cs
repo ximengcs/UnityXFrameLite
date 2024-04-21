@@ -54,19 +54,17 @@ namespace UnityXFrame.Editor
 
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
-            ResLoadTask<T> loadTask = Global.Task.GetOrNew<ResLoadTask<T>>();
+            ResLoadTask<T> loadTask;
             if (m_ResCache.TryGetFile(resPath, out object res))
             {
-                loadTask.Add(new ResHandler(res));
-                loadTask.Start();
+                loadTask = new ResLoadTask<T>(new ResHandler(res, resPath, typeof(T)));
             }
             else
             {
                 Type type = typeof(T);
                 T resInst = (T)(object)AssetDatabase.LoadAssetAtPath(resPath, type);
                 m_ResCache.Add(resPath, resInst);
-                loadTask.Add(new ResHandler(resInst));
-                loadTask.Start();
+                loadTask = new ResLoadTask<T>(new ResHandler(resInst, resPath, typeof(T)));
             }
 
             return loadTask;
@@ -74,18 +72,16 @@ namespace UnityXFrame.Editor
 
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
-            ResLoadTask loadTask = Global.Task.GetOrNew<ResLoadTask>();
+            ResLoadTask loadTask;
             if (m_ResCache.TryGetFile(resPath, out object res))
             {
-                loadTask.Add(new ResHandler(res));
-                loadTask.Start();
+                loadTask = new ResLoadTask(new ResHandler(res, resPath, type));
             }
             else
             {
                 object resInst = AssetDatabase.LoadAssetAtPath(resPath, type);
                 m_ResCache.Add(resPath, resInst);
-                loadTask.Add(new ResHandler(resInst));
-                loadTask.Start();
+                loadTask = new ResLoadTask(new ResHandler(resInst, resPath, type));
             }
 
             return loadTask;

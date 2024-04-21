@@ -1,6 +1,5 @@
 ﻿
-using UnityEngine;
-using XFrame.Modules.Diagnotics;
+using XFrame.Tasks;
 
 namespace XFrame.Core.Caches
 {
@@ -18,6 +17,15 @@ namespace XFrame.Core.Caches
         public bool IsDone { get; private set; }
 
         public ICacheObject Result { get; private set; }
+
+        public object Data => null;
+
+        public float Pro => IsDone ? XTaskHelper.MAX_PROGRESS : XTaskHelper.MIN_PROGRESS;
+
+        public void OnCancel()
+        {
+            OnFinish();
+        }
 
         public void OnFactory()
         {

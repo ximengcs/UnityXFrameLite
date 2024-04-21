@@ -26,7 +26,7 @@ namespace Game.Test
             if (DebugGUI.Button("Play"))
             {
                 Global.Audio.PlayAsync(m_Name, m_Auto)
-                    .OnComplete((audio) =>
+                    .OnCompleted((audio) =>
                     {
                         m_Audio = audio;
                     });
@@ -34,7 +34,7 @@ namespace Game.Test
             if (DebugGUI.Button("PlayLoop"))
             {
                 Global.Audio.PlayLoopAsync(m_Name, m_Auto)
-                    .OnComplete((audio) =>
+                    .OnCompleted((audio) =>
                     {
                         m_Audio = audio;
                     });

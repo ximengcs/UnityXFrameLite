@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using XFrame.Core;
-using XFrame.Modules.Tasks;
+using XFrame.Tasks;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
 using System.Collections.Generic;
@@ -12,26 +12,26 @@ namespace UnityXFrame.Core.UIElements
     {
         private interface IUIPoolHelper : IPoolHelper
         {
-            ITask PreloadRes(IEnumerable<Type> types, int useResModule);
+            XTask PreloadRes(IEnumerable<Type> types, int useResModule);
 
-            ITask PreloadRes(Type type, int useResModule);
+            XTask PreloadRes(Type type, int useResModule);
         }
 
         private class DefaultUIPoolHelper : IUIPoolHelper
         {
             int IPoolHelper.CacheCount => 8;
 
-            ITask IUIPoolHelper.PreloadRes(IEnumerable<Type> types, int useResModule)
+            XTask IUIPoolHelper.PreloadRes(IEnumerable<Type> types, int useResModule)
             {
                 List<string> uiPaths = new List<string>();
                 foreach (Type type in types)
                     uiPaths.Add(InnerUIPath(type));
-                return Entry.GetModule<IResModule>(useResModule).Preload<GameObject>(uiPaths);
+                return Entry.GetModule<IResModule>(useResModule).Preload(uiPaths, typeof(GameObject));
             }
 
-            ITask IUIPoolHelper.PreloadRes(Type type, int useResModule)
+            XTask IUIPoolHelper.PreloadRes(Type type, int useResModule)
             {
-                return Entry.GetModule<IResModule>(useResModule).Preload<GameObject>(InnerUIPath(type));
+                return Entry.GetModule<IResModule>(useResModule).Preload(new List<string> { InnerUIPath(type) }, typeof(GameObject));
             }
 
             IPoolObject IPoolHelper.Factory(Type type, int poolKey, object userData)

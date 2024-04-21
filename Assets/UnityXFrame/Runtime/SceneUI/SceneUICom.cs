@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityXFrame.Core.Entities;
 using XFrame.Modules.Entities;
 using UnityEngine.UI;
+using XFrame.Tasks;
 
 namespace UnityXFrame.Core.UIElements
 {
@@ -146,47 +147,47 @@ namespace UnityXFrame.Core.UIElements
             return m_UIModule.Open<T>(group, dataHandler, useResModule, id);
         }
 
-        public ITask PreloadResource(Type[] types, int useResModule)
+        public XTask PreloadResource(Type[] types, int useResModule)
         {
             return m_UIModule.PreloadResource(types, useResModule);
         }
 
-        public ITask PreloadResource(IEnumerable<Type> types, int useResModule)
+        public XTask PreloadResource(IEnumerable<Type> types, int useResModule)
         {
             return m_UIModule.PreloadResource(types, useResModule);
         }
 
-        public ITask PreloadResource(IXEnumerable<Type> types, int useResModule)
+        public XTask PreloadResource(IXEnumerable<Type> types, int useResModule)
         {
             return m_UIModule.PreloadResource(types, useResModule);
         }
 
-        public ITask PreloadResource(Type type, int useResModule)
+        public XTask PreloadResource(Type type, int useResModule)
         {
             return m_UIModule.PreloadResource(type, useResModule);
         }
 
-        public ITask Spwan(IEnumerable<Type> types, int useResModule)
+        public XTask Spwan(IEnumerable<Type> types, int useResModule)
         {
             return m_UIModule.Spwan(types, useResModule);
         }
 
-        public ITask Spwan(Type[] types, int useResModule)
+        public XTask Spwan(Type[] types, int useResModule)
         {
             return m_UIModule.Spwan(types, useResModule);
         }
 
-        public ITask Spwan(IXEnumerable<Type> types, int useResModule)
+        public XTask Spwan(IXEnumerable<Type> types, int useResModule)
         {
             return m_UIModule.Spwan(types, useResModule);
         }
 
-        public ITask Spwan(Type uiType, int useResModule)
+        public XTask Spwan(Type uiType, int useResModule)
         {
             return m_UIModule.Spwan(uiType, useResModule);
         }
 
-        public ITask Spwan<T>(int useResModule) where T : IUI
+        public XTask Spwan<T>(int useResModule) where T : IUI
         {
             return m_UIModule.Spwan<T>(useResModule);
         }

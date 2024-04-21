@@ -5,6 +5,7 @@ using UnityXFrameLib.Tasks;
 using UnityXFrameLib.Utilities;
 using XFrame.Modules.Event;
 using static UnityEngine.ParticleSystem;
+using XFrame.Tasks;
 
 namespace UnityXFrameLib.Effects
 {
@@ -46,7 +47,7 @@ namespace UnityXFrameLib.Effects
         {
             m_Event = Global.Event.NewSys();
             m_Inited = false;
-            Global.Res.LoadAsync<GameObject>($"{LibConstant.EFFECT_RES_PATH}/{m_ResName}.prefab").OnComplete((prefab) =>
+            Global.Res.LoadAsync<GameObject>($"{LibConstant.EFFECT_RES_PATH}/{m_ResName}.prefab").OnCompleted((prefab) =>
             {
                 m_Inst = GameObject.Instantiate(prefab);
                 m_Tf = m_Inst.transform;
@@ -59,7 +60,7 @@ namespace UnityXFrameLib.Effects
                 m_Inited = true;
                 InnerRefreshState();
                 Event.Trigger(CreateEvent.Create(this));
-            }).Start();
+            }).Coroutine();
         }
 
         public void SetLayer(string layer)
@@ -120,7 +121,9 @@ namespace UnityXFrameLib.Effects
                     var module = m_Particle.main;
                     if (!module.loop)
                     {
-                        TaskExt.Delay(module.duration + 1f, InnerDispose);
+                        XTask.Delay(module.duration + 1f)
+                            .OnCompleted(InnerDispose)
+                            .Coroutine();
                     }
                     module.startColor = m_Color;
                 }

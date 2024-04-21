@@ -1,16 +1,26 @@
-﻿using System;
-using XFrame.Modules.Tasks;
+﻿using XFrame.Core;
+using XFrame.Tasks;
 
 namespace UnityXFrame.Core
 {
+    public class EndOfFrameXTask : XProTask, ITask
+    {
+        public EndOfFrameXTask() : base(null)
+        {
+            m_ProHandler = Global.EndOfFrame.InnerRequestHandler(this);
+        }
+    }
+
     public partial class EndOfFrameModule
     {
-        public class TaskHandler : ITaskHandler
+        private class TaskHandler : IProTaskHandler
         {
-            private Action m_Action;
             private bool m_Complete;
+            private IUpdater m_Task;
 
-            internal bool Complete
+            public object Data => null;
+
+            public bool IsDone
             {
                 get => m_Complete;
                 set
@@ -20,41 +30,23 @@ namespace UnityXFrame.Core
                         m_Complete = value;
                         if (m_Complete)
                         {
-                            m_Action();
-                            m_Action = null;
+                            m_Task.OnUpdate(0);
                         }
                     }
                 }
             }
 
-            internal bool Start { get; set; }
+            public float Pro => m_Complete ? XTaskHelper.MAX_PROGRESS : XTaskHelper.MIN_PROGRESS;
 
-            internal TaskHandler(Action action)
+            public TaskHandler(EndOfFrameXTask task)
             {
-                m_Action = action;
-                Complete = false;
-                Start = false;
-            }
-        }
-
-        public class TaskStrategy : ITaskStrategy<TaskHandler>
-        {
-            private TaskHandler m_Handler;
-
-            public void OnUse(TaskHandler handler)
-            {
-                m_Handler = handler;
-                m_Handler.Start = true;
+                IsDone = false;
+                m_Task = task;
             }
 
-            public float OnHandle(ITask from)
+            public void OnCancel()
             {
-                return m_Handler.Complete ? TaskBase.MAX_PRO : 0;
-            }
 
-            public void OnFinish()
-            {
-                m_Handler = null;
             }
         }
     }

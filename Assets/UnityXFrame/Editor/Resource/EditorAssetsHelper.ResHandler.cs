@@ -1,4 +1,5 @@
-﻿using XFrame.Modules.Resource;
+﻿using System;
+using XFrame.Modules.Resource;
 
 namespace UnityXFrame.Editor
 {
@@ -12,9 +13,20 @@ namespace UnityXFrame.Editor
 
             public float Pro => 1;
 
-            public ResHandler(object res)
+            public string AssetPath { get; private set; }
+
+            public Type AssetType { get; private set; }
+
+            public ResHandler(object res, string assetPath, Type type)
             {
                 Data = res;
+                AssetPath = assetPath;
+                AssetType = type;
+            }
+
+            public void OnCancel()
+            {
+
             }
 
             public void Start()

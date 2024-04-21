@@ -13,11 +13,17 @@ namespace UnityXFrame.Core.Resource
         {
             private object m_Handle;
             private object m_Data;
+            private string m_Path;
+            private Type m_ResType;
 
             private static PropertyInfo s_Result;
             private static PropertyInfo s_IsDone;
             private static PropertyInfo s_PercentComplete;
             private static PropertyInfo s_Task;
+
+            public string AssetPath => m_Path;
+
+            public Type AssetType => m_ResType;
 
             public object Data
             {
@@ -33,16 +39,22 @@ namespace UnityXFrame.Core.Resource
 
             public float Pro => InnerPercentComplete(m_Handle);
 
-            public ReflectAsyncResHandler(object handle, Type resType)
+            public ReflectAsyncResHandler(object handle, string assetPath, Type resType)
             {
                 m_Handle = handle;
-
+                m_Path = assetPath;
+                m_ResType = resType;
                 Type handleType = typeof(AsyncOperationHandle<>);
                 Type realType = handleType.MakeGenericType(resType);
                 s_Result = realType.GetProperty("Result");
                 s_IsDone = realType.GetProperty("IsDone");
                 s_PercentComplete = realType.GetProperty("PercentComplete");
                 s_Task = realType.GetProperty("Task");
+            }
+
+            public void OnCancel()
+            {
+                Release();
             }
 
             public void Start()
@@ -52,7 +64,7 @@ namespace UnityXFrame.Core.Resource
 
             public void Dispose()
             {
-
+                Release();
             }
 
             public void Release()

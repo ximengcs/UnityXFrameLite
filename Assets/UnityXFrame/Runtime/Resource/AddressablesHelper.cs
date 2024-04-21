@@ -42,7 +42,7 @@ namespace UnityXFrame.Core.Resource
             }
 
             object handle = Ext.LoadAssetAsync(resPath, type);
-            ReflectResHandler handler = new ReflectResHandler(handle, type);
+            ReflectResHandler handler = new ReflectResHandler(handle, resPath, type);
             handler.Start();
             object asset = handler.Data;
             if (asset != null)
@@ -66,7 +66,7 @@ namespace UnityXFrame.Core.Resource
             }
 
             AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(resPath);
-            ResHandler handler = new ResHandler(handle);
+            ResHandler handler = new ResHandler(handle, resPath, typeof(T));
             handler.Start();
             T asset = (T)handler.Data;
             if (asset != null)
@@ -89,10 +89,10 @@ namespace UnityXFrame.Core.Resource
                     resPath = newResPath;
             }
 
-            ResLoadTask loadTask = Global.Task.GetOrNew<ResLoadTask>();
             object handle = Ext.LoadAssetAsync(resPath, type);
-            ReflectAsyncResHandler handler = new ReflectAsyncResHandler(handle, type);
-            loadTask.OnComplete((asset) =>
+            ReflectAsyncResHandler handler = new ReflectAsyncResHandler(handle, resPath, type);
+            ResLoadTask loadTask = new ResLoadTask(handler);
+            loadTask.OnCompleted((object asset) =>
             {
                 if (asset != null)
                 {
@@ -101,7 +101,6 @@ namespace UnityXFrame.Core.Resource
                         m_LoadMap.Add(code, handler);
                 }
             });
-            loadTask.Add(handler);
             return loadTask;
         }
 
@@ -115,10 +114,10 @@ namespace UnityXFrame.Core.Resource
                     resPath = newResPath;
             }
 
-            ResLoadTask<T> loadTask = Global.Task.GetOrNew<ResLoadTask<T>>();
             AsyncOperationHandle handle = Addressables.LoadAssetAsync<T>(resPath);
-            AsyncResHandler handler = new AsyncResHandler(handle);
-            loadTask.OnComplete((asset) =>
+            AsyncResHandler handler = new AsyncResHandler(handle, resPath, typeof(T));
+            ResLoadTask<T> loadTask = new ResLoadTask<T>(handler);
+            loadTask.OnCompleted((T asset) =>
             {
                 if (asset != null)
                 {
@@ -127,7 +126,6 @@ namespace UnityXFrame.Core.Resource
                         m_LoadMap.Add(code, handler);
                 }
             });
-            loadTask.Add(handler);
             return loadTask;
         }
 

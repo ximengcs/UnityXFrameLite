@@ -1,7 +1,4 @@
-﻿using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
-using Game.Core.Procedure;
+﻿using Game.Core.Procedure;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,10 +28,10 @@ using XFrame.Modules.Datas;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Event;
 using XFrame.Modules.Local;
-using XFrame.Modules.NewTasks;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
 using XFrame.Modules.Times;
+using XFrame.Tasks;
 
 namespace Game.Test
 {
@@ -111,7 +108,7 @@ namespace Game.Test
             op.WaitForCompletion();
 
             var data = op.Result.GetRawTextureData();
-            
+
             Debug.LogWarning(data.Length);
             form.AddBinaryData("portrait", data, "screenShot.png", "image/png");
             Debug.LogWarning(op.Result.width + " " + op.Result.height);
@@ -243,11 +240,14 @@ namespace Game.Test
 
             if (DebugGUI.Button("Add Table"))
             {
-                Global.Res.LoadAsync<TextAsset>("Config/Prop.csv").OnComplete((asset) =>
+                ResLoadTask<TextAsset> task = Global.Res.LoadAsync<TextAsset>("Config/Prop.csv");
+                task.OnCompleted((TextAsset asset) =>
                 {
                     //DataModule.Inst.Add<Prop>(asset.text, Constant.CSV_TYPE);
                     Debug.LogWarning("complete");
-                }).OnUpdate((pro) => { Debug.LogWarning(pro); }).Start();
+                });
+                task.OnUpdate((pro) => { Debug.LogWarning(pro); });
+                task.Coroutine();
             }
 
             ;
@@ -419,14 +419,14 @@ namespace Game.Test
 
             if (DebugGUI.Button("Test"))
             {
-                Global.Audio.PlayAsync("TestAudio.mp3", "Bgm")
-                    .OnComplete((audio) => m_TestAudio = audio);
+                Global.Audio.PlayAsync("TestAudio.mp3", "Bgm");
+                //.OnCompleted((audio) => m_TestAudio = audio);
             }
 
             if (DebugGUI.Button("Test2"))
             {
-                Global.Audio.PlayLoopAsync("TestAudio.mp3", "Bgm")
-                    .OnComplete((audio) => m_TestAudio = audio);
+                Global.Audio.PlayLoopAsync("TestAudio.mp3", "Bgm");
+                //.OnCompleted((audio) => m_TestAudio = audio);
             }
 
             if (DebugGUI.Button("Test2"))
@@ -456,7 +456,7 @@ namespace Game.Test
 
             if (DebugGUI.Button("Auto UI Task"))
             {
-                UIModuleExt.CollectAutoTask().Start();
+                UIModuleExt.CollectAutoTask().Coroutine();
             }
 
             if (DebugGUI.Button("Set cmd info"))
@@ -473,9 +473,6 @@ namespace Game.Test
         private float m_Slider = 80;
         private IAudio m_TestAudio;
 
-        int pro;
-        TweenerCore<int, int, NoOptions> tweener;
-
         public void Dispose()
         {
         }
@@ -483,23 +480,23 @@ namespace Game.Test
         public void Download(HashSet<string> perchs)
         {
             Log.Debug("Start hot update check task.");
-            HotUpdateCheckTask checkTask = Global.Task.GetOrNew<HotUpdateCheckTask>();
-            checkTask.OnComplete(() =>
+            HotUpdateCheckTask checkTask = new HotUpdateCheckTask();
+            checkTask.OnCompleted(() =>
             {
                 if (checkTask.Success)
                     Log.Debug($"Hot update check task has success.");
                 else
                     Log.Debug("Hot update check task has failure.");
                 Log.Debug("Start hot update download task.");
-                HotUpdateDownTask downTask = Global.Task.GetOrNew<HotUpdateDownTask>();
-                downTask.AddList(checkTask.ResList, perchs).OnComplete(() =>
+                HotUpdateDownTask downTask = new HotUpdateDownTask();
+                downTask.AddList(checkTask.ResList, perchs).OnCompleted(() =>
                 {
                     if (downTask.Success)
                         Log.Debug("Hot update download task has success.");
                     else
                         Log.Debug("Hot update download task has failure.");
-                }).Start();
-            }).Start();
+                }).Coroutine();
+            }).Coroutine();
         }
     }
 
@@ -514,9 +511,11 @@ namespace Game.Test
         public DOTweenProgress()
         {
             m_Pro = 0;
-            DOTween.To(
-                () => m_Pro,
-                (v) => m_Pro = v, 1, 5);
+        }
+
+        public void OnCancel()
+        {
+
         }
     }
 }

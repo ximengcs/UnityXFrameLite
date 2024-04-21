@@ -1,74 +1,84 @@
-﻿using XFrame.Modules.Tasks;
+﻿using XFrame.Tasks;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace UnityXFrame.Core.HotUpdate
 {
-    public class HotUpdateCheckTask : TaskBase
+    public class HotUpdateCheckTask : XProTask
     {
+        private Handler m_Handler;
+
         public bool Success { get; private set; }
         public List<string> ResList { get; private set; }
 
-        protected override void OnCreateFromPool()
+        public HotUpdateCheckTask() : base(null)
         {
-            base.OnCreateFromPool();
-            AddStrategy(new Strategy());
-            Add(new Handler());
+            m_Handler = new Handler(this);
+            m_ProHandler = m_Handler;
         }
 
-        private class Strategy : ITaskStrategy<Handler>
+        protected override void InnerStart()
         {
-            private Handler m_Handler;
+            base.InnerStart();
+            m_Handler.Start();
+        }
 
-            public void OnUse(Handler handler)
-            {
-                m_Handler = handler;
-                m_Handler.Start();
-            }
+        private class Handler : IProTaskHandler
+        {
+            private float m_Pro;
+            private HotUpdateCheckTask m_Task;
+            private AsyncOperationHandle<List<string>> m_Op;
 
-            public float OnHandle(ITask from)
+            public object Data => throw new System.NotImplementedException();
+
+            public bool IsDone
             {
-                if (!m_Handler.Op.IsDone)
+                get
                 {
-                    return m_Handler.Op.PercentComplete;
-                }
-                else
-                {
-                    HotUpdateCheckTask task = (HotUpdateCheckTask)from;
-                    if (m_Handler.Op.IsValid() && m_Handler.Op.Status == AsyncOperationStatus.Succeeded)
+                    if (!m_Op.IsDone)
                     {
-                        task.Success = true;
-                        task.ResList = m_Handler.Op.Result;
+                        m_Pro = m_Op.PercentComplete;
                     }
                     else
                     {
-                        task.Success = false;
+                        if (m_Op.IsValid() && m_Op.Status == AsyncOperationStatus.Succeeded)
+                        {
+                            m_Task.Success = true;
+                            m_Task.ResList = m_Op.Result;
+                        }
+                        else
+                        {
+                            m_Task.Success = false;
+                        }
+
+                        m_Pro = XTaskHelper.MAX_PROGRESS;
                     }
 
-                    return MAX_PRO;
+                    return m_Pro >= XTaskHelper.MAX_PROGRESS;
                 }
             }
 
-            public void OnFinish()
-            {
-                m_Handler.Dispose();
-                m_Handler = null;
-            }
-        }
+            public float Pro => m_Pro;
 
-        private class Handler : ITaskHandler
-        {
-            public AsyncOperationHandle<List<string>> Op { get; private set; }
+            public Handler(HotUpdateCheckTask task)
+            {
+                m_Task = task;
+            }
 
             public void Start()
             {
-                Op = Addressables.CheckForCatalogUpdates(false);
+                m_Op = Addressables.CheckForCatalogUpdates(false);
             }
 
             public void Dispose()
             {
-                Addressables.Release(Op);
+                Addressables.Release(m_Op);
+            }
+
+            public void OnCancel()
+            {
+                Dispose();
             }
         }
     }

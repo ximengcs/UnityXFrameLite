@@ -1,7 +1,7 @@
 ﻿using UnityXFrame.Core.Resource;
 using XFrame.Core;
 using XFrame.Modules.Resource;
-using XFrame.Modules.Tasks;
+using XFrame.Tasks;
 
 namespace UnityXFrame.Core
 {
@@ -12,16 +12,16 @@ namespace UnityXFrame.Core
 
         }
 
-        public ITask BeforeHandle()
+        public async XTask BeforeHandle()
         {
-            return Global.Task.GetOrNew<EmptyTask>();
+            await new XTaskCompleted();
         }
 
-        public ITask AfterHandle()
+        public async XTask AfterHandle()
         {
             InnerConfigLog();
             InnerAddExtModule();
-            return Global.Task.GetOrNew<EmptyTask>();
+            await new XTaskCompleted();
         }
 
         private void InnerConfigLog()

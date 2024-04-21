@@ -15,7 +15,6 @@ namespace UnityXFrame.Core.Diagnotics
         private int m_FPS;
         private int m_FPSMin = 10;
         private int m_FPSMax = 144;
-        private ITask m_TimerDebugTask;
 
         public void Dispose()
         {
@@ -32,17 +31,6 @@ namespace UnityXFrame.Core.Diagnotics
 
         public void OnDraw()
         {
-            GUILayout.BeginHorizontal();
-            DebugGUI.Label("Debug Timer CD");
-            bool timerCD = DebugGUI.Power(m_TimerCD);
-            if (timerCD && m_TimerDebugTask == null)
-            {
-                m_TimerDebugTask = Global.Task.GetOrNew<ActionTask>().Add(1.0f, InnerTestTimerCD);
-                m_TimerDebugTask.Start();
-            }
-            m_TimerCD = timerCD;
-            GUILayout.EndHorizontal();
-
             DebugGUI.BeginVertical();
             GUILayout.BeginHorizontal();
             m_FPS = (int)DebugGUI.Slider(m_FPS, m_FPSMin, m_FPSMax);
@@ -87,19 +75,6 @@ namespace UnityXFrame.Core.Diagnotics
                 UnityEditor.EditorApplication.isPlaying = false;
 #endif
             }
-        }
-
-        private bool InnerTestTimerCD()
-        {
-            foreach (CDTimer timer in Global.Time.GetTimers())
-            {
-                float t = timer.CheckTime();
-                Log.Debug("Timer", $"{timer.Name} {(t > 0 ? t : "has reach")}");
-            }
-            bool finish = !m_TimerCD;
-            if (finish)
-                m_TimerDebugTask = null;
-            return finish;
         }
     }
 }

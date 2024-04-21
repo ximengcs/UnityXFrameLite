@@ -1,8 +1,7 @@
 using System.Threading.Tasks;
-using UnityEngine;
 using UnityXFrame.Core.Diagnotics;
 using XFrame.Modules.Diagnotics;
-using XFrame.Modules.NewTasks;
+using XFrame.Tasks;
 
 namespace Game.Test
 {
@@ -85,7 +84,7 @@ namespace Game.Test
             Log.Debug("2 3");
             await Task.Delay(3000);
             m_Task3 = Task3();
-            m_Task3.OnCompleted((state) => Log.Debug($"task 3 complete {state}"));
+            m_Task3.OnCompleted((int state) => Log.Debug($"task 3 complete {state}"));
             await m_Task3;
             Log.Debug(m_Task3.GetResult());
         }
@@ -107,7 +106,7 @@ namespace Game.Test
             Log.Debug("Start");
             m_ProTask4 = new XProTask(new DOTweenProgress());
             //m_ProTask4.OnUpdate((pro) => Debug.LogWarning($"Pro {pro}"));
-            m_ProTask4.OnCompleted((state) => Log.Debug($"pro task 4 OnComplete {state}"));
+            m_ProTask4.OnCompleted((object state) => Log.Debug($"pro task 4 OnComplete {state}"));
             await m_ProTask4;
             Log.Debug("End");
         }

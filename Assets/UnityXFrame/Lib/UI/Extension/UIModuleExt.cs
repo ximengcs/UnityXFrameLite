@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityXFrame.Core.UIElements;
 using XFrame.Modules.Reflection;
 using UnityXFrame.Core;
+using XFrame.Tasks;
 
 namespace UnityXFrameLib.UIElements
 {
@@ -46,17 +47,14 @@ namespace UnityXFrameLib.UIElements
             return list;
         }
 
-        public static ITask CollectAutoTask()
+        public static async XTask CollectAutoTask()
         {
-            XTask task = Global.Task.GetOrNew<XTask>();
-            task.Add(InnerFactoryTask(Global.Type.GetOrNewWithAttr<AutoLoadUIAttribute>(), Global.UI.PreloadResource));
-            task.Add(InnerFactoryTask(Global.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), Global.UI.Spwan));
-            return task;
+            await InnerFactoryTask(Global.Type.GetOrNewWithAttr<AutoLoadUIAttribute>(), Global.UI.PreloadResource);
+            await InnerFactoryTask(Global.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), Global.UI.Spwan);
         }
 
-        private static ITask InnerFactoryTask(TypeSystem typeSys, Func<IEnumerable<Type>, int, ITask> handler)
+        private static async XTask InnerFactoryTask(TypeSystem typeSys, Func<IEnumerable<Type>, int, ITask> handler)
         {
-            XTask task = Global.Task.GetOrNew<XTask>();
             Dictionary<int, List<Type>> map = new Dictionary<int, List<Type>>();
             foreach (Type type in typeSys)
             {
@@ -70,8 +68,10 @@ namespace UnityXFrameLib.UIElements
             }
 
             foreach (var entry in map)
-                task.Add(handler(entry.Value, entry.Key));
-            return task;
+            {
+                handler(entry.Value, entry.Key);
+                await XTask.NextFrame();
+            }
         }
 
         private static void InnerCollectInfo(TypeSystem typeSys, Func<Type, int, ITask> handler, List<ITask> result)

@@ -16,6 +16,10 @@ namespace UnityXFrame.Core.Resource
 
         public float Pro => m_Request.progress;
 
+        public string AssetPath => m_ResPath;
+
+        public Type AssetType => m_ResType;
+
         public ResHandler(string resPath, Type resType)
         {
             m_ResPath = resPath;
@@ -25,6 +29,11 @@ namespace UnityXFrame.Core.Resource
         public void Start()
         {
             m_Request = Resources.LoadAsync(m_ResPath, m_ResType);
+        }
+
+        public void OnCancel()
+        {
+            Dispose();
         }
 
         public void Dispose()

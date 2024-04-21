@@ -9,6 +9,7 @@ using XFrame.Modules.Tasks;
 using XFrame.Modules.Event;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Reflection;
+using XFrame.Tasks;
 
 namespace UnityXFrame.Core.UIElements
 {
@@ -72,68 +73,60 @@ namespace UnityXFrame.Core.UIElements
         #endregion
 
         #region Interface
-        public ITask PreloadResource(Type[] types, int useResModule)
+        public XTask PreloadResource(Type[] types, int useResModule)
         {
             return m_Helper.PreloadRes(types, useResModule);
         }
 
-        public ITask PreloadResource(IEnumerable<Type> types, int useResModule)
+        public XTask PreloadResource(IEnumerable<Type> types, int useResModule)
         {
             return m_Helper.PreloadRes(types, useResModule);
         }
 
-        public ITask PreloadResource(IXEnumerable<Type> types, int useResModule)
+        public XTask PreloadResource(IXEnumerable<Type> types, int useResModule)
         {
             return m_Helper.PreloadRes((IEnumerable<Type>)types, useResModule);
         }
 
-        public ITask PreloadResource(Type type, int useResModule)
+        public XTask PreloadResource(Type type, int useResModule)
         {
             return m_Helper.PreloadRes(type, useResModule);
         }
 
-        public ITask Spwan(IEnumerable<Type> types, int useResModule)
+        public async XTask Spwan(IEnumerable<Type> types, int useResModule)
         {
-            ActionTask task = Global.Task.GetOrNew<ActionTask>();
             foreach (Type uiType in types)
             {
                 if (uiType != null)
                 {
-                    task.Add(() =>
-                    {
-                        XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
-                        Global.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
-                        InnerInitSpwanUI(list);
-                        list.Clear();
-                        References.Release(list);
-                    });
+                    XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
+                    Global.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
+                    InnerInitSpwanUI(list);
+                    list.Clear();
+                    References.Release(list);
+                    await XTask.NextFrame();
                 }
             }
-            return task;
         }
 
-        public ITask Spwan(Type[] types, int useResModule)
+        public XTask Spwan(Type[] types, int useResModule)
         {
             return Spwan((IEnumerable<Type>)types, useResModule);
         }
 
-        public ITask Spwan(IXEnumerable<Type> types, int useResModule)
+        public XTask Spwan(IXEnumerable<Type> types, int useResModule)
         {
             return Spwan((IEnumerable<Type>)types, useResModule);
         }
 
-        public ITask Spwan(Type uiType, int useResModule)
+        public async XTask Spwan(Type uiType, int useResModule)
         {
-            ActionTask task = Global.Task.GetOrNew<ActionTask>();
-            task.Add(() =>
-            {
-                XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
-                Global.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
-                InnerInitSpwanUI(list);
-                list.Clear();
-                References.Release(list);
-            });
-            return task;
+            XLinkList<IPoolObject> list = References.Require<XLinkList<IPoolObject>>();
+            Global.Pool.GetOrNew(uiType, m_Helper).Spawn(0, 1, useResModule, list);
+            InnerInitSpwanUI(list);
+            list.Clear();
+            References.Release(list);
+            await new XTaskCompleted();
         }
 
         private void InnerInitSpwanUI(XLinkList<IPoolObject> list)
@@ -147,7 +140,7 @@ namespace UnityXFrame.Core.UIElements
             }
         }
 
-        public ITask Spwan<T>(int useResModule) where T : IUI
+        public XTask Spwan<T>(int useResModule) where T : IUI
         {
             return Spwan(typeof(T), useResModule);
         }

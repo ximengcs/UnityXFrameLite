@@ -5,6 +5,7 @@ using XFrame.Modules.Pools;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Diagnotics;
 using XFrame.Core;
+using XFrame.Tasks;
 
 namespace UnityXFrame.Core.Audios
 {
@@ -21,7 +22,7 @@ namespace UnityXFrame.Core.Audios
             private bool m_AutoRelease;
             private Action m_PlayCallback;
 
-            private ActionTask m_WaitTask;
+            private ITask m_WaitTask;
             private Group m_Group;
 
             public AudioClip Clip
@@ -51,17 +52,20 @@ namespace UnityXFrame.Core.Audios
                         m_AutoRelease = value;
                         if (m_WaitTask == null)
                         {
-                            m_WaitTask = Global.Task.GetOrNew<ActionTask>();
-                            m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
-                                .OnComplete(() =>
-                                {
-                                    m_WaitTask = null;
-                                    m_PlayCallback?.Invoke();
-                                    m_PlayCallback = null;
-                                    if (m_Disposed)
-                                        return;
-                                    Release();
-                                }).Start();
+                            m_WaitTask = XTask.Condition(() =>
+                            {
+                                return !m_Source.isPlaying && !m_Paused;
+                            })
+                            .OnCompleted(() =>
+                            {
+                                m_WaitTask = null;
+                                m_PlayCallback?.Invoke();
+                                m_PlayCallback = null;
+                                if (m_Disposed)
+                                    return;
+                                Release();
+                            });
+                            m_WaitTask.Coroutine();
                         }
                     }
                 }
@@ -163,15 +167,14 @@ namespace UnityXFrame.Core.Audios
                 m_Source.Play();
                 if (m_WaitTask != null)
                 {
-                    m_WaitTask.Delete();
+                    m_WaitTask.Cancel(true);
                     m_WaitTask = null;
                 }
 
                 if (AutoRelease)
                 {
-                    m_WaitTask = Global.Task.GetOrNew<ActionTask>();
-                    m_WaitTask.Add(() => !m_Source.isPlaying && !m_Paused)
-                        .OnComplete(() =>
+                    m_WaitTask = XTask.Condition(() => !m_Source.isPlaying && !m_Paused)
+                        .OnCompleted(() =>
                         {
                             m_WaitTask = null;
                             m_PlayCallback?.Invoke();
@@ -179,7 +182,8 @@ namespace UnityXFrame.Core.Audios
                             if (m_Disposed)
                                 return;
                             Release();
-                        }).Start();
+                        });
+                    m_WaitTask.Coroutine();
                 }
             }
 
@@ -242,7 +246,7 @@ namespace UnityXFrame.Core.Audios
                 Clip = null;
                 if (m_WaitTask != null)
                 {
-                    m_WaitTask.Delete();
+                    m_WaitTask.Cancel(true);
                     m_WaitTask = null;
                 }
 

@@ -1,48 +1,66 @@
 ﻿using System.Diagnostics;
-using XFrame.Modules.Tasks;
 using UnityEngine.Scripting;
+using XFrame.Tasks;
 
 namespace UnityXFrameLib.Improve
 {
-    public class GCTask : ActionTask
+    public class GCTask : XProTask
     {
-        private float m_Pro;
-        private Stopwatch m_Watch;
-
-        protected override void OnInit()
+        public GCTask() : base(null)
         {
-            base.OnInit();
-            m_Pro = 0;
+            m_ProHandler = new Handler();
         }
 
-        protected override void OnCreateFromPool()
+        private class Handler : IProTaskHandler
         {
-            base.OnCreateFromPool();
-            m_Watch = new Stopwatch();
-            Add(InnerStart);
-        }
-
-        private float InnerStart()
-        {
-#if UNITY_EDITOR
-            return MAX_PRO;
-#else
-            m_Watch.Restart();
-            bool finish = !GarbageCollector.CollectIncremental();
-            m_Watch.Stop();
-            if (finish || m_Watch.ElapsedMilliseconds == 0)
-                return MAX_PRO;
-
-            InnerFakePro();
-            return m_Pro;
+            private float m_Pro;
+#if !UNITY_EDITOR
+            private Stopwatch m_Watch;
 #endif
-        }
 
-        private void InnerFakePro()
-        {
-            m_Pro += (MAX_PRO - m_Pro) * 0.1f;
-            if (m_Pro >= 0.999f)
-                m_Pro = MAX_PRO;
+            public object Data => throw new System.NotImplementedException();
+
+            public bool IsDone
+            {
+                get
+                {
+#if UNITY_EDITOR
+                    m_Pro = XTaskHelper.MAX_PROGRESS;
+#else
+                    m_Watch.Restart();
+                    bool finish = !GarbageCollector.CollectIncremental();
+                    m_Watch.Stop();
+                    if (finish || m_Watch.ElapsedMilliseconds == 0)
+                        m_Pro = XTaskHelper.MAX_PROGRESS;
+                    else
+                        InnerFakePro();
+#endif
+                    return m_Pro >= XTaskHelper.MAX_PROGRESS;
+                }
+            }
+
+            public float Pro => throw new System.NotImplementedException();
+
+            public Handler()
+            {
+
+#if !UNITY_EDITOR
+                m_Watch = new Stopwatch();
+#endif
+            }
+
+            public void OnCancel()
+            {
+                throw new System.NotImplementedException();
+            }
+
+            private void InnerFakePro()
+            {
+                m_Pro += (XTaskHelper.MAX_PROGRESS - m_Pro) * 0.1f;
+                if (m_Pro >= 0.999f)
+                    m_Pro = XTaskHelper.MAX_PROGRESS;
+            }
+
         }
     }
 }

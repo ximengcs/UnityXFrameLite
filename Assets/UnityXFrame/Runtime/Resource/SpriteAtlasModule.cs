@@ -169,21 +169,17 @@ namespace UnityXFrame.Core.Resource
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
             string atlasPath = Redirect(resPath, type);
-            ResLoadTask loadTask = Global.Task.GetOrNew<ResLoadTask>();
             ResLoadTask<SpriteAtlas> atlasTask = Global.Res.LoadAsync<SpriteAtlas>(atlasPath);
             string spriteName = System.IO.Path.GetFileNameWithoutExtension(resPath);
-            loadTask.Add(new WaitAtlasHandler(atlasTask, spriteName));
-            return loadTask;
+            return new ResLoadTask(new WaitAtlasHandler(atlasTask, spriteName, type));
         }
 
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
             string atlasPath = Redirect(resPath, typeof(T));
-            ResLoadTask<T> loadTask = Global.Task.GetOrNew<ResLoadTask<T>>();
             ResLoadTask<SpriteAtlas> atlasTask = Global.Res.LoadAsync<SpriteAtlas>(atlasPath);
             string spriteName = System.IO.Path.GetFileNameWithoutExtension(resPath);
-            loadTask.Add(new WaitAtlasHandler(atlasTask, spriteName));
-            return loadTask;
+            return new ResLoadTask<T>(new WaitAtlasHandler(atlasTask, spriteName, typeof(T)));
         }
 
         public void Unload(object target)

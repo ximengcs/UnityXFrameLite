@@ -1,8 +1,6 @@
 ﻿using System;
-using UnityEngine;
-using System.Linq;
+using XFrame.Tasks;
 using System.Collections;
-using XFrame.Modules.Tasks;
 using XFrame.Modules.Diagnotics;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
@@ -13,11 +11,11 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace UnityXFrame.Core.HotUpdate
 {
-    public partial class HotUpdateDownTask : TaskBase
+    public partial class HotUpdateDownTask : XProTask
     {
+        private Handler m_Handler;
         private Action m_OnStart;
         private bool m_Staring;
-        private List<Handler> m_Handlers = new List<Handler>();
 
         public bool Success { get; private set; }
 
@@ -35,19 +33,9 @@ namespace UnityXFrame.Core.HotUpdate
             }
         }
 
-        protected override void OnCreateFromPool()
+        public HotUpdateDownTask() : base (null)
         {
-            base.OnCreateFromPool();
-            m_Staring = false;
-            m_Handlers = new List<Handler>();
-            AddStrategy(new Strategy());
-        }
 
-        protected override void OnReleaseFromPool()
-        {
-            base.OnReleaseFromPool();
-            m_Handlers.Clear();
-            m_Staring = false;
         }
 
         public void OnStart(Action callback)
@@ -64,74 +52,23 @@ namespace UnityXFrame.Core.HotUpdate
 
         public bool CheckExist(string key)
         {
-            foreach (Handler handler in m_Handlers)
-            {
-                if (handler.Containes(key))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return m_Handler.Containes(key);
         }
 
         public void OnComplete(string key, Action<string> callback)
         {
-            foreach (Handler handler in m_Handlers)
+            if (m_Handler.Containes(key))
             {
-                if (handler.Containes(key))
-                {
-                    handler.OnComplete(key, callback);
-                    return;
-                }
+                m_Handler.OnComplete(key, callback);
+                return;
             }
         }
 
         public HotUpdateDownTask AddList(List<string> downList, HashSet<string> perchs = null)
         {
-            Handler handler = new Handler(this, downList, perchs);
-            Add(handler);
-            m_Handlers.Add(handler);
+            m_Handler = new Handler(this, downList, perchs);
+            Starting = true;
             return this;
-        }
-
-        private class Strategy : ITaskStrategy<Handler>
-        {
-            private Handler m_Handler;
-
-            public void OnUse(Handler handler)
-            {
-                m_Handler = handler;
-                m_Handler.Download();
-            }
-
-            public float OnHandle(ITask from)
-            {
-                switch (m_Handler.State)
-                {
-                    case State.Downloading:
-                        float pro = m_Handler.Pro;
-                        if (pro >= MAX_PRO)
-                            pro = 0.988888f;
-                        return pro;
-
-                    case State.DownloadSuccess:
-                        HotUpdateDownTask task = (HotUpdateDownTask)from;
-                        task.Success = true;
-                        return MAX_PRO;
-
-                    case State.DownloadFailure:
-                        task = (HotUpdateDownTask)from;
-                        task.Success = false;
-                        return MAX_PRO;
-
-                    default: return MAX_PRO;
-                }
-            }
-
-            public void OnFinish()
-            {
-                m_Handler = null;
-            }
         }
 
         private enum State
@@ -141,17 +78,48 @@ namespace UnityXFrame.Core.HotUpdate
             DownloadSuccess
         }
 
-        private class Handler : ITaskHandler
+        private class Handler : IProTaskHandler
         {
             private HotUpdateDownTask m_ParentTask;
             private List<string> m_CheckList;
             private HashSet<string> m_Perchs;
+            private float m_Pro;
 
             private Dictionary<string, DownLoadInfo> m_DownloadingDependency;
             private HashSet<AsyncOperationHandle> m_Handles;
 
             public State State { get; private set; }
-            public float Pro { get; private set; }
+            public float Pro => m_Pro;
+            public object Data => null;
+            public bool IsDone
+            {
+                get
+                {
+                    switch (State)
+                    {
+                        case State.Downloading:
+                            if (m_Pro >= XTaskHelper.MAX_PROGRESS)
+                                m_Pro = 0.988888f;
+                            break;
+
+                        case State.DownloadSuccess:
+                            m_ParentTask.Success = true;
+                            m_Pro = XTaskHelper.MAX_PROGRESS;
+                            break;
+
+                        case State.DownloadFailure:
+                            m_ParentTask.Success = false;
+                            m_Pro = XTaskHelper.MAX_PROGRESS;
+                            break;
+
+                        default:
+                            m_Pro = XTaskHelper.MAX_PROGRESS;
+                            break;
+                    }
+
+                    return m_Pro >= XTaskHelper.MAX_PROGRESS;
+                }
+            }
 
             public Handler(HotUpdateDownTask task, List<string> downList, HashSet<string> perchs)
             {
@@ -160,6 +128,11 @@ namespace UnityXFrame.Core.HotUpdate
                 m_Perchs = perchs;
                 m_Handles = new HashSet<AsyncOperationHandle>();
                 m_DownloadingDependency = new Dictionary<string, DownLoadInfo>();
+                Download();
+            }
+
+            public void OnCancel()
+            {
 
             }
 
@@ -210,7 +183,7 @@ namespace UnityXFrame.Core.HotUpdate
                 {
                     if (m_Perchs != null)
                     {
-                        if (!m_Perchs.Contains(key))
+                        if (!m_Perchs.Contains((string)key))
                         {
                             count--;
                             continue;
@@ -310,8 +283,7 @@ namespace UnityXFrame.Core.HotUpdate
             private void InnerDownloadWithEnum(IList<IResourceLocation> locations)
             {
                 AsyncOperationHandle<IList<IAssetBundleResource>> downHandle = Addressables.LoadAssetsAsync<IAssetBundleResource>(locations, null, true);
-                ActionTask task = Global.Task.GetOrNew<ActionTask>();
-                task.Add(() =>
+                XTask.Condition(() =>
                 {
                     bool isDone = downHandle.IsDone;
                     if (isDone)
@@ -326,15 +298,15 @@ namespace UnityXFrame.Core.HotUpdate
                             State = State.DownloadFailure;
                             Log.Debug("XFrame", $"Download failure, can't download res. {downHandle.OperationException}");
                         }
-                        Pro = 1;
+                        m_Pro = 1;
                         Addressables.Release(downHandle);
                     }
                     else
                     {
-                        Pro = downHandle.PercentComplete;
+                        m_Pro = downHandle.PercentComplete;
                     }
                     return isDone;
-                }).Start();
+                }).Coroutine();
             }
 
             public bool Containes(string key)
@@ -378,8 +350,7 @@ namespace UnityXFrame.Core.HotUpdate
                     }
                 }
 
-                ActionTask task = Global.Task.GetOrNew<ActionTask>();
-                task.Add(() =>
+                XTask.Condition(() =>
                 {
                     bool isDone = true;
                     foreach (AsyncOperationHandle handle in m_Handles)
@@ -421,7 +392,7 @@ namespace UnityXFrame.Core.HotUpdate
                             State = State.DownloadFailure;
                             Log.Debug("XFrame", $"Download failure, can't download res.");
                         }
-                        Pro = 1;
+                        m_Pro = 1;
                         foreach (AsyncOperationHandle handle in m_Handles)
                             Addressables.Release(handle);
                     }
@@ -431,10 +402,10 @@ namespace UnityXFrame.Core.HotUpdate
                         float rate = 1f / m_Handles.Count;
                         foreach (AsyncOperationHandle handle in m_Handles)
                             pro += handle.PercentComplete * rate;
-                        Pro = pro;
+                        m_Pro = pro;
                     }
                     return isDone;
-                }).Start();
+                }).Coroutine();
 
                 m_ParentTask.Starting = true;
             }

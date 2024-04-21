@@ -1,7 +1,7 @@
 ﻿
 using System;
 using XFrame.Core;
-using XFrame.Modules.Tasks;
+using XFrame.Tasks;
 
 namespace UnityXFrame.Core.Audios
 {

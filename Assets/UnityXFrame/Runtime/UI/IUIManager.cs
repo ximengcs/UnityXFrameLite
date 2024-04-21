@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using XFrame.Tasks;
 using XFrame.Collections;
 using XFrame.Modules.Event;
-using XFrame.Modules.Tasks;
 using XFrame.Modules.Containers;
 using System.Collections.Generic;
 
@@ -14,22 +14,22 @@ namespace UnityXFrame.Core.UIElements
 
         Vector2 PixelScale { get; }
 
-        ITask PreloadResource(Type[] types, int useResModule);
+        XTask PreloadResource(Type[] types, int useResModule);
 
-        ITask PreloadResource(IEnumerable<Type> types, int useResModule);
+        XTask PreloadResource(IEnumerable<Type> types, int useResModule);
 
-        ITask PreloadResource(IXEnumerable<Type> types, int useResModule);
-        ITask PreloadResource(Type type, int useResModule);
+        XTask PreloadResource(IXEnumerable<Type> types, int useResModule);
+        XTask PreloadResource(Type type, int useResModule);
 
-        ITask Spwan(IEnumerable<Type> types, int useResModule);
+        XTask Spwan(IEnumerable<Type> types, int useResModule);
 
-        ITask Spwan(Type[] types, int useResModule);
+        XTask Spwan(Type[] types, int useResModule);
 
-        ITask Spwan(IXEnumerable<Type> types, int useResModule);
+        XTask Spwan(IXEnumerable<Type> types, int useResModule);
 
-        ITask Spwan(Type uiType, int useResModule);
+        XTask Spwan(Type uiType, int useResModule);
 
-        ITask Spwan<T>(int useResModule) where T : IUI;
+        XTask Spwan<T>(int useResModule) where T : IUI;
 
         IUIGroup MainGroup { get; }
 

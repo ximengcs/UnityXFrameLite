@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -10,6 +11,12 @@ namespace UnityXFrame.Core.Resource
         {
             private AsyncOperationHandle m_Handle;
             private object m_Data;
+            private string m_AssetPath;
+            private Type m_Type;
+
+            public string AssetPath => m_AssetPath;
+
+            public Type AssetType => m_Type;
 
             public object Data
             {
@@ -25,14 +32,21 @@ namespace UnityXFrame.Core.Resource
 
             public float Pro => m_Handle.PercentComplete;
 
-            public ResHandler(AsyncOperationHandle handle)
+            public ResHandler(AsyncOperationHandle handle, string assetPath, Type type)
             {
                 m_Handle = handle;
+                m_AssetPath = assetPath;
+                m_Type = type;
             }
 
             public void Start()
             {
                 m_Data = m_Handle.WaitForCompletion();
+            }
+
+            public void OnCancel()
+            {
+                Release();
             }
 
             public void Dispose()

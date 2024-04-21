@@ -37,20 +37,14 @@ namespace UnityXFrame.Core.Resource
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
             resPath = InnerCheckResPath(resPath, type);
-            ResLoadTask task = Global.Task.GetOrNew<ResLoadTask>();
-            task.Add(new ResHandler(resPath, type));
-            task.Start();
-            return task;
+            return new ResLoadTask(new ResHandler(resPath, type));
         }
 
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
             Type type = typeof(T);
             resPath = InnerCheckResPath(resPath, type);
-            ResLoadTask<T> task = Global.Task.GetOrNew<ResLoadTask<T>>();
-            task.Add(new ResHandler(resPath, type));
-            task.Start();
-            return task;
+            return new ResLoadTask<T>(new ResHandler(resPath, type));
         }
 
         public void Unload(object res)

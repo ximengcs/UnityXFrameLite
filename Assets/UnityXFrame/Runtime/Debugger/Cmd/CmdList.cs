@@ -80,15 +80,15 @@ namespace UnityXFrame.Core.Diagnotics
         {
             if (string.IsNullOrEmpty(url))
                 return;
-            Global.Download.Down(url).OnComplete((string text) =>
+            Global.Download.Down(url).OnCompleted((string text) =>
             {
                 if (!string.IsNullOrEmpty(text))
                     Log.Debug(text);
-            }).OnComplete((byte[] data) =>
+            }).OnCompleted((byte[] data) =>
             {
                 if (data != null)
                     Log.Debug($"data size {data.Length}");
-            }).Start();
+            }).Coroutine();
         }
 
         [DebugCommand]

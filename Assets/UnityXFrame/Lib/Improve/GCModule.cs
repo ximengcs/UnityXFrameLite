@@ -15,7 +15,7 @@ namespace UnityXFrameLib.Improve
 
         public GCTask Request()
         {
-            return Global.Task.GetOrNew<GCTask>();
+            return new GCTask();
         }
 
         private void InnerToMunal()
