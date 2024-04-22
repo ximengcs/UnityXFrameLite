@@ -126,11 +126,12 @@ namespace UnityXFrame.Core.UIElements
 
         void IPoolObject.OnCreate(IPoolModule module)
         {
+            m_Module = module.Domain.GetModule<IContainerModule>();
             m_CanvasGroup = m_Root.GetComponent<CanvasGroup>();
             if (m_CanvasGroup == null)
                 m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
             m_Transform = m_Root.GetComponent<RectTransform>();
-            Event = m_Module.Domain.GetModule<IEventModule>().NewSys();
+            Event = module.Domain.GetModule<IEventModule>().NewSys();
             m_IsOpen = false;
             Active = false;
             OnCreateFromPool();

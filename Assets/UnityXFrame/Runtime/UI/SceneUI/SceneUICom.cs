@@ -15,7 +15,6 @@ namespace UnityXFrame.Core.UIElements
 {
     public class SceneUICom : EntityShareCom, IUIManager
     {
-        private static int s_MODULE_ID = 1000;
         private int m_ModuleId;
         private IUIModule m_UIModule;
 
@@ -24,7 +23,7 @@ namespace UnityXFrame.Core.UIElements
             get
             {
                 if (m_ModuleId == default)
-                    m_ModuleId = s_MODULE_ID++;
+                    m_ModuleId = UIHelper.ManagerId;
                 return m_ModuleId;
             }
         }
@@ -112,22 +111,26 @@ namespace UnityXFrame.Core.UIElements
             return m_UIModule.Open(uiName, dataHandler, useResModule, id);
         }
 
-        public IUI Open(string uiName, string groupName, OnDataProviderReady dataHandler = null, int useResModule = 0, int id = 0)
+        public IUI Open(string uiName, string groupName, OnDataProviderReady dataHandler = null, int useResModule = 0,
+            int id = 0)
         {
             return m_UIModule.Open(uiName, groupName, dataHandler, useResModule, id);
         }
 
-        public T Open<T>(string groupName, OnDataProviderReady dataHandler = null, int useResModule = 0, int id = 0) where T : IUI
+        public T Open<T>(string groupName, OnDataProviderReady dataHandler = null, int useResModule = 0, int id = 0)
+            where T : IUI
         {
             return m_UIModule.Open<T>(groupName, dataHandler, useResModule, id);
         }
 
-        public IUI Open(Type uiType, string groupName, OnDataProviderReady dataHandler = null, int useResModule = 0, int id = 0)
+        public IUI Open(Type uiType, string groupName, OnDataProviderReady dataHandler = null, int useResModule = 0,
+            int id = 0)
         {
             return m_UIModule.Open(uiType, groupName, dataHandler, useResModule, id);
         }
 
-        public IUI Open(Type uiType, IUIGroup group, OnDataProviderReady dataHandler = null, int useResModule = 0, int id = 0)
+        public IUI Open(Type uiType, IUIGroup group, OnDataProviderReady dataHandler = null, int useResModule = 0,
+            int id = 0)
         {
             return m_UIModule.Open(uiType, group, dataHandler, useResModule, id);
         }
@@ -142,7 +145,8 @@ namespace UnityXFrame.Core.UIElements
             return m_UIModule.Open(ui, group, dataHandler);
         }
 
-        public T Open<T>(IUIGroup group, OnDataProviderReady dataHandler = null, int useResModule = 0, int id = 0) where T : IUI
+        public T Open<T>(IUIGroup group, OnDataProviderReady dataHandler = null, int useResModule = 0, int id = 0)
+            where T : IUI
         {
             return m_UIModule.Open<T>(group, dataHandler, useResModule, id);
         }

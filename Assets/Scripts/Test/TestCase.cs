@@ -127,6 +127,7 @@ namespace Game.Test
         }
 
         private byte[] data;
+
         private async XTask InnerTestGet()
         {
             UnityWebRequest req = UnityWebRequest.Get("http://localhost:3000/users/basic?Id=1");
@@ -141,6 +142,7 @@ namespace Game.Test
                 Debug.Log("Form upload complete!");
                 Debug.LogWarning(req.downloadHandler.text);
             }
+
             req = UnityWebRequest.Get($"http://localhost:3000/users/portrait?Id=1");
             req.SetRequestHeader("UserId", "1");
             await GetAwaiter(req.SendWebRequest());
@@ -163,11 +165,41 @@ namespace Game.Test
             return tcs.Task;
         }
 
+        private DateTime TimeStampToLocal(long time)
+        {
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return epoch.AddMilliseconds(time).ToLocalTime();
+        }
+
+        private DateTime TimeStampToUtc(long time)
+        {
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return epoch.AddMilliseconds(time);
+        }
+
         public void OnDraw()
         {
+            if (DebugGUI.Button("Open Layout"))
+            {
+                Global.UI.Open<LayoutUI>(null, Constant.LOCAL_RES_MODULE);
+            }
+
+            if (DebugGUI.Button("Open LayoutLeft UI"))
+            {
+                Global.UI.Get<LayoutUI>().Left.Open<DialogUI>(
+                    (ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE);
+            }
+
+            if (DebugGUI.Button("Open LayoutRight UI"))
+            {
+                Global.UI.Get<LayoutUI>().Right.Open<DialogUI>(
+                    (ui) => ui.SetData(new Color(0, 0.2f, 0, 1)), Constant.LOCAL_RES_MODULE);
+            }
+
             if (DebugGUI.Button("Test"))
             {
-                InnerTest().Coroutine();
+                Log.Debug(TimeStampToUtc(1713775640401));
+                Log.Debug(TimeStampToLocal(1713775640401));
             }
 
             if (DebugGUI.Button("Cancel"))
@@ -182,7 +214,8 @@ namespace Game.Test
                 tex.LoadRawTextureData(data);
                 tex.Apply();
                 GameObject obj = new GameObject();
-                obj.AddComponent<SpriteRenderer>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+                obj.AddComponent<SpriteRenderer>().sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height),
+                    new Vector2(0.5f, 0.5f));
             }
 
             if (DebugGUI.Button("Download 1"))
@@ -515,7 +548,6 @@ namespace Game.Test
 
         public void OnCancel()
         {
-
         }
     }
 }
