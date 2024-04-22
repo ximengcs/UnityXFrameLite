@@ -186,8 +186,9 @@ namespace Game.Test
 
             if (DebugGUI.Button("Open LayoutLeft UI"))
             {
-                Global.UI.Get<LayoutUI>().Left.Open<DialogUI>(
-                    (ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE);
+                Global.UI.Get<LayoutUI>().Left.Open<BackgroundUI>(null, Constant.LOCAL_RES_MODULE);
+                //Global.UI.Get<LayoutUI>().Left.Open<DialogUI>(
+                //    (ui) => ui.SetData(new Color(0.2f, 0, 0, 1)), Constant.LOCAL_RES_MODULE);
             }
 
             if (DebugGUI.Button("Open LayoutRight UI"))
