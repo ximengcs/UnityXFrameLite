@@ -3525,10 +3525,25 @@
             任务模块
             </summary>
         </member>
+        <member name="M:XFrame.Modules.Tasks.TaskModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Tasks.TaskModule.OnUpdate(System.Single)">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Tasks.TaskModule.ExecCount">
+            <inheritdoc/>
+        </member>
         <member name="P:XFrame.Modules.Tasks.TaskModule.TaskTimeout">
             <summary>
             任务模块最大超时
             </summary>
+        </member>
+        <member name="M:XFrame.Modules.Tasks.TaskModule.Register(XFrame.Core.IUpdater)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Tasks.TaskModule.UnRegister(XFrame.Core.IUpdater)">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Threads.MainSynchronizationContext">
             <summary>
