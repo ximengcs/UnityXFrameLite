@@ -66,6 +66,18 @@
             </summary>
             <param name="handler">需要移除的委托</param>
         </member>
+        <member name="M:XFrame.Core.Binder.TriggerBinder`1.op_Implicit(XFrame.Core.Binder.TriggerBinder{`0})~`0">
+            <summary>
+            返回绑定的值
+            </summary>
+            <param name="binder">绑定的值</param>
+        </member>
+        <member name="M:XFrame.Core.Binder.TriggerBinder`1.ToString">
+            <summary>
+            返回持有值的字符串
+            </summary>
+            <returns>持有值的字符串</returns>
+        </member>
         <member name="T:XFrame.Core.Binder.ValueBinder`1">
             <summary>
             数值绑定器
@@ -113,6 +125,18 @@
             移除一个带返回值的数值变更处理委托
             </summary>
             <param name="handler">需要移除的委托</param>
+        </member>
+        <member name="M:XFrame.Core.Binder.ValueBinder`1.op_Implicit(XFrame.Core.Binder.ValueBinder{`0})~`0">
+            <summary>
+            返回绑定的值
+            </summary>
+            <param name="binder">绑定的值</param>
+        </member>
+        <member name="M:XFrame.Core.Binder.ValueBinder`1.ToString">
+            <summary>
+            返回持有值的字符串
+            </summary>
+            <returns>持有值的字符串</returns>
         </member>
         <member name="T:XFrame.Core.Binder.ValueBinder`2">
             <summary>
@@ -162,6 +186,57 @@
             </summary>
             <param name="handler">需要移除的委托</param>
         </member>
+        <member name="M:XFrame.Core.Binder.ValueBinder`2.op_Implicit(XFrame.Core.Binder.ValueBinder{`0,`1})~`0">
+            <summary>
+            返回绑定的值
+            </summary>
+            <param name="binder">绑定的值</param>
+        </member>
+        <member name="M:XFrame.Core.Binder.ValueBinder`2.ToString">
+            <summary>
+            返回持有值的字符串
+            </summary>
+            <returns>持有值的字符串</returns>
+        </member>
+        <member name="T:XFrame.Core.Binder.XComplete`1">
+            <summary>
+            带标记的完成委托
+            </summary>
+            <typeparam name="T">持有数据类型</typeparam>
+        </member>
+        <member name="P:XFrame.Core.Binder.XComplete`1.Value">
+            <summary>
+            持有值
+            </summary>
+        </member>
+        <member name="P:XFrame.Core.Binder.XComplete`1.IsComplete">
+            <summary>
+            是否已经完成，当设置为true时会自动调用完成回调
+            </summary>
+        </member>
+        <member name="M:XFrame.Core.Binder.XComplete`1.#ctor(`0)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="defaultValue">持有默认值</param>
+        </member>
+        <member name="M:XFrame.Core.Binder.XComplete`1.Invoke">
+            <summary>
+            执行完成委托
+            </summary>
+        </member>
+        <member name="M:XFrame.Core.Binder.XComplete`1.On(System.Action)">
+            <summary>
+            注册完成回调
+            </summary>
+            <param name="handler">回调</param>
+        </member>
+        <member name="M:XFrame.Core.Binder.XComplete`1.On(System.Action{`0})">
+            <summary>
+            注册带有值的完成回调
+            </summary>
+            <param name="handler">完成回调</param>
+        </member>
         <member name="T:XFrame.Core.DataProvider">
             <summary>
             简单数据提供者
@@ -172,10 +247,46 @@
             构造器
             </summary>
         </member>
+        <member name="M:XFrame.Core.DataProvider.HasData``1">
+            <inheritdoc cref="M:XFrame.Core.IDataProvider.HasData``1"/>
+        </member>
+        <member name="M:XFrame.Core.DataProvider.HasData``1(System.String)">
+            <inheritdoc cref="M:XFrame.Core.IDataProvider.HasData``1(System.String)"/>
+        </member>
+        <member name="M:XFrame.Core.DataProvider.GetData``1">
+            <inheritdoc cref="M:XFrame.Core.IDataProvider.GetData``1"/>
+        </member>
+        <member name="M:XFrame.Core.DataProvider.GetData``1(System.String)">
+            <inheritdoc cref="M:XFrame.Core.IDataProvider.GetData``1(System.String)"/>
+        </member>
+        <member name="M:XFrame.Core.DataProvider.SetData``1(``0)">
+            <inheritdoc cref="M:XFrame.Core.IDataProvider.SetData``1(``0)"/>
+        </member>
+        <member name="M:XFrame.Core.DataProvider.SetData``1(System.String,``0)">
+            <inheritdoc cref="M:XFrame.Core.IDataProvider.SetData``1(System.String,``0)"/>
+        </member>
+        <member name="M:XFrame.Core.DataProvider.ClearData">
+            <inheritdoc cref="M:XFrame.Core.IDataProvider.ClearData"/>
+        </member>
         <member name="T:XFrame.Core.IDataProvider">
             <summary>
             数据提供者
             </summary>
+        </member>
+        <member name="M:XFrame.Core.IDataProvider.HasData``1">
+            <summary>
+            是否含有数据
+            </summary>
+            <typeparam name="T">数据类型</typeparam>
+            <returns>true为含有</returns>
+        </member>
+        <member name="M:XFrame.Core.IDataProvider.HasData``1(System.String)">
+            <summary>
+            是否含有数据
+            </summary>
+            <param name="name">数据名</param>
+            <typeparam name="T">数据类型</typeparam>
+            <returns>true为含有</returns>
         </member>
         <member name="M:XFrame.Core.IDataProvider.SetData``1(``0)">
             <summary>
@@ -206,6 +317,11 @@
             <typeparam name="T">数据类型</typeparam>
             <param name="name">数据标识</param>
             <returns>获取到的数据</returns>
+        </member>
+        <member name="M:XFrame.Core.IDataProvider.ClearData">
+            <summary>
+            清除数据
+            </summary>
         </member>
         <member name="M:XFrame.Core.Entry.Init">
             <summary>
@@ -262,6 +378,16 @@
             <typeparam name="T">辅助器类型</typeparam>
             <returns>辅助器实例</returns>
         </member>
+        <member name="T:XFrame.Core.IConfigHandler">
+            <summary>
+            配置处理类，可设置<see cref="T:XFrame.Core.XOrderAttribute"/>特性表明执行顺序
+            </summary>
+        </member>
+        <member name="M:XFrame.Core.IConfigHandler.OnHandle">
+            <summary>
+            此方法会在TypeModule执行后执行
+            </summary>
+        </member>
         <member name="T:XFrame.Core.IEntryHandler">
             <summary>
             Entry处理器
@@ -313,7 +439,7 @@
         </member>
         <member name="T:XFrame.Core.CommonModuleAttribute">
             <summary>
-            其他模块
+            通用模块
             </summary>
         </member>
         <member name="T:XFrame.Core.CoreModuleAttribute">
@@ -326,9 +452,41 @@
             依赖模块
             </summary>
         </member>
+        <member name="P:XFrame.Core.RequireModuleAttribute.ModuleType">
+            <summary>
+            依赖类型
+            </summary>
+        </member>
+        <member name="M:XFrame.Core.RequireModuleAttribute.#ctor(System.Type)">
+            <summary>
+            构造器
+            </summary>
+            <param name="type">依赖类型</param>
+        </member>
+        <member name="T:XFrame.Core.XOrderAttribute">
+            <summary>
+            定义顺序
+            </summary>
+        </member>
+        <member name="P:XFrame.Core.XOrderAttribute.Order">
+            <summary>
+            顺序
+            </summary>
+        </member>
+        <member name="M:XFrame.Core.XOrderAttribute.#ctor(System.Int32)">
+            <summary>
+            构造器
+            </summary>
+            <param name="order">顺序</param>
+        </member>
         <member name="T:XFrame.Core.IModule">
             <summary>
             模块 
+            </summary>
+        </member>
+        <member name="P:XFrame.Core.IModule.Domain">
+            <summary>
+            模块所属域
             </summary>
         </member>
         <member name="M:XFrame.Core.IModule.OnInit(System.Object,XFrame.Core.ModuleConfigAction)">
@@ -375,9 +533,47 @@
             模块基类
             </summary>
         </member>
+        <member name="P:XFrame.Core.ModuleBase.IsDefaultModule">
+            <summary>
+            是否是默认模块
+            </summary>
+        </member>
         <member name="P:XFrame.Core.ModuleBase.Id">
             <summary>
             模块Id
+            </summary>
+        </member>
+        <member name="P:XFrame.Core.ModuleBase.Domain">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Core.ModuleBase.RegisterUseModule(System.Type,System.Int32)">
+            <summary>
+            注册此模块使用的模块类型的模块Id
+            </summary>
+            <param name="moduleType">模块类型</param>
+            <param name="moduleId">模块Id</param>
+        </member>
+        <member name="M:XFrame.Core.ModuleBase.GetUseModule``1">
+            <summary>
+            获取使用的模块
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:XFrame.Core.ModuleBase.OnInit(System.Object)">
+            <summary>
+            初始化生命周期
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:XFrame.Core.ModuleBase.OnStart">
+            <summary>
+            启动生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Core.ModuleBase.OnDestroy">
+            <summary>
+            销魂生命周期
             </summary>
         </member>
         <member name="T:XFrame.Core.SingletonModule`1">
@@ -402,6 +598,23 @@
             </summary>
         </member>
         <member name="M:XFrame.Core.IParser.Parse(System.String)">
+            <summary>
+            解析
+            </summary>
+            <param name="pattern">源数据</param>
+            <returns>结果</returns>
+        </member>
+        <member name="T:XFrame.Core.IParser`1">
+            <summary>
+            解析器
+            </summary>
+        </member>
+        <member name="P:XFrame.Core.IParser`1.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="M:XFrame.Core.IParser`1.Parse(System.String)">
             <summary>
             解析
             </summary>
@@ -503,7 +716,7 @@
             <summary>
             构造一个 <paramref name="column"/> 列的Csv
             </summary>
-            <param name="column"></param>
+            <param name="column">列数</param>
         </member>
         <member name="M:XFrame.Collections.Csv`1.#ctor(System.String,XFrame.Core.IParser{`0})">
             <summary>
@@ -564,6 +777,36 @@
             <param name="column">列</param>
             <returns>数据</returns>
         </member>
+        <member name="M:XFrame.Collections.Csv`1.GetEnumerator">
+            <summary>
+            获取迭代器
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:XFrame.Collections.Csv`1.SetIt(XFrame.Collections.XItType)">
+            <summary>
+            设置迭代器类型
+            </summary>
+            <param name="type">迭代器类型</param>
+        </member>
+        <member name="M:XFrame.Collections.Csv`1.ToString">
+            <summary>
+            获取Csv数据字符串形式，以换行符分隔
+            </summary>
+            <returns>构造字符串</returns>
+        </member>
+        <member name="M:XFrame.Collections.Csv`1.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="M:XFrame.Collections.Csv`1.op_Implicit(XFrame.Collections.Csv{`0})~System.String">
+            <summary>
+            返回csv字符串形式
+            </summary>
+            <param name="csv">csv实例</param>
+            <returns>字符串形式</returns>
+        </member>
         <member name="T:XFrame.Collections.Csv`1.Line">
             <summary>
             行数据类
@@ -587,6 +830,31 @@
             <param name="index">索引</param>
             <returns>数据</returns>
         </member>
+        <member name="M:XFrame.Collections.Csv`1.Line.GetEnumerator">
+            <summary>
+            获取迭代器
+            </summary>
+            <returns>迭代器</returns>
+        </member>
+        <member name="M:XFrame.Collections.Csv`1.Line.SetIt(XFrame.Collections.XItType)">
+            <summary>
+            设置迭代器类型
+            </summary>
+            <param name="type">迭代器类型</param>
+        </member>
+        <member name="M:XFrame.Collections.Csv`1.Line.ToString">
+            <summary>
+            获取Csv行数据字符串形式，以逗号分隔
+            </summary>
+            <returns>构造字符串</returns>
+        </member>
+        <member name="M:XFrame.Collections.Csv`1.Line.op_Implicit(XFrame.Collections.Csv{`0}.Line)~System.String">
+            <summary>
+            返回csv行数据字符串形式
+            </summary>
+            <param name="csv">csv行实例</param>
+            <returns>字符串形式</returns>
+        </member>
         <member name="T:XFrame.Collections.ListExt">
             <summary>
             列表扩展类
@@ -598,15 +866,79 @@
             </summary>
             <typeparam name="T">持有数据类型</typeparam>
         </member>
+        <member name="M:XFrame.Collections.ListExt.ForwardIt`1.#ctor(System.Collections.Generic.List{`0})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="list">目标List</param>
+        </member>
+        <member name="P:XFrame.Collections.ListExt.ForwardIt`1.Current">
+            <summary>
+            当前值
+            </summary>
+        </member>
+        <member name="M:XFrame.Collections.ListExt.ForwardIt`1.MoveNext">
+            <summary>
+            移动至下一个
+            </summary>
+            <returns>是否还有元素</returns>
+        </member>
+        <member name="M:XFrame.Collections.ListExt.ForwardIt`1.Reset">
+            <summary>
+            重置迭代器
+            </summary>
+        </member>
+        <member name="M:XFrame.Collections.ListExt.ForwardIt`1.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
         <member name="T:XFrame.Collections.ListExt.BackwardIt`1">
             <summary>
             后向迭代器
             </summary>
             <typeparam name="T">数据持有类型</typeparam>
         </member>
+        <member name="M:XFrame.Collections.ListExt.BackwardIt`1.#ctor(System.Collections.Generic.List{`0})">
+            <summary>
+            构造器
+            </summary>
+            <param name="list">目标List</param>
+        </member>
+        <member name="P:XFrame.Collections.ListExt.BackwardIt`1.Current">
+            <summary>
+            当前值
+            </summary>
+        </member>
+        <member name="M:XFrame.Collections.ListExt.BackwardIt`1.MoveNext">
+            <summary>
+            下一个
+            </summary>
+            <returns>是否还有元素</returns>
+        </member>
+        <member name="M:XFrame.Collections.ListExt.BackwardIt`1.Reset">
+            <summary>
+            重置迭代器
+            </summary>
+        </member>
+        <member name="M:XFrame.Collections.ListExt.BackwardIt`1.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
         <member name="T:XFrame.Collections.XItType">
             <summary>
             迭代类型
+            </summary>
+        </member>
+        <member name="F:XFrame.Collections.XItType.Forward">
+            <summary>
+            前向迭代
+            </summary>
+        </member>
+        <member name="F:XFrame.Collections.XItType.Backward">
+            <summary>
+            后向迭代
             </summary>
         </member>
         <member name="T:XFrame.Collections.IXEnumerable`1">
@@ -637,11 +969,49 @@
             元素Id
             </summary>
         </member>
+        <member name="T:XFrame.Collections.SingleValueEnumerator`1">
+            <summary>
+            单值迭代器
+            </summary>
+            <typeparam name="T">持有值</typeparam>
+        </member>
+        <member name="P:XFrame.Collections.SingleValueEnumerator`1.Current">
+            <summary>
+            当前值
+            </summary>
+        </member>
+        <member name="M:XFrame.Collections.SingleValueEnumerator`1.#ctor(`0)">
+            <summary>
+            构造器
+            </summary>
+            <param name="value">持有值</param>
+        </member>
+        <member name="M:XFrame.Collections.SingleValueEnumerator`1.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="M:XFrame.Collections.SingleValueEnumerator`1.MoveNext">
+            <summary>
+            下一个
+            </summary>
+            <returns>是否还有下一个</returns>
+        </member>
+        <member name="M:XFrame.Collections.SingleValueEnumerator`1.Reset">
+            <summary>
+            重置迭代器
+            </summary>
+        </member>
         <member name="T:XFrame.Collections.XCollection`1">
             <summary>
             XItem的集合, 可以通过Id快速读取元素
             </summary>
             <typeparam name="T">持有的数据类型</typeparam>
+        </member>
+        <member name="F:XFrame.Collections.XCollection`1.DEFAULT_CAPACITY">
+            <summary>
+            默认容量
+            </summary>
         </member>
         <member name="M:XFrame.Collections.XCollection`1.#ctor(XFrame.Core.XDomain,System.Int32)">
             <summary>
@@ -700,6 +1070,26 @@
             <param name="entityId">元素Id</param>
             <returns>获取到的元素</returns>
         </member>
+        <member name="M:XFrame.Collections.XCollection`1.Get(System.Type,System.Int32)">
+            <summary>
+            获取指定id和给定类型的元素 
+            </summary>
+            <param name="elementType">需要获取的类型</param>
+            <param name="entityId">元素Id</param>
+            <returns>获取到的元素</returns>
+        </member>
+        <member name="M:XFrame.Collections.XCollection`1.SetIt(XFrame.Collections.XItType)">
+            <summary>
+            设置迭代器类型
+            </summary>
+            <param name="type">迭代器类型</param>
+        </member>
+        <member name="M:XFrame.Collections.XCollection`1.GetEnumerator">
+            <summary>
+            获取迭代器
+            </summary>
+            <returns>迭代器</returns>
+        </member>
         <member name="P:XFrame.Collections.XCollection`1.Enumerator.Current">
             <summary>
             当前迭代到的元素
@@ -724,56 +1114,58 @@
         <member name="T:XFrame.Collections.XLinkList`1">
             <summary>
             双向链表
-            注意点：	1.链表使用对象池，需要调用者使用完之后调用Dispose释放池
-            		2.链表可以调用Node节点的Delete直接删除节点
-            使用场景：需要顺序迭代，需要随时删除节点，不需要随机访问
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">持有类型</typeparam>
+        </member>
+        <member name="M:XFrame.Collections.XLinkList`1.#ctor">
+            <summary>
+            构造一个双向链表, 不使用对象池
+            </summary>
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.#ctor(System.Boolean)">
             <summary>
-            构造一个链表
-            usePool 内部使用一个所给容量的对象池
+            构造一个双向链表
             </summary>
+            <param name="usePool">是否使用对象池</param>
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.AddLast(`0)">
             <summary>
-            添加一个数据到链表尾
+            添加元素到尾部
             </summary>
-            <param name="data">要添加的数据</param>
-            <returns>添加的节点</returns>
+            <param name="data">数据</param>
+            <returns></returns>
         </member>
         <member name="P:XFrame.Collections.XLinkList`1.First">
             <summary>
-            链表第一个节点
+            首个元素
             </summary>
         </member>
         <member name="P:XFrame.Collections.XLinkList`1.Last">
             <summary>
-            链表最后一个节点
+            最后一个元素
             </summary>
         </member>
         <member name="P:XFrame.Collections.XLinkList`1.Count">
             <summary>
-            链表节点数量
+            元素数量
             </summary>
         </member>
         <member name="P:XFrame.Collections.XLinkList`1.Empty">
             <summary>
-            是否空
+            列表是否为空
             </summary>
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.AddLast(XFrame.Collections.XLinkNode{`0})">
             <summary>
-            尾部插入一个节点
+            在列表尾添加一个节点
             </summary>
             <param name="node">节点</param>
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.RemoveFirst">
             <summary>
-            移除第一个节点
+            移除第一个元素
             </summary>
-            <returns>移除掉的数据</returns>
+            <returns>移除的元素</returns>
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.RemoveFirstNode">
             <summary>
@@ -783,16 +1175,16 @@
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.AddFirst(`0)">
             <summary>
-            添加一个数据到链表头
+            在表头添加一个元素
             </summary>
-            <param name="data">要添加的数据</param>
-            <returns>添加的节点</returns>
+            <param name="data">元素</param>
+            <returns>节点</returns>
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.AddFirst(XFrame.Collections.XLinkNode{`0})">
             <summary>
-            在一个节点之前插入一个节点
+            在表头添加一个节点
             </summary>
-            <param name="node"></param>
+            <param name="node">添加的节点</param>
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.RemoveLast">
             <summary>
@@ -808,14 +1200,23 @@
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.Remove(`0)">
             <summary>
-            移除一个元素
+            移除元素
             </summary>
-            <param name="value">待移除的元素</param>
+            <param name="value">元素</param>
         </member>
         <member name="M:XFrame.Collections.XLinkList`1.Clear">
             <summary>
-            清除链表
+            清除元素
             </summary>
+        </member>
+        <member name="M:XFrame.Collections.XLinkList`1.SetIt(XFrame.Collections.XItType)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XLinkList`1.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Collections.XLinkList`1.MarkName">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Collections.XLinkNode`1">
             <summary>
@@ -856,6 +1257,9 @@
             </summary>
             <param name="value">元素</param>
             <returns>元素节点</returns>
+        </member>
+        <member name="P:XFrame.Collections.XLinkNode`1.MarkName">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Collections.XLoopQueue`1">
             <summary>
@@ -929,6 +1333,12 @@
             </summary>
             <returns>获取到的元素</returns>
         </member>
+        <member name="M:XFrame.Collections.XLoopQueue`1.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XLoopQueue`1.SetIt(XFrame.Collections.XItType)">
+            <inheritdoc/>
+        </member>
         <member name="T:XFrame.Collections.XNode`1">
             <summary>
             节点数据类型
@@ -978,6 +1388,28 @@
             </summary>
             <param name="callback">处理委托</param>
         </member>
+        <member name="M:XFrame.Collections.XNode`1.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XNode`1.SetIt(XFrame.Collections.XItType)">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Collections.XTypeAttribute">
+            <summary>
+            映射到类型
+            </summary>
+        </member>
+        <member name="P:XFrame.Collections.XTypeAttribute.Type">
+            <summary>
+            目标类型
+            </summary>
+        </member>
+        <member name="M:XFrame.Collections.XTypeAttribute.#ctor(System.Type)">
+            <summary>
+            构造器
+            </summary>
+            <param name="type">目标类型</param>
+        </member>
         <member name="T:XFrame.Modules.Archives.ArchiveAttribute">
             <summary>
             存档标记
@@ -999,13 +1431,17 @@
             存档模块
             </summary>
         </member>
+        <member name="M:XFrame.Modules.Archives.ArchiveModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.ArchiveModule.OnUpdate(System.Single)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.ArchiveModule.OnDestroy">
+            <inheritdoc/>
+        </member>
         <member name="M:XFrame.Modules.Archives.ArchiveModule.GetOrNew``1(System.String,System.Object)">
-            <summary>
-            获取或创建一个存档实例
-            </summary>
-            <typeparam name="T">存档类型</typeparam>
-            <param name="name">存档名</param>
-            <returns>存档实例</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Archives.ArchiveModule.Save">
             <summary>
@@ -1013,15 +1449,27 @@
             </summary>
         </member>
         <member name="M:XFrame.Modules.Archives.ArchiveModule.Delete(System.String)">
-            <summary>
-            删除一份存档
-            </summary>
-            <param name="name"></param>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.ArchiveModule.Delete(XFrame.Modules.Archives.IArchive)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.ArchiveModule.DeleteAll">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Archives.DataArchive">
             <summary>
             二进制存档
             </summary>
+        </member>
+        <member name="M:XFrame.Modules.Archives.DataArchive.Save">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.DataArchive.Delete">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Archives.DataArchive.Name">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Archives.DataArchive.Write(System.String,System.Byte[])">
             <summary>
@@ -1070,16 +1518,42 @@
             <param name="toPath">存档的导出路径</param>
             <returns>构建的存档</returns>
         </member>
+        <member name="T:XFrame.Modules.Archives.CsvArchive">
+            <summary>
+            csv存档
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Archives.CsvArchive.Data">
+            <summary>
+            CSV数据
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Archives.CsvArchive.Name">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.CsvArchive.Delete">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.CsvArchive.Save">
+            <inheritdoc/>
+        </member>
         <member name="T:XFrame.Modules.Archives.IArchive">
             <summary>
             存档
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Archives.IArchive.Name">
+            <summary>
+            存档名
             </summary>
         </member>
         <member name="M:XFrame.Modules.Archives.IArchive.OnInit(XFrame.Modules.Archives.IArchiveModule,System.String,System.String,System.Object)">
             <summary>
             初始化生命周期
             </summary>
+            <param name="module">存档所属模块</param>
             <param name="path">存储路径</param>
+            <param name="name">存储名</param>
             <param name="data">用户参数</param>
         </member>
         <member name="M:XFrame.Modules.Archives.IArchive.Save">
@@ -1092,9 +1566,246 @@
             删除存档
             </summary>
         </member>
+        <member name="T:XFrame.Modules.Archives.IArchiveModule">
+            <summary>
+            存档模块接口
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IArchiveModule.GetOrNew``1(System.String,System.Object)">
+            <summary>
+            获取或创建一个存档实例
+            </summary>
+            <typeparam name="T">存档类型</typeparam>
+            <param name="name">存档名</param>
+            <param name="param">参数</param>
+            <returns>存档实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IArchiveModule.Delete(System.String)">
+            <summary>
+            删除一份存档
+            </summary>
+            <param name="name">存档名</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IArchiveModule.Delete(XFrame.Modules.Archives.IArchive)">
+            <summary>
+            删除一份存档
+            </summary>
+            <param name="archive">存档实例</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IArchiveModule.DeleteAll">
+            <summary>
+            删除所有存档 
+            </summary>
+        </member>
+        <member name="T:XFrame.Modules.Archives.IArchiveUtilityHelper">
+            <summary>
+            存档模块辅助器
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IArchiveUtilityHelper.ReadAllBytes(System.String)">
+            <summary>
+            读取二进制数据
+            </summary>
+            <param name="path">路径</param>
+            <returns>二进制数据</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IArchiveUtilityHelper.WriteAllBytes(System.String,System.Byte[])">
+            <summary>
+            写入二进制数据
+            </summary>
+            <param name="path">路径</param>
+            <param name="data">二进制数据</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IArchiveUtilityHelper.ReadAllText(System.String)">
+            <summary>
+            读取文本数据
+            </summary>
+            <param name="path">路径</param>
+            <returns>文本</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IArchiveUtilityHelper.WriteAllText(System.String,System.String)">
+            <summary>
+            写入文本数据
+            </summary>
+            <param name="path">路径</param>
+            <param name="data">文本</param>
+        </member>
+        <member name="T:XFrame.Modules.Archives.ISaveable">
+            <summary>
+            可保存的模块
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Archives.ISaveable.Save">
+            <summary>
+            触发保存
+            </summary>
+        </member>
+        <member name="T:XFrame.Modules.Archives.IJsonArchive">
+            <summary>
+            Json存档
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Archives.IJsonArchive.Name">
+            <summary>
+            存档名
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.SetInt(System.String,System.Int32)">
+            <summary>
+            设置整数
+            </summary>
+            <param name="key">键</param>
+            <param name="v">值</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.SetLong(System.String,System.Int64)">
+            <summary>
+            设置长整型
+            </summary>
+            <param name="key">键</param>
+            <param name="v">值</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.GetInt(System.String,System.Int32)">
+            <summary>
+            获取整数
+            </summary>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.GetLong(System.String,System.Int64)">
+            <summary>
+            获取长整型
+            </summary>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.SetFloat(System.String,System.Single)">
+            <summary>
+            设置浮点值
+            </summary>
+            <param name="key">键</param>
+            <param name="v">值</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.SetDouble(System.String,System.Double)">
+            <summary>
+            设置双精度浮点值
+            </summary>
+            <param name="key">键</param>
+            <param name="v">值</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.GetFloat(System.String,System.Single)">
+            <summary>
+            获取浮点值
+            </summary>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.GetDouble(System.String,System.Single)">
+            <summary>
+            设置双精度浮点值
+            </summary>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.SetBool(System.String,System.Boolean)">
+            <summary>
+            设置布尔值
+            </summary>
+            <param name="key">键</param>
+            <param name="v">值</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.GetBool(System.String,System.Boolean)">
+            <summary>
+            获取布尔值
+            </summary>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.Set(System.String,System.Object)">
+            <summary>
+            设置值
+            </summary>
+            <param name="key">键</param>
+            <param name="v">值</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.Get``1(System.String,``0)">
+            <summary>
+            获取值
+            </summary>
+            <typeparam name="T">值类型</typeparam>
+            <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.GetOrNewObject(System.String)">
+            <summary>
+            获取或创建值对象
+            </summary>
+            <param name="key">键</param>
+            <returns>值对象</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.GetOrNewArray(System.String)">
+            <summary>
+            获取或创建数组对象
+            </summary>
+            <param name="key">键</param>
+            <returns>数组对象</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.Remove(System.String)">
+            <summary>
+            移除一个值
+            </summary>
+            <param name="key">键</param>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.SpwanDataProvider(System.String)">
+            <summary>
+            创建一个Json存档并作为子节点
+            </summary>
+            <param name="name">存档名</param>
+            <returns>存档</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.IJsonArchive.SpwanDataProvider">
+            <summary>
+            创建一个Json存档并作为子节点
+            </summary>
+            <returns>存档</returns>
+        </member>
         <member name="T:XFrame.Modules.Archives.JsonArchive">
             <summary>
             Json存档
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchive.Save">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchive.Delete">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchive.ClearData">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.Archives.JsonArchiveBase">
+            <summary>
+            Json存档基类
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Archives.JsonArchiveBase.m_Root">
+            <summary>
+            根节点对象
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Archives.JsonArchiveBase.m_Module">
+            <summary>
+            所属存档模块
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Archives.JsonArchiveBase.Name">
+            <summary>
+            存档名
             </summary>
         </member>
         <member name="M:XFrame.Modules.Archives.JsonArchiveBase.SetInt(System.String,System.Int32)">
@@ -1116,6 +1827,7 @@
             获取int值
             </summary>
             <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
             <returns>如果未设置过此键，则会返回0</returns>
         </member>
         <member name="M:XFrame.Modules.Archives.JsonArchiveBase.GetLong(System.String,System.Int64)">
@@ -1123,6 +1835,7 @@
             获取long值
             </summary>
             <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
             <returns>如果未设置过此键，则会返回0</returns>
         </member>
         <member name="M:XFrame.Modules.Archives.JsonArchiveBase.SetFloat(System.String,System.Single)">
@@ -1144,6 +1857,7 @@
             获取float值
             </summary>
             <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
             <returns>如果未设置过此键，则会返回0</returns>
         </member>
         <member name="M:XFrame.Modules.Archives.JsonArchiveBase.GetDouble(System.String,System.Single)">
@@ -1151,6 +1865,7 @@
             获取double值
             </summary>
             <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
             <returns>如果未设置过此键，则会返回0</returns>
         </member>
         <member name="M:XFrame.Modules.Archives.JsonArchiveBase.SetBool(System.String,System.Boolean)">
@@ -1165,6 +1880,7 @@
             获取bool值
             </summary>
             <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
             <returns>如果未设置过此键，则会返回false</returns>
         </member>
         <member name="M:XFrame.Modules.Archives.JsonArchiveBase.Set(System.String,System.Object)">
@@ -1180,6 +1896,7 @@
             </summary>
             <typeparam name="T">数据类型，如果与Set设置的数据类型不匹配，可能导致出错</typeparam>
             <param name="key">键</param>
+            <param name="defaultValue">默认值</param>
             <returns>获取到的数据</returns>
         </member>
         <member name="M:XFrame.Modules.Archives.JsonArchiveBase.GetOrNewObject(System.String)">
@@ -1190,6 +1907,9 @@
             <param name="key">键, 如果键已经存在，则会覆盖原始数据</param>
             <returns></returns>
         </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.Remove(System.String)">
+            <inheritdoc/>
+        </member>
         <member name="M:XFrame.Modules.Archives.JsonArchiveBase.GetOrNewArray(System.String)">
             <summary>
             获取(不存在时创建)一个JsonArray对象，即Json数组对象[]
@@ -1197,6 +1917,179 @@
             </summary>
             <param name="key">键, 如果键已经存在，则会覆盖原始数据</param>
             <returns>获取到的JsonArray对象</returns>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.HasData``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.HasData``1(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.GetData``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.GetData``1(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.SetData``1(``0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.SetData``1(System.String,``0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.SpwanDataProvider(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.SpwanDataProvider">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Archives.JsonArchiveBase.ClearData">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.Caches.CacheObjectAttribute">
+            <summary>
+            Cache对象工厂
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Caches.CacheObjectAttribute.Target">
+            <summary>
+            生产对象的类型
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Caches.CacheObjectAttribute.CacheCount">
+            <summary>
+            缓存数量
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Caches.CacheObjectAttribute.#ctor(System.Type,System.Int32)">
+            <summary>
+            构造器
+            </summary>
+            <param name="targetType">对象类型</param>
+            <param name="cacheCount">缓存数量</param>
+        </member>
+        <member name="T:XFrame.Modules.Caches.ICacheObject">
+            <summary>
+            可缓存的对象
+            </summary>
+        </member>
+        <member name="T:XFrame.Modules.Caches.ICacheObjectFactory">
+            <summary>
+            缓存对象工厂接口
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Caches.ICacheObjectFactory.Result">
+            <summary>
+            生产的对象
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Caches.ICacheObjectFactory.OnFactory">
+            <summary>
+            开始生产
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Caches.ICacheObjectFactory.OnFinish">
+            <summary>
+            生产完成
+            </summary>
+        </member>
+        <member name="T:XFrame.Modules.Caches.XCache">
+            <summary>
+            缓存模块
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Caches.XCache.Event">
+            <summary>
+            事件系统
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Caches.XCache.Collections">
+            <summary>
+            缓存对象集合
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Caches.XCache.OnStart">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Caches.XCache.GetFactory``1">
+            <summary>
+            获取对象工厂
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <returns>工厂实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Caches.XCache.GetFactory(System.Type)">
+            <summary>
+            获取对象工厂
+            </summary>
+            <param name="type">对象类型</param>
+            <returns>工厂实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Caches.XCache.Check``1">
+            <summary>
+            检查是否存在工厂
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <returns>true为存在</returns>
+        </member>
+        <member name="M:XFrame.Modules.Caches.XCache.Check(System.Type)">
+            <summary>
+            检查是否存在工厂
+            </summary>
+            <param name="type">对象类型</param>
+            <returns>true为存在</returns>
+        </member>
+        <member name="M:XFrame.Modules.Caches.XCache.Require``1">
+            <summary>
+            请求一个对象
+            </summary>
+            <typeparam name="T">对象类型</typeparam>
+            <returns>对象实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Caches.XCache.Require(System.Type)">
+            <summary>
+            请求一个对象
+            </summary>
+            <param name="type">对象类型</param>
+            <returns>对象实例</returns>
+        </member>
+        <member name="T:XFrame.Modules.Caches.XCache.ObjectCollection">
+            <summary>
+            缓存对象集合
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Caches.XCache.ObjectCollection.Factory">
+            <summary>
+            生成工厂
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Caches.XCache.ObjectCollection.TargetType">
+            <summary>
+            目标类型
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Caches.XCache.ObjectCollection.Count">
+            <summary>
+            缓存数量
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Caches.XCache.ObjectCollection.HasItem">
+            <summary>
+            是否为空
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Caches.XCache.ObjectCollection.#ctor(System.Type,XFrame.Modules.Caches.ICacheObjectFactory,System.Int32)">
+            <summary>
+            构造器
+            </summary>
+            <param name="target">对象类型</param>
+            <param name="factory">对象工厂</param>
+            <param name="cacheCount">缓存数量</param>
+        </member>
+        <member name="M:XFrame.Modules.Caches.XCache.ObjectCollection.Get">
+            <summary>
+            获取一个缓存对象
+            </summary>
+            <returns>缓存对象</returns>
         </member>
         <member name="T:XFrame.Modules.Conditions.ConditionData">
             <summary>
@@ -1280,6 +2173,11 @@
             </para>
             </summary>
         </member>
+        <member name="P:XFrame.Modules.Conditions.ConditionEvent.EventId">
+            <summary>
+            事件Id
+            </summary>
+        </member>
         <member name="P:XFrame.Modules.Conditions.ConditionEvent.Target">
             <summary>
             条件目标，即条件的类型
@@ -1289,8 +2187,8 @@
             <summary>
             触发参数
             <para>
-            可为数量等, 定义为<see cref="!:IConditionCompare&lt;&gt;.OnEventTrigger"/>和
-            <see cref="!:IConditionCompare&lt;&gt;.Check"/>的接受参数, 由<see cref="T:XFrame.Modules.Conditions.IConditionCompare"/>的具体实现类解析判断。
+            可为数量等, 定义为<see cref="M:XFrame.Modules.Conditions.IConditionCompare`1.OnEventTrigger(`0)"/>和
+            <see cref="M:XFrame.Modules.Conditions.IConditionCompare`1.Check(XFrame.Modules.Conditions.IConditionHandle,`0)"/>的接受参数, 由<see cref="T:XFrame.Modules.Conditions.IConditionCompare"/>的具体实现类解析判断。
             </para>
             </summary>
         </member>
@@ -1305,11 +2203,16 @@
         <member name="T:XFrame.Modules.Conditions.ConditionGroupEvent">
             <summary>
             条件组时间触发, 此条件仅会影响目标条件组句柄中的条件，
-            但当触发的条件是全局条件时，则会触发全局<see cref="!:IConditionCompare&lt;&gt;.OnEventTrigger"/>
+            但当触发的条件是全局条件时，则会触发全局<see cref="M:XFrame.Modules.Conditions.IConditionCompare`1.OnEventTrigger(`0)"/>
             <para>
-            当条件为全局条件时，首先会触发<see cref="!:IConditionCompare&lt;&gt;.OnEventTrigger"/>，接着触发条件组事件,
+            当条件为全局条件时，首先会触发<see cref="M:XFrame.Modules.Conditions.IConditionCompare`1.OnEventTrigger(`0)"/>，接着触发条件组事件,
             当条件为组内条件时，仅仅发某个条件组中的事件，不对其他组产生影响
             </para>
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Conditions.ConditionGroupEvent.EventId">
+            <summary>
+            事件Id
             </summary>
         </member>
         <member name="P:XFrame.Modules.Conditions.ConditionGroupEvent.Handle">
@@ -1326,8 +2229,8 @@
             <summary>
             触发目标条件参数
             <para>
-            可为数量等, 定义为<see cref="!:IConditionCompare&lt;&gt;.OnEventTrigger"/>和
-            <see cref="!:IConditionCompare&lt;&gt;.Check"/>的接受参数, 由<see cref="T:XFrame.Modules.Conditions.IConditionCompare"/>的具体实现类解析判断。
+            可为数量等, 定义为<see cref="M:XFrame.Modules.Conditions.IConditionCompare`1.OnEventTrigger(`0)"/>和
+            <see cref="M:XFrame.Modules.Conditions.IConditionCompare`1.Check(XFrame.Modules.Conditions.IConditionHandle,`0)"/>的接受参数, 由<see cref="T:XFrame.Modules.Conditions.IConditionCompare"/>的具体实现类解析判断。
             </para>
             </summary>
         </member>
@@ -1340,50 +2243,50 @@
             <param name="param">目标条件参数</param>
             <returns>事件实例</returns>
         </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionGroupEvent.OnReleaseFromPool">
+            <inheritdoc/>
+        </member>
         <member name="T:XFrame.Modules.Conditions.ConditionModule">
-            <summary>
-            条件监听模块 
-            </summary>
+            <inheritdoc/>
         </member>
         <member name="P:XFrame.Modules.Conditions.ConditionModule.Event">
-            <summary>
-            当需要触发某个条件时 
-            触发 <see cref="T:XFrame.Modules.Conditions.ConditionEvent"/> 
-                <see cref="T:XFrame.Modules.Conditions.ConditionGroupEvent"/> 
-                <see cref="T:XFrame.Modules.Conditions.SpecificConditionEvent"/> 
-            事件到此事件系统
-            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionModule.OnInit(System.Object)">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Conditions.ConditionModule.Get(System.String)">
-            <summary>
-            获取条件组句柄
-            </summary>
-            <param name="name">组名称</param>
-            <returns>条件组句柄</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Conditions.ConditionModule.Register(XFrame.Modules.Conditions.ConditionSetting)">
-            <summary>
-            注册条件实例 查看<see cref="T:XFrame.Modules.Conditions.ConditionSetting"/>具体参数
-            </summary>
-            <param name="setting">条件配置</param>
-            <returns>条件组句柄</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Conditions.ConditionModule.UnRegister(System.String)">
-            <summary>
-            取消条件注册
-            </summary>
-            <param name="name">条件名</param>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Conditions.ConditionModule.UnRegister(XFrame.Modules.Conditions.IConditionGroupHandle)">
-            <summary>
-            取消条件注册
-            </summary>
-            <param name="name">条件组句柄</param>
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Conditions.ConditionParser">
             <summary>
             条件转换器
             </summary>
+        </member>
+        <member name="P:XFrame.Modules.Conditions.ConditionParser.Value">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Conditions.ConditionParser.PoolKey">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Conditions.ConditionParser.MarkName">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionParser.Parse(System.String)">
+            <summary>
+            构造器
+            </summary>
+            <param name="pattern">数据</param>
+            <returns>解析结果</returns>
         </member>
         <member name="T:XFrame.Modules.Conditions.ConditionHelperSetting">
             <summary>
@@ -1412,6 +2315,48 @@
             <summary>
             是否使用非全局辅助器
             </summary>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionHelperSetting.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            构造器
+            </summary>
+            <param name="useInstance">使用实例</param>
+            <param name="usePersistData">数据是否持久化</param>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionHelperSetting.#ctor(System.Boolean)">
+            <summary>
+            构造器，使用默认实例
+            </summary>
+            <param name="usePersistData">数据是否持久化</param>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionHelperSetting.Equals(System.Object)">
+            <summary>
+            比较连个配置是否相等
+            </summary>
+            <param name="obj">其它配置</param>
+            <returns>true为相等</returns>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionHelperSetting.GetHashCode">
+            <summary>
+            获取hash码
+            </summary>
+            <returns>hash码</returns>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionHelperSetting.op_Equality(XFrame.Modules.Conditions.ConditionHelperSetting,XFrame.Modules.Conditions.ConditionHelperSetting)">
+            <summary>
+            判断连个配置是否相等
+            </summary>
+            <param name="a">配置a</param>
+            <param name="b">配置b</param>
+            <returns>true为相等</returns>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionHelperSetting.op_Inequality(XFrame.Modules.Conditions.ConditionHelperSetting,XFrame.Modules.Conditions.ConditionHelperSetting)">
+            <summary>
+            判断连个配置是否不相等
+            </summary>
+            <param name="a">配置a</param>
+            <param name="b">配置b</param>
+            <returns>true为不相等</returns>
         </member>
         <member name="T:XFrame.Modules.Conditions.ConditionSetting">
             <summary>
@@ -1468,18 +2413,20 @@
         </member>
         <member name="M:XFrame.Modules.Conditions.ConditionSetting.#ctor(System.String,XFrame.Modules.Conditions.ConditionData,XFrame.Modules.Conditions.ConditionHelperSetting)">
             <summary>
-            构造条件配置，默认<see cref="P:XFrame.Modules.Conditions.ConditionSetting.AutoRemove"/> 为 <see cref="!:true"/>, <see cref="P:XFrame.Modules.Conditions.ConditionSetting.UseGroupHelper"/> 为 0
+            构造条件配置，默认<see cref="P:XFrame.Modules.Conditions.ConditionSetting.AutoRemove"/> 为 true, <see cref="P:XFrame.Modules.Conditions.ConditionSetting.UseGroupHelper"/> 为 0
             </summary>
             <param name="name">条件名称</param>
             <param name="data">原始条件配置</param>
+            <param name="helper">条件辅助器设置</param>
         </member>
         <member name="M:XFrame.Modules.Conditions.ConditionSetting.#ctor(System.String,XFrame.Modules.Conditions.ConditionData,System.Int32,XFrame.Modules.Conditions.ConditionHelperSetting)">
             <summary>
-            构造条件配置，默认<see cref="P:XFrame.Modules.Conditions.ConditionSetting.AutoRemove"/> 为 <see cref="!:true"/>
+            构造条件配置，默认<see cref="P:XFrame.Modules.Conditions.ConditionSetting.AutoRemove"/> 为 true
             </summary>
             <param name="name">条件名称</param>
             <param name="data">原始条件配置</param>
-            <param name="useHelper">使用辅助器</param>
+            <param name="useHelper">使用条件组辅助器</param>
+            <param name="helper">使用条件辅助器</param>
         </member>
         <member name="M:XFrame.Modules.Conditions.ConditionSetting.#ctor(System.String,XFrame.Modules.Conditions.ConditionData,System.Boolean,XFrame.Modules.Conditions.ConditionHelperSetting)">
             <summary>
@@ -1488,6 +2435,7 @@
             <param name="name">条件名称</param>
             <param name="data">原始条件配置</param>
             <param name="autoRemove">是否自动移除</param>
+            <param name="helper">条件辅助设置</param>
         </member>
         <member name="M:XFrame.Modules.Conditions.ConditionSetting.#ctor(System.String,XFrame.Modules.Conditions.ConditionData,System.Boolean,System.Int32,XFrame.Modules.Conditions.ConditionHelperSetting)">
             <summary>
@@ -1496,7 +2444,8 @@
             <param name="name">条件名称</param>
             <param name="data">原始条件配置</param>
             <param name="autoRemove">是否自动移除</param>
-            <param name="useHelper">使用辅助器</param>
+            <param name="useHelper">使用条件组辅助器</param>
+            <param name="helper">使用条件辅助器</param>
         </member>
         <member name="T:XFrame.Modules.Conditions.IConditionCompare">
             <summary>
@@ -1544,9 +2493,9 @@
         </member>
         <member name="M:XFrame.Modules.Conditions.IConditionCompare`1.OnEventTrigger(`0)">
             <summary>
-            当事件<see cref="T:XFrame.Modules.Conditions.ConditionEvent"/>触发时，与<see cref="P:XFrame.Modules.Conditions.ConditionEvent.Target"/>相匹配的<see cref="!:Target"/>实现类
-            的此方法会执行，与<see cref="P:XFrame.Modules.Conditions.ConditionGroupEvent.Target"/>相匹配的<see cref="!:Target"/>实现类的条件组
-            的所有此方法会执行，与<see cref="!:SpecificConditionEvent.Target"/>相匹配的<see cref="!:Target"/>实现类的特定组的特定实例
+            当事件<see cref="T:XFrame.Modules.Conditions.ConditionEvent"/>触发时，与<see cref="P:XFrame.Modules.Conditions.ConditionEvent.Target"/>相匹配的<see cref="P:XFrame.Modules.Conditions.IConditionCompare.Target"/>实现类
+            的此方法会执行，与<see cref="P:XFrame.Modules.Conditions.ConditionGroupEvent.Target"/>相匹配的<see cref="P:XFrame.Modules.Conditions.IConditionCompare.Target"/>实现类的条件组
+            的所有此方法会执行，与<see cref="P:XFrame.Modules.Conditions.SpecificConditionEvent.Handle"/>相匹配的<see cref="P:XFrame.Modules.Conditions.IConditionCompare.Target"/>实现类的特定组的特定实例
             的此方法会执行，一般可以在此方法执行时执行一些存储状态的操作, 此方法在<see cref="M:XFrame.Modules.Conditions.IConditionCompare`1.Check(XFrame.Modules.Conditions.IConditionHandle,`0)"/>之前执行
             </summary>
             <param name="param">参数(事件参数<see cref="P:XFrame.Modules.Conditions.ConditionEvent.Param"/>)，随后执行check时的<see cref="M:XFrame.Modules.Conditions.IConditionCompare`1.Check(XFrame.Modules.Conditions.IConditionHandle,`0)"/>的param与此为同一值</param>
@@ -1621,6 +2570,11 @@
             </para>
             </summary>
         </member>
+        <member name="P:XFrame.Modules.Conditions.IConditionHandle.IsComplete">
+            <summary>
+            条件是否达成
+            </summary>
+        </member>
         <member name="P:XFrame.Modules.Conditions.IConditionHandle.Param">
             <summary>
             条件需要达成的目标参数，如数量等
@@ -1678,22 +2632,67 @@
             <summary>
             标记条件组完成
             </summary>
-            <param name="groupName">条件组名称</param>
+            <param name="group">条件组</param>
         </member>
         <member name="M:XFrame.Modules.Conditions.IConditionHelper.CheckFinish(XFrame.Modules.Conditions.IConditionGroupHandle)">
             <summary>
             检查条件组是否完成
             </summary>
-            <param name="groupName">条件组名称</param>
+            <param name="group">条件组</param>
             <returns>true为完成，反之亦然</returns>
+        </member>
+        <member name="T:XFrame.Modules.Conditions.IConditionModule">
+            <summary>
+            条件监听模块 
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Conditions.IConditionModule.Event">
+            <summary>
+            当需要触发某个条件时 
+            触发 <see cref="T:XFrame.Modules.Conditions.ConditionEvent"/> 
+                <see cref="T:XFrame.Modules.Conditions.ConditionGroupEvent"/> 
+                <see cref="T:XFrame.Modules.Conditions.SpecificConditionEvent"/> 
+            事件到此事件系统
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.IConditionModule.Get(System.String)">
+            <summary>
+            获取条件组句柄
+            </summary>
+            <param name="name">组名称</param>
+            <returns>条件组句柄</returns>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.IConditionModule.Register(XFrame.Modules.Conditions.ConditionSetting)">
+            <summary>
+            注册条件实例 查看<see cref="T:XFrame.Modules.Conditions.ConditionSetting"/>具体参数
+            </summary>
+            <param name="setting">条件配置</param>
+            <returns>条件组句柄</returns>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.IConditionModule.UnRegister(System.String)">
+            <summary>
+            取消条件注册
+            </summary>
+            <param name="name">条件名</param>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.IConditionModule.UnRegister(XFrame.Modules.Conditions.IConditionGroupHandle)">
+            <summary>
+            取消条件注册
+            </summary>
+            <param name="handle">条件组句柄</param>
         </member>
         <member name="T:XFrame.Modules.Conditions.SpecificConditionEvent">
             <summary>
             条件事件
             <para>
             此事件仅会影响目标句柄<see cref="P:XFrame.Modules.Conditions.SpecificConditionEvent.Handle"/>的指定条件，
-            但当触发的条件是全局条件时，则会触发全局<see cref="!:IConditionCompare&lt;&gt;.OnEventTrigger"/>
+            但当触发的条件是全局条件时，则会触发全局<see cref="M:XFrame.Modules.Conditions.IConditionCompare`1.OnEventTrigger(`0)"/>
             </para>
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Conditions.SpecificConditionEvent.EventId">
+            <summary>
+            事件Id
             </summary>
         </member>
         <member name="P:XFrame.Modules.Conditions.SpecificConditionEvent.Handle">
@@ -1705,6 +2704,17 @@
             <summary>
             触发参数
             </summary>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.SpecificConditionEvent.Create(XFrame.Modules.Conditions.IConditionHandle,System.Object)">
+            <summary>
+            构造器
+            </summary>
+            <param name="handle">条件句柄</param>
+            <param name="param">触发参数</param>
+            <returns>事件实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.SpecificConditionEvent.OnReleaseFromPool">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Config.XConfig">
             <summary>
@@ -1777,28 +2787,155 @@
             数据为组件所有
             </summary>
         </member>
+        <member name="P:XFrame.Modules.Containers.Com.Active">
+            <summary>
+            组件激活状态
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Containers.Com.Owner">
+            <summary>
+            组件所属容器
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Com.OnActive">
+            <summary>
+            激活生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Com.OnInactive">
+            <summary>
+            失活生命周期
+            </summary>
+        </member>
         <member name="T:XFrame.Modules.Containers.Container">
             <summary>
             通用容器
             </summary>
         </member>
-        <member name="T:XFrame.Modules.Containers.ContainerModule">
+        <member name="F:XFrame.Modules.Containers.Container.m_Module">
             <summary>
-            容器类模块
+            容器所属模块
             </summary>
+        </member>
+        <member name="P:XFrame.Modules.Containers.Container.Master">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Containers.Container.Id">
+            <summary>
+            容器Id
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.OnInit">
+            <summary>
+            初始化生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.OnUpdate(System.Single)">
+            <summary>
+            更新生命周期
+            </summary>
+            <param name="elapseTime">逃逸时间</param>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.OnDestroy">
+            <summary>
+            销毁生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.GetCom``1(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.GetCom(System.Type,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.AddCom(XFrame.Modules.Containers.ICom)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.AddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.AddCom``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.AddCom(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.AddCom(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.GetOrAddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.GetOrAddCom``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.GetOrAddCom(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.GetOrAddCom(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.RemoveCom``1(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.RemoveCom(System.Type,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.ClearCom">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.HasData``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.HasData``1(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.SetData``1(``0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.GetData``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.SetData``1(System.String,``0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.GetData``1(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.ClearData">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.SetIt(XFrame.Collections.XItType)">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.Containers.ContainerModule">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Containers.ContainerModule.New``1(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            请求一个新的容器
-            </summary>
-            <param name="master">容器拥有者</param>
-            <returns>容器实例</returns>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ContainerModule.New(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ContainerModule.New(System.Type,System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ContainerModule.New(System.Type,System.Int32,System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Containers.ContainerModule.Remove(XFrame.Modules.Containers.IContainer)">
-            <summary>
-            移除一个容器
-            </summary>
-            <param name="container">容器</param>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ContainerModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ContainerModule.OnUpdate(System.Single)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ContainerModule.OnDestroy">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Containers.ICom">
             <summary>
@@ -1820,10 +2957,16 @@
             容器
             </summary>
         </member>
+        <member name="P:XFrame.Modules.Containers.IContainer.Master">
+            <summary>
+            根容器
+            </summary>
+        </member>
         <member name="M:XFrame.Modules.Containers.IContainer.OnInit(XFrame.Modules.Containers.IContainerModule,System.Int32,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
             <summary>
             初始化生命周期
             </summary>
+            <param name="module">容器所属模块</param>
             <param name="id">容器Id</param>
             <param name="master">容器拥有者</param>
             <param name="onReady">容器就绪事件</param>
@@ -1949,17 +3092,202 @@
             移除所有组件
             </summary>
         </member>
+        <member name="T:XFrame.Modules.Containers.IContainerModule">
+            <summary>
+            容器类模块
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.IContainerModule.New``1(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            请求一个新的容器
+            </summary>
+            <typeparam name="T">容器类型</typeparam>
+            <param name="updateTrusteeship">是否需要模块处理更新</param>
+            <param name="master">容器拥有者</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>容器实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Containers.IContainerModule.New(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            请求一个新的容器
+            </summary>
+            <param name="updateTrusteeship">是否需要模块处理更新</param>
+            <param name="master">容器拥有者</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>容器实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Containers.IContainerModule.New(System.Type,System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            请求一个新的容器
+            </summary>
+            <param name="type">容器类型</param>
+            <param name="updateTrusteeship">是否需要模块处理更新</param>
+            <param name="master">容器拥有者</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>容器实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Containers.IContainerModule.New(System.Type,System.Int32,System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            请求一个新的容器
+            </summary>
+            <param name="type">容器类型</param>
+            <param name="id">容器Id</param>
+            <param name="updateTrusteeship">是否需要模块处理更新</param>
+            <param name="master">容器拥有者</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>容器实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Containers.IContainerModule.Remove(XFrame.Modules.Containers.IContainer)">
+            <summary>
+            移除一个容器
+            </summary>
+            <param name="container">容器实例</param>
+        </member>
+        <member name="T:XFrame.Modules.Containers.OnDataProviderReady">
+            <summary>
+            数据提供委托
+            </summary>
+            <param name="container">容器实例</param>
+        </member>
         <member name="T:XFrame.Modules.Containers.ShareCom">
             <summary>
             共享组件基类, 会共享容器数据
             </summary>
         </member>
+        <member name="F:XFrame.Modules.Containers.ShareCom.m_Module">
+            <summary>
+            所属容器模块
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Containers.ShareCom.Active">
+            <summary>
+            激活状态
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Containers.ShareCom.Id">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Containers.ShareCom.Master">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Containers.ShareCom.Owner">
+            <summary>
+            父容器
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.OnInit">
+            <summary>
+            初始化生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.OnUpdate(System.Single)">
+            <summary>
+            更新生命周期
+            </summary>
+            <param name="elapseTime">逃逸时间</param>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.OnDestroy">
+            <summary>
+            销毁生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.OnActive">
+            <summary>
+            激活生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.OnInactive">
+            <summary>
+            失活生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.GetCom``1(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.GetCom(System.Type,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom(XFrame.Modules.Containers.ICom)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.GetOrAddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.GetOrAddCom``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.GetOrAddCom(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.GetOrAddCom(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.RemoveCom``1(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.RemoveCom(System.Type,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.ClearCom">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.HasData``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.HasData``1(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.SetData``1(``0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.GetData``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.SetData``1(System.String,``0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.GetData``1(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.ClearData">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.ShareCom.SetIt(XFrame.Collections.XItType)">
+            <inheritdoc/>
+        </member>
         <member name="T:XFrame.Modules.Crypto.CryptoModule">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Crypto.CryptoModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Crypto.CryptoModule.New(System.String,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Crypto.CryptoModule.New">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.Crypto.ICryptoModule">
             <summary>
             数据加密模块
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Crypto.CryptoModule.New(System.String,System.String)">
+        <member name="M:XFrame.Modules.Crypto.ICryptoModule.New(System.String,System.String)">
             <summary>
             创建加密器
             </summary>
@@ -1967,7 +3295,7 @@
             <param name="ivStr">密钥</param>
             <returns>加密器</returns>
         </member>
-        <member name="M:XFrame.Modules.Crypto.CryptoModule.New">
+        <member name="M:XFrame.Modules.Crypto.ICryptoModule.New">
             <summary>
             使用默认密钥创建加密器
             </summary>
@@ -2027,71 +3355,41 @@
             数据表类型
             </summary>
         </member>
-        <member name="T:XFrame.Modules.Datas.DataModule">
+        <member name="M:XFrame.Modules.Datas.DataAttribute.#ctor(System.Int32)">
             <summary>
-            数据模块
-            </summary>
-        </member>
-        <member name="M:XFrame.Modules.Datas.DataModule.Register(System.Type)">
-            <summary>
-            注册数据表类型
+            构造器
             </summary>
             <param name="tableType">数据表类型</param>
         </member>
+        <member name="T:XFrame.Modules.Datas.DataModule">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Datas.DataModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Datas.DataModule.Register(System.Type)">
+            <inheritdoc/>
+        </member>
         <member name="M:XFrame.Modules.Datas.DataModule.Add``1(System.String,System.Int32)">
-            <summary>
-            添加数据表
-            </summary>
-            <typeparam name="T">数据表持有数据类型</typeparam>
-            <param name="json">需要被序列化的数据</param>
-            <returns>数据表接口实例</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Datas.DataModule.Get``1">
-            <summary>
-            获取数据表(第一个添加的数据表)
-            </summary>
-            <typeparam name="T">数据表持有数据类型</typeparam>
-            <returns>数据表接口实例</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Datas.DataModule.Get``1(System.Int32)">
-            <summary>
-            获取数据表
-            </summary>
-            <typeparam name="T">数据表持有数据类型</typeparam>
-            <param name="tableIndex">数据表位置(当有多个同类型的数据表时，用此位置可区分)</param>
-            <returns>数据表接口实例</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Datas.DataModule.GetOne``1">
-            <summary>
-            获取数据表默认项数据(第一个添加的数据表)
-            </summary>
-            <typeparam name="T">数据表持有数据类型</typeparam>
-            <returns>数据</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Datas.DataModule.GetOne``1(System.Int32)">
-            <summary>
-            获取数据表默认项数据
-            </summary>
-            <typeparam name="T">数据表持有数据类型</typeparam>
-            <param name="tableIndex">数据表位置(当有多个同类型的数据表时，用此位置可区分)</param>
-            <returns>数据</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Datas.DataModule.GetItem``1(System.Int32)">
-            <summary>
-            获取数据表数据项
-            </summary>
-            <typeparam name="T">数据表持有数据类型</typeparam>
-            <param name="itemId">数据项Id</param>
-            <returns>数据</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Datas.DataModule.GetItem``1(System.Int32,System.Int32)">
-            <summary>
-            获取数据表数据项
-            </summary>
-            <typeparam name="T">数据表持有数据类型</typeparam>
-            <param name="tableIndex">数据表位置(当有多个同类型的数据表时，用此位置可区分)</param>
-            <param name="itemId">数据项Id</param>
-            <returns>数据</returns>
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Datas.IDataHelper">
             <summary>
@@ -2115,6 +3413,7 @@
             </summary>
             <param name="json">需要被序列化的数据</param>
             <param name="datatype">数据表持有数据类型</param>
+            <param name="textType">文本类型</param>
             <returns>数据表</returns>
         </member>
         <member name="M:XFrame.Modules.Datas.IDataHelper.TryGet(System.Type,System.Collections.Generic.List{XFrame.Modules.Datas.IDataTable}@)">
@@ -2124,6 +3423,73 @@
             <param name="datatype">数据表持有数据类型</param>
             <param name="list">数据表列表</param>
             <returns>是否获取成功</returns>
+        </member>
+        <member name="T:XFrame.Modules.Datas.IDataModule">
+            <summary>
+            数据模块
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Datas.IDataModule.Register(System.Type)">
+            <summary>
+            注册数据表类型
+            </summary>
+            <param name="tableType">数据表类型</param>
+        </member>
+        <member name="M:XFrame.Modules.Datas.IDataModule.Add``1(System.String,System.Int32)">
+            <summary>
+            添加数据表
+            </summary>
+            <typeparam name="T">数据表持有数据类型</typeparam>
+            <param name="json">需要被序列化的数据</param>
+            <param name="textType">数据类型</param>
+            <returns>数据表接口实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Datas.IDataModule.Get``1">
+            <summary>
+            获取数据表(第一个添加的数据表)
+            </summary>
+            <typeparam name="T">数据表持有数据类型</typeparam>
+            <returns>数据表接口实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Datas.IDataModule.Get``1(System.Int32)">
+            <summary>
+            获取数据表
+            </summary>
+            <typeparam name="T">数据表持有数据类型</typeparam>
+            <param name="tableIndex">数据表位置(当有多个同类型的数据表时，用此位置可区分)</param>
+            <returns>数据表接口实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Datas.IDataModule.GetOne``1">
+            <summary>
+            获取数据表默认项数据(第一个添加的数据表)
+            </summary>
+            <typeparam name="T">数据表持有数据类型</typeparam>
+            <returns>数据</returns>
+        </member>
+        <member name="M:XFrame.Modules.Datas.IDataModule.GetOne``1(System.Int32)">
+            <summary>
+            获取数据表默认项数据
+            </summary>
+            <typeparam name="T">数据表持有数据类型</typeparam>
+            <param name="tableIndex">数据表位置(当有多个同类型的数据表时，用此位置可区分)</param>
+            <returns>数据</returns>
+        </member>
+        <member name="M:XFrame.Modules.Datas.IDataModule.GetItem``1(System.Int32)">
+            <summary>
+            获取数据表数据项
+            </summary>
+            <typeparam name="T">数据表持有数据类型</typeparam>
+            <param name="itemId">数据项Id</param>
+            <returns>数据</returns>
+        </member>
+        <member name="M:XFrame.Modules.Datas.IDataModule.GetItem``1(System.Int32,System.Int32)">
+            <summary>
+            获取数据表数据项
+            </summary>
+            <typeparam name="T">数据表持有数据类型</typeparam>
+            <param name="tableIndex">数据表位置(当有多个同类型的数据表时，用此位置可区分)</param>
+            <param name="itemId">数据项Id</param>
+            <returns>数据</returns>
         </member>
         <member name="T:XFrame.Modules.Datas.IDataRaw">
             <summary>
@@ -2164,6 +3530,13 @@
             </summary>
             <param name="id">数据Id</param>
             <returns>获取到的数据</returns>
+        </member>
+        <member name="M:XFrame.Modules.Datas.IDataTable`1.GetByIndex(System.Int32)">
+            <summary>
+            通过下标获取数据
+            </summary>
+            <param name="index">下标</param>
+            <returns>数据</returns>
         </member>
         <member name="M:XFrame.Modules.Datas.IDataTable`1.Select(System.String,System.Object,System.Collections.Generic.List{`0})">
             <summary>
@@ -2242,22 +3615,31 @@
             下载失败时的失败原因，成功时为空
             </summary>
         </member>
-        <member name="T:XFrame.Modules.Download.DownloadModule">
+        <member name="M:XFrame.Modules.Download.DownloadResult.#ctor(System.Boolean,System.String,System.Byte[],System.String)">
             <summary>
-            下载器模块
+            构造器
             </summary>
+            <param name="isSuccess">是否成功</param>
+            <param name="text">文本</param>
+            <param name="data">二进制数据</param>
+            <param name="errorReason">错误原因</param>
+        </member>
+        <member name="T:XFrame.Modules.Download.DownloadModule">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Download.DownloadModule.OnInit(System.Object)">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Download.DownloadModule.SetHelper``1">
-            <summary>
-            设置下载辅助器
-            </summary>
-            <typeparam name="T">辅助器类型</typeparam>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Download.DownloadModule.Down(System.String,System.String[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.Download.DownTask">
             <summary>
-            下载文件或数据
+            下载任务
             </summary>
-            <param name="url">url</param>
         </member>
         <member name="P:XFrame.Modules.Download.DownTask.Success">
             <summary>
@@ -2272,6 +3654,43 @@
         <member name="P:XFrame.Modules.Download.DownTask.Data">
             <summary>
             字节数据
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Download.DownTask.#ctor(XFrame.Modules.Download.IDownloadHelper,XFrame.Tasks.XTaskCancelToken)">
+            <summary>
+            构造器
+            </summary>
+            <param name="handler">下载辅助器</param>
+            <param name="cancelToken">取消Token</param>
+        </member>
+        <member name="M:XFrame.Modules.Download.DownTask.InnerStart">
+            <summary>
+            开始执行
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Download.DownTask.GetResult">
+            <summary>
+            获取结果
+            </summary>
+            <returns>下载任务</returns>
+        </member>
+        <member name="M:XFrame.Modules.Download.DownTask.OnCompleted(System.Action{System.Byte[]})">
+            <summary>
+            设置完成回调
+            </summary>
+            <param name="callback">回调函数</param>
+            <returns>下载任务</returns>
+        </member>
+        <member name="M:XFrame.Modules.Download.DownTask.OnCompleted(System.Action{System.String})">
+            <summary>
+            设置完成回调
+            </summary>
+            <param name="callback">回调函数</param>
+            <returns>下载任务</returns>
+        </member>
+        <member name="M:XFrame.Modules.Download.DownTask.InnerExecComplete">
+            <summary>
+            任务完成
             </summary>
         </member>
         <member name="T:XFrame.Modules.Download.IDownloadHelper">
@@ -2320,10 +3739,31 @@
             释放持有的资源
             </summary>
         </member>
+        <member name="T:XFrame.Modules.Download.IDownloadModule">
+            <summary>
+            下载器模块
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Download.IDownloadModule.SetHelper``1">
+            <summary>
+            设置下载辅助器
+            </summary>
+            <typeparam name="T">辅助器类型</typeparam>
+        </member>
+        <member name="M:XFrame.Modules.Download.IDownloadModule.Down(System.String,System.String[])">
+            <summary>
+            下载文件或数据
+            </summary>
+            <param name="url">url</param>
+            <param name="reserveUrls">url链接失败时备用url</param>
+        </member>
         <member name="T:XFrame.Modules.Entities.Entity">
             <summary>
             实体
             </summary>
+        </member>
+        <member name="M:XFrame.Modules.Entities.Entity.OnInit">
+            <inheritdoc/>
         </member>
         <member name="P:XFrame.Modules.Entities.Entity.Event">
             <summary>
@@ -2335,60 +3775,57 @@
             实体组件
             </summary>
         </member>
-        <member name="T:XFrame.Modules.Entities.EntityModule">
+        <member name="P:XFrame.Modules.Entities.EntityCom.Event">
             <summary>
-            实体模块
-            只有根实体才会接受实体模块的更新生命周期
+            时间系统
             </summary>
+        </member>
+        <member name="M:XFrame.Modules.Entities.EntityCom.OnInit">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.Entities.EntityModule">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Entities.EntityModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Entities.EntityModule.OnDestroy">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Entities.EntityModule.RegisterEntity``1">
-            <summary>
-            注册实体，创建实体前需要注册实体
-            </summary>
-            <typeparam name="T">实体基类或实体类</typeparam>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Entities.EntityModule.Create``1(XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建无实体数据的根实体
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <returns>创建的实体</returns>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Entities.EntityModule.Create(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Entities.EntityModule.Create``1(XFrame.Modules.Entities.IEntity,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建无实体数据的实体
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="parent">父实体</param>
-            <returns>创建的实体</returns>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Entities.EntityModule.Create(System.Type,XFrame.Modules.Entities.IEntity,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Entities.EntityModule.Create``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建有实体数据的根实体
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="typeId">实体类型</param>
-            <returns>创建的实体</returns>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Entities.EntityModule.Create(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Entities.EntityModule.Create``1(XFrame.Modules.Entities.IEntity,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建有实体数据的实体
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="parent">父实体</param>
-            <param name="typeId">实体数据</param>
-            <returns>创建的实体</returns>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Entities.EntityModule.Create(System.Type,XFrame.Modules.Entities.IEntity,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Entities.EntityModule.Destroy(XFrame.Modules.Entities.IEntity)">
-            <summary>
-            销毁一个实体
-            </summary>
-            <param name="entity">需要销毁的实体</param>
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Entities.EntityPropAttribute">
             <summary>
             实体属性
-            有数据的实体必须生命此属性并提供正确的类型
+            有数据的实体必须声明此属性并提供正确的类型
             </summary>
         </member>
         <member name="P:XFrame.Modules.Entities.EntityPropAttribute.Type">
@@ -2413,6 +3850,11 @@
             共享组件实体
             </summary>
         </member>
+        <member name="P:XFrame.Modules.Entities.EntityShareCom.Event">
+            <summary>
+            事件系统
+            </summary>
+        </member>
         <member name="T:XFrame.Modules.Entities.IEntity">
             <summary>
             实体
@@ -2428,18 +3870,123 @@
             实体组件
             </summary>
         </member>
+        <member name="T:XFrame.Modules.Entities.IEntityModule">
+            <summary>
+            实体模块
+            只有根实体才会接受实体模块的更新生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.RegisterEntity``1">
+            <summary>
+            注册实体，创建实体前需要注册实体
+            </summary>
+            <typeparam name="T">实体基类或实体类</typeparam>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Create``1(XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            创建实体
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="onReady">数据提供委托</param>
+            <returns>创建的实体</returns>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Create(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            创建实体
+            </summary>
+            <param name="type">实体类型</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>创建的实体</returns>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Create``1(XFrame.Modules.Entities.IEntity,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            创建实体
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="parent">父实体</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>创建的实体</returns>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Create(System.Type,XFrame.Modules.Entities.IEntity,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            创建实体
+            </summary>
+            <param name="type">实体类型</param>
+            <param name="parent">父实体</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>创建的实体</returns>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Create``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            创建实体
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="typeId">类型Id</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>创建的实体</returns>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Create(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            创建实体
+            </summary>
+            <param name="baseType">实体类型</param>
+            <param name="typeId">类型Id</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>创建的实体</returns>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Create``1(XFrame.Modules.Entities.IEntity,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            创建实体
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="parent">父实体</param>
+            <param name="typeId">类型Id</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>创建的实体</returns>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Create(System.Type,XFrame.Modules.Entities.IEntity,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+            <summary>
+            创建实体
+            </summary>
+            <param name="baseType">实体类型</param>
+            <param name="parent">父实体</param>
+            <param name="typeId">类型Id</param>
+            <param name="onReady">数据提供委托</param>
+            <returns>创建的实体</returns>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Destroy(XFrame.Modules.Entities.IEntity)">
+            <summary>
+            销毁一个实体
+            </summary>
+            <param name="entity">需要销毁的实体</param>
+        </member>
         <member name="T:XFrame.Modules.Event.EventModule">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Event.EventModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Event.EventModule.OnUpdate(System.Single)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Event.EventModule.NewSys">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Event.EventModule.Remove(XFrame.Modules.Event.IEventSystem)">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.Event.IEventModule">
             <summary>
             事件模块
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Event.EventModule.NewSys">
+        <member name="M:XFrame.Modules.Event.IEventModule.NewSys">
             <summary>
             创建一个事件系统
             </summary>
             <returns>事件系统</returns>
         </member>
-        <member name="M:XFrame.Modules.Event.EventModule.Remove(XFrame.Modules.Event.IEventSystem)">
+        <member name="M:XFrame.Modules.Event.IEventModule.Remove(XFrame.Modules.Event.IEventSystem)">
             <summary>
             移除一个事件系统 
             </summary>
@@ -2523,6 +4070,20 @@
             事件Id 
             </summary>
         </member>
+        <member name="M:XFrame.Modules.Event.XEvent.#ctor(System.Int32)">
+            <summary>
+            构造器
+            </summary>
+            <param name="id">事件Id</param>
+        </member>
+        <member name="M:XFrame.Modules.Event.XEvent.#ctor">
+            <summary>
+            构造器
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Event.XEvent.OnReleaseFromPool">
+            <inheritdoc/>
+        </member>
         <member name="T:XFrame.Modules.Event.XEventHandler">
             <summary>
             事件处理委托
@@ -2542,59 +4103,43 @@
             </summary>
         </member>
         <member name="T:XFrame.Modules.StateMachine.FsmModule">
-            <summary>
-            有限状态机模块
-            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.StateMachine.FsmModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.StateMachine.FsmModule.OnUpdate(System.Single)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.StateMachine.FsmModule.OnDestroy">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.StateMachine.FsmModule.GetOrNew(System.String,System.Type[])">
-            <summary>
-            获取(不存在时创建)有限状态机
-            </summary>
-            <param name="name">状态机名</param>
-            <param name="states">状态机状态集合</param>
-            <returns>获取到的状态机</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.StateMachine.FsmModule.GetOrNew(System.Type[])">
-            <summary>
-            获取(不存在时创建)有限状态机
-            </summary>
-            <param name="states">状态机状态集合</param>
-            <returns>获取到的状态机</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.StateMachine.FsmModule.GetOrNew``1(System.String,``0,System.Type[])">
-            <summary>
-            获取(不存在时创建)有限状态机
-            </summary>
-            <typeparam name="T">状态机拥有者类型</typeparam>
-            <param name="name">状态机名</param>
-            <param name="owner">状态机拥有者</param>
-            <param name="states">状态机状态集合</param>
-            <returns>获取到的状态机</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.StateMachine.FsmModule.GetOrNew``1(``0,System.Type[])">
-            <summary>
-            获取(不存在时创建)有限状态机
-            </summary>
-            <typeparam name="T">状态机拥有者类型</typeparam>
-            <param name="owner">状态机拥有者</param>
-            <param name="states">状态机状态集合</param>
-            <returns>获取到的状态机</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.StateMachine.FsmModule.Remove(System.String)">
-            <summary>
-            移除有限状态机
-            </summary>
-            <param name="name">需要移除的状态机</param>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.StateMachine.FsmModule.Remove(XFrame.Modules.StateMachine.IFsmBase)">
-            <summary>
-            移除状态机
-            </summary>
-            <param name="fsm">需要移除的状态机</param>
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.StateMachine.FsmState">
             <summary>
             有限状态机状态
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.StateMachine.FsmState.m_Fsm">
+            <summary>
+            持有状态机
             </summary>
         </member>
         <member name="M:XFrame.Modules.StateMachine.FsmState.OnInit(XFrame.Modules.StateMachine.IFsm)">
@@ -2633,6 +4178,11 @@
         <member name="T:XFrame.Modules.StateMachine.FsmState`1">
             <summary>
             有限状态机状态
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.StateMachine.FsmState`1.m_Fsm">
+            <summary>
+            持有状态机
             </summary>
         </member>
         <member name="M:XFrame.Modules.StateMachine.FsmState`1.OnInit(XFrame.Modules.StateMachine.IFsm{`0})">
@@ -2772,64 +4322,124 @@
             </summary>
             <typeparam name="State">入口状态类型</typeparam>
         </member>
+        <member name="T:XFrame.Modules.StateMachine.IFsmModule">
+            <summary>
+            有限状态机模块
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.StateMachine.IFsmModule.GetOrNew(System.String,System.Type[])">
+            <summary>
+            获取(不存在时创建)有限状态机
+            </summary>
+            <param name="name">状态机名</param>
+            <param name="states">状态机状态集合</param>
+            <returns>获取到的状态机</returns>
+        </member>
+        <member name="M:XFrame.Modules.StateMachine.IFsmModule.GetOrNew(System.Type[])">
+            <summary>
+            获取(不存在时创建)有限状态机
+            </summary>
+            <param name="states">状态机状态集合</param>
+            <returns>获取到的状态机</returns>
+        </member>
+        <member name="M:XFrame.Modules.StateMachine.IFsmModule.GetOrNew``1(System.String,``0,System.Type[])">
+            <summary>
+            获取(不存在时创建)有限状态机
+            </summary>
+            <typeparam name="T">状态机拥有者类型</typeparam>
+            <param name="name">状态机名</param>
+            <param name="owner">状态机拥有者</param>
+            <param name="states">状态机状态集合</param>
+            <returns>获取到的状态机</returns>
+        </member>
+        <member name="M:XFrame.Modules.StateMachine.IFsmModule.GetOrNew``1(``0,System.Type[])">
+            <summary>
+            获取(不存在时创建)有限状态机
+            </summary>
+            <typeparam name="T">状态机拥有者类型</typeparam>
+            <param name="owner">状态机拥有者</param>
+            <param name="states">状态机状态集合</param>
+            <returns>获取到的状态机</returns>
+        </member>
+        <member name="M:XFrame.Modules.StateMachine.IFsmModule.Remove(System.String)">
+            <summary>
+            移除有限状态机
+            </summary>
+            <param name="name">需要移除的状态机</param>
+        </member>
+        <member name="M:XFrame.Modules.StateMachine.IFsmModule.Remove(XFrame.Modules.StateMachine.IFsmBase)">
+            <summary>
+            移除状态机
+            </summary>
+            <param name="fsm">需要移除的状态机</param>
+        </member>
         <member name="T:XFrame.Modules.ID.IdModule">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.ID.IdModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.ID.IdModule.Next">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.ID.IIdModule">
             <summary>
             Id模块
             </summary>
         </member>
-        <member name="M:XFrame.Modules.ID.IdModule.Next">
+        <member name="M:XFrame.Modules.ID.IIdModule.Next">
             <summary>
             生成一个Id
             </summary>
             <returns>生成的Id</returns>
         </member>
-        <member name="T:XFrame.Modules.Local.Language">
-            <summary>
-            语言
-            </summary>
-        </member>
-        <member name="T:XFrame.Modules.Local.LocalizeModule">
+        <member name="T:XFrame.Modules.Local.ILocalizeModule">
             <summary>
             本地化模块
             </summary>
         </member>
-        <member name="P:XFrame.Modules.Local.LocalizeModule.Event">
+        <member name="P:XFrame.Modules.Local.ILocalizeModule.Event">
             <summary>
             事件系统
             </summary>
         </member>
-        <member name="P:XFrame.Modules.Local.LocalizeModule.Lang">
+        <member name="P:XFrame.Modules.Local.ILocalizeModule.Lang">
             <summary>
             当前语言
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Local.LocalizeModule.HasLanguage(XFrame.Modules.Local.Language)">
+        <member name="P:XFrame.Modules.Local.ILocalizeModule.ExistLangs">
+            <summary>
+            存在的语言
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.HasLanguage(XFrame.Modules.Local.Language)">
             <summary>
             是否存在语言
             </summary>
             <param name="language">语言</param>
             <returns>true为存在</returns>
         </member>
-        <member name="M:XFrame.Modules.Local.LocalizeModule.Parse(System.String)">
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.Parse(System.String)">
             <summary>
             配置
             </summary>
             <param name="content">文本内容</param>
         </member>
-        <member name="M:XFrame.Modules.Local.LocalizeModule.SetFormater(System.ICustomFormatter)">
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.SetFormater(System.ICustomFormatter)">
             <summary>
             设置文本格式化器
             </summary>
             <param name="formatter">自定义格式化</param>
         </member>
-        <member name="M:XFrame.Modules.Local.LocalizeModule.GetLine(System.Int32)">
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetLine(System.Int32)">
             <summary>
             获取一整行
             </summary>
             <param name="key">Id</param>
             <returns>行</returns>
         </member>
-        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValue(XFrame.Modules.Local.Language,System.Int32,System.Object[])">
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValue(XFrame.Modules.Local.Language,System.Int32,System.Object[])">
             <summary>
             获取本地化值
             </summary>
@@ -2838,7 +4448,7 @@
             <param name="values">参数</param>
             <returns>值</returns>
         </member>
-        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValue(System.Int32,System.Object[])">
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValue(System.Int32,System.Object[])">
             <summary>
             获取本地化值
             </summary>
@@ -2846,7 +4456,37 @@
             <param name="values">参数</param>
             <returns>值</returns>
         </member>
-        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValueParam(System.Int32,System.Int32[])">
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValue(XFrame.Modules.Local.Language,XFrame.Modules.Local.LanguageParam)">
+            <summary>
+            获取本地化值
+            </summary>
+            <param name="language">语言</param>
+            <param name="param">参数</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValue(XFrame.Modules.Local.LanguageParam)">
+            <summary>
+            获取本地化值
+            </summary>
+            <param name="param">参数</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValues(System.Int32[])">
+            <summary>
+            获取本地化值
+            </summary>
+            <param name="idList">语言Id列表</param>
+            <returns>值列表</returns>
+        </member>
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValues(XFrame.Modules.Local.Language,System.Int32[])">
+            <summary>
+            获取本地化值
+            </summary>
+            <param name="language">语言</param>
+            <param name="idList">语言Id列表</param>
+            <returns>值列表</returns>
+        </member>
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValueParam(System.Int32,System.Int32[])">
             <summary>
             获取本地化值
             </summary>
@@ -2854,7 +4494,7 @@
             <param name="args">参数Id</param>
             <returns>值</returns>
         </member>
-        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValueParam(XFrame.Modules.Local.Language,System.Int32,System.Int32[])">
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValueParam(XFrame.Modules.Local.Language,System.Int32,System.Int32[])">
             <summary>
             获取本地化值
             </summary>
@@ -2862,6 +4502,172 @@
             <param name="key">Id</param>
             <param name="args">参数Id</param> 
             <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValueParam(XFrame.Modules.Local.LanguageIdParam)">
+            <summary>
+            获取本地化值
+            </summary>
+            <param name="param">参数</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:XFrame.Modules.Local.ILocalizeModule.GetValueParam(XFrame.Modules.Local.Language,XFrame.Modules.Local.LanguageIdParam)">
+            <summary>
+            获取本地化值
+            </summary>
+            <param name="language">语言</param>
+            <param name="param">参数</param>
+            <returns>值</returns>
+        </member>
+        <member name="T:XFrame.Modules.Local.Language">
+            <summary>
+            语言
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Local.Language.None">
+            <summary>
+            无效
+            </summary>
+        </member>
+        <member name="T:XFrame.Modules.Local.LanguageChangeEvent">
+            <summary>
+            语言改变事件
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Local.LanguageChangeEvent.EventId">
+            <summary>
+            时间Id
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Local.LanguageChangeEvent.Old">
+            <summary>
+            旧语言
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Local.LanguageChangeEvent.New">
+            <summary>
+            新语言
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Local.LanguageChangeEvent.Create(XFrame.Modules.Local.Language,XFrame.Modules.Local.Language)">
+            <summary>
+            创建事件
+            </summary>
+            <param name="oldLang">旧语言</param>
+            <param name="newLang">新语言</param>
+            <returns>事件实例</returns>
+        </member>
+        <member name="T:XFrame.Modules.Local.LanguageParam">
+            <summary>
+            语言参数
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Local.LanguageParam.Id">
+            <summary>
+            语言Id
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Local.LanguageParam.Params">
+            <summary>
+            通配参数
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Local.LanguageParam.Create(System.Int32,System.Object[])">
+            <summary>
+            构造参数
+            </summary>
+            <param name="id">语言Id</param>
+            <param name="args">通配参数</param>
+            <returns>参数</returns>
+        </member>
+        <member name="T:XFrame.Modules.Local.LanguageIdParam">
+            <summary>
+            语言参数，通配Id
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Local.LanguageIdParam.Id">
+            <summary>
+            语言Id
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Local.LanguageIdParam.Params">
+            <summary>
+            通配符对应语言Id
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Local.LanguageIdParam.Create(System.Int32,System.Int32[])">
+            <summary>
+            创建参数
+            </summary>
+            <param name="id">语言Id</param>
+            <param name="args">通配符对应语言Id</param>
+            <returns>参数</returns>
+        </member>
+        <member name="T:XFrame.Modules.Local.LocalizeModule">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Local.LocalizeModule.Event">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Local.LocalizeModule.Lang">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Local.LocalizeModule.ExistLangs">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.HasLanguage(XFrame.Modules.Local.Language)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.Parse(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.SetFormater(System.ICustomFormatter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetLine(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValue(XFrame.Modules.Local.Language,System.Int32,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValue(System.Int32,System.Object[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValue(XFrame.Modules.Local.Language,XFrame.Modules.Local.LanguageParam)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValue(XFrame.Modules.Local.LanguageParam)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValues(System.Int32[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValues(XFrame.Modules.Local.Language,System.Int32[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValueParam(System.Int32,System.Int32[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValueParam(XFrame.Modules.Local.Language,System.Int32,System.Int32[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValueParam(XFrame.Modules.Local.LanguageIdParam)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Local.LocalizeModule.GetValueParam(XFrame.Modules.Local.Language,XFrame.Modules.Local.LanguageIdParam)">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.Diagnotics.ICanConfigLog">
+            <summary>
+            可配置Log等级
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Diagnotics.ICanConfigLog.LogLv">
+            <summary>
+            Log等级
+            </summary>
         </member>
         <member name="T:XFrame.Modules.Diagnotics.ILogger">
             <summary>
@@ -2892,10 +4698,92 @@
             </summary>
             <param name="content">信息</param>
         </member>
+        <member name="M:XFrame.Modules.Diagnotics.ILogger.Exception(System.Exception)">
+            <summary>
+            异常错误
+            </summary>
+            <param name="e">异常</param>
+        </member>
+        <member name="T:XFrame.Modules.Diagnotics.ILogModule">
+            <summary>
+            Log模块
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.ILogModule.AddLogger``1">
+            <summary>
+            添加Log辅助器
+            </summary>
+            <typeparam name="T">Log辅助器类型</typeparam>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.ILogModule.GetLogger``1">
+            <summary>
+            获取Log辅助器
+            </summary>
+            <typeparam name="T">辅助器类型</typeparam>
+            <returns>获取到的实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.ILogModule.Debug(System.Object[])">
+            <summary>
+            调试信息
+            </summary>
+            <param name="content">信息</param>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.ILogModule.Warning(System.Object[])">
+            <summary>
+            警告信息
+            </summary>
+            <param name="content">信息</param>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.ILogModule.Error(System.Object[])">
+            <summary>
+            错误信息
+            </summary>
+            <param name="content">信息</param>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.ILogModule.Fatal(System.Object[])">
+            <summary>
+            致命错误信息
+            </summary>
+            <param name="content">信息</param>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.ILogModule.Exception(System.Exception)">
+            <summary>
+            异常错误
+            </summary>
+            <param name="e">异常</param>
+        </member>
         <member name="T:XFrame.Modules.Diagnotics.Log">
             <summary>
             Log
             </summary>
+        </member>
+        <member name="P:XFrame.Modules.Diagnotics.Log.ToQueue">
+            <summary>
+            是否将Log输出到队列中
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Diagnotics.Log.Power">
+            <summary>
+            开关
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.Log.SetDomain(XFrame.Core.XDomain)">
+            <summary>
+            设置域
+            </summary>
+            <param name="domain">域</param>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.Log.ConsumeWaitQueue">
+            <summary>
+            消耗队列中的Log输出到Logger中
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.Log.Print(XFrame.Modules.Diagnotics.LogLevel,System.Object[])">
+            <summary>
+            输出Log
+            </summary>
+            <param name="level">Log等级</param>
+            <param name="content">信息</param>
         </member>
         <member name="M:XFrame.Modules.Diagnotics.Log.Debug(System.Object[])">
             <summary>
@@ -2921,47 +4809,73 @@
             </summary>
             <param name="content">信息</param>
         </member>
-        <member name="T:XFrame.Modules.Diagnotics.LogModule">
+        <member name="M:XFrame.Modules.Diagnotics.Log.Exception(System.Exception)">
             <summary>
-            Log模块
+            异常信息
             </summary>
+            <param name="e">异常</param>
+        </member>
+        <member name="T:XFrame.Modules.Diagnotics.LogLevel">
+            <summary>
+            Log等级
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Diagnotics.LogLevel.Ignore">
+            <summary>
+            忽略
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Diagnotics.LogLevel.Debug">
+            <summary>
+            正常调试
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Diagnotics.LogLevel.Warning">
+            <summary>
+            警告
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Diagnotics.LogLevel.Error">
+            <summary>
+            错误
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Diagnotics.LogLevel.Fatal">
+            <summary>
+            致命错误
+            </summary>
+        </member>
+        <member name="F:XFrame.Modules.Diagnotics.LogLevel.Exception">
+            <summary>
+            异常
+            </summary>
+        </member>
+        <member name="T:XFrame.Modules.Diagnotics.LogModule">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.LogModule.OnInit(System.Object)">
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Diagnotics.LogModule.AddLogger``1">
-            <summary>
-            添加Log辅助器
-            </summary>
-            <typeparam name="T">Log辅助器类型</typeparam>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Diagnotics.LogModule.GetLogger``1">
-            <summary>
-            获取Log辅助器
-            </summary>
-            <typeparam name="T">辅助器类型</typeparam>
-            <returns>获取到的实例</returns>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Diagnotics.LogModule.Debug(System.Object[])">
-            <summary>
-            调试信息
-            </summary>
-            <param name="content">信息</param>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Diagnotics.LogModule.Warning(System.Object[])">
-            <summary>
-            警告信息
-            </summary>
-            <param name="content">信息</param>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Diagnotics.LogModule.Error(System.Object[])">
-            <summary>
-            错误信息
-            </summary>
-            <param name="content">信息</param>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Diagnotics.LogModule.Fatal(System.Object[])">
-            <summary>
-            致命错误信息
-            </summary>
-            <param name="content">信息</param>
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Diagnotics.LogModule.Exception(System.Exception)">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Plots.DirectorAttribute">
             <summary>
@@ -2973,25 +4887,91 @@
             是否为默认
             </summary>
         </member>
+        <member name="M:XFrame.Modules.Plots.DirectorAttribute.#ctor(System.Boolean)">
+            <summary>
+            构造器
+            </summary>
+            <param name="ifDefault">是否为默认导演</param>
+        </member>
         <member name="T:XFrame.Modules.Plots.BlockDirector">
             <summary>
             故事导演类(阻塞式), 数据非持久化
             </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.BlockDirector.Module">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.BlockDirector.Play(XFrame.Modules.Plots.IStory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.BlockDirector.Play(XFrame.Modules.Plots.IStory[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.BlockDirector.Remove(XFrame.Modules.Plots.IStory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.BlockDirector.Remove(System.String)">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Plots.NonBlockDirector">
             <summary>
             故事导演类(非阻塞式), 数据非持久化
             </summary>
         </member>
+        <member name="P:XFrame.Modules.Plots.NonBlockDirector.Module">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.NonBlockDirector.Play(XFrame.Modules.Plots.IStory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.NonBlockDirector.Play(XFrame.Modules.Plots.IStory[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.NonBlockDirector.Remove(XFrame.Modules.Plots.IStory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.NonBlockDirector.Remove(System.String)">
+            <inheritdoc/>
+        </member>
         <member name="T:XFrame.Modules.Plots.PersistBlockDirector">
             <summary>
             故事导演类(阻塞式), 数据持久化
             </summary>
         </member>
+        <member name="P:XFrame.Modules.Plots.PersistBlockDirector.Module">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PersistBlockDirector.Play(XFrame.Modules.Plots.IStory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PersistBlockDirector.Play(XFrame.Modules.Plots.IStory[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PersistBlockDirector.Remove(XFrame.Modules.Plots.IStory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PersistBlockDirector.Remove(System.String)">
+            <inheritdoc/>
+        </member>
         <member name="T:XFrame.Modules.Plots.PersistNonBlockDirector">
             <summary>
             故事导演类(非阻塞式), 数据持久化
             </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.PersistNonBlockDirector.Module">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PersistNonBlockDirector.Play(XFrame.Modules.Plots.IStory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PersistNonBlockDirector.Play(XFrame.Modules.Plots.IStory[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PersistNonBlockDirector.Remove(XFrame.Modules.Plots.IStory)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PersistNonBlockDirector.Remove(System.String)">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Plots.NewStoryEvent">
             <summary>
@@ -3008,9 +4988,50 @@
             故事列表
             </summary>
         </member>
+        <member name="M:XFrame.Modules.Plots.NewStoryEvent.Create(XFrame.Modules.Plots.IStory[])">
+            <summary>
+            创建事件
+            </summary>
+            <param name="stories">故事列表</param>
+            <returns>事件实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Plots.NewStoryEvent.Create(XFrame.Modules.Plots.IStory)">
+            <summary>
+            创建事件
+            </summary>
+            <param name="story">故事</param>
+            <returns>事件实例</returns>
+        </member>
+        <member name="T:XFrame.Modules.Plots.PlotSectionFinishEvent">
+            <summary>
+            故事片段完成事件
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.PlotSectionFinishEvent.EventId">
+            <summary>
+            事件Id
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.PlotSectionFinishEvent.Seciton">
+            <summary>
+            片段
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PlotSectionFinishEvent.Create(XFrame.Modules.Plots.ISection)">
+            <summary>
+            创建事件
+            </summary>
+            <param name="section">片段</param>
+            <returns>事件实例</returns>
+        </member>
         <member name="T:XFrame.Modules.Plots.IDirector">
             <summary>
             故事导演
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.IDirector.Module">
+            <summary>
+            所属模块
             </summary>
         </member>
         <member name="M:XFrame.Modules.Plots.IDirector.Play(XFrame.Modules.Plots.IStory[])">
@@ -3063,9 +5084,51 @@
             故事辅助类
             </summary>
         </member>
+        <member name="T:XFrame.Modules.Plots.IPlotModule">
+            <summary>
+            故事模块
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.IPlotModule.Event">
+            <summary>
+            事件系统
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.IPlotModule.Helper">
+            <summary>
+            故事处理辅助类
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Plots.IPlotModule.NewStory(System.Type,System.Type,System.String)">
+            <summary>
+            请求一个新故事
+            </summary>
+            <param name="targetDirector">播放导演</param>
+            <param name="helperType">辅助器类型</param>
+            <param name="name">故事名</param>
+            <returns>故事</returns>
+        </member>
+        <member name="M:XFrame.Modules.Plots.IPlotModule.NewStory(System.Type,System.String)">
+            <summary>
+            请求一个新故事
+            </summary>
+            <param name="targetDirector">播放导演</param>
+            <param name="name">故事名</param>
+            <returns>故事</returns>
+        </member>
         <member name="T:XFrame.Modules.Plots.ISection">
             <summary>
             故事情节
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.ISection.Story">
+            <summary>
+            所属故事
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.ISection.Data">
+            <summary>
+            数据提供器
             </summary>
         </member>
         <member name="P:XFrame.Modules.Plots.ISection.IsDone">
@@ -3077,7 +5140,13 @@
             <summary>
             初始化生命周期
             </summary>
+            <param name="story">故事</param>
             <param name="data">数据提供器</param>
+        </member>
+        <member name="M:XFrame.Modules.Plots.ISection.OnInit">
+            <summary>
+            初始化生命周期
+            </summary>
         </member>
         <member name="M:XFrame.Modules.Plots.ISection.CanStart">
             <summary>
@@ -3111,6 +5180,21 @@
             所属导演类
             </summary>
         </member>
+        <member name="P:XFrame.Modules.Plots.IStory.Helper">
+            <summary>
+            故事辅助器
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.IStory.Sections">
+            <summary>
+            故事情节
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Plots.IStory.Count">
+            <summary>
+            故事情节数量
+            </summary>
+        </member>
         <member name="P:XFrame.Modules.Plots.IStory.Name">
             <summary>
             故事名称
@@ -3132,7 +5216,6 @@
             <summary>
             初始化生命周期
             </summary>
-            <param name="data">数据提供器</param>
         </member>
         <member name="M:XFrame.Modules.Plots.IStory.OnStart">
             <summary>
@@ -3144,10 +5227,50 @@
             更新生命周期
             </summary>
         </member>
+        <member name="M:XFrame.Modules.Plots.IStory.OnFinish">
+            <summary>
+            完成生命周期
+            </summary>
+        </member>
         <member name="M:XFrame.Modules.Plots.IStory.OnDestroy">
             <summary>
             销毁生命周期
             </summary>
+        </member>
+        <member name="T:XFrame.Modules.Plots.IStoryHelper">
+            <summary>
+            故事辅助器
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Plots.IStoryHelper.OnStoryInit(XFrame.Modules.Plots.IStory)">
+            <summary>
+            故事被创建
+            </summary>
+            <param name="story">故事</param>
+        </member>
+        <member name="M:XFrame.Modules.Plots.IStoryHelper.OnStoryStart(XFrame.Modules.Plots.IStory)">
+            <summary>
+            故事开始
+            </summary>
+            <param name="story">故事</param>
+        </member>
+        <member name="M:XFrame.Modules.Plots.IStoryHelper.OnStoryUpdate(XFrame.Modules.Plots.IStory)">
+            <summary>
+            故事更新
+            </summary>
+            <param name="story">故事</param>
+        </member>
+        <member name="M:XFrame.Modules.Plots.IStoryHelper.OnStoryFinish(XFrame.Modules.Plots.IStory)">
+            <summary>
+            故事完成
+            </summary>
+            <param name="story">故事</param>
+        </member>
+        <member name="M:XFrame.Modules.Plots.IStoryHelper.OnStoryDestory(XFrame.Modules.Plots.IStory)">
+            <summary>
+            故事销毁
+            </summary>
+            <param name="story">故事</param>
         </member>
         <member name="T:XFrame.Modules.Plots.PersistPlotDataProvider">
             <summary>
@@ -3155,21 +5278,57 @@
             </summary>
         </member>
         <member name="T:XFrame.Modules.Plots.PlotModule">
-            <summary>
-            故事模块
-            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Plots.PlotModule.Event">
+            <inheritdoc/>
         </member>
         <member name="P:XFrame.Modules.Plots.PlotModule.Helper">
-            <summary>
-            故事处理辅助类
-            </summary>
+            <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Plots.PlotModule.NewStory(System.Type,System.Type,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PlotModule.NewStory(System.Type,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PlotModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PlotModule.OnUpdate(System.Single)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.PlotModule.OnDestroy">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Modules.Plots.SectionBase">
             <summary>
-            请求一个新故事
+            情节基类
             </summary>
-            <param name="name">故事名</param>
-            <returns>故事</returns>
+        </member>
+        <member name="P:XFrame.Modules.Plots.SectionBase.Story">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Plots.SectionBase.Data">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Plots.SectionBase.IsDone">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.SectionBase.CanStart">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.SectionBase.OnFinish">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.SectionBase.OnStart">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.SectionBase.OnUpdate">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Plots.SectionBase.OnInit">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Plots.SectionState">
             <summary>
@@ -3221,6 +5380,22 @@
             已完成
             </summary>
         </member>
+        <member name="T:XFrame.Modules.Pools.CommonPoolObject`1">
+            <summary>
+            通用池化对象
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:XFrame.Modules.Pools.CommonPoolObject`1.Target">
+            <summary>
+            对象实例
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Pools.CommonPoolObject`1.Valid">
+            <summary>
+            是否有效
+            </summary>
+        </member>
         <member name="T:XFrame.Modules.Pools.IPool">
             <summary>
             对象池
@@ -3246,11 +5421,23 @@
             对象池辅助器
             </summary>
         </member>
+        <member name="P:XFrame.Modules.Pools.IPool.Module">
+            <summary>
+            所属模块
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Pools.IPool.AllObjects">
+            <summary>
+            池中所有对象
+            </summary>
+        </member>
         <member name="M:XFrame.Modules.Pools.IPool.Require(System.Int32,System.Object)">
             <summary>
             获取一个对象
             </summary>
-            <param name="obj">获取到的对象</param>
+            <param name="poolKey">对象key</param>
+            <param name="userData">对象数据</param>
+            <returns>对象实例</returns>
         </member>
         <member name="M:XFrame.Modules.Pools.IPool.Release(XFrame.Modules.Pools.IPoolObject)">
             <summary>
@@ -3262,7 +5449,10 @@
             <summary>
             生成池对象
             </summary>
+            <param name="poolKey">对象key</param>
             <param name="count">生成数量</param>
+            <param name="userData">数据参数</param>
+            <param name="toList">添加到列表</param>
         </member>
         <member name="M:XFrame.Modules.Pools.IPool.ClearObject">
             <summary>
@@ -3285,15 +5475,74 @@
             <summary>
             获取一个对象
             </summary>
-            <param name="obj">请求的对象</param>
+            <param name="poolKey">对象key</param>
+            <param name="userData">数据参数</param>
             <returns>是否是新创建的对象，返回false表示从对象池中创建</returns>
+        </member>
+        <member name="T:XFrame.Modules.Pools.IPoolHelper">
+            <summary>
+            对象池辅助器
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Pools.IPoolHelper.CacheCount">
+            <summary>
+            池对象数量
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Pools.IPoolHelper.Factory(System.Type,System.Int32,System.Object)">
+            <summary>
+            生成对象
+            </summary>
+            <param name="type">对象类型</param>
+            <param name="poolKey">对象key</param>
+            <param name="userData">参数数据</param>
+            <returns>对象实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Pools.IPoolHelper.OnObjectCreate(XFrame.Modules.Pools.IPoolObject)">
+            <summary>
+            对象创建生命周期
+            </summary>
+            <param name="obj">目标对象</param>
+        </member>
+        <member name="M:XFrame.Modules.Pools.IPoolHelper.OnObjectRequest(XFrame.Modules.Pools.IPoolObject)">
+            <summary>
+            对象请求生命周期
+            </summary>
+            <param name="obj">目标对象</param>
+        </member>
+        <member name="M:XFrame.Modules.Pools.IPoolHelper.OnObjectRelease(XFrame.Modules.Pools.IPoolObject)">
+            <summary>
+            对象释放生命周期
+            </summary>
+            <param name="obj">目标对象</param>
+        </member>
+        <member name="M:XFrame.Modules.Pools.IPoolHelper.OnObjectDestroy(XFrame.Modules.Pools.IPoolObject)">
+            <summary>
+            对象释放生命周期
+            </summary>
+            <param name="obj">目标对象</param>
         </member>
         <member name="T:XFrame.Modules.Pools.IPoolObject">
             <summary>
-            对象池对象
+            可池化对象
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Pools.IPoolObject.OnCreate(XFrame.Modules.Pools.IPoolModule)">
+        <member name="P:XFrame.Modules.Pools.IPoolObject.PoolKey">
+            <summary>
+            对象Key，即使对象类型<see cref="T:System.Type"/>相同,当从对象池中获取对象时也会获取同key的对象。
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Pools.IPoolObject.MarkName">
+            <summary>
+            对象名
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Pools.IPoolObject.InPool">
+            <summary>
+            对象所处对象池
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Pools.IPoolObject.OnCreate">
             <summary>
             从对象池中创建时被调用
             </summary>
@@ -3336,6 +5585,37 @@
             </summary>
             <param name="objType">对象池持有数据类型</param>
             <returns>对象池</returns>
+        </member>
+        <member name="T:XFrame.Modules.Pools.PoolObjectBase">
+            <summary>
+            可池化对象基类
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Pools.PoolObjectBase.MarkName">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Modules.Pools.PoolObjectBase.PoolKey">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Pools.PoolObjectBase.OnCreateFromPool">
+            <summary>
+            第一次创建时的生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Pools.PoolObjectBase.OnRequestFromPool">
+            <summary>
+            从对象池中被请求时的生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Pools.PoolObjectBase.OnDestroyFromPool">
+            <summary>
+            从对象池中销毁的生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Pools.PoolObjectBase.OnReleaseFromPool">
+            <summary>
+            释放到对象池中时的生命周期
+            </summary>
         </member>
         <member name="T:XFrame.Modules.Procedure.ProcedureBase">
             <summary>

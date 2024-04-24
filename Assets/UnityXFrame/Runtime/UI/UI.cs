@@ -124,14 +124,15 @@ namespace UnityXFrame.Core.UIElements
             m_UIFinder = GetOrAddCom<UIFinder>();
         }
 
-        void IPoolObject.OnCreate(IPoolModule module)
+        void IPoolObject.OnCreate()
         {
-            m_Module = module.Domain.GetModule<IContainerModule>();
+            IPoolObject poolObj = this;
+            m_Module = poolObj.InPool.Module.Domain.GetModule<IContainerModule>();
             m_CanvasGroup = m_Root.GetComponent<CanvasGroup>();
             if (m_CanvasGroup == null)
                 m_CanvasGroup = m_Root.AddComponent<CanvasGroup>();
             m_Transform = m_Root.GetComponent<RectTransform>();
-            Event = module.Domain.GetModule<IEventModule>().NewSys();
+            Event = m_Module.Domain.GetModule<IEventModule>().NewSys();
             m_IsOpen = false;
             Active = false;
             OnCreateFromPool();

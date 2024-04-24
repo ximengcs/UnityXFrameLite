@@ -151,9 +151,9 @@ namespace UnityXFrame.Core.UIElements
 
         IPool IPoolObject.InPool { get; set; }
 
-        void IPoolObject.OnCreate(IPoolModule module)
+        void IPoolObject.OnCreate()
         {
-            m_Module = module;
+            m_Module = ((IPoolObject)this).InPool.Module;
             m_Container = new Container();
             m_Root = gameObject;
             m_CanvasGroup = m_Root.GetComponent<CanvasGroup>();

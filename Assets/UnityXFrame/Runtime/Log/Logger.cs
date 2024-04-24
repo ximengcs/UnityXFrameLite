@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UnityXFrame.Core.Diagnotics
 {
@@ -71,6 +72,11 @@ namespace UnityXFrame.Core.Diagnotics
                     result = string.Concat(content);
                 return true;
             }
+        }
+
+        public void Exception(Exception e)
+        {
+            UnityEngine.Debug.LogException(e);
         }
     }
 }

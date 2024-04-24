@@ -43,7 +43,7 @@ namespace UnityXFrameLib.Effects
             m_Root = root;
         }
 
-        void IPoolObject.OnCreate(IPoolModule module)
+        void IPoolObject.OnCreate()
         {
             m_Event = Global.Event.NewSys();
             m_Inited = false;

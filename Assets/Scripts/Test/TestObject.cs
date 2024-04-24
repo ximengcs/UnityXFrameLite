@@ -20,9 +20,9 @@ namespace Assets.Scripts.Test
 
         }
 
-        void IPoolObject.OnCreate(IPoolModule module)
+        void IPoolObject.OnCreate()
         {
-            throw new System.NotImplementedException();
+
         }
 
         void IPoolObject.OnDelete()
