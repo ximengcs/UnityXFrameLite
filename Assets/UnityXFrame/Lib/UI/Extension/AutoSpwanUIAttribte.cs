@@ -6,6 +6,11 @@ namespace UnityXFrameLib.UIElements
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class AutoSpwanUIAttribute : UIAutoAttribute
     {
-        public AutoSpwanUIAttribute(int useResModule = Constant.COMMON_RES_MODULE) : base(useResModule) { }
+        public int Count { get; }
+
+        public AutoSpwanUIAttribute(int useResModule = Constant.COMMON_RES_MODULE, int count = 1) : base(useResModule)
+        {
+            Count = count;
+        }
     }
 }

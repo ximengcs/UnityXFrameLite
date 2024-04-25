@@ -10,6 +10,7 @@ using XFrame.Modules.Event;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Reflection;
 using XFrame.Tasks;
+using System.Collections;
 
 namespace UnityXFrame.Core.UIElements
 {
@@ -73,19 +74,9 @@ namespace UnityXFrame.Core.UIElements
         #endregion
 
         #region Interface
-        public XTask PreloadResource(Type[] types, int useResModule)
+        public XTask PreloadResource(IEnumerable types, int useResModule)
         {
             return m_Helper.PreloadRes(types, useResModule);
-        }
-
-        public XTask PreloadResource(IEnumerable<Type> types, int useResModule)
-        {
-            return m_Helper.PreloadRes(types, useResModule);
-        }
-
-        public XTask PreloadResource(IXEnumerable<Type> types, int useResModule)
-        {
-            return m_Helper.PreloadRes((IEnumerable<Type>)types, useResModule);
         }
 
         public XTask PreloadResource(Type type, int useResModule)
@@ -93,7 +84,7 @@ namespace UnityXFrame.Core.UIElements
             return m_Helper.PreloadRes(type, useResModule);
         }
 
-        public async XTask Spwan(IEnumerable<Type> types, int useResModule)
+        public async XTask Spwan(IEnumerable types, int useResModule)
         {
             foreach (Type uiType in types)
             {
@@ -104,19 +95,9 @@ namespace UnityXFrame.Core.UIElements
                     InnerInitSpwanUI(list);
                     list.Clear();
                     References.Release(list);
-                    await XTask.NextFrame();
+                    await new XTaskCompleted();
                 }
             }
-        }
-
-        public XTask Spwan(Type[] types, int useResModule)
-        {
-            return Spwan((IEnumerable<Type>)types, useResModule);
-        }
-
-        public XTask Spwan(IXEnumerable<Type> types, int useResModule)
-        {
-            return Spwan((IEnumerable<Type>)types, useResModule);
         }
 
         public async XTask Spwan(Type uiType, int useResModule)
@@ -138,11 +119,6 @@ namespace UnityXFrame.Core.UIElements
                 IUI ui = obj.Value as IUI;
                 group.AddUI(ui);
             }
-        }
-
-        public XTask Spwan<T>(int useResModule) where T : IUI
-        {
-            return Spwan(typeof(T), useResModule);
         }
 
         /// <summary>

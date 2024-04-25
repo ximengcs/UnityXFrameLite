@@ -5,6 +5,7 @@ using XFrame.Tasks;
 using XFrame.Modules.Pools;
 using XFrame.Modules.Resource;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace UnityXFrame.Core.UIElements
 {
@@ -12,7 +13,7 @@ namespace UnityXFrame.Core.UIElements
     {
         private interface IUIPoolHelper : IPoolHelper
         {
-            XTask PreloadRes(IEnumerable<Type> types, int useResModule);
+            XTask PreloadRes(IEnumerable types, int useResModule);
 
             XTask PreloadRes(Type type, int useResModule);
         }
@@ -21,7 +22,7 @@ namespace UnityXFrame.Core.UIElements
         {
             int IPoolHelper.CacheCount => 8;
 
-            XTask IUIPoolHelper.PreloadRes(IEnumerable<Type> types, int useResModule)
+            XTask IUIPoolHelper.PreloadRes(IEnumerable types, int useResModule)
             {
                 List<string> uiPaths = new List<string>();
                 foreach (Type type in types)

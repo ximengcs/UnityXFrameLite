@@ -9,7 +9,7 @@ using UnityXFrame.Core;
 namespace Game.Test
 {
     [AutoLoadUI(Constant.LOCAL_RES_MODULE)]
-    [AutoSpwanUI(Constant.LOCAL_RES_MODULE)]
+    [AutoSpwanUI(Constant.LOCAL_RES_MODULE, 4)]
     public class DialogUI : MonoUI
     {
         public TextMeshProUGUI m_Title;

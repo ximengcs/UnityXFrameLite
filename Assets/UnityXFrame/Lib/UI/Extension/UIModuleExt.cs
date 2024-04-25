@@ -39,51 +39,28 @@ namespace UnityXFrameLib.UIElements
             return DOTween.To(() => group.alpha, (pos) => group.alpha = pos, target, duration);
         }
 
-        public static List<ITask> CollectAllAutoTask()
-        {
-            List<ITask> list = new List<ITask>(16);
-            InnerCollectInfo(Global.Type.GetOrNewWithAttr<AutoLoadUIAttribute>(), Global.UI.PreloadResource, list);
-            InnerCollectInfo(Global.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), Global.UI.Spwan, list);
-            return list;
-        }
-
         public static async XTask CollectAutoTask()
         {
             await InnerFactoryTask(Global.Type.GetOrNewWithAttr<AutoLoadUIAttribute>(), Global.UI.PreloadResource);
-            await InnerFactoryTask(Global.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), Global.UI.Spwan);
+            await InnerFactorySpwnTask(Global.Type.GetOrNewWithAttr<AutoSpwanUIAttribute>(), Global.UI.Spwan);
         }
 
-        private static async XTask InnerFactoryTask(TypeSystem typeSys, Func<IEnumerable<Type>, int, ITask> handler)
-        {
-            Dictionary<int, List<Type>> map = new Dictionary<int, List<Type>>();
-            foreach (Type type in typeSys)
-            {
-                UIAutoAttribute attr = Global.Type.GetAttribute<UIAutoAttribute>(type);
-                if (!map.TryGetValue(attr.UseResModule, out List<Type> list))
-                {
-                    list = new List<Type>(typeSys.Count);
-                    map.Add(attr.UseResModule, list);
-                }
-                list.Add(type);
-            }
-
-            foreach (var entry in map)
-            {
-                handler(entry.Value, entry.Key);
-                await XTask.NextFrame();
-            }
-        }
-
-        private static void InnerCollectInfo(TypeSystem typeSys, Func<Type, int, ITask> handler, List<ITask> result)
+        private static async XTask InnerFactoryTask(TypeSystem typeSys, Func<Type, int, XTask> handler)
         {
             foreach (Type type in typeSys)
             {
                 UIAutoAttribute attr = Global.Type.GetAttribute<UIAutoAttribute>(type);
-                if (attr != null)
-                {
-                    ITask task = handler(type, attr.UseResModule);
-                    result.Add(task);
-                }
+                await handler(type, attr.UseResModule);
+            }
+        }
+
+        private static async XTask InnerFactorySpwnTask(TypeSystem typeSys, Func<Type, int, XTask> handler)
+        {
+            foreach (Type type in typeSys)
+            {
+                AutoSpwanUIAttribute attr = Global.Type.GetAttribute<AutoSpwanUIAttribute>(type);
+                for (int i = 0; i < attr.Count; i++)
+                    await handler(type, attr.UseResModule);
             }
         }
     }

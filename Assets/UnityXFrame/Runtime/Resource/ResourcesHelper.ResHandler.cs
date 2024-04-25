@@ -12,7 +12,15 @@ namespace UnityXFrame.Core.Resource
 
         public object Data => m_Request.asset;
 
-        public bool IsDone => m_Request.isDone;
+        public bool IsDone
+        {
+            get
+            {
+                if (m_Request == null)
+                    return false;
+                return m_Request.isDone;
+            }
+        }
 
         public float Pro => m_Request.progress;
 

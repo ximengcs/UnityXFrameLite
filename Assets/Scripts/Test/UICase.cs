@@ -12,6 +12,10 @@ namespace Game.Test
     {
         public void OnDraw()
         {
+            if(DebugGUI.Button("Exec Auto Task"))
+            {
+                UIModuleExt.CollectAutoTask().Coroutine();
+            }
             if (DebugGUI.Button("Init Anim Trigger Group"))
             {
                 MultiUIGroupHelper helper = Global.UI.MainGroup.AddHelper<MultiUIGroupHelper>();

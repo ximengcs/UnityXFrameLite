@@ -81,6 +81,7 @@ namespace UnityXFrame.Core.Resource
 
         public ResLoadTask LoadAsync(string resPath, Type type)
         {
+            Debug.LogWarning("LoadAsync 1");
             if (m_DirectHelper != null)
             {
                 if (m_DirectHelper.Redirect(resPath, type, out string newResPath))
@@ -106,6 +107,7 @@ namespace UnityXFrame.Core.Resource
 
         public ResLoadTask<T> LoadAsync<T>(string resPath)
         {
+            Debug.LogWarning("LoadAsync 2");
             if (m_DirectHelper != null)
             {
                 if (m_DirectHelper.Redirect(resPath, typeof(T), out string newResPath))

@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using XFrame.Collections;
 using XFrame.Core;
 using XFrame.Modules.Containers;
 using XFrame.Modules.Event;
@@ -47,17 +46,7 @@ namespace UnityXFrame.Core.UIElements
 
         public Vector2 PixelScale => m_UIModule.PixelScale;
 
-        public XTask PreloadResource(Type[] types, int useResModule)
-        {
-            return m_UIModule.PreloadResource(types, useResModule);
-        }
-
-        public XTask PreloadResource(IEnumerable<Type> types, int useResModule)
-        {
-            return m_UIModule.PreloadResource(types, useResModule);
-        }
-
-        public XTask PreloadResource(IXEnumerable<Type> types, int useResModule)
+        public XTask PreloadResource(IEnumerable types, int useResModule)
         {
             return m_UIModule.PreloadResource(types, useResModule);
         }
@@ -67,17 +56,7 @@ namespace UnityXFrame.Core.UIElements
             return m_UIModule.PreloadResource(type, useResModule);
         }
 
-        public XTask Spwan(IEnumerable<Type> types, int useResModule)
-        {
-            return m_UIModule.Spwan(types, useResModule);
-        }
-
-        public XTask Spwan(Type[] types, int useResModule)
-        {
-            return m_UIModule.Spwan(types, useResModule);
-        }
-
-        public XTask Spwan(IXEnumerable<Type> types, int useResModule)
+        public XTask Spwan(IEnumerable types, int useResModule)
         {
             return m_UIModule.Spwan(types, useResModule);
         }
@@ -85,11 +64,6 @@ namespace UnityXFrame.Core.UIElements
         public XTask Spwan(Type uiType, int useResModule)
         {
             return m_UIModule.Spwan(uiType, useResModule);
-        }
-
-        public XTask Spwan<T>(int useResModule) where T : IUI
-        {
-            return m_UIModule.Spwan<T>(useResModule);
         }
 
         public IUIGroup MainGroup => m_UIModule.MainGroup;
