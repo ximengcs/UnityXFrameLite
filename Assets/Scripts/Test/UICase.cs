@@ -12,12 +12,6 @@ namespace Game.Test
     {
         public void OnDraw()
         {
-            //if (DebugGUI.Button("Init Fade Group"))
-            //{
-            //    OnlyOneUIGroupHelper helper = Global.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
-            //    helper.SetEffect(new FadeEffect(1, 0.5f), new MoveEffect(MoveEffect.Direct.FromLeft, false, true));
-            //}
-
             if (DebugGUI.Button("Init Anim Trigger Group"))
             {
                 MultiUIGroupHelper helper = Global.UI.MainGroup.AddHelper<MultiUIGroupHelper>();
@@ -26,18 +20,6 @@ namespace Game.Test
                         new AnimatorTriggerEffect("Close", "Close"));
                 helper.SetEffect(new AnimatorStateEffect("Open"), new AnimatorStateEffect("Close"));
             }
-
-            //if (DebugGUI.Button("Init Anim State Group"))
-            //{
-            //    MultiUIGroupHelper helper = Global.UI.MainGroup.AddHelper<MultiUIGroupHelper>();
-            //    helper.SetEffect(new AnimatorStateEffect("Open"), new AnimatorStateEffect("Close"));
-            //}
-            //
-            //if (DebugGUI.Button("Init Scale Group"))
-            //{
-            //    OnlyOneUIGroupHelper helper = Global.UI.MainGroup.AddHelper<OnlyOneUIGroupHelper>();
-            //    helper.SetEffect(new ScaleEffect(Vector2.one, 2), new ScaleEffect(Vector2.one, Vector2.zero, 2));
-            //}
 
             if (DebugGUI.Button("Open Layout"))
             {
