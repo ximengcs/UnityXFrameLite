@@ -7,14 +7,6 @@
   "targets": {
     ".NETStandard,Version=v2.1": {},
     ".NETStandard,Version=v2.1/": {
-      "XFrame/1.0.0": {
-        "dependencies": {
-          "XFramePlugins": "1.0.0"
-        },
-        "runtime": {
-          "XFrame.dll": {}
-        }
-      },
       "XFramePlugins/1.0.0": {
         "runtime": {
           "XFramePlugins.dll": {}
@@ -23,11 +15,6 @@
     }
   },
   "libraries": {
-    "XFrame/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
     "XFramePlugins/1.0.0": {
       "type": "project",
       "serviceable": false,
