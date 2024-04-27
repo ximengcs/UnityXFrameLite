@@ -4,7 +4,6 @@ using XFrame.Modules.Config;
 using XFrame.Modules.Archives;
 using System.Collections;
 using XFrame.Tasks;
-using System;
 using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core
@@ -18,7 +17,7 @@ namespace UnityXFrame.Core
 
         private void Awake()
         {
-            XTask.ExceptionHandler += Log.Exception;
+            XTaskHelper.ExceptionHandler += Log.Exception;
             InnerConfigType();
             XConfig.Entrance = Data.Entrance;
             XConfig.DefaultRes = Data.ResMode;

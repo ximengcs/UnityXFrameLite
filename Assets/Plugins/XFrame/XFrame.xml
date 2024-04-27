@@ -167,6 +167,7 @@
             添加一个数值变更处理委托
             </summary>
             <param name="handler">更新时的处理委托</param>
+            <param name="atonceInvoke">是否自动执行一次</param>
         </member>
         <member name="M:XFrame.Core.Binder.ValueBinder`2.RemoveHandler(System.Action{`0})">
             <summary>
@@ -1741,7 +1742,7 @@
             <summary>
             返回csv行数据字符串形式
             </summary>
-            <param name="csv">csv行实例</param>
+            <param name="line">csv行实例</param>
             <returns>字符串形式</returns>
         </member>
         <member name="T:XFrame.Collections.ListExt">
@@ -1814,6 +1815,77 @@
             <summary>
             释放
             </summary>
+        </member>
+        <member name="T:XFrame.Collections.XList`1">
+            <summary>
+            带事件的列表
+            </summary>
+            <typeparam name="T">持有值类型</typeparam>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.#ctor">
+            <summary>
+            构造器
+            </summary>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.Add(`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.Add(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.Replace(`0,`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.Contains(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.IndexOf(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.Insert(System.Int32,System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.Remove(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Collections.XList`1.IsFixedSize">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.Contains(`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.CopyTo(`0[],System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.Remove(`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.CopyTo(System.Array,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Collections.XList`1.Count">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Collections.XList`1.IsSynchronized">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Collections.XList`1.SyncRoot">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Collections.XList`1.IsReadOnly">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.IndexOf(`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Collections.XList`1.Insert(System.Int32,`0)">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Collections.XList`1.Item(System.Int32)">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Collections.XItType">
             <summary>
@@ -3088,6 +3160,12 @@
             <param name="target">条件目标</param>
             <param name="param">触发参数</param>
             <returns>事件实例</returns>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionEvent.OnRequestFromPool">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Conditions.ConditionEvent.OnReleaseFromPool">
+            <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Conditions.ConditionGroupEvent">
             <summary>
@@ -4611,7 +4689,6 @@
             <summary>
             请求下载
             </summary>
-            <param name="url"></param>
         </member>
         <member name="M:XFrame.Modules.Download.IDownloadHelper.OnInit">
             <summary>
@@ -6477,6 +6554,22 @@
             从对象池中销毁时被调用
             </summary>
         </member>
+        <member name="T:XFrame.Modules.Pools.PoolHelperAttribute">
+            <summary>
+            对象池辅助器
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Pools.PoolHelperAttribute.Target">
+            <summary>
+            持有类型
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Pools.PoolHelperAttribute.#ctor(System.Type)">
+            <summary>
+            构造器
+            </summary>
+            <param name="target">持有类型</param>
+        </member>
         <member name="T:XFrame.Modules.Pools.PoolModule">
             <inheritdoc/>
         </member>
@@ -6662,6 +6755,9 @@
             <returns>枚举</returns>
         </member>
         <member name="T:XFrame.Modules.Rand.RandModule">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Rand.RandModule.OnInit(System.Object)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Rand.RandModule.RandString(System.Int32)">
@@ -6907,6 +7003,16 @@
         </member>
         <member name="T:XFrame.Modules.Resource.ResModule">
             <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Resource.ResModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Resource.ResModule.SetHelper(System.Type)">
+            <summary>
+            设置资源辅助器
+            </summary>
+            <param name="type">辅助器类型</param>
+            <returns>辅助器实例</returns>
         </member>
         <member name="P:XFrame.Modules.Resource.ResModule.Helper">
             <inheritdoc/>
@@ -7456,6 +7562,12 @@
         <member name="T:XFrame.Modules.Reflection.TypeModule">
             <inheritdoc/>
         </member>
+        <member name="M:XFrame.Modules.Reflection.TypeModule.OnInit(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Reflection.TypeModule.OnDestroy">
+            <inheritdoc/>
+        </member>
         <member name="M:XFrame.Modules.Reflection.TypeModule.CreateInstance``1(System.Object[])">
             <inheritdoc/>
         </member>
@@ -7596,6 +7708,11 @@
             </summary>
             <param name="id">类型key</param>
         </member>
+        <member name="T:XFrame.Tasks.IProTaskHandler">
+            <summary>
+            带进度任务处理器
+            </summary>
+        </member>
         <member name="P:XFrame.Tasks.IProTaskHandler.Data">
             <summary>
             加载到的数据
@@ -7616,10 +7733,1000 @@
             任务取消生命周期函数
             </summary>
         </member>
+        <member name="T:XFrame.Tasks.ITask">
+            <summary>
+            任务
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.ITask.IsCompleted">
+            <summary>
+            是否完成
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.ITask.Progress">
+            <summary>
+            进度
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.ITask.TaskAction">
+            <summary>
+            任务行为
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.ITask.Coroutine">
+            <summary>
+            任务以协程方式执行
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.ITask.SetAction(XFrame.Tasks.XTaskAction)">
+            <summary>
+            设置任务行为
+            </summary>
+            <param name="action">行为</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.ITask.Bind(XFrame.Tasks.ITaskBinder)">
+            <summary>
+            绑定对象
+            </summary>
+            <param name="binder">绑定器</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.ITask.Cancel(System.Boolean)">
+            <summary>
+            取消任务,未开始执行的任务不会被取消
+            </summary>
+            <param name="subTask">是否取消子任务</param>
+        </member>
+        <member name="M:XFrame.Tasks.ITask.OnCompleted(System.Action{XFrame.Tasks.XTaskState})">
+            <summary>
+            注册完成回调事件
+            </summary>
+            <param name="hanlder">回调处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.ITask.OnCompleted(System.Action)">
+            <summary>
+            注册完成回调事件
+            </summary>
+            <param name="handler">回调处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="T:XFrame.Tasks.ITaskBinder">
+            <summary>
+            任务绑定对象
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.ITaskBinder.IsDisposed">
+            <summary>
+            是否已销毁，销毁时任务会被取消
+            </summary>
+        </member>
+        <member name="T:XFrame.Tasks.XProTask">
+            <summary>
+            带进度状态的任务
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask.m_OnUpdate">
+            <summary>
+            更新事件回调
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask.m_OnDataComplete">
+            <summary>
+            完成回调
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask.m_OnComplete">
+            <summary>
+            完成状态
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask.m_Binder">
+            <summary>
+            任务绑定器
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask.m_TaskAction">
+            <summary>
+            任务行为
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask.m_CancelToken">
+            <summary>
+            取消绑定器
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask.m_ProHandler">
+            <summary>
+            进度处理器
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XProTask.TaskAction">
+            <summary>
+            任务行为 
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.SetAction(XFrame.Tasks.XTaskAction)">
+            <summary>
+            设置任务行为 
+            </summary>
+            <param name="action">行为枚举</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.GetResult">
+            <summary>
+            获取结果
+            </summary>
+            <returns>返回结果</returns>
+        </member>
+        <member name="P:XFrame.Tasks.XProTask.IsCompleted">
+            <summary>
+            是否完成
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XProTask.Progress">
+            <summary>
+            进度
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.#ctor(XFrame.Tasks.IProTaskHandler,XFrame.Tasks.XTaskCancelToken)">
+            <summary>
+            构造器
+            </summary>
+            <param name="handler">进度处理器</param>
+            <param name="cancelToken">取消绑定器</param>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.InnerStart">
+            <summary>
+            开始任务
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.InnerExecComplete">
+            <summary>
+            完成任务
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.Coroutine">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.Bind(XFrame.Tasks.ITaskBinder)">
+            <summary>
+            绑定对象
+            </summary>
+            <param name="binder">绑定器</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.SetResult">
+            <summary>
+            设置结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.GetAwaiter">
+            <summary>
+            await 
+            </summary>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.Cancel(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.OnUpdate(System.Action{System.Single})">
+            <summary>
+            注册更新事件
+            </summary>
+            <param name="handler">事件处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.OnCompleted(System.Action{XFrame.Tasks.XTaskState})">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">事件处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.OnCompleted(System.Action)">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">事件处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask.OnCompleted(System.Action{System.Object})">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">事件处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="T:XFrame.Tasks.XProTask`1">
+            <summary>
+            带进度状态的任务
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask`1.m_OnUpdate">
+            <summary>
+            更新事件回调
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask`1.m_OnComplete">
+            <summary>
+            完成回调
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask`1.m_OnDataComplete">
+            <summary>
+            完成状态
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask`1.m_Binder">
+            <summary>
+            任务绑定器
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask`1.m_TaskAction">
+            <summary>
+            任务行为
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask`1.m_CancelToken">
+            <summary>
+            取消绑定器
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XProTask`1.m_ProHandler">
+            <summary>
+            进度处理器
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XProTask`1.TaskAction">
+            <summary>
+            任务行为 
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.SetAction(XFrame.Tasks.XTaskAction)">
+            <summary>
+            设置任务行为 
+            </summary>
+            <param name="action">行为枚举</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.GetResult">
+            <summary>
+            获取结果
+            </summary>
+            <returns>返回结果</returns>
+        </member>
+        <member name="P:XFrame.Tasks.XProTask`1.IsCompleted">
+            <summary>
+            是否完成
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XProTask`1.Progress">
+            <summary>
+            进度
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.#ctor(XFrame.Tasks.IProTaskHandler,XFrame.Tasks.XTaskCancelToken)">
+            <summary>
+            构造器
+            </summary>
+            <param name="handler">进度处理器</param>
+            <param name="cancelToken">取消绑定器</param>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.InnerStart">
+            <summary>
+            开始任务
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.InnerExecComplete">
+            <summary>
+            完成任务
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.Coroutine">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.Bind(XFrame.Tasks.ITaskBinder)">
+            <summary>
+            绑定对象
+            </summary>
+            <param name="binder">绑定器</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.SetResult">
+            <summary>
+            设置结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.GetAwaiter">
+            <summary>
+            await 
+            </summary>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.Cancel(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.OnUpdate(System.Action{System.Single})">
+            <summary>
+            注册更新事件
+            </summary>
+            <param name="handler">事件处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.OnCompleted(System.Action{XFrame.Tasks.XTaskState})">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">事件处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.OnCompleted(System.Action)">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">事件处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XProTask`1.OnCompleted(System.Action{`0})">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">事件处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="T:XFrame.Tasks.XTask">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.Condition(System.Func{System.Boolean},System.Boolean)">
+            <summary>
+            构建带条件的任务
+            </summary>
+            <param name="fun">条件函数</param>
+            <param name="nextFrameExec">是否下一帧执行</param>
+            <returns>任务实例</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.Condition(System.Func{XFrame.Core.Pair{System.Boolean,System.Object}},System.Boolean)">
+            <summary>
+            构建带条件的任务
+            </summary>
+            <param name="fun">条件函数</param>
+            <param name="nextFrameExec">是否下一帧执行</param>
+            <returns>任务实例</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.Condition(System.Func{System.Single},System.Boolean)">
+            <summary>
+            构建带条件的任务
+            </summary>
+            <param name="fun">条件函数</param>
+            <param name="nextFrameExec">是否下一帧执行</param>
+            <returns>任务实例</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.Beat(System.Single,System.Func{System.Boolean},System.Boolean)">
+            <summary>
+            执行一个心跳任务
+            </summary>
+            <param name="timeGap">间隔</param>
+            <param name="fun">条件函数</param>
+            <param name="nextFrameExec">是否下一帧执行</param>
+            <returns>任务实例</returns>
+        </member>
+        <member name="P:XFrame.Tasks.XTask.TaskAction">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.SetAction(XFrame.Tasks.XTaskAction)">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Tasks.XTask.IsCompleted">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Tasks.XTask.Progress">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.#ctor(XFrame.Tasks.XTaskCancelToken)">
+            <summary>
+            构造器
+            </summary>
+            <param name="cancelToken">取消绑定器</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.Coroutine">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.Bind(XFrame.Tasks.ITaskBinder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.SetResult">
+            <summary>
+            设置结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.GetResult">
+            <summary>
+            获取结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.GetAwaiter">
+            <summary>
+            await
+            </summary>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.Cancel(System.Boolean)">
+            <summary>
+            取消任务
+            </summary>
+            <param name="subTask">是否取消子任务</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.OnCompleted(System.Action{XFrame.Tasks.XTaskState})">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.OnCompleted(System.Action)">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.NextFrame">
+            <summary>
+            等待下一帧
+            </summary>
+            <returns>任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask.Delay(System.Single,System.Boolean)">
+            <summary>
+            延迟任务
+            </summary>
+            <param name="time">时间，秒为单位</param>
+            <param name="nextFrameExec">是否下一帧开始执行</param>
+            <returns>任务</returns>
+        </member>
+        <member name="T:XFrame.Tasks.XTaskAction">
+            <summary>
+            任务行为
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskAction.CompleteWhenSubTaskFailure">
+            <summary>
+            子任务失败时直接完成
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskAction.ContinueWhenSubTaskFailure">
+            <summary>
+            子任务失败时继续任务
+            </summary>
+        </member>
+        <member name="T:XFrame.Tasks.XTaskAsyncMethodBuilder">
+            <summary>
+            XTask异步方法构建器
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskAsyncMethodBuilder.Task">
+            <summary>
+            持有任务
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder.Create">
+            <summary>
+            创建构建器
+            </summary>
+            <returns>构建器</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder.SetResult">
+            <summary>
+            设置任务结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder.Start``1(``0@)">
+            <summary>
+            开始执行状态机
+            </summary>
+            <typeparam name="TStateMachine">异步状态机类型</typeparam>
+            <param name="stateMachine">异步状态机</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder.AwaitOnCompleted``2(``0@,``1@)">
+            <summary>
+            等待一个任务
+            </summary>
+            <typeparam name="TAwaiter">等待器类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">等待器, GetAwaiter返回的对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder.AwaitUnsafeOnCompleted``2(``0@,``1@)">
+            <summary>
+            等待一个任务
+            </summary>
+            <typeparam name="TAwaiter">等待器类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">等待器, GetAwaiter返回的对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder.SetException(System.Exception)">
+            <summary>
+            当发生异常时被调用
+            </summary>
+            <param name="e">异常类型</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine)">
+            <summary>
+            设置状态机
+            </summary>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="T:XFrame.Tasks.XTaskCancelToken">
+            <summary>
+            取消绑定器
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskCancelToken.Disposed">
+            <summary>
+            是否已经销毁
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskCancelToken.Canceled">
+            <summary>
+            是否取消
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCancelToken.Cancel">
+            <summary>
+            取消
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCancelToken.AddHandler(System.Action)">
+            <summary>
+            添加取消时的处理函数
+            </summary>
+            <param name="handler">处理函数</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCancelToken.RemoveHandler(System.Action)">
+            <summary>
+            移除处理函数
+            </summary>
+            <param name="handler"></param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCancelToken.Dispose">
+            <summary>
+            释放到池中
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCancelToken.Clear">
+            <summary>
+            清理
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCancelToken.Invoke">
+            <summary>
+            执行取消函数，且抛出异常
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCancelToken.InvokeWithoutException">
+            <summary>
+            执行取消函数，不抛出异常
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCancelToken.Require">
+            <summary>
+            请求一个取消绑定器
+            </summary>
+            <returns>取消绑定器</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCancelToken.Release(XFrame.Tasks.XTaskCancelToken)">
+            <summary>
+            请求一个取消绑定器
+            </summary>
+            <param name="token">取消绑定器</param>
+        </member>
+        <member name="T:XFrame.Tasks.XTaskCompleted">
+            <summary>
+            处于完成状态的任务
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompleted.GetAwaiter">
+            <summary>
+            await
+            </summary>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskCompleted.IsCompleted">
+            <summary>
+            完成状态，返回true
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskCompleted.Progress">
+            <summary>
+            任务进度，返回最大值
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskCompleted.TaskAction">
+            <summary>
+            任务行为，返回<see cref="F:XFrame.Tasks.XTaskAction.ContinueWhenSubTaskFailure"/>
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompleted.SetAction(XFrame.Tasks.XTaskAction)">
+            <summary>
+            设置任务行为，无效设置
+            </summary>
+            <param name="action">行为</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompleted.GetResult">
+            <summary>
+            获取结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompleted.Coroutine">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompleted.Cancel(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompleted.Bind(XFrame.Tasks.ITaskBinder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompleted.OnCompleted(System.Action{XFrame.Tasks.XTaskState})">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompleted.OnCompleted(System.Action)">
+            <summary>
+            注册完成事件处理函数
+            </summary>
+            <param name="handler">处理函数</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompleted.UnsafeOnCompleted(System.Action)">
+            <summary>
+            注册完成事件处理函数
+            </summary>
+            <param name="handler">处理函数</param>
+        </member>
+        <member name="T:XFrame.Tasks.XTaskCompletedAsyncMethodBuilder">
+            <summary>
+            任务构建器
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskCompletedAsyncMethodBuilder.Task">
+            <summary>
+            持有任务
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompletedAsyncMethodBuilder.Create">
+            <summary>
+            创建任务构建器
+            </summary>
+            <returns>构建器</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompletedAsyncMethodBuilder.SetResult">
+            <summary>
+            设置任务结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompletedAsyncMethodBuilder.Start``1(``0@)">
+            <summary>
+            开始执行状态机
+            </summary>
+            <typeparam name="TStateMachine">异步状态机类型</typeparam>
+            <param name="stateMachine">异步状态机</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompletedAsyncMethodBuilder.AwaitOnCompleted``2(``0@,``1@)">
+            <summary>
+            等待一个任务
+            </summary>
+            <typeparam name="TAwaiter">等待器类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">等待器, GetAwaiter返回的对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompletedAsyncMethodBuilder.AwaitUnsafeOnCompleted``2(``0@,``1@)">
+            <summary>
+            等待一个任务
+            </summary>
+            <typeparam name="TAwaiter">等待器类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">等待器, GetAwaiter返回的对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompletedAsyncMethodBuilder.SetException(System.Exception)">
+            <summary>
+            当发生异常时被调用
+            </summary>
+            <param name="e">异常类型</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskCompletedAsyncMethodBuilder.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine)">
+            <summary>
+            设置状态机
+            </summary>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="T:XFrame.Tasks.XTask`1">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Tasks.XTask`1.TaskAction">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.SetAction(XFrame.Tasks.XTaskAction)">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Tasks.XTask`1.IsCompleted">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Tasks.XTask`1.Progress">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.#ctor(XFrame.Tasks.XTaskCancelToken)">
+            <summary>
+            构造器
+            </summary>
+            <param name="cancelToken">取消绑定器</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.Coroutine">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.Bind(XFrame.Tasks.ITaskBinder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.Cancel(System.Boolean)">
+            <summary>
+            取消任务
+            </summary>
+            <param name="subTask">是否取消子任务</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.SetResult(`0)">
+            <summary>
+            设置结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.GetResult">
+            <summary>
+            获取结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.GetAwaiter">
+            <summary>
+            await
+            </summary>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.OnCompleted(System.Action{XFrame.Tasks.XTaskState})">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.OnCompleted(System.Action)">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTask`1.OnCompleted(System.Action{`0})">
+            <summary>
+            注册完成事件
+            </summary>
+            <param name="handler">处理函数</param>
+            <returns>返回当前任务</returns>
+        </member>
+        <member name="T:XFrame.Tasks.XTaskAsyncMethodBuilder`1">
+            <summary>
+            任务构建器
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskAsyncMethodBuilder`1.Task">
+            <summary>
+            持有任务
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder`1.Create">
+            <summary>
+            创建任务构建器
+            </summary>
+            <returns>构建器</returns>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder`1.SetResult(`0)">
+            <summary>
+            设置任务结果
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder`1.Start``1(``0@)">
+            <summary>
+            开始执行状态机
+            </summary>
+            <typeparam name="TStateMachine">异步状态机类型</typeparam>
+            <param name="stateMachine">异步状态机</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder`1.AwaitOnCompleted``2(``0@,``1@)">
+            <summary>
+            等待一个任务
+            </summary>
+            <typeparam name="TAwaiter">等待器类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">等待器, GetAwaiter返回的对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder`1.AwaitUnsafeOnCompleted``2(``0@,``1@)">
+            <summary>
+            等待一个任务
+            </summary>
+            <typeparam name="TAwaiter">等待器类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">等待器, GetAwaiter返回的对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder`1.SetException(System.Exception)">
+            <summary>
+            当发生异常时被调用
+            </summary>
+            <param name="e">异常类型</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskAsyncMethodBuilder`1.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine)">
+            <summary>
+            设置状态机
+            </summary>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="T:XFrame.Tasks.XTaskHelper">
+            <summary>
+            任务配置器
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskHelper.ExceptionHandler">
+            <summary>
+            异常处理
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskHelper.UseToken">
+            <summary>
+            通用取消绑定器
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskHelper.UseAction">
+            <summary>
+            通用任务行为
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskHelper.Time">
+            <summary>
+            任务使用时间模块
+            </summary>
+        </member>
+        <member name="P:XFrame.Tasks.XTaskHelper.Domain">
+            <summary>
+            所处域
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskHelper.MIN_PROGRESS">
+            <summary>
+            进度最小值
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskHelper.MAX_PROGRESS">
+            <summary>
+            进度最大值
+            </summary>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskHelper.SetDomain(XFrame.Core.XDomain)">
+            <summary>
+            设置域
+            </summary>
+            <param name="domain">域</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskHelper.Register(XFrame.Core.IUpdater)">
+            <summary>
+            注册可更新任务
+            </summary>
+            <param name="task">任务</param>
+        </member>
+        <member name="M:XFrame.Tasks.XTaskHelper.UnRegister(XFrame.Core.IUpdater)">
+            <summary>
+            取消注册可更新任务
+            </summary>
+            <param name="task">任务</param>
+        </member>
+        <member name="T:XFrame.Tasks.XTaskState">
+            <summary>
+            任务状态
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskState.None">
+            <summary>
+            无效
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskState.Normal">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskState.Cancel">
+            <summary>
+            取消
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskState.BinderDispose">
+            <summary>
+            绑定器取消
+            </summary>
+        </member>
+        <member name="F:XFrame.Tasks.XTaskState.ChildCancel">
+            <summary>
+            子任务取消
+            </summary>
+        </member>
+        <member name="T:XFrame.Tools.InitChecker">
+            <summary>
+            初始化检查器
+            </summary>
+        </member>
+        <member name="M:XFrame.Tools.InitChecker.Trigger">
+            <summary>
+            触发初始化成功
+            </summary>
+        </member>
+        <member name="M:XFrame.Tools.InitChecker.Listen(System.Action)">
+            <summary>
+            监听触发
+            </summary>
+            <param name="callback">处理函数</param>
+        </member>
+        <member name="M:XFrame.Tools.InitChecker.OnReleaseFromPool">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tools.InitChecker.OnRequestFromPool">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Tools.InitChecker.Create">
+            <summary>
+            创建初始化检查器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XFrame.Tools.InitChecker.op_Implicit(XFrame.Tools.InitChecker)~System.Boolean">
+            <summary>
+            获取检查器状态
+            </summary>
+            <param name="checker">检查器</param>
+        </member>
         <member name="T:XFrame.Utility.PathUtility">
             <summary>
             路径常用方法
             </summary>
+        </member>
+        <member name="M:XFrame.Utility.PathUtility.Format1(System.String)">
+            <summary>
+            将路径 \\ 格式化为 /
+            </summary>
+            <param name="path">路径</param>
+            <returns>格式化后的路径</returns>
+        </member>
+        <member name="M:XFrame.Utility.PathUtility.Format2(System.String)">
+            <summary>
+            将路径 / 格式化为 \\
+            </summary>
+            <param name="path">路径</param>
+            <returns>格式化后的路径</returns>
+        </member>
+        <member name="M:XFrame.Utility.PathUtility.RemoveEnterChar(System.String)">
+            <summary>
+            移除路径中的回车符 \n \r
+            </summary>
+            <param name="path">路径</param>
+            <returns>格式化后的路径</returns>
+        </member>
+        <member name="M:XFrame.Utility.PathUtility.CheckFileName(System.String,System.String@,System.String@)">
+            <summary>
+            检查文件路径层级
+            </summary>
+            <param name="fullPath">文件路径</param>
+            <param name="thisName">当前路径</param>
+            <param name="suplusName">剩余路径</param>
+            <returns>层级数</returns>
         </member>
         <member name="T:XFrame.Utility.TypeUtility">
             <summary>

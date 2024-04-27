@@ -18,7 +18,7 @@ public class CoroutineTest : MonoBehaviour, ITaskBinder
     {
         //StartCoroutine(Test());
         //StartCoroutine(new EnumeratorTest());
-        XTask.ExceptionHandler += Debug.LogException;
+        XTaskHelper.ExceptionHandler += Debug.LogException;
         Test().Bind(this);
     }
 
