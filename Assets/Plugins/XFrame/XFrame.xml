@@ -2093,7 +2093,7 @@
         </member>
         <member name="P:XFrame.Core.UniversalParser.FloatValue">
             <summary>
-            持有浮点值
+            持有浮点值 
             </summary>
         </member>
         <member name="P:XFrame.Core.UniversalParser.BoolValue">

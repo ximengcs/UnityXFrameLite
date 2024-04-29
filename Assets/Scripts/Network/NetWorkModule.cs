@@ -2,7 +2,6 @@
 using System.Net.Sockets;
 using System.Net;
 using System;
-using UnityEditor.MemoryProfiler;
 using XFrame.Core;
 using XFrame.Modules.Diagnotics;
 
@@ -11,8 +10,6 @@ namespace Game.Network
     [CommonModule]
     public partial class NetWorkModule : ModuleBase, IUpdater
     {
-        private IPHostEntry m_IPHost;
-        private IPAddress m_IPAddress;
         private IPEndPoint m_IPEndPoint;
         private Socket m_Sender;
 
@@ -23,25 +20,31 @@ namespace Game.Network
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-            m_IPHost = Dns.GetHostEntry(Dns.GetHostName());
-            m_IPAddress = m_IPHost.AddressList[0];
-            m_IPEndPoint = new IPEndPoint(m_IPAddress, 9999);
-            m_Sender = new Socket(m_IPAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        }
+
+        public void ConnectServer(string ip)
+        {
+            if (m_Connect != null)
+                return;
+            if (IPAddress.TryParse(ip, out IPAddress address))
+            {
+                m_IPEndPoint = new IPEndPoint(address, 9999);
+                m_Sender = new Socket(address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                try
+                {
+                    m_Connect = new Connection(m_Sender, m_IPEndPoint);
+                }
+                catch (Exception e)
+                {
+                    Log.Exception(e);
+                }
+            }
         }
 
         void IUpdater.OnUpdate(float escapeTime)
         {
-            try
-            {
-                if (m_Connect == null)
-                    m_Connect = new Connection(m_Sender, m_IPEndPoint);
-                if (m_Connect != null)
-                    m_Connect.Update();
-            }
-            catch (Exception e)
-            {
-                Log.Exception(e);
-            }
+            if (m_Connect != null)
+                m_Connect.Update();
         }
     }
 }

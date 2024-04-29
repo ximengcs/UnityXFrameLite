@@ -30,7 +30,7 @@ MonoBehaviour:
   - Key: Debugger
     Color: {r: 0.8584906, g: 0.84287465, b: 0.23891956, a: 0}
     Value: 1
-  - Key: Proc
+  - Key: Procedure
     Color: {r: 0.9245283, g: 0.5859935, b: 0, a: 0}
     Value: 1
   - Key: Timer

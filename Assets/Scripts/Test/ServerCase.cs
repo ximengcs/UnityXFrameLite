@@ -7,18 +7,25 @@ namespace Game.Test
     public class ServerCase : IDebugWindow
     {
         private string m_Content;
+        private string m_IP;
 
         public void Dispose()
         {
-            m_Content = string.Empty;
         }
 
         public void OnAwake()
         {
+            m_Content = string.Empty;
+            m_IP = "192.168.137.1";
         }
 
         public void OnDraw()
         {
+            m_IP = DebugGUI.TextField(m_IP);
+            if (DebugGUI.Button("Connect"))
+            {
+                World.Net.ConnectServer(m_IP);
+            }
 
             m_Content = DebugGUI.TextField(m_Content);
             if (DebugGUI.Button("Send"))
