@@ -18,6 +18,14 @@ namespace Game.Test
 
         public void OnDraw()
         {
+            if (DebugGUI.Button("Beat"))
+            {
+                XTask.Beat(1, () =>
+                {
+                    Log.Debug("Beat");
+                    return false;
+                }).Coroutine();
+            }
             if (DebugGUI.Button("Task1"))
             {
                 m_Task1 = Task1();
