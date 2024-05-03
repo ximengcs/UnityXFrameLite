@@ -12,19 +12,25 @@ namespace Game.Test
     [DebugWindow()]
     public class TaskCase : IDebugWindow
     {
+        private bool m_Complete;
+
         public void OnAwake()
         {
+        }
+
+        private async XTask<int> Test()
+        {
+            XProTask task = XTask.Condition(() => m_Complete);
+            await task;
+            return 1;
         }
 
         public void OnDraw()
         {
             if (DebugGUI.Button("Beat"))
             {
-                XTask.Beat(1, () =>
-                {
-                    Log.Debug("Beat");
-                    return false;
-                }).Coroutine();
+                Test().OnCompleted(() => Log.Debug("Complete")).Coroutine();
+                XTask.Delay(1).OnCompleted(() => m_Complete = true).Coroutine();
             }
             if (DebugGUI.Button("Task1"))
             {

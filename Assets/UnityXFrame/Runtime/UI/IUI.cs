@@ -22,8 +22,6 @@ namespace UnityXFrame.Core.UIElements
         /// </summary>
         bool IsOpen { get; }
 
-        bool Active { get; set; }
-
         /// <summary>
         /// UI层级, 层级大的在层级小的上层显示
         /// </summary>

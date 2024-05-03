@@ -35,24 +35,28 @@ namespace UnityXFrame.Core.UIElements
             }
         }
 
+        public IContainer Parent => m_Container.Parent;
+
         public bool Active
         {
             get => m_Active;
-            set
+        }
+
+        public void SetActive(bool active, bool recursive = true)
+        {
+            if (active)
             {
-                if (value)
-                {
-                    m_Active = true;
-                    m_CanvasGroup.alpha = 1;
-                    m_CanvasGroup.blocksRaycasts = true;
-                }
-                else
-                {
-                    m_Active = false;
-                    m_CanvasGroup.alpha = 0;
-                    m_CanvasGroup.blocksRaycasts = false;
-                }
+                m_Active = true;
+                m_CanvasGroup.alpha = 1;
+                m_CanvasGroup.blocksRaycasts = true;
             }
+            else
+            {
+                m_Active = false;
+                m_CanvasGroup.alpha = 0;
+                m_CanvasGroup.blocksRaycasts = false;
+            }
+            m_Container.SetActive(active, recursive);
         }
 
         public bool IsOpen => m_IsOpen;
@@ -162,7 +166,7 @@ namespace UnityXFrame.Core.UIElements
             m_Transform = m_Root.GetComponent<RectTransform>();
             Event = m_Module.Domain.GetModule<IEventModule>().NewSys();
             m_IsOpen = false;
-            Active = false;
+            SetActive(false, false);
             OnCreateFromPool();
         }
 

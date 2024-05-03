@@ -2901,7 +2901,7 @@
         </member>
         <member name="T:XFrame.Collections.XCollection`1">
             <summary>
-            XItem的集合, 可以通过Id快速读取元素
+            XItem的集合, 可以通过Id快速读取元素, 同类型对象Id不唯一，不同类型元素可相同
             </summary>
             <typeparam name="T">持有的数据类型</typeparam>
         </member>
@@ -4690,26 +4690,6 @@
             数据为组件所有
             </summary>
         </member>
-        <member name="P:XFrame.Modules.Containers.Com.Active">
-            <summary>
-            组件激活状态
-            </summary>
-        </member>
-        <member name="P:XFrame.Modules.Containers.Com.Owner">
-            <summary>
-            组件所属容器
-            </summary>
-        </member>
-        <member name="M:XFrame.Modules.Containers.Com.OnActive">
-            <summary>
-            激活生命周期
-            </summary>
-        </member>
-        <member name="M:XFrame.Modules.Containers.Com.OnInactive">
-            <summary>
-            失活生命周期
-            </summary>
-        </member>
         <member name="T:XFrame.Modules.Containers.Container">
             <summary>
             通用容器
@@ -4722,6 +4702,16 @@
         </member>
         <member name="P:XFrame.Modules.Containers.Container.Master">
             <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.OnActive">
+            <summary>
+            激活生命周期
+            </summary>
+        </member>
+        <member name="M:XFrame.Modules.Containers.Container.OnInactive">
+            <summary>
+            失活生命周期
+            </summary>
         </member>
         <member name="P:XFrame.Modules.Containers.Container.Id">
             <summary>
@@ -4816,6 +4806,9 @@
         <member name="T:XFrame.Modules.Containers.ContainerModule">
             <inheritdoc/>
         </member>
+        <member name="M:XFrame.Modules.Containers.ContainerModule.Get(System.Int32)">
+            <inheritdoc/>
+        </member>
         <member name="M:XFrame.Modules.Containers.ContainerModule.New``1(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
@@ -4845,16 +4838,6 @@
             容器组件
             </summary>
         </member>
-        <member name="P:XFrame.Modules.Containers.ICom.Active">
-            <summary>
-            是否处于激活状态
-            </summary>
-        </member>
-        <member name="P:XFrame.Modules.Containers.ICom.Owner">
-            <summary>
-            组件拥有者
-            </summary>
-        </member>
         <member name="T:XFrame.Modules.Containers.IContainer">
             <summary>
             容器
@@ -4863,6 +4846,11 @@
         <member name="P:XFrame.Modules.Containers.IContainer.Master">
             <summary>
             根容器
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Containers.IContainer.Parent">
+            <summary>
+            父容器
             </summary>
         </member>
         <member name="M:XFrame.Modules.Containers.IContainer.OnInit(XFrame.Modules.Containers.IContainerModule,System.Int32,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
@@ -5000,6 +4988,13 @@
             容器类模块
             </summary>
         </member>
+        <member name="M:XFrame.Modules.Containers.IContainerModule.Get(System.Int32)">
+            <summary>
+            根据Id获取一个容器
+            </summary>
+            <param name="id">Id</param>
+            <returns>容器</returns>
+        </member>
         <member name="M:XFrame.Modules.Containers.IContainerModule.New``1(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
             <summary>
             请求一个新的容器
@@ -5073,7 +5068,7 @@
         <member name="P:XFrame.Modules.Containers.ShareCom.Master">
             <inheritdoc/>
         </member>
-        <member name="P:XFrame.Modules.Containers.ShareCom.Owner">
+        <member name="P:XFrame.Modules.Containers.ShareCom.Parent">
             <summary>
             父容器
             </summary>
@@ -5697,6 +5692,9 @@
         <member name="M:XFrame.Modules.Entities.EntityModule.RegisterEntity``1">
             <inheritdoc/>
         </member>
+        <member name="M:XFrame.Modules.Entities.EntityModule.Get(System.Int32)">
+            <inheritdoc/>
+        </member>
         <member name="M:XFrame.Modules.Entities.EntityModule.Create``1(XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
@@ -5783,6 +5781,13 @@
             注册实体，创建实体前需要注册实体
             </summary>
             <typeparam name="T">实体基类或实体类</typeparam>
+        </member>
+        <member name="M:XFrame.Modules.Entities.IEntityModule.Get(System.Int32)">
+            <summary>
+            根据Id获取实体
+            </summary>
+            <param name="entityId">实体Id</param>
+            <returns>实体</returns>
         </member>
         <member name="M:XFrame.Modules.Entities.IEntityModule.Create``1(XFrame.Modules.Containers.OnDataProviderReady)">
             <summary>

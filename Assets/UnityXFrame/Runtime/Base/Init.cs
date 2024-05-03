@@ -33,6 +33,7 @@ namespace UnityXFrame.Core
         private void InnerConfigType()
         {
             TypeChecker.IncludeModule("Assembly-CSharp");
+            TypeChecker.IncludeModule("XFrameShare");
             TypeChecker.IncludeModule("UnityXFrame");
             TypeChecker.IncludeModule("UnityXFrame.Lib");
             TypeChecker.ExcludeNameSpace("CommandLine");

@@ -10,6 +10,7 @@ namespace UnityXFrame.Editor
         public bool IsRelease;
         public string XFrameProjectPath;
         public string XFramePath;
+        public string XFrameSharePath;
         public string BuildDllPath;
         public List<string> ToProjectDllPath;
     }

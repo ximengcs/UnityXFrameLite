@@ -1,13 +1,13 @@
 ﻿
-using Game.Network;
 using XFrame.Core;
+using XFrameShare.Core.Network;
 
-namespace Game
+public class World
 {
-    public class World
-    {
-        private static NetWorkModule s_Net;
+    private static NetworkModule s_Net;
 
-        public static NetWorkModule Net => s_Net ?? Entry.GetModule<NetWorkModule>();
-    }
+    public static NetworkModule Net => s_Net ?? Entry.GetModule<NetworkModule>();
+    private static MessageModule s_Message;
+
+    public static MessageModule Message => s_Message ??= Entry.GetModule<MessageModule>();
 }

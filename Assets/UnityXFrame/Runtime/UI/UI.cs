@@ -11,7 +11,6 @@ namespace UnityXFrame.Core.UIElements
     /// </summary>
     public abstract partial class UI : Container, IUI, ICanUpdateLayerValue
     {
-        private bool m_Active;
         private int m_Layer;
 
         protected bool m_IsOpen;
@@ -32,24 +31,21 @@ namespace UnityXFrame.Core.UIElements
             }
         }
 
-        public bool Active
+        public override void SetActive(bool active, bool recursive = true)
         {
-            get => m_Active;
-            set
+            if (active)
             {
-                if (value)
-                {
-                    m_Active = true;
-                    m_CanvasGroup.alpha = 1;
-                    m_CanvasGroup.blocksRaycasts = true;
-                }
-                else
-                {
-                    m_Active = false;
-                    m_CanvasGroup.alpha = 0;
-                    m_CanvasGroup.blocksRaycasts = false;
-                }
+                m_IsActive = true;
+                m_CanvasGroup.alpha = 1;
+                m_CanvasGroup.blocksRaycasts = true;
             }
+            else
+            {
+                m_IsActive = false;
+                m_CanvasGroup.alpha = 0;
+                m_CanvasGroup.blocksRaycasts = false;
+            }
+            base.SetActive(active, recursive);
         }
 
         public bool IsOpen => m_IsOpen;
@@ -134,7 +130,7 @@ namespace UnityXFrame.Core.UIElements
             m_Transform = m_Root.GetComponent<RectTransform>();
             Event = m_Module.Domain.GetModule<IEventModule>().NewSys();
             m_IsOpen = false;
-            Active = false;
+            SetActive(false, false);
             OnCreateFromPool();
         }
 

@@ -42,4 +42,13 @@ MonoBehaviour:
   - Key: Audio
     Color: {r: 0.9528302, g: 0.4000089, b: 0.4000089, a: 0}
     Value: 1
+  - Key: Server
+    Color: {r: 1, g: 0.27058828, b: 0.66002315, a: 0}
+    Value: 1
+  - Key: Client
+    Color: {r: 0.87602395, g: 0.9150943, b: 0.4704966, a: 0}
+    Value: 1
+  - Key: Net
+    Color: {r: 0.3915094, g: 0.606423, b: 1, a: 0}
+    Value: 1
   AudioMixer: {fileID: 24100000, guid: 3217f33d091aa5540aec6252effe2a8d, type: 2}

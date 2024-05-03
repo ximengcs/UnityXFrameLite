@@ -119,7 +119,7 @@ namespace UnityXFrame.Core.UIElements
             else
             {
                 ui.OnClose();
-                ui.Active = false;
+                ui.SetActive(false);
                 InnerTriggerEvent(ui, UICloseEvent.Create(ui));
             }
         }
@@ -150,7 +150,7 @@ namespace UnityXFrame.Core.UIElements
             else
             {
                 ui.OnOpen();
-                ui.Active = true;
+                ui.SetActive(true);
                 InnerTriggerEvent(ui, UIOpenEvent.Create(ui));
             }
         }

@@ -57,7 +57,7 @@ namespace UnityXFrame.Core.UIElements
         protected virtual void OnUIClose(IUI ui)
         {
             InnerCloseUI(ui);
-            ui.Active = false;
+            ui.SetActive(false);
         }
         protected virtual void OnUIDestroy(IUI ui)
         {
@@ -65,7 +65,7 @@ namespace UnityXFrame.Core.UIElements
         }
         protected virtual void OnUIOpen(IUI ui)
         {
-            ui.Active = true;
+            ui.SetActive(true);
             InnerOpenUI(ui);
         }
         protected virtual void OnUIUpdate(IUI ui, float elapseTime)
@@ -97,7 +97,7 @@ namespace UnityXFrame.Core.UIElements
 
         protected void InnerSetUIActive(IUI ui, bool value)
         {
-            ui.Active = value;
+            ui.SetActive(value);
         }
     }
 }

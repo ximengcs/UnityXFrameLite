@@ -97,7 +97,43 @@ namespace UnityXFrame.Editor
                 CopyToProject();
             }
             GUILayout.EndVertical();
+
+
+            GUILayout.BeginVertical(StyleUtility.Style1);
+            EditorGUILayout.LabelField("XFrame Share", StyleUtility.Style2);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Project", GUILayout.Width(50));
+            m_Data.XFrameSharePath = EditorGUILayout.TextField(m_Data.XFrameSharePath);
+            if (GUILayout.Button("→", GUILayout.Width(20)))
+                EditorUtility.RevealInFinder(XFrameDllPath());
+            EditorGUILayout.EndHorizontal();
+            if (GUILayout.Button("Import"))
+                ImportXFrameShareDll();
+            GUILayout.EndVertical();
+
             EditorUtility.SetDirty(m_Data);
+        }
+
+        public void ImportXFrameShareDll()
+        {
+            if (EditorApplication.isCompiling)
+            {
+                EditorLog.Debug($"Script is compiling");
+                return;
+            }
+            string path = XFrameShareDllPath();
+            foreach (string p in Directory.EnumerateFiles(path))
+            {
+                if (Path.GetFileName(p).Contains("XFrameShare"))
+                {
+                    string toPath = Path.Combine(m_Data.XFramePath, Path.GetFileName(p));
+                    byte[] data = File.ReadAllBytes(p);
+                    File.WriteAllBytes(toPath, data);
+                    EditorLog.Debug($"{p} {EditorLog.Color("->", Color.green)} {toPath}");
+                }
+            }
+
+            AssetDatabase.Refresh();
         }
 
         public void DeleteXFrameCache()
@@ -143,6 +179,11 @@ namespace UnityXFrame.Editor
         public string XFrameDllPath()
         {
             return m_Data.XFrameProjectPath + "/Tmp";
+        }
+
+        public string XFrameShareDllPath()
+        {
+            return m_Data.XFrameSharePath + "/bin/Debug/netstandard2.1";
         }
 
         public void ImportXFrame()
