@@ -1,13 +1,17 @@
 ﻿
+using Faker;
 using Google.Protobuf;
+using System;
 using System.Net;
 using UnityEngine;
 using UnityXFrame.Core.Diagnotics;
 using XFrame.Core;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
+using XFrame.Modules.Reflection;
 using XFrame.Tasks;
 using XFrameShare.Core.Network;
+using XFrameShare.Network;
 
 namespace Game.Test
 {
@@ -35,10 +39,9 @@ namespace Game.Test
             m_IP = DebugGUI.TextField(m_IP);
             if (DebugGUI.Button("Connect"))
             {
-                m_Root = Entry.GetModule<IEntityModule>().Create<XRoot>();
                 if (IPAddress.TryParse(m_IP, out IPAddress address))
                 {
-                    World.Net.Create(m_Root, NetMode.Client, address, 9999);
+                    InnerConnect(address);
                 }
 
             }
@@ -64,6 +67,31 @@ namespace Game.Test
             if (DebugGUI.Button("TestBeat"))
             {
                 InnerTestBeat();
+            }
+        }
+
+        private async void InnerConnect(IPAddress address)
+        {
+            m_Root = Entry.GetModule<IEntityModule>().Create<XRoot>();
+            IConnection connection = Entry.GetModule<NetworkModule>().Create(m_Root, NetMode.Client, address, 9999);
+            await connection.ConnectTask;
+            HostMailBoxCom mailBox = m_Root.GetCom<HostMailBoxCom>();
+            mailBox.Register(InnerCheckEntity);
+        }
+
+        private void InnerCheckEntity(TransData data)
+        {
+            Log.Debug("check " + data.FromId + " " + data.ToId);
+            if (data.To == null)
+            {
+                ITypeModule typeModule = Entry.GetModule<ITypeModule>();
+                CreateEntity message = data.Message as CreateEntity;
+                Type type = typeModule.GetType(message.Type);
+
+                IEntity entity = Entry.GetModule<IEntityModule>().Create(type, (IEntity)data.From.Parent);
+                entity.AddCom<MailBoxCom>();
+                GameObject go = new GameObject(type.Name);
+
             }
         }
 
