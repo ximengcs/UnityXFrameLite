@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.Entities;
 using Faker;
 using Google.Protobuf;
 using System;
@@ -90,8 +91,7 @@ namespace Game.Test
 
                 IEntity entity = Entry.GetModule<IEntityModule>().Create(type, (IEntity)data.From.Parent);
                 entity.AddCom<MailBoxCom>();
-                GameObject go = new GameObject(type.Name);
-
+                entity.AddView();
             }
         }
 

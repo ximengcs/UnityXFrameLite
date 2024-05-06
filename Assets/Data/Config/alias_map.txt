@@ -12,8 +12,10 @@ Perch Config/Perch.txt
 Prop Config/Prop.csv
 Common_67 1 Data2/temp/Common_67 1.png
 Common_68 1 Data2/temp/Common_68 1.png
+game_map Data2/Textures/QQQ/game_map.jpg
 iloveu Data2/Textures/QQQ/iloveu.png
 Perch Data2/Textures/QQQ/Perch.txt
 test Data2/Textures/QQQ/test.png
 test2 Data2/Textures/QQQ/test2.jpg
 test2 Data2/Textures/QQQ/test2.png
+DialogUI Data/UI/DialogUI.prefab

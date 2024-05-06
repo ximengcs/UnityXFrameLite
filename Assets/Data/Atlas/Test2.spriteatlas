@@ -40,11 +40,13 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 602da960e8dd0cd4886d56890da78826, type: 3}
+  - {fileID: 21300000, guid: d6d000e0ceed7354baf42a91cb05f562, type: 3}
   - {fileID: 21300000, guid: fbd9b094ffddf6d45b2fb4275d791ad9, type: 3}
   - {fileID: 21300000, guid: eec8d439152bf404781e5e24dabe254a, type: 3}
   - {fileID: 21300000, guid: 418380dccf0452c43b2ad6a7a79cd1f3, type: 3}
   m_PackedSpriteNamesToIndex:
   - test2
+  - game_map
   - test2
   - test
   - iloveu
