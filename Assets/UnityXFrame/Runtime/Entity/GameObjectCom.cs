@@ -4,7 +4,7 @@ using XFrame.Utility;
 
 namespace UnityXFrame.Core.Entities
 {
-    public class GameObjectCom : EntityCom
+    public class GameObjectCom : Entity
     {
         private GameObject m_Inst;
 

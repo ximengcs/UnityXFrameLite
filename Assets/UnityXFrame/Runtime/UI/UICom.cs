@@ -2,7 +2,7 @@
 
 namespace UnityXFrame.Core.UIElements
 {
-    public abstract class UICom : ShareCom
+    public abstract class UICom : ShareContainer
     {
         protected UIFinder m_UIFinder;
         protected IUI m_UI;

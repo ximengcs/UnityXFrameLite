@@ -18,4 +18,5 @@ Perch Data2/Textures/QQQ/Perch.txt
 test Data2/Textures/QQQ/test.png
 test2 Data2/Textures/QQQ/test2.jpg
 test2 Data2/Textures/QQQ/test2.png
+white Data2/Textures/QQQ/white.png
 DialogUI Data/UI/DialogUI.prefab

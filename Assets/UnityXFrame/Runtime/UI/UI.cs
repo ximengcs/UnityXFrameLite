@@ -93,7 +93,7 @@ namespace UnityXFrame.Core.UIElements
 
         void IUI.OnOpen()
         {
-            foreach (ICom com in this)
+            foreach (IContainer com in this)
             {
                 UICom uiCom = com as UICom;
                 if (uiCom != null)
@@ -104,7 +104,7 @@ namespace UnityXFrame.Core.UIElements
 
         void IUI.OnClose()
         {
-            foreach (ICom com in this)
+            foreach (IContainer com in this)
             {
                 UICom uiCom = com as UICom;
                 if (uiCom != null)

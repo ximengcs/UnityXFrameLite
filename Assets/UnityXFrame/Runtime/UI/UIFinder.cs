@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace UnityXFrame.Core.UIElements
 {
-    public class UIFinder : ShareCom
+    public class UIFinder : ShareContainer
     {
         private IUI m_Inst;
         private const string UI_TAG = "UIComponent";

@@ -4684,12 +4684,6 @@
             默认Plot辅助器
             </summary>
         </member>
-        <member name="T:XFrame.Modules.Containers.Com">
-            <summary>
-            组件基类
-            数据为组件所有
-            </summary>
-        </member>
         <member name="T:XFrame.Modules.Containers.Container">
             <summary>
             通用容器
@@ -4740,7 +4734,7 @@
         <member name="M:XFrame.Modules.Containers.Container.GetCom(System.Type,System.Int32)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.Container.AddCom(XFrame.Modules.Containers.ICom)">
+        <member name="M:XFrame.Modules.Containers.Container.AddCom(XFrame.Modules.Containers.IContainer)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Containers.Container.AddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
@@ -4833,11 +4827,6 @@
         <member name="M:XFrame.Modules.Containers.ContainerModule.OnDestroy">
             <inheritdoc/>
         </member>
-        <member name="T:XFrame.Modules.Containers.ICom">
-            <summary>
-            容器组件
-            </summary>
-        </member>
         <member name="T:XFrame.Modules.Containers.IContainer">
             <summary>
             容器
@@ -4897,7 +4886,7 @@
             <param name="onReady">初始化完成事件</param>
             <returns>添加的组件</returns>
         </member>
-        <member name="M:XFrame.Modules.Containers.IContainer.AddCom(XFrame.Modules.Containers.ICom)">
+        <member name="M:XFrame.Modules.Containers.IContainer.AddCom(XFrame.Modules.Containers.IContainer)">
             <summary>
             添加一个组件
             </summary>
@@ -5047,125 +5036,125 @@
             </summary>
             <param name="container">容器实例</param>
         </member>
-        <member name="T:XFrame.Modules.Containers.ShareCom">
+        <member name="T:XFrame.Modules.Containers.ShareContainer">
             <summary>
             共享组件基类, 会共享容器数据
             </summary>
         </member>
-        <member name="F:XFrame.Modules.Containers.ShareCom.m_Module">
+        <member name="F:XFrame.Modules.Containers.ShareContainer.m_Module">
             <summary>
             所属容器模块
             </summary>
         </member>
-        <member name="P:XFrame.Modules.Containers.ShareCom.Active">
+        <member name="P:XFrame.Modules.Containers.ShareContainer.Active">
             <summary>
             激活状态
             </summary>
         </member>
-        <member name="P:XFrame.Modules.Containers.ShareCom.Id">
+        <member name="P:XFrame.Modules.Containers.ShareContainer.Id">
             <inheritdoc/>
         </member>
-        <member name="P:XFrame.Modules.Containers.ShareCom.Master">
+        <member name="P:XFrame.Modules.Containers.ShareContainer.Master">
             <inheritdoc/>
         </member>
-        <member name="P:XFrame.Modules.Containers.ShareCom.Parent">
+        <member name="P:XFrame.Modules.Containers.ShareContainer.Parent">
             <summary>
             父容器
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.OnInit">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.OnInit">
             <summary>
             初始化生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.OnUpdate(System.Single)">
             <summary>
             更新生命周期
             </summary>
             <param name="elapseTime">逃逸时间</param>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.OnDestroy">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.OnDestroy">
             <summary>
             销毁生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.OnActive">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.OnActive">
             <summary>
             激活生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.OnInactive">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.OnInactive">
             <summary>
             失活生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.GetCom``1(System.Int32)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetCom``1(System.Int32)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.GetCom(System.Type,System.Int32)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetCom(System.Type,System.Int32)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.AddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom(XFrame.Modules.Containers.ICom)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.AddCom(XFrame.Modules.Containers.IContainer)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.AddCom``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.AddCom(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.AddCom(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.AddCom(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.GetOrAddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetOrAddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.GetOrAddCom``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetOrAddCom``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.GetOrAddCom(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetOrAddCom(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.GetOrAddCom(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetOrAddCom(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.RemoveCom``1(System.Int32)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.RemoveCom``1(System.Int32)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.RemoveCom(System.Type,System.Int32)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.RemoveCom(System.Type,System.Int32)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.ClearCom">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.ClearCom">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.HasData``1">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.HasData``1">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.HasData``1(System.String)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.HasData``1(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.SetData``1(``0)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.SetData``1(``0)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.GetData``1">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetData``1">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.SetData``1(System.String,``0)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.SetData``1(System.String,``0)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.GetData``1(System.String)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetData``1(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.ClearData">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.ClearData">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.GetEnumerator">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetEnumerator">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareCom.SetIt(XFrame.Collections.XItType)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.SetIt(XFrame.Collections.XItType)">
             <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Crypto.CryptoModule">
@@ -5667,19 +5656,6 @@
             实体事件系统
             </summary>
         </member>
-        <member name="T:XFrame.Modules.Entities.EntityCom">
-            <summary>
-            实体组件
-            </summary>
-        </member>
-        <member name="P:XFrame.Modules.Entities.EntityCom.Event">
-            <summary>
-            时间系统
-            </summary>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityCom.OnInit">
-            <inheritdoc/>
-        </member>
         <member name="T:XFrame.Modules.Entities.EntityModule">
             <inheritdoc/>
         </member>
@@ -5745,16 +5721,6 @@
             </summary>
             <param name="type">实体类型Id</param>
         </member>
-        <member name="T:XFrame.Modules.Entities.EntityShareCom">
-            <summary>
-            共享组件实体
-            </summary>
-        </member>
-        <member name="P:XFrame.Modules.Entities.EntityShareCom.Event">
-            <summary>
-            事件系统
-            </summary>
-        </member>
         <member name="T:XFrame.Modules.Entities.IEntity">
             <summary>
             实体
@@ -5765,9 +5731,14 @@
             实体事件系统
             </summary>
         </member>
-        <member name="T:XFrame.Modules.Entities.IEntityCom">
+        <member name="P:XFrame.Modules.Entities.IEntity.Master">
             <summary>
-            实体组件
+            根实体
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Entities.IEntity.Parent">
+            <summary>
+            父实体
             </summary>
         </member>
         <member name="T:XFrame.Modules.Entities.IEntityModule">
@@ -5866,6 +5837,16 @@
             销毁一个实体
             </summary>
             <param name="entity">需要销毁的实体</param>
+        </member>
+        <member name="T:XFrame.Modules.Entities.ShareEntity">
+            <summary>
+            共享组件实体
+            </summary>
+        </member>
+        <member name="P:XFrame.Modules.Entities.ShareEntity.Event">
+            <summary>
+            事件系统
+            </summary>
         </member>
         <member name="T:XFrame.Modules.Event.EventModule">
             <inheritdoc/>

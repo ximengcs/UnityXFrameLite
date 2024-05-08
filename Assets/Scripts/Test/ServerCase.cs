@@ -32,7 +32,7 @@ namespace Game.Test
         public void OnAwake()
         {
             m_Content = string.Empty;
-            m_IP = "192.168.0.104";
+            m_IP = "10.104.15.229";
         }
 
         public void OnDraw()
@@ -71,28 +71,11 @@ namespace Game.Test
             }
         }
 
-        private async void InnerConnect(IPAddress address)
+        private void InnerConnect(IPAddress address)
         {
             m_Root = Entry.GetModule<IEntityModule>().Create<XRoot>();
-            IConnection connection = Entry.GetModule<NetworkModule>().Create(m_Root, NetMode.Client, address, 9999);
-            await connection.ConnectTask;
-            HostMailBoxCom mailBox = m_Root.GetCom<HostMailBoxCom>();
-            mailBox.Register(InnerCheckEntity);
-        }
-
-        private void InnerCheckEntity(TransData data)
-        {
-            Log.Debug("check " + data.FromId + " " + data.ToId);
-            if (data.To == null)
-            {
-                ITypeModule typeModule = Entry.GetModule<ITypeModule>();
-                CreateEntity message = data.Message as CreateEntity;
-                Type type = typeModule.GetType(message.Type);
-
-                IEntity entity = Entry.GetModule<IEntityModule>().Create(type, (IEntity)data.From.Parent);
-                entity.AddCom<MailBoxCom>();
-                entity.AddView();
-            }
+            m_Root.AddCom<CreateEntityMessageHandler>();
+            Entry.GetModule<NetworkModule>().Create(m_Root, NetMode.Client, address, 9999);
         }
 
         private void InnerTestBeat()

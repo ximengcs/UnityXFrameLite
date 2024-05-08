@@ -128,7 +128,7 @@ namespace UnityXFrame.Core.UIElements
 
         void IUI.OnOpen()
         {
-            foreach (ICom com in this)
+            foreach (IContainer com in this)
             {
                 UICom uiCom = com as UICom;
                 if (uiCom != null)
@@ -139,7 +139,7 @@ namespace UnityXFrame.Core.UIElements
 
         void IUI.OnClose()
         {
-            foreach (ICom com in this)
+            foreach (IContainer com in this)
             {
                 UICom uiCom = com as UICom;
                 if (uiCom != null)
@@ -196,62 +196,62 @@ namespace UnityXFrame.Core.UIElements
         protected virtual void OnDestroyFromPool() { }
         protected virtual void OnReleaseFromPool() { }
 
-        public T GetCom<T>(int id = 0) where T : ICom
+        public T GetCom<T>(int id = 0) where T : IContainer
         {
             return m_Container.GetCom<T>(id);
         }
 
-        public ICom GetCom(Type type, int id = 0)
+        public IContainer GetCom(Type type, int id = 0)
         {
             return m_Container.GetCom(type, id);
         }
 
-        public T AddCom<T>(OnDataProviderReady onReady = null) where T : ICom
+        public T AddCom<T>(OnDataProviderReady onReady = null) where T : IContainer
         {
             return m_Container.AddCom<T>(onReady);
         }
 
-        public ICom AddCom(ICom com)
+        public IContainer AddCom(IContainer com)
         {
             return m_Container.AddCom(com);
         }
 
-        public T AddCom<T>(int id, OnDataProviderReady onReady = null) where T : ICom
+        public T AddCom<T>(int id, OnDataProviderReady onReady = null) where T : IContainer
         {
             return m_Container.AddCom<T>(id, onReady);
         }
 
-        public ICom AddCom(Type type, OnDataProviderReady onReady = null)
+        public IContainer AddCom(Type type, OnDataProviderReady onReady = null)
         {
             return m_Container.AddCom(type, onReady);
         }
 
-        public ICom AddCom(Type type, int id, OnDataProviderReady onReady = null)
+        public IContainer AddCom(Type type, int id, OnDataProviderReady onReady = null)
         {
             return m_Container.AddCom(type, id, onReady);
         }
 
-        public T GetOrAddCom<T>(OnDataProviderReady onReady = null) where T : ICom
+        public T GetOrAddCom<T>(OnDataProviderReady onReady = null) where T : IContainer
         {
             return m_Container.GetOrAddCom<T>(onReady);
         }
 
-        public T GetOrAddCom<T>(int id, OnDataProviderReady onReady = null) where T : ICom
+        public T GetOrAddCom<T>(int id, OnDataProviderReady onReady = null) where T : IContainer
         {
             return m_Container.GetOrAddCom<T>(id, onReady);
         }
 
-        public ICom GetOrAddCom(Type type, OnDataProviderReady onReady = null)
+        public IContainer GetOrAddCom(Type type, OnDataProviderReady onReady = null)
         {
             return m_Container.GetOrAddCom(type, onReady);
         }
 
-        public ICom GetOrAddCom(Type type, int id, OnDataProviderReady onReady = null)
+        public IContainer GetOrAddCom(Type type, int id, OnDataProviderReady onReady = null)
         {
             return m_Container.GetOrAddCom(type, id, onReady);
         }
 
-        public void RemoveCom<T>(int id = 0) where T : ICom
+        public void RemoveCom<T>(int id = 0) where T : IContainer
         {
             m_Container.RemoveCom<T>(id);
         }
@@ -301,7 +301,7 @@ namespace UnityXFrame.Core.UIElements
             m_Container.ClearData();
         }
 
-        public IEnumerator<ICom> GetEnumerator()
+        public IEnumerator<IContainer> GetEnumerator()
         {
             return m_Container.GetEnumerator();
         }

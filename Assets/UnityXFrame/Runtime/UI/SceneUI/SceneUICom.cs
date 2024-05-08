@@ -14,7 +14,7 @@ using System.Collections;
 
 namespace UnityXFrame.Core.UIElements
 {
-    public class SceneUICom : EntityShareCom, IUIManager
+    public class SceneUICom : ShareEntity, IUIManager
     {
         private int m_ModuleId;
         private IUIModule m_UIModule;
