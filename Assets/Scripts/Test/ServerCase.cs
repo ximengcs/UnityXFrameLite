@@ -32,7 +32,7 @@ namespace Game.Test
         public void OnAwake()
         {
             m_Content = string.Empty;
-            m_IP = "10.104.15.229";
+            m_IP = "192.168.0.104";
         }
 
         public void OnDraw()

@@ -213,6 +213,8 @@ namespace UnityXFrame.Core.UIElements
 
         public IContainer AddCom(IContainer com)
         {
+            if (com == m_Container)
+                return com;
             return m_Container.AddCom(com);
         }
 

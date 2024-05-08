@@ -18,13 +18,16 @@ namespace Assets.Scripts.Entities
 
         public void OnReceive(TransData data)
         {
-            Log.Debug("CreateEntityMessageHandler " + data.FromId + " " + data.ToId);
             ITypeModule typeModule = Entry.GetModule<ITypeModule>();
             CreateEntity message = data.Message as CreateEntity;
+            Log.Debug($"CreateEntityMessageHandler {data.FromId} {data.ToId} {message.Id}");
             Type type = typeModule.GetType(message.Type);
 
-            IEntity entity = Entry.GetModule<IEntityModule>().Create(type, data.From.Parent);
-            entity.AddCom<MailBoxCom>(data.ToId);
+            Entry.GetModule<IEntityModule>().Create(type, data.From.Parent, (db) =>
+            {
+                IEntity entity = db as IEntity;
+                entity.AddCom<MailBoxCom>(data.ToId);
+            });
         }
     }
 }
