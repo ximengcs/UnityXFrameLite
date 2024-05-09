@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Test;
 using UnityEngine;
 using UnityXFrame.Core;
+using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
 using XFrame.Modules.Pools;
 using XFrameShare.Network;
@@ -8,7 +9,7 @@ using XFrameShare.Network;
 namespace Assets.Scripts.Entities
 {
     [NetEntityComponent(typeof(Player))]
-    public class PlayerView : PoolObjectBase, INetEntityComponent
+    public class PlayerView : Entity, INetEntityComponent
     {
         private Player m_Player;
         private GameObject m_Go;
@@ -16,9 +17,10 @@ namespace Assets.Scripts.Entities
 
         public Transform Transform => m_Go.transform;
 
-        public void OnInit(IEntity entity)
+        protected override void OnInit()
         {
-            m_Player = entity as Player;
+            base.OnInit();
+            m_Player = Parent as Player;
             PlayerMoveComponent movement = m_Player.AddCom<PlayerMoveComponent>();
 
             if (m_Player.GetCom<MailBoxCom>().Id == m_Player.Master.GetCom<ServerMailBoxCom>().ConnectEntity)
@@ -26,8 +28,16 @@ namespace Assets.Scripts.Entities
                 Global.UI.Get<ControllerUI>().Bind(movement);
             }
 
-            m_Player.AddCom<TransformMessageHandler>().Bind(this);
+            m_Player.AddCom<DestroyEntityMessageHandler>();
+            m_Player.AddHandler<TransformMessageHandler>().Bind(this);
             InnerInit();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            GameObject.Destroy(m_Go);
+            m_Go = null;
         }
 
         private async void InnerInit()
@@ -40,6 +50,7 @@ namespace Assets.Scripts.Entities
             {
                 Color.cyan, Color.magenta, Color.red, Color.green, Color.blue, Color.yellow
             }[Random.Range(0, 6)];
+            m_Render.sortingOrder = 1;
         }
     }
 }

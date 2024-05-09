@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Test;
 using Google.Protobuf;
+using System;
 using XFrame.Modules.Entities;
 using XFrameShare.Network;
 
@@ -8,6 +9,9 @@ namespace Assets.Scripts.Entities
     public class PlayerMoveComponent : Entity, IFactoryMessage
     {
         private Player m_Player;
+
+        Type IFactoryMessage.Type => typeof(TransformRequestMessage);
+
         public IMessage Message => new TransformRequestMessage()
         {
             X = m_Player.Pos.X,

@@ -7,7 +7,6 @@ namespace Assets.Scripts.Entities
 {
     public class TransformMessageHandler : Entity, IMessageHandler
     {
-
         private PlayerView m_Viewer;
 
         public Type Type => typeof(TransformExcuteMessage);

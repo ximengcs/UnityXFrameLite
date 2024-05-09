@@ -8,15 +8,16 @@ using XFrameShare.Test;
 namespace Assets.Scripts.Entities
 {
     [NetEntityComponent(typeof(World))]
-    public class WorldView : PoolObjectBase, INetEntityComponent
+    public class WorldView : Entity, INetEntityComponent
     {
         private World m_World;
         private GameObject m_Go;
         private SpriteRenderer m_Render;
 
-        public void OnInit(IEntity entity)
+        protected override void OnInit()
         {
-            m_World = entity as World;
+            base.OnInit();
+            m_World = Parent as World;
             InnerInit();
         }
 
@@ -24,7 +25,7 @@ namespace Assets.Scripts.Entities
         {
             m_Go = new GameObject(m_World.Id.ToString());
             m_Render = m_Go.AddComponent<SpriteRenderer>();
-            //m_Render.sprite = await Global.Res.LoadAsync<Sprite>("Data2/Textures/QQQ/game_map.jpg");
+            m_Render.sprite = await Global.Res.LoadAsync<Sprite>("Data2/Textures/QQQ/game_map.jpg");
         }
     }
 }
