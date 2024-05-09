@@ -67,6 +67,7 @@ namespace UnityXFrame.Core.UIElements
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            Guid.NewGuid();
             foreach (XLinkNode<IUIGroup> node in m_GroupList)
                 node.Value.OnDestroy();
             m_GroupList = null;

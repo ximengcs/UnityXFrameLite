@@ -1,14 +1,7 @@
 ﻿using Assets.Scripts.Test;
 using Google.Protobuf;
-using System;
-using System.Numerics;
-using UnityEngine;
-using UnityXFrame.Core;
-using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
-using XFrameShare.Core.Network;
 using XFrameShare.Network;
-using XFrameShare.Network.Extension;
 
 namespace Assets.Scripts.Entities
 {

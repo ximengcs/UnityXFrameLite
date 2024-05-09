@@ -1,4 +1,5 @@
-﻿using UnityXFrame.Core.Audios;
+﻿using UnityXFrame.Core;
+using UnityXFrame.Core.Audios;
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.Resource;
 using UnityXFrame.Core.UIElements;
@@ -25,35 +26,32 @@ using XFrame.Modules.StateMachine;
 using XFrame.Modules.Tasks;
 using XFrame.Modules.Times;
 
-namespace UnityXFrame.Core
+public static partial class Global
 {
-    public static partial class Global
-    {
-        public static ITypeModule Type => m_Type ??= Entry.GetModule<ITypeModule>();
-        public static IArchiveModule Archive => m_Archive ??= Entry.GetModule<IArchiveModule>();
-        public static IConditionModule Condition => m_Condition ??= Entry.GetModule<IConditionModule>();
-        public static IContainerModule Container => m_Container ??= Entry.GetModule<IContainerModule>();
-        public static ICryptoModule Crypto => m_Crypto ??= Entry.GetModule<ICryptoModule>();
-        public static IDataModule Data => m_Data ??= Entry.GetModule<IDataModule>();
-        public static IDownloadModule Download => m_Download ??= Entry.GetModule<IDownloadModule>();
-        public static IEntityModule Entity => m_Entity ??= Entry.GetModule<IEntityModule>();
-        public static IEventModule Event => m_Event ??= Entry.GetModule<IEventModule>();
-        public static IFsmModule Fsm => m_Fsm ??= Entry.GetModule<IFsmModule>();
-        public static IIdModule Id => m_Id ??= Entry.GetModule<IIdModule>();
-        public static ILocalizeModule I18N => m_I18N ??= Entry.GetModule<ILocalizeModule>();
-        public static ILogModule Log => m_Log ??= Entry.GetModule<ILogModule>();
-        public static IPlotModule Plot => m_Plot ??= Entry.GetModule<IPlotModule>();
-        public static IPoolModule Pool => m_Pool ??= Entry.GetModule<IPoolModule>();
-        public static IProcedureModule Procedure => m_Procedure ??= Entry.GetModule<IProcedureModule>();
-        public static IRandModule Rand => m_Rand ??= Entry.GetModule<IRandModule>();
-        public static IResModule Res => m_Res ??= Entry.GetModule<IResModule>();
-        public static ISerializeModule Serialize => m_Serialize ??= Entry.GetModule<ISerializeModule>();
-        public static ITaskModule Task => m_Task ??= Entry.GetModule<ITaskModule>();
-        public static ITimeModule Time => m_Time ??= Entry.GetModule<ITimeModule>();
-        public static IResModule LocalRes => m_LocalRes ??= Entry.GetModule<IResModule>(Constant.LOCAL_RES_MODULE);
-        public static IUIModule UI => m_UI ??= Entry.GetModule<IUIModule>();
-        public static IAudioModule Audio => m_Audio ??= Entry.GetModule<IAudioModule>();
-        public static IDebugger Debugger => m_Debugger ??= Entry.GetModule<IDebugger>();
-        public static ISpriteAtlasModule SpriteAtlas => m_SpriteAtlas ??= Entry.GetModule<ISpriteAtlasModule>();
-    }
+    public static ITypeModule Type => m_Type ??= Entry.GetModule<ITypeModule>();
+    public static IArchiveModule Archive => m_Archive ??= Entry.GetModule<IArchiveModule>();
+    public static IConditionModule Condition => m_Condition ??= Entry.GetModule<IConditionModule>();
+    public static IContainerModule Container => m_Container ??= Entry.GetModule<IContainerModule>();
+    public static ICryptoModule Crypto => m_Crypto ??= Entry.GetModule<ICryptoModule>();
+    public static IDataModule Data => m_Data ??= Entry.GetModule<IDataModule>();
+    public static IDownloadModule Download => m_Download ??= Entry.GetModule<IDownloadModule>();
+    public static IEntityModule Entity => m_Entity ??= Entry.GetModule<IEntityModule>();
+    public static IEventModule Event => m_Event ??= Entry.GetModule<IEventModule>();
+    public static IFsmModule Fsm => m_Fsm ??= Entry.GetModule<IFsmModule>();
+    public static IIdModule Id => m_Id ??= Entry.GetModule<IIdModule>();
+    public static ILocalizeModule I18N => m_I18N ??= Entry.GetModule<ILocalizeModule>();
+    public static ILogModule Log => m_Log ??= Entry.GetModule<ILogModule>();
+    public static IPlotModule Plot => m_Plot ??= Entry.GetModule<IPlotModule>();
+    public static IPoolModule Pool => m_Pool ??= Entry.GetModule<IPoolModule>();
+    public static IProcedureModule Procedure => m_Procedure ??= Entry.GetModule<IProcedureModule>();
+    public static IRandModule Rand => m_Rand ??= Entry.GetModule<IRandModule>();
+    public static IResModule Res => m_Res ??= Entry.GetModule<IResModule>();
+    public static ISerializeModule Serialize => m_Serialize ??= Entry.GetModule<ISerializeModule>();
+    public static ITaskModule Task => m_Task ??= Entry.GetModule<ITaskModule>();
+    public static ITimeModule Time => m_Time ??= Entry.GetModule<ITimeModule>();
+    public static IResModule LocalRes => m_LocalRes ??= Entry.GetModule<IResModule>(Constant.LOCAL_RES_MODULE);
+    public static IUIModule UI => m_UI ??= Entry.GetModule<IUIModule>();
+    public static IAudioModule Audio => m_Audio ??= Entry.GetModule<IAudioModule>();
+    public static IDebugger Debugger => m_Debugger ??= Entry.GetModule<IDebugger>();
+    public static ISpriteAtlasModule SpriteAtlas => m_SpriteAtlas ??= Entry.GetModule<ISpriteAtlasModule>();
 }

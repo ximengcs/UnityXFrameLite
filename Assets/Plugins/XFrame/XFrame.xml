@@ -4728,10 +4728,10 @@
             销毁生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.Container.GetCom``1(System.Int32)">
+        <member name="M:XFrame.Modules.Containers.Container.GetCom``1(System.Int32,System.Boolean)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.Container.GetCom(System.Type,System.Int32)">
+        <member name="M:XFrame.Modules.Containers.Container.GetCom(System.Type,System.Int32,System.Boolean)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Containers.Container.AddCom(XFrame.Modules.Containers.IContainer)">
@@ -4862,7 +4862,7 @@
             销毁生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.IContainer.GetCom``1(System.Int32)">
+        <member name="M:XFrame.Modules.Containers.IContainer.GetCom``1(System.Int32,System.Boolean)">
             <summary>
             获取一个组件(Id为默认Id)
             </summary>
@@ -4870,7 +4870,7 @@
             <param name="id">组件Id</param>
             <returns>组件实例</returns>
         </member>
-        <member name="M:XFrame.Modules.Containers.IContainer.GetCom(System.Type,System.Int32)">
+        <member name="M:XFrame.Modules.Containers.IContainer.GetCom(System.Type,System.Int32,System.Boolean)">
             <summary>
             获取一个组件
             </summary>
@@ -5088,10 +5088,10 @@
             失活生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareContainer.GetCom``1(System.Int32)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetCom``1(System.Int32,System.Boolean)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareContainer.GetCom(System.Type,System.Int32)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.GetCom(System.Type,System.Int32,System.Boolean)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Containers.ShareContainer.AddCom``1(XFrame.Modules.Containers.OnDataProviderReady)">
@@ -7737,6 +7737,13 @@
             <param name="type">资源类型</param>
             <returns>异步加载任务</returns>
         </member>
+        <member name="M:XFrame.Modules.Resource.IResModule.HasPreload(System.String)">
+            <summary>
+            是否已经预加载资源
+            </summary>
+            <param name="resPath">资源路径</param>
+            <returns>true表示已预加载</returns>
+        </member>
         <member name="M:XFrame.Modules.Resource.IResModule.Load(System.String,System.Type)">
             <summary>
             加载资源
@@ -7943,6 +7950,9 @@
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Resource.ResModule.Preload(System.String,System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Modules.Resource.ResModule.HasPreload(System.String)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Resource.ResModule.Load(System.String,System.Type)">

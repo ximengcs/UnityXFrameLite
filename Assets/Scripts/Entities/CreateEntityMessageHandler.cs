@@ -7,20 +7,19 @@ using XFrame.Core;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
 using XFrame.Modules.Reflection;
-using XFrameShare.Core.Network;
 using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
 {
     public class CreateEntityMessageHandler : Entity, IMessageHandler
     {
-        public Type Type => typeof(CreateEntity);
+        public Type Type => typeof(CreateEntityMessage);
 
         public void OnReceive(TransData data)
         {
             ITypeModule typeModule = Entry.GetModule<ITypeModule>();
-            CreateEntity message = data.Message as CreateEntity;
-            Log.Debug($"CreateEntityMessageHandler {data.FromId} {data.ToId} {message.Id}");
+            CreateEntityMessage message = data.Message as CreateEntityMessage;
+            Log.Debug($"CreateEntityMessageHandler {message.Type} {data.FromId} {data.ToId} {message.Id}");
             Type type = typeModule.GetType(message.Type);
 
             Entry.GetModule<IEntityModule>().Create(type, data.From.Parent, (db) =>

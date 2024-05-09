@@ -25,12 +25,10 @@ namespace Game.Core.Procedure
             //Entry.AddModule<GCModule>();
         }
 
-        private void Initialize()
+        private async void Initialize()
         {
-            UIModuleExt.CollectAutoTask().OnCompleted(() =>
-            {
-                Global.UI.Open<ControllerUI>();
-            }).Coroutine();
+            await UIModuleExt.CollectAutoTask();
+            Global.UI.Open<ControllerUI>();
         }
     }
 }

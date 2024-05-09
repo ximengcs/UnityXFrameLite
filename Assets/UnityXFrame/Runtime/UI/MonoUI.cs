@@ -13,7 +13,6 @@ namespace UnityXFrame.Core.UIElements
     [DefaultExecutionOrder(Constant.EXECORDER_AFTER)]
     public abstract partial class MonoUI : MonoBehaviour, IUI, ICanUpdateLayerValue
     {
-        private bool m_Active;
         protected bool m_IsOpen;
         protected int m_Layer;
         protected IUIGroup m_Group;
@@ -39,20 +38,18 @@ namespace UnityXFrame.Core.UIElements
 
         public bool Active
         {
-            get => m_Active;
+            get => m_Container.Active;
         }
 
         public void SetActive(bool active, bool recursive = true)
         {
             if (active)
             {
-                m_Active = true;
                 m_CanvasGroup.alpha = 1;
                 m_CanvasGroup.blocksRaycasts = true;
             }
             else
             {
-                m_Active = false;
                 m_CanvasGroup.alpha = 0;
                 m_CanvasGroup.blocksRaycasts = false;
             }
@@ -196,12 +193,12 @@ namespace UnityXFrame.Core.UIElements
         protected virtual void OnDestroyFromPool() { }
         protected virtual void OnReleaseFromPool() { }
 
-        public T GetCom<T>(int id = 0) where T : IContainer
+        public T GetCom<T>(int id = 0, bool useXType = true) where T : IContainer
         {
             return m_Container.GetCom<T>(id);
         }
 
-        public IContainer GetCom(Type type, int id = 0)
+        public IContainer GetCom(Type type, int id = 0, bool useXType = true)
         {
             return m_Container.GetCom(type, id);
         }
@@ -311,6 +308,16 @@ namespace UnityXFrame.Core.UIElements
         public void SetIt(XItType type)
         {
             m_Container.SetIt(type);
+        }
+
+        public List<T> GetComs<T>(bool useXType = false) where T : IContainer
+        {
+            return m_Container.GetComs<T>(useXType);
+        }
+
+        public List<IContainer> GetComs(Type targetType, bool useXType = false)
+        {
+            return m_Container.GetComs(targetType, useXType);
         }
     }
 }

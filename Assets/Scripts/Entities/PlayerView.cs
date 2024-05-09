@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityXFrame.Core;
 using XFrame.Modules.Entities;
 using XFrame.Modules.Pools;
-using XFrameShare.Core.Network;
 using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
@@ -22,7 +21,6 @@ namespace Assets.Scripts.Entities
             m_Player = entity as Player;
             PlayerMoveComponent movement = m_Player.AddCom<PlayerMoveComponent>();
 
-            Debug.LogWarning($" {m_Player.GetCom<MailBoxCom>().Id} {m_Player.Master.GetCom<ServerMailBoxCom>().ConnectEntity}");
             if (m_Player.GetCom<MailBoxCom>().Id == m_Player.Master.GetCom<ServerMailBoxCom>().ConnectEntity)
             {
                 Global.UI.Get<ControllerUI>().Bind(movement);

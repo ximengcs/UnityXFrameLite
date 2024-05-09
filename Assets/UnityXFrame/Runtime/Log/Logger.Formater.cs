@@ -7,7 +7,7 @@ namespace UnityXFrame.Core.Diagnotics
     {
         private class Formater
         {
-            private const int MAX_LENGTH = 1024;
+            private const int MAX_LENGTH = 4096;
             private Dictionary<string, Color> m_Colors;
 
             public Formater()

@@ -3,10 +3,9 @@ using System.Net;
 using TMPro;
 using UnityEngine.UI;
 using UnityXFrame.Core.UIElements;
-using UnityXFrameLib.UIElements;
 using XFrame.Core;
 using XFrame.Modules.Entities;
-using XFrameShare.Core.Network;
+using XFrameShare.Network;
 
 namespace Assets.Scripts.Test
 {
@@ -19,7 +18,7 @@ namespace Assets.Scripts.Test
         public Button m_ConnectBtn;
         public TextMeshProUGUI m_IPText;
 
-        private IEntity m_Root;
+        private IEntity m_XRoot;
         private PlayerMoveComponent m_MoveComponent;
 
         protected override void OnInit()
@@ -39,9 +38,9 @@ namespace Assets.Scripts.Test
 
         private void InnerConnect()
         {
-            m_Root = Entry.GetModule<IEntityModule>().Create<XRoot>();
-            m_Root.AddCom<CreateEntityMessageHandler>();
-            Entry.GetModule<NetworkModule>().Create(m_Root, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999);
+            m_XRoot = Entry.GetModule<IEntityModule>().Create<XRoot>();
+            m_XRoot.AddCom<CreateEntityMessageHandler>();
+            Entry.GetModule<NetworkModule>().Create(m_XRoot, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999);
         }
 
         private void InnerLeft()
