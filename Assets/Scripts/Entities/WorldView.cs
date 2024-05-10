@@ -25,7 +25,7 @@ namespace Assets.Scripts.Entities
         {
             m_Go = new GameObject(m_World.Id.ToString());
             m_Render = m_Go.AddComponent<SpriteRenderer>();
-            m_Render.sprite = await Global.Res.LoadAsync<Sprite>("Data2/Textures/QQQ/game_map.jpg");
+            //m_Render.sprite = await Global.Res.LoadAsync<Sprite>("Data2/Textures/QQQ/game_map.jpg");
         }
     }
 }

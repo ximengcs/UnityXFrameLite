@@ -18,7 +18,7 @@ namespace Assets.Scripts.Test
         public Button m_ConnectBtn;
         public TextMeshProUGUI m_IPText;
 
-        private IEntity m_XRoot;
+        private XFrameServer.Test.Entities.Game m_Game;
         private PlayerMoveComponent m_MoveComponent;
 
         protected override void OnInit()
@@ -38,9 +38,9 @@ namespace Assets.Scripts.Test
 
         private void InnerConnect()
         {
-            m_XRoot = Entry.GetModule<IEntityModule>().Create<XRoot>();
-            m_XRoot.AddCom<CreateEntityMessageHandler>();
-            Entry.GetModule<NetworkModule>().Create(m_XRoot, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999);
+            m_Game = Entry.GetModule<IEntityModule>().Create<XFrameServer.Test.Entities.Game>();
+            m_Game.AddCom<CreateEntityMessageHandler>();
+            Entry.GetModule<NetworkModule>().Create(m_Game, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999);
         }
 
         private void InnerLeft()

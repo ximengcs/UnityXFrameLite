@@ -18,7 +18,7 @@ namespace Game.Test
     {
         private string m_Content;
         private string m_IP;
-        private IEntity m_Root;
+        private XFrameServer.Test.Entities.Game m_Root;
         private int m_SendTimes;
         private int m_SuccessTimes;
 
@@ -70,7 +70,7 @@ namespace Game.Test
 
         private void InnerConnect(IPAddress address)
         {
-            m_Root = Entry.GetModule<IEntityModule>().Create<XRoot>();
+            m_Root = Entry.GetModule<IEntityModule>().Create<XFrameServer.Test.Entities.Game>();
             m_Root.AddCom<CreateEntityMessageHandler>();
             Entry.GetModule<NetworkModule>().Create(m_Root, NetMode.Client, address, 9999);
         }
@@ -106,8 +106,8 @@ namespace Game.Test
                 Name = Faker.Name.FullName()
             };
             MailBoxCom mail = m_Root.GetCom<MailBoxCom>();
-            XTask<TransData> task = mail.Send(data);
-            TransData response = await task;
+            XTask<TransitionData> task = mail.SendWithResult(new TransitionData());
+            TransitionData response = await task;
             X98259 responseMessage = response.Message as X98259;
             if (responseMessage.Id1 == data.Id && responseMessage.Name1 == data.Name)
             {

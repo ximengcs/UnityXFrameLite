@@ -16,7 +16,7 @@ namespace Assets.Scripts.Entities
             m_Viewer = viewer;
         }
 
-        public void OnReceive(TransData data)
+        public void OnReceive(TransitionData data)
         {
             Log.Debug(NetConst.Net, $"transform excute {data.Message}");
             TransformExcuteMessage message = data.Message as TransformExcuteMessage;

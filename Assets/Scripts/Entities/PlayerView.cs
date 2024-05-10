@@ -1,17 +1,14 @@
-﻿using Assets.Scripts.Test;
-using UnityEngine;
-using UnityXFrame.Core;
-using XFrame.Modules.Diagnotics;
-using XFrame.Modules.Entities;
-using XFrame.Modules.Pools;
+﻿using UnityEngine;
 using XFrameShare.Network;
+using Assets.Scripts.Test;
+using XFrame.Modules.Entities;
 
 namespace Assets.Scripts.Entities
 {
-    [NetEntityComponent(typeof(Player))]
+    [NetEntityComponent(typeof(Client))]
     public class PlayerView : Entity, INetEntityComponent
     {
-        private Player m_Player;
+        private Client m_Client;
         private GameObject m_Go;
         private SpriteRenderer m_Render;
 
@@ -20,16 +17,16 @@ namespace Assets.Scripts.Entities
         protected override void OnInit()
         {
             base.OnInit();
-            m_Player = Parent as Player;
-            PlayerMoveComponent movement = m_Player.AddCom<PlayerMoveComponent>();
+            m_Client = Parent as Client;
+            PlayerMoveComponent movement = m_Client.AddCom<PlayerMoveComponent>();
 
-            if (m_Player.GetCom<MailBoxCom>().Id == m_Player.Master.GetCom<ServerMailBoxCom>().ConnectEntity)
+            if (m_Client.GetCom<MailBoxCom>().Id == m_Client.Master.GetCom<ServerMailBoxCom>().ConnectEntity)
             {
                 Global.UI.Get<ControllerUI>().Bind(movement);
             }
 
-            m_Player.AddCom<DestroyEntityMessageHandler>();
-            m_Player.AddHandler<TransformMessageHandler>().Bind(this);
+            m_Client.AddCom<DestroyEntityMessageHandler>();
+            m_Client.AddHandler<TransformMessageHandler>().Bind(this);
             InnerInit();
         }
 
@@ -42,7 +39,7 @@ namespace Assets.Scripts.Entities
 
         private async void InnerInit()
         {
-            m_Go = new GameObject(m_Player.Id.ToString());
+            m_Go = new GameObject(m_Client.Id.ToString());
             Transform.localScale = Vector3.one * 0.5f;
             m_Render = m_Go.AddComponent<SpriteRenderer>();
             m_Render.sprite = await Global.Res.LoadAsync<Sprite>("Data2/Textures/QQQ/white.png");

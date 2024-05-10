@@ -15,7 +15,7 @@ namespace Assets.Scripts.Entities
     {
         public Type Type => typeof(CreateEntityMessage);
 
-        public void OnReceive(TransData data)
+        public void OnReceive(TransitionData data)
         {
             ITypeModule typeModule = Entry.GetModule<ITypeModule>();
             CreateEntityMessage message = data.Message as CreateEntityMessage;
