@@ -45,6 +45,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d01ceed8adfbf834c92082b36c0e0945, type: 3}
   - {fileID: 21300000, guid: eec8d439152bf404781e5e24dabe254a, type: 3}
   - {fileID: 21300000, guid: 418380dccf0452c43b2ad6a7a79cd1f3, type: 3}
+  - {fileID: 21300000, guid: d2f6771d9faf6dc44819ac589b583f10, type: 3}
   m_PackedSpriteNamesToIndex:
   - test2
   - game_map
@@ -52,6 +53,7 @@ SpriteAtlas:
   - white
   - test
   - iloveu
+  - forest
   m_RenderDataMap: {}
   m_Tag: Test2
   m_IsVariant: 0

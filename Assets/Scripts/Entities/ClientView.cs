@@ -6,7 +6,7 @@ using XFrame.Modules.Entities;
 namespace Assets.Scripts.Entities
 {
     [NetEntityComponent(typeof(Client))]
-    public class PlayerView : Entity, INetEntityComponent
+    public class ClientView : Entity, INetEntityComponent
     {
         private Client m_Client;
         private GameObject m_Go;
@@ -26,7 +26,7 @@ namespace Assets.Scripts.Entities
             }
 
             m_Client.AddCom<DestroyEntityMessageHandler>();
-            m_Client.AddHandler<TransformMessageHandler>().Bind(this);
+            m_Client.AddHandler<TransformMessageHandler>(true).Bind(this);
             InnerInit();
         }
 
@@ -39,7 +39,7 @@ namespace Assets.Scripts.Entities
 
         private async void InnerInit()
         {
-            m_Go = new GameObject(m_Client.Id.ToString());
+            m_Go = new GameObject(m_Client.Name());
             Transform.localScale = Vector3.one * 0.5f;
             m_Render = m_Go.AddComponent<SpriteRenderer>();
             m_Render.sprite = await Global.Res.LoadAsync<Sprite>("Data2/Textures/QQQ/white.png");

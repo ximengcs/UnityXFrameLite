@@ -7,11 +7,11 @@ namespace Assets.Scripts.Entities
 {
     public class TransformMessageHandler : Entity, IMessageHandler
     {
-        private PlayerView m_Viewer;
+        private ClientView m_Viewer;
 
         public Type Type => typeof(TransformExcuteMessage);
 
-        public void Bind(PlayerView viewer)
+        public void Bind(ClientView viewer)
         {
             m_Viewer = viewer;
         }

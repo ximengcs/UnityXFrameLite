@@ -19,13 +19,18 @@ namespace Assets.Scripts.Entities
         {
             ITypeModule typeModule = Entry.GetModule<ITypeModule>();
             CreateEntityMessage message = data.Message as CreateEntityMessage;
-            Log.Debug($"CreateEntityMessageHandler {message.Type} {data.FromId} {data.ToId} {message.Id}");
+            IEntityModule entityModule = Entry.GetModule<IEntityModule>();
+            if (entityModule.Get(message.Id) != null)
+                return;
+            Log.Debug($"CreateEntityMessageHandler {data.FromId} {data.ToId} {message}");
             Type type = typeModule.GetType(message.Type);
-
-            Entry.GetModule<IEntityModule>().Create(type, data.From.Parent, (db) =>
+            IEntity parent = null;
+            if (message.Parent != 0)
+                parent = entityModule.Get(message.Parent).Parent;
+            entityModule.Create(type, parent, (db) =>
             {
                 IEntity entity = db as IEntity;
-                entity.AddCom<MailBoxCom>(data.ToId);
+                entity.AddCom<MailBoxCom>(message.Id);  //在这里添加可以保证初始化中可以拿到
             });
         }
     }
