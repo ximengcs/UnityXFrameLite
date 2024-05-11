@@ -5,7 +5,7 @@ using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
 {
-    public class PlayerMoveComponent : Entity, IFactoryMessage
+    public class PlayerMoveComponent : IFactoryMessage
     {
         private Client m_Client;
         private System.Numerics.Vector3 m_PosCache;
@@ -19,10 +19,14 @@ namespace Assets.Scripts.Entities
             Z = m_PosCache.Z,
         };
 
-        protected override void OnInit()
+        public void OnInit(IEntity entity)
         {
-            base.OnInit();
-            m_Client = Parent as Client;
+            m_Client = entity as Client;
+        }
+
+        public void OnDestroy()
+        {
+
         }
 
         public void Up()

@@ -39,7 +39,7 @@ namespace Assets.Scripts.Test
         private void InnerConnect()
         {
             m_Game = Entry.GetModule<IEntityModule>().Create<XFrameServer.Test.Entities.Game>();
-            m_Game.AddCom<CreateEntityMessageHandler>();
+            m_Game.AddHandler<CreateEntityMessageHandler>();
             Entry.GetModule<NetworkModule>().Create(m_Game, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999);
         }
 

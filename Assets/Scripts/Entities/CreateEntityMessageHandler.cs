@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using XFrame.Core;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
@@ -11,9 +7,19 @@ using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
 {
-    public class CreateEntityMessageHandler : Entity, IMessageHandler
+    public class CreateEntityMessageHandler : IMessageHandler
     {
         public Type Type => typeof(CreateEntityMessage);
+
+        public void OnInit(IEntity entity)
+        {
+
+        }
+
+        public void OnDestroy()
+        {
+
+        }
 
         public void OnReceive(TransitionData data)
         {

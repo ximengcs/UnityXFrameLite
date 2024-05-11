@@ -6,22 +6,26 @@ using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
 {
-    public class DestroyEntityMessageHandler : Entity, IMessageHandler
+    public class DestroyEntityMessageHandler : IMessageHandler
     {
         private Client m_Client;
 
         public Type Type => typeof(DestroyEntityMessage);
 
-        protected override void OnInit()
+        public void OnInit(IEntity entity)
         {
-            base.OnInit();
-            m_Client = Parent as Client;
+            m_Client = entity as Client;
+        }
+
+        public void OnDestroy()
+        {
+            m_Client = null;
         }
 
         public void OnReceive(TransitionData data)
         {
             DestroyEntityMessage message = data.Message as DestroyEntityMessage;
-            Log.Debug(NetConst.Net, $"destroy entity {message.Id} {Id}");
+            Log.Debug(NetConst.Net, $"destroy entity {message.Id}");
             Entry.GetModule<IEntityModule>().Destroy(m_Client);
         }
     }

@@ -1,19 +1,24 @@
 ﻿using System;
+using XFrameShare.Network;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
-using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
 {
-    public class TransformMessageHandler : Entity, IMessageHandler
+    public class TransformMessageHandler : IMessageHandler
     {
         private ClientView m_Viewer;
 
         public Type Type => typeof(TransformExcuteMessage);
 
-        public void Bind(ClientView viewer)
+        public void OnInit(IEntity entity)
         {
-            m_Viewer = viewer;
+            m_Viewer = entity.GetCom<ClientView>();
+        }
+
+        public void OnDestroy()
+        {
+            m_Viewer = null;
         }
 
         public void OnReceive(TransitionData data)

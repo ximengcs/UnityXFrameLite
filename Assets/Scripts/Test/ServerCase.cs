@@ -71,7 +71,7 @@ namespace Game.Test
         private void InnerConnect(IPAddress address)
         {
             m_Root = Entry.GetModule<IEntityModule>().Create<XFrameServer.Test.Entities.Game>();
-            m_Root.AddCom<CreateEntityMessageHandler>();
+            m_Root.AddHandler<CreateEntityMessageHandler>();
             Entry.GetModule<NetworkModule>().Create(m_Root, NetMode.Client, address, 9999);
         }
 

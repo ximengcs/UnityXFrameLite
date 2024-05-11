@@ -18,15 +18,15 @@ namespace Assets.Scripts.Entities
         {
             base.OnInit();
             m_Client = Parent as Client;
-            PlayerMoveComponent movement = m_Client.AddCom<PlayerMoveComponent>();
+            PlayerMoveComponent movement = m_Client.AddFactory<PlayerMoveComponent>();
 
             if (m_Client.GetCom<MailBoxCom>().Id == m_Client.Master.GetCom<ServerMailBoxCom>().ConnectEntity)
             {
                 Global.UI.Get<ControllerUI>().Bind(movement);
             }
 
-            m_Client.AddCom<DestroyEntityMessageHandler>();
-            m_Client.AddHandler<TransformMessageHandler>(true).Bind(this);
+            m_Client.AddHandler<DestroyEntityMessageHandler>();
+            m_Client.AddHandler<TransformMessageHandler>(true);
             InnerInit();
         }
 
