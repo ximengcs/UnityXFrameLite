@@ -6,7 +6,7 @@ using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
 {
-    public class DestroyEntityMessageHandler : IMessageHandler
+    public class DestroyEntityMessageHandler : IMessageConsumer
     {
         private Client m_Client;
 

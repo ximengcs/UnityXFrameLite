@@ -7,7 +7,7 @@ using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
 {
-    public class CreateEntityMessageHandler : IMessageHandler
+    public class CreateEntityMessageHandler : IMessageConsumer
     {
         public Type Type => typeof(CreateEntityMessage);
 

@@ -5,12 +5,12 @@ using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
 {
-    public class PlayerMoveComponent : IFactoryMessage
+    public class PlayerMoveComponent : IMessageProducer
     {
         private Client m_Client;
         private System.Numerics.Vector3 m_PosCache;
 
-        Type IFactoryMessage.Type => typeof(TransformRequestMessage);
+        Type IMessageProducer.Type => typeof(TransformRequestMessage);
 
         public IMessage Message => new TransformRequestMessage()
         {

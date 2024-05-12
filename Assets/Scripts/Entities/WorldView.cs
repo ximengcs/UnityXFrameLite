@@ -25,7 +25,7 @@ namespace Assets.Scripts.Entities
         {
             m_Go = new GameObject(m_World.Name());
             m_Render = m_Go.AddComponent<SpriteRenderer>();
-            //m_Render.sprite = await Global.Res.LoadAsync<Sprite>("Data2/Textures/QQQ/forest.png");
+            m_Render.sprite = await Global.Res.LoadAsync<Sprite>("Data2/Textures/QQQ/forest.png");
             m_Go.transform.localScale = Vector3.one * 4;
         }
     }

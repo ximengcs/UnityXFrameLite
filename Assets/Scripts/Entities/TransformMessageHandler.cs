@@ -5,7 +5,7 @@ using XFrame.Modules.Entities;
 
 namespace Assets.Scripts.Entities
 {
-    public class TransformMessageHandler : IMessageHandler
+    public class TransformMessageHandler : IMessageConsumer
     {
         private ClientView m_Viewer;
 
