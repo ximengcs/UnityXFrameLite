@@ -18,8 +18,12 @@ namespace Assets.Scripts.Entities
         {
             base.OnInit();
             m_Client = Parent as Client;
-            PlayerMoveComponent movement = m_Client.AddFactory<PlayerMoveComponent>();
+            m_Go = new GameObject(m_Client.Name());
+            Transform.localScale = Vector3.one * 0.5f;
+            m_Render = m_Go.AddComponent<SpriteRenderer>();
+            InnerInit();
 
+            PlayerMoveComponent movement = m_Client.AddFactory<PlayerMoveComponent>();
             if (m_Client.GetCom<MailBoxCom>().Id == m_Client.Master.GetCom<ServerMailBoxCom>().ConnectEntity)
             {
                 Global.UI.Get<ControllerUI>().Bind(movement);
@@ -27,7 +31,6 @@ namespace Assets.Scripts.Entities
 
             m_Client.AddHandler<DestroyEntityMessageHandler>();
             m_Client.AddHandler<TransformMessageHandler>(true);
-            InnerInit();
         }
 
         protected override void OnDestroy()
@@ -39,9 +42,6 @@ namespace Assets.Scripts.Entities
 
         private async void InnerInit()
         {
-            m_Go = new GameObject(m_Client.Name());
-            Transform.localScale = Vector3.one * 0.5f;
-            m_Render = m_Go.AddComponent<SpriteRenderer>();
             m_Render.sprite = await Global.Res.LoadAsync<Sprite>("Data2/Textures/QQQ/white.png");
             m_Render.color = new Color[]
             {

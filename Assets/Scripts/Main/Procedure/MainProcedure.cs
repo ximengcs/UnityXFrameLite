@@ -8,6 +8,7 @@ using UnityXFrame.Core.UIElements;
 using XFrame.Core;
 using XFrame.Modules.Procedure;
 using XFrame.Modules.Resource;
+using XFrame.Modules.Threads;
 
 namespace Game.Core.Procedure
 {
