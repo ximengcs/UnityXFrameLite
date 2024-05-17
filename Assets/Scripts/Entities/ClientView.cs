@@ -2,7 +2,8 @@
 using XFrameShare.Network;
 using Assets.Scripts.Test;
 using XFrame.Modules.Entities;
-using System.Threading;
+using XFrame.Core;
+using UnityXFrame.Core.Diagnotics;
 
 namespace Assets.Scripts.Entities
 {
@@ -10,6 +11,7 @@ namespace Assets.Scripts.Entities
     public class ClientView : Entity, INetEntityComponent
     {
         private Client m_Client;
+        private IMailBox m_ClientMail;
         private GameObject m_Go;
         private SpriteRenderer m_Render;
 
@@ -32,11 +34,20 @@ namespace Assets.Scripts.Entities
 
             m_Client.AddHandler<DestroyEntityMessageHandler>();
             m_Client.AddHandler<TransformMessageHandler>(true);
+
+            m_ClientMail = m_Client.GetCom<IMailBox>(default, false);
+            Entry.GetModule<Debugger>().AddTitleShower(InnerShowPing);
+        }
+
+        private string InnerShowPing()
+        {
+            return $"{m_ClientMail.Ping} MS";
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            Entry.GetModule<Debugger>().RemoveTitleShower(InnerShowPing);
             GameObject.Destroy(m_Go);
             m_Go = null;
         }
