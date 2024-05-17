@@ -63,6 +63,8 @@ namespace UnityXFrame.Core.Diagnotics
         private float m_FpsAmount;
         private int m_FpsCurTime;
 
+        private List<Func<string>> m_TitleShowers;
+
         private const string TITLE = "Console";
         private const int TIP_CD_KEY = 0;
         private const int TIP_CD = 3;
@@ -132,6 +134,7 @@ namespace UnityXFrame.Core.Diagnotics
             m_Timer.Record(TIP_CD_KEY, TIP_CD);
             m_TipNewMsg = new HashSet<int>();
 
+            m_TitleShowers = new List<Func<string>>();
             m_EnterText = TITLE;
             m_Windows = new List<WindowInfo>();
             InternalLoadInst();
@@ -174,6 +177,16 @@ namespace UnityXFrame.Core.Diagnotics
             FitStyle(Skin.verticalScrollbarThumb);
             FitStyle(Skin.horizontalScrollbarThumb);
             FitStyle(Skin.box);
+        }
+
+        public void AddTitleShower(Func<string> handler)
+        {
+            m_TitleShowers.Add(handler);
+        }
+
+        public void RemoveTitleShower(Func<string> handler)
+        {
+            m_TitleShowers.Remove(handler);
         }
 
         public float FitWidth(float width)
@@ -255,8 +268,15 @@ namespace UnityXFrame.Core.Diagnotics
                 string title = m_EnterText;
                 if (m_TipNewMsg.Count > 0)
                     title = $"<color=#FF0000>{title}</color>";
+                GUILayout.BeginHorizontal();
                 if (GUILayout.Button(title, m_EnterButtonStyle))
                     m_IsOpen = true;
+                foreach (Func<string> item in m_TitleShowers)
+                {
+                    string content = item();
+                    GUILayout.Label(content, m_EnterButtonStyle);
+                }
+                GUILayout.EndHorizontal();
             }
 
             if (m_ShowFps)

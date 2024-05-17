@@ -11,6 +11,7 @@ using XFrame.Modules.Resource;
 using XFrame.Modules.Tasks;
 using UnityXFrameLib.UIElements;
 using Assets.Scripts.Test;
+using UnityXFrame.Core.Diagnotics;
 
 namespace Game.Core.Procedure
 {
