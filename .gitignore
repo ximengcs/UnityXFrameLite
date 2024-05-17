@@ -73,5 +73,5 @@ crashlytics-build.properties
 Assets/UnityXFrame/Editor/UserfulToolData.asset
 Assets/UnityXFrame/Editor/UserfulToolData.asset.meta
 Assets/AddressableAssetsData/WebGL.meta
-ServerData/WebGL/catalog_2024.01.28.14.40.30.hash
-ServerData/WebGL/catalog_2024.01.28.14.40.30.json
+ServerData/
+ServerData/
