@@ -17,6 +17,14 @@ namespace Assets.Scripts.Entities
 
         public Transform Transform => m_Go.transform;
 
+        public bool IsSelf
+        {
+            get
+            {
+                return m_Client.GetCom<MailBoxCom>().Id == m_Client.Master.GetCom<ServerMailBoxCom>().ConnectEntity;
+            }
+        }
+
         protected override void OnInit()
         {
             base.OnInit();
@@ -26,17 +34,17 @@ namespace Assets.Scripts.Entities
             m_Render = m_Go.AddComponent<SpriteRenderer>();
             InnerInit();
 
-            PlayerMoveComponent movement = m_Client.AddFactory<PlayerMoveComponent>();
-            if (m_Client.GetCom<MailBoxCom>().Id == m_Client.Master.GetCom<ServerMailBoxCom>().ConnectEntity)
+            PlayerMoveComponent movement = m_Client.AddHandler<PlayerMoveComponent>(true);
+            m_Client.AddFactory(movement);
+
+            if (IsSelf)
             {
-                Global.UI.Get<ControllerUI>().Bind(movement);
+                Global.UI.Get<ControllerUI>().Bind(movement, this);
+                Entry.GetModule<Debugger>().AddTitleShower(InnerShowPing);
             }
 
             m_Client.AddHandler<DestroyEntityMessageHandler>();
-            m_Client.AddHandler<TransformMessageHandler>(true);
-
             m_ClientMail = m_Client.GetCom<IMailBox>(default, false);
-            Entry.GetModule<Debugger>().AddTitleShower(InnerShowPing);
         }
 
         private string InnerShowPing()

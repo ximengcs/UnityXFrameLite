@@ -1,10 +1,14 @@
 ﻿using Assets.Scripts.Entities;
 using System.Net;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
+using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.UIElements;
 using XFrame.Core;
+using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
+using XFrame.Modules.Times;
 using XFrameShare.Network;
 
 namespace Assets.Scripts.Test
@@ -18,6 +22,7 @@ namespace Assets.Scripts.Test
         public Button m_ConnectBtn;
         public TextMeshProUGUI m_IPText;
 
+        private ClientView m_Client;
         private XFrameServer.Test.Entities.Game m_Game;
         private PlayerMoveComponent m_MoveComponent;
 
@@ -29,11 +34,53 @@ namespace Assets.Scripts.Test
             m_RightBtn.onClick.AddListener(InnerRight);
             m_DownBtn.onClick.AddListener(InnerDown);
             m_UpBtn.onClick.AddListener(InnerUp);
+            m_FixTimer = CDTimer.Create();
+            m_FixTimer.Record(0.02f);
         }
 
-        public void Bind(PlayerMoveComponent movement)
+        private bool m_Draging;
+        private Vector3 m_LastPos;
+        private CDTimer m_FixTimer;
+
+        protected override void OnUpdate(float elapseTime)
+        {
+            base.OnUpdate(elapseTime);
+            if (m_Client == null)
+                return;
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!m_Draging)
+                {
+                    m_Draging = true;
+                    m_LastPos = Input.mousePosition;
+                }
+            }
+            if (Input.GetMouseButton(0))
+            {
+                if (m_Draging)
+                {
+                    Vector3 curPos = Input.mousePosition;
+                    Vector3 target = Camera.main.ScreenToWorldPoint(curPos) - Camera.main.ScreenToWorldPoint(m_LastPos);
+
+                    if (target != Vector3.zero)
+                    {
+                        m_MoveComponent.Translate(target);
+                    }
+                    m_LastPos = Input.mousePosition;
+                }
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                m_Draging = false;
+            }
+        }
+
+        public void Bind(PlayerMoveComponent movement, ClientView client)
         {
             m_MoveComponent = movement;
+            m_Client = client;
+            m_LastPos = m_Client.Transform.position;
         }
 
         private void InnerConnect()
