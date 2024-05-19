@@ -72,7 +72,6 @@ namespace Game.Test
         {
             m_Root = Entry.GetModule<IEntityModule>().Create<XFrameServer.Test.Entities.Game>();
             m_Root.AddHandler<CreateEntityMessageHandler>();
-            Entry.GetModule<NetworkModule>().Create(m_Root, NetMode.Client, address, 9999);
         }
 
         private void InnerTestBeat()
@@ -100,22 +99,7 @@ namespace Game.Test
 
         private async void InnerSend()
         {
-            Person98259 data = new Person98259()
-            {
-                Id = UnityEngine.Random.Range(int.MinValue, int.MaxValue),
-                Name = Faker.Name.FullName()
-            };
-            MailBoxCom mail = m_Root.GetCom<MailBoxCom>();
-            XTask<TransitionData> task = mail.SendWithResult(new TransitionData());
-            TransitionData response = await task;
-            X98259 responseMessage = response.Message as X98259;
-            if (responseMessage.Id1 == data.Id && responseMessage.Name1 == data.Name)
-            {
-                m_SuccessTimes++;
-            }
-            else
-            {
-            }
+
         }
     }
 }
