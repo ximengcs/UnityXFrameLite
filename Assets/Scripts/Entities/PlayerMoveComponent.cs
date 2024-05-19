@@ -1,4 +1,5 @@
-﻿using Google.Protobuf;
+﻿using DG.Tweening;
+using Google.Protobuf;
 using System;
 using UnityEngine;
 using XFrame.Modules.Diagnotics;
@@ -87,7 +88,8 @@ namespace Assets.Scripts.Entities
             TransformExcuteMessage message = data.Message as TransformExcuteMessage;
             if (m_Viewer != null)
             {
-                m_Viewer.Transform.position = new UnityEngine.Vector3(message.X, message.Y, message.Z);
+                Vector3 target = new Vector3(message.X, message.Y, message.Z);
+                m_Viewer.Transform.position = target;
             }
             m_Lock = false;
 

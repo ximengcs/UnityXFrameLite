@@ -4,6 +4,7 @@ using Assets.Scripts.Test;
 using XFrame.Modules.Entities;
 using XFrame.Core;
 using UnityXFrame.Core.Diagnotics;
+using DG.Tweening;
 
 namespace Assets.Scripts.Entities
 {
@@ -14,6 +15,7 @@ namespace Assets.Scripts.Entities
         private IMailBox m_ClientMail;
         private GameObject m_Go;
         private SpriteRenderer m_Render;
+        private Tween m_MoveTween;
 
         public Transform Transform => m_Go.transform;
 
@@ -23,6 +25,13 @@ namespace Assets.Scripts.Entities
             {
                 return m_Client.GetCom<MailBoxCom>().Id == m_Client.Master.GetCom<ServerMailBoxCom>().ConnectEntity;
             }
+        }
+
+        public void DoMove(Vector3 target, float duration)
+        {
+            if (m_MoveTween != null)
+                m_MoveTween.Kill();
+            Transform.DOMove(target, duration).SetEase(Ease.Linear);
         }
 
         protected override void OnInit()
