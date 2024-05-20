@@ -42,7 +42,7 @@ namespace Assets.Scripts.Test
         private Vector3 m_LastPos;
         private CDTimer m_FixTimer;
 
-        protected override void OnUpdate(float elapseTime)
+        protected override void OnUpdate(double elapseTime)
         {
             base.OnUpdate(elapseTime);
             if (m_Client == null)

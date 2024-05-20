@@ -33,7 +33,7 @@ namespace UnityXFrame.Core.Resource
 
             public bool IsDone => m_AtlasTask.IsCompleted;
 
-            public float Pro => m_AtlasTask.Progress;
+            public double Pro => m_AtlasTask.Progress;
 
             public WaitAtlasHandler(ResLoadTask<SpriteAtlas> atlasTask, string spriteName, Type type)
             {

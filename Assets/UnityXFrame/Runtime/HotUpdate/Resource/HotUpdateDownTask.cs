@@ -83,13 +83,13 @@ namespace UnityXFrame.Core.HotUpdate
             private HotUpdateDownTask m_ParentTask;
             private List<string> m_CheckList;
             private HashSet<string> m_Perchs;
-            private float m_Pro;
+            private double m_Pro;
 
             private Dictionary<string, DownLoadInfo> m_DownloadingDependency;
             private HashSet<AsyncOperationHandle> m_Handles;
 
             public State State { get; private set; }
-            public float Pro => m_Pro;
+            public double Pro => m_Pro;
             public object Data => null;
             public bool IsDone
             {

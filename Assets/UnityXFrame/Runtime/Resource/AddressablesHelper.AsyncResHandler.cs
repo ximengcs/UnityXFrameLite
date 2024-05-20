@@ -35,7 +35,7 @@ namespace UnityXFrame.Core.Resource
 
             public bool IsDone => m_Handle.IsDone;
 
-            public float Pro => m_Handle.PercentComplete;
+            public double Pro => m_Handle.PercentComplete;
 
             public AsyncResHandler(AsyncOperationHandle handle, string path, Type type)
             {

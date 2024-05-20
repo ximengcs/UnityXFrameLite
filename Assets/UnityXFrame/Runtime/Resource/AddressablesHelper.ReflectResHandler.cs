@@ -35,7 +35,7 @@ namespace UnityXFrame.Core.Resource
 
             public bool IsDone => InnerIsDone(m_Handle);
 
-            public float Pro => InnerPercentComplete(m_Handle);
+            public double Pro => InnerPercentComplete(m_Handle);
 
             public ReflectResHandler(object handle, string assetPath, Type resType)
             {

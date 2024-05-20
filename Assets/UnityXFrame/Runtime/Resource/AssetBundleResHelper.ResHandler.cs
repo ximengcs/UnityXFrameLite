@@ -18,7 +18,7 @@ namespace UnityXFrame.Core.Resource
 
             public bool IsDone => m_Request.isDone;
 
-            public float Pro => m_Request.progress;
+            public double Pro => m_Request.progress;
 
             public string AssetPath => m_ResPath;
 

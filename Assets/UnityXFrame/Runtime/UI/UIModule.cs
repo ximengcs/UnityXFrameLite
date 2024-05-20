@@ -55,7 +55,7 @@ namespace UnityXFrame.Core.UIElements
             Log.Debug("UI", $"UI Canvas pixel scale is {m_PixelScale}");
         }
 
-        public void OnUpdate(float escapeTime)
+        public void OnUpdate(double escapeTime)
         {
             foreach (XLinkNode<IUIGroup> node in m_GroupList)
             {

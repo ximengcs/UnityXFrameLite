@@ -13,7 +13,7 @@ namespace UnityXFrameLib.Improve
 
         private class Handler : IProTaskHandler
         {
-            private float m_Pro;
+            private double m_Pro;
 #if !UNITY_EDITOR
             private Stopwatch m_Watch;
 #endif
@@ -39,7 +39,7 @@ namespace UnityXFrameLib.Improve
                 }
             }
 
-            public float Pro => throw new System.NotImplementedException();
+            public double Pro => throw new System.NotImplementedException();
 
             public Handler()
             {

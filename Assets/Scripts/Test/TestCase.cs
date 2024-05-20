@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -10,6 +11,7 @@ using Test;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Assertions;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Networking;
 using UnityEngine.Scripting;
@@ -179,6 +181,10 @@ namespace Game.Test
 
         public void OnDraw()
         {
+            if (DebugGUI.Button("Test Zip"))
+            {
+            }
+
             if (DebugGUI.Button("Open Layout"))
             {
                 Global.UI.Open<LayoutUI>(null, Constant.LOCAL_RES_MODULE);
@@ -536,11 +542,11 @@ namespace Game.Test
 
     public class DOTweenProgress : IProTaskHandler
     {
-        private float m_Pro;
+        private double m_Pro;
 
         public object Data { get; }
         public bool IsDone => m_Pro >= 1;
-        public float Pro => m_Pro;
+        public double Pro => m_Pro;
 
         public DOTweenProgress()
         {

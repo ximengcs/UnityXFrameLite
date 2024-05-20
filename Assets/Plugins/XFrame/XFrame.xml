@@ -529,6 +529,28 @@
             </summary>
             <param name="order">顺序</param>
         </member>
+        <member name="T:XFrame.Core.Module.FinishUpdateHandler">
+            <summary>
+            更新处理器
+            </summary>
+        </member>
+        <member name="P:XFrame.Core.Module.FinishUpdateHandler.Target">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Core.Module.FinishUpdateHandler.Handle(XFrame.Core.IModule,System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Core.IFinishUpdater">
+            <summary>
+            更新处理器
+            </summary>
+        </member>
+        <member name="M:XFrame.Core.IFinishUpdater.OnUpdate(System.Double)">
+            <summary>
+            更新生命周期
+            </summary>
+            <param name="escapeTime">逃逸时间</param>
+        </member>
         <member name="T:XFrame.Core.IModule">
             <summary>
             模块 
@@ -617,7 +639,7 @@
             更新处理器
             </summary>
         </member>
-        <member name="M:XFrame.Core.IUpdater.OnUpdate(System.Single)">
+        <member name="M:XFrame.Core.IUpdater.OnUpdate(System.Double)">
             <summary>
             更新生命周期
             </summary>
@@ -3331,7 +3353,7 @@
         <member name="M:XFrame.Modules.Archives.ArchiveModule.OnInit(System.Object)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Archives.ArchiveModule.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Archives.ArchiveModule.OnUpdate(System.Double)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Archives.ArchiveModule.OnDestroy">
@@ -4717,7 +4739,7 @@
             初始化生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.Container.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Containers.Container.OnUpdate(System.Double)">
             <summary>
             更新生命周期
             </summary>
@@ -4821,7 +4843,7 @@
         <member name="M:XFrame.Modules.Containers.ContainerModule.OnInit(System.Object)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ContainerModule.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Containers.ContainerModule.OnUpdate(System.Double)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Containers.ContainerModule.OnDestroy">
@@ -4851,7 +4873,7 @@
             <param name="master">容器拥有者</param>
             <param name="onReady">容器就绪事件</param>
         </member>
-        <member name="M:XFrame.Modules.Containers.IContainer.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Containers.IContainer.OnUpdate(System.Double)">
             <summary>
             更新生命周期
             </summary>
@@ -5067,7 +5089,7 @@
             初始化生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Containers.ShareContainer.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Containers.ShareContainer.OnUpdate(System.Double)">
             <summary>
             更新生命周期
             </summary>
@@ -5854,7 +5876,7 @@
         <member name="M:XFrame.Modules.Event.EventModule.OnInit(System.Object)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Event.EventModule.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Event.EventModule.OnUpdate(System.Double)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Event.EventModule.NewSys">
@@ -5996,7 +6018,7 @@
         <member name="M:XFrame.Modules.StateMachine.FsmModule.OnInit(System.Object)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.StateMachine.FsmModule.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.StateMachine.FsmModule.OnUpdate(System.Double)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.StateMachine.FsmModule.OnDestroy">
@@ -7183,7 +7205,7 @@
         <member name="M:XFrame.Modules.Plots.PlotModule.OnInit(System.Object)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Plots.PlotModule.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Plots.PlotModule.OnUpdate(System.Double)">
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Plots.PlotModule.OnDestroy">
@@ -8130,7 +8152,7 @@
         <member name="M:XFrame.Modules.Tasks.TaskModule.OnInit(System.Object)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Tasks.TaskModule.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Tasks.TaskModule.OnUpdate(System.Double)">
             <inheritdoc/>
         </member>
         <member name="P:XFrame.Modules.Tasks.TaskModule.ExecCount">
@@ -8337,7 +8359,7 @@
         <member name="M:XFrame.Modules.Times.TimeModule.OnInit(System.Object)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Times.TimeModule.OnUpdate(System.Single)">
+        <member name="M:XFrame.Modules.Times.TimeModule.OnUpdate(System.Double)">
             <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Reflection.ITypeCheckHelper">
@@ -8843,7 +8865,7 @@
         <member name="M:XFrame.Tasks.XProTask.Cancel(System.Boolean)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Tasks.XProTask.OnUpdate(System.Action{System.Single})">
+        <member name="M:XFrame.Tasks.XProTask.OnUpdate(System.Action{System.Double})">
             <summary>
             注册更新事件
             </summary>
@@ -8980,7 +9002,7 @@
         <member name="M:XFrame.Tasks.XProTask`1.Cancel(System.Boolean)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Tasks.XProTask`1.OnUpdate(System.Action{System.Single})">
+        <member name="M:XFrame.Tasks.XProTask`1.OnUpdate(System.Action{System.Double})">
             <summary>
             注册更新事件
             </summary>

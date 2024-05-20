@@ -45,7 +45,7 @@ namespace UnityXFrame.Core.UIElements
             OnUIOpen(ui);
         }
 
-        void IUIGroupHelper.OnUIUpdate(IUI ui, float elapseTime)
+        void IUIGroupHelper.OnUIUpdate(IUI ui, double elapseTime)
         {
             OnUIUpdate(ui, elapseTime);
         }
@@ -68,7 +68,7 @@ namespace UnityXFrame.Core.UIElements
             ui.SetActive(true);
             InnerOpenUI(ui);
         }
-        protected virtual void OnUIUpdate(IUI ui, float elapseTime)
+        protected virtual void OnUIUpdate(IUI ui, double elapseTime)
         {
             InnerUpdateUI(ui, elapseTime);
         }
@@ -85,7 +85,7 @@ namespace UnityXFrame.Core.UIElements
             m_Owner.InnerTriggerEvent(ui, UICloseEvent.Create(ui));
         }
 
-        protected void InnerUpdateUI(IUI ui, float elapseTime)
+        protected void InnerUpdateUI(IUI ui, double elapseTime)
         {
             ui.OnUpdate(elapseTime);
         }

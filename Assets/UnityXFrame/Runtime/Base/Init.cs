@@ -5,6 +5,9 @@ using XFrame.Modules.Archives;
 using System.Collections;
 using XFrame.Tasks;
 using XFrame.Modules.Diagnotics;
+using XFrame.Modules.Threads;
+using System.Threading;
+using System;
 
 namespace UnityXFrame.Core
 {
@@ -58,7 +61,9 @@ namespace UnityXFrame.Core
 
         private void Update()
         {
-            Entry.Trigger<IUpdater>(Time.deltaTime);
+            double escape = (double)Time.deltaTime;
+            Entry.Trigger<IUpdater>(escape);
+            Entry.Trigger<IFinishUpdater>(escape);
             if (!m_EndOfFrame.Empty)
                 StartCoroutine(InnerEndOfFrameHandler());
         }

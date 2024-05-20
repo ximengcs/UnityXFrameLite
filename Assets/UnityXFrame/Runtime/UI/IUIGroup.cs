@@ -109,7 +109,7 @@ namespace UnityXFrame.Core.UIElements
         /// <summary>
         /// 更新生命周期
         /// </summary>
-        protected internal void OnUpdate(float elapseTime);
+        protected internal void OnUpdate(double elapseTime);
 
         /// <summary>
         /// 销毁生命周期

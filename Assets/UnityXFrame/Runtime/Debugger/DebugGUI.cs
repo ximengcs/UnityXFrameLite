@@ -38,18 +38,18 @@ namespace UnityXFrame.Core.Diagnotics
         }
 
 
-        public static void Progress(float value)
+        public static void Progress(double value)
         {
             Progress(value, 0, 1);
         }
 
-        public static void Progress(float value, float startValue, float endValue)
+        public static void Progress(double value, double startValue, double endValue)
         {
             Debugger debugger = (Debugger)Global.Debugger;
-            float rate = (value - startValue) / (endValue - startValue);
-            rate = Mathf.Clamp(rate, 0, 1);
+            double rate = (value - startValue) / (endValue - startValue);
+            rate = (double)Mathf.Clamp((float)rate, 0, 1);
             Rect rect = GUILayoutUtility.GetAspectRect(10f / 1f);
-            rect.width = rate * rect.width;
+            rect.width = (float)rate * rect.width;
             rect.xMin += debugger.FitWidth(10);
             rect.xMax -= debugger.FitWidth(10);
             GUI.DrawTexture(rect, Style.ProgressSlider.normal.background, ScaleMode.StretchToFill);

@@ -22,7 +22,7 @@ namespace UnityXFrame.Core.Resource
             }
         }
 
-        public float Pro => m_Request.progress;
+        public double Pro => m_Request.progress;
 
         public string AssetPath => m_ResPath;
 

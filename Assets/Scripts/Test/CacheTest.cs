@@ -21,7 +21,7 @@ namespace XFrame.Core.Caches
 
         public object Data => null;
 
-        public float Pro => IsDone ? XTaskHelper.MAX_PROGRESS : XTaskHelper.MIN_PROGRESS;
+        public double Pro => IsDone ? XTaskHelper.MAX_PROGRESS : XTaskHelper.MIN_PROGRESS;
 
         public void OnCancel()
         {

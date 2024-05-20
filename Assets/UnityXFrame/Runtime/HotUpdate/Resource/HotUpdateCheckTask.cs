@@ -26,7 +26,7 @@ namespace UnityXFrame.Core.HotUpdate
 
         private class Handler : IProTaskHandler
         {
-            private float m_Pro;
+            private double m_Pro;
             private HotUpdateCheckTask m_Task;
             private AsyncOperationHandle<List<string>> m_Op;
 
@@ -59,7 +59,7 @@ namespace UnityXFrame.Core.HotUpdate
                 }
             }
 
-            public float Pro => m_Pro;
+            public double Pro => m_Pro;
 
             public Handler(HotUpdateCheckTask task)
             {

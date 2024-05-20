@@ -11,7 +11,7 @@ namespace UnityXFrame.Editor
 
             public bool IsDone => true;
 
-            public float Pro => 1;
+            public double Pro => 1;
 
             public string AssetPath { get; private set; }
 

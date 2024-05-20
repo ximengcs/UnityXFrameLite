@@ -68,7 +68,7 @@ namespace UnityXFrameLib.UIElements
             m_DragTarget = null;
         }
 
-        protected override void OnUpdate(float elapseTime)
+        protected override void OnUpdate(double elapseTime)
         {
             base.OnUpdate(elapseTime);
             if (m_MoveTarget == null || m_DragTarget == null)

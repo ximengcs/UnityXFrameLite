@@ -36,7 +36,7 @@ namespace UnityXFrame.Core
                 }
             }
 
-            public float Pro => m_Complete ? XTaskHelper.MAX_PROGRESS : XTaskHelper.MIN_PROGRESS;
+            public double Pro => m_Complete ? XTaskHelper.MAX_PROGRESS : XTaskHelper.MIN_PROGRESS;
 
             public TaskHandler(EndOfFrameXTask task)
             {

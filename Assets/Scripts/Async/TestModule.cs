@@ -24,7 +24,7 @@ namespace Async
             m_Updaters.Remove(updaterTask);
         }
         
-        public void OnUpdate(float escapeTime)
+        public void OnUpdate(double escapeTime)
         {
             List<IUpdater> updaters = new List<IUpdater>(m_Updaters);
             foreach (IUpdater updater in updaters)

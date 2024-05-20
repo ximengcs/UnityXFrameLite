@@ -160,7 +160,7 @@ namespace UnityXFrame.Core.UIElements
             Open();
         }
 
-        void IUIGroup.OnUpdate(float elapseTime)
+        void IUIGroup.OnUpdate(double elapseTime)
         {
             if (IsOpen)
             {

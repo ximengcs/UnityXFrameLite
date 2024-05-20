@@ -111,7 +111,7 @@ namespace UnityXFrame.Core.UIElements
             OnInit();
         }
 
-        void IContainer.OnUpdate(float elapseTime)
+        void IContainer.OnUpdate(double elapseTime)
         {
             m_Container.OnUpdate(elapseTime);
             OnUpdate(elapseTime);
@@ -184,7 +184,7 @@ namespace UnityXFrame.Core.UIElements
         }
 
         protected virtual void OnInit() { }
-        protected virtual void OnUpdate(float elapseTime) { }
+        protected virtual void OnUpdate(double elapseTime) { }
         protected virtual void OnUIDestroy() { }
         protected virtual void OnOpen() { }
         protected virtual void OnClose() { }
