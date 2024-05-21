@@ -8,6 +8,7 @@ using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Threads;
 using System.Threading;
 using System;
+using XFrame.Modules.Tasks;
 
 namespace UnityXFrame.Core
 {
@@ -31,6 +32,8 @@ namespace UnityXFrame.Core
             XConfig.TypeChecker = new TypeChecker();
 
             Entry.Init();
+            Entry.GetModule<ITaskModule>().TaskTimeout = -1;
+            Entry.AddModule<MainSynchronizationContext>().ExecTimeout = -1;
         }
 
         private void InnerConfigType()
@@ -63,9 +66,13 @@ namespace UnityXFrame.Core
         {
             double escape = (double)Time.deltaTime;
             Entry.Trigger<IUpdater>(escape);
-            Entry.Trigger<IFinishUpdater>(escape);
             if (!m_EndOfFrame.Empty)
                 StartCoroutine(InnerEndOfFrameHandler());
+        }
+
+        private void FixedUpdate()
+        {
+            Entry.Trigger<IFinishUpdater>((double)Time.fixedDeltaTime);
         }
 
         private IEnumerator InnerEndOfFrameHandler()
