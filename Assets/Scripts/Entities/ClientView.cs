@@ -5,6 +5,7 @@ using XFrame.Modules.Entities;
 using XFrame.Core;
 using UnityXFrame.Core.Diagnotics;
 using DG.Tweening;
+using XFrame.Core.Threads;
 
 namespace Assets.Scripts.Entities
 {
@@ -65,6 +66,11 @@ namespace Assets.Scripts.Entities
         {
             base.OnDestroy();
             Entry.GetModule<Debugger>().RemoveTitleShower(InnerShowPing);
+            Entry.GetModule<FiberModule>().MainFiber.Post(InnerDestroyHandler, null);
+        }
+
+        private void InnerDestroyHandler(object state)
+        {
             GameObject.Destroy(m_Go);
             m_Go = null;
         }
