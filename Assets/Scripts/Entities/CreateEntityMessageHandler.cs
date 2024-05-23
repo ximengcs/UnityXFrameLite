@@ -1,8 +1,11 @@
 ﻿using System;
+using UnityEditor.VersionControl;
 using XFrame.Core;
+using XFrame.Core.Threads;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
 using XFrame.Modules.Reflection;
+using XFrame.Modules.Times;
 using XFrameShare.Network;
 
 namespace Assets.Scripts.Entities
@@ -23,12 +26,19 @@ namespace Assets.Scripts.Entities
 
         public void OnReceive(TransitionData data)
         {
-            ITypeModule typeModule = Entry.GetModule<ITypeModule>();
             CreateEntityMessage message = data.Message as CreateEntityMessage;
             IEntityModule entityModule = Entry.GetModule<IEntityModule>();
             if (entityModule.Get(message.Id) != null)
                 return;
             Log.Debug($"CreateEntityMessageHandler {data.FromId} {data.ToId} {message}");
+            Entry.GetModule<FiberModule>().MainFiber.Post(InnerCreateEntity, message);
+        }
+
+        private void InnerCreateEntity(object state)
+        {
+            CreateEntityMessage message = state as CreateEntityMessage;
+            ITypeModule typeModule = Entry.GetModule<ITypeModule>();
+            IEntityModule entityModule = Entry.GetModule<IEntityModule>();
             Type type = typeModule.GetType(message.Type);
             IEntity parent = null;
             if (message.Parent != 0)

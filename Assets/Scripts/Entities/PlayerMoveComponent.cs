@@ -2,9 +2,12 @@
 using Google.Protobuf;
 using System;
 using UnityEngine;
+using XFrame.Core;
+using XFrame.Core.Threads;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
 using XFrameShare.Network;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Assets.Scripts.Entities
 {
@@ -89,7 +92,7 @@ namespace Assets.Scripts.Entities
             if (m_Viewer != null)
             {
                 Vector3 target = new Vector3(message.X, message.Y, message.Z);
-                m_Viewer.Transform.position = target;
+                Entry.GetModule<FiberModule>().MainFiber.Post(InnerMoveHandler, target);
             }
             m_Lock = false;
 
@@ -97,6 +100,12 @@ namespace Assets.Scripts.Entities
             {
                 InnerSyncPos();
             }
+        }
+
+        private void InnerMoveHandler(object state)
+        {
+            Vector3 target = (Vector3)state;
+            m_Viewer.Transform.position = target;
         }
     }
 }

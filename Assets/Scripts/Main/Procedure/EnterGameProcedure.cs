@@ -4,6 +4,8 @@ using XFrame.Modules.Procedure;
 using UnityXFrameLib.UIElements;
 using Assets.Scripts.Test;
 using XFrame.Core.Threads;
+using XFrame.Core;
+using XFrameShare.Network;
 
 namespace Game.Core.Procedure
 {
@@ -15,7 +17,11 @@ namespace Game.Core.Procedure
             string langFile = Global.LocalRes.Load<TextAsset>(Constant.LANG_FILE_PATH).text;
             Global.I18N.Parse(langFile);
             Initialize();
-            Global.Fiber.GetOrNew(1).StartThread();
+
+            Fiber netFiber = Entry.GetModule<FiberModule>().GetOrNew(1);
+            netFiber.StartThread();
+            Entry.GetModule<NetworkModule>().SetFiber(netFiber);
+            //Global.Fiber.GetOrNew(1).StartThread();
             //Entry.AddModule<GCModule>();
         }
 
