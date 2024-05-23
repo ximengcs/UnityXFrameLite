@@ -724,6 +724,47 @@
         <member name="M:XFrame.Core.SingletonModule`1.OnInit(System.Object)">
             <inheritdoc/>
         </member>
+        <member name="P:XFrame.Core.Threads.FiberSynchronizationContext.ExecTimeout">
+            <summary>
+            最大超时(毫秒)
+            </summary>
+        </member>
+        <member name="P:XFrame.Core.Threads.FiberSynchronizationContext.Id">
+            <inheritdoc/>
+        </member>
+        <member name="P:XFrame.Core.Threads.FiberSynchronizationContext.Domain">
+            <inheritdoc/>
+        </member>
+        <member name="M:XFrame.Core.Threads.FiberSynchronizationContext.Post(System.Threading.SendOrPostCallback,System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="T:XFrame.Core.Threads.ITaskModule">
+            <summary>
+            任务模块
+            </summary>
+        </member>
+        <member name="P:XFrame.Core.Threads.ITaskModule.ExecCount">
+            <summary>
+            一帧执行最大数量
+            </summary>
+        </member>
+        <member name="P:XFrame.Core.Threads.ITaskModule.TaskTimeout">
+            <summary>
+            任务最大超时时间
+            </summary>
+        </member>
+        <member name="M:XFrame.Core.Threads.ITaskModule.Register(XFrame.Core.IUpdater)">
+            <summary>
+            注册可更新的任务
+            </summary>
+            <param name="task">任务</param>
+        </member>
+        <member name="M:XFrame.Core.Threads.ITaskModule.UnRegister(XFrame.Core.IUpdater)">
+            <summary>
+            取消任务的注册
+            </summary>
+            <param name="task">任务</param>
+        </member>
         <member name="T:XFrame.Core.UpdateHandler">
             <summary>
             更新处理器
@@ -8117,54 +8158,6 @@
             <inheritdoc/>
         </member>
         <member name="M:XFrame.Modules.Serialize.SerializeModule.SerializeObjectToRaw(System.Object,System.Int32)">
-            <inheritdoc/>
-        </member>
-        <member name="T:XFrame.Modules.Tasks.ITaskModule">
-            <summary>
-            任务模块
-            </summary>
-        </member>
-        <member name="P:XFrame.Modules.Tasks.ITaskModule.ExecCount">
-            <summary>
-            一帧执行最大数量
-            </summary>
-        </member>
-        <member name="P:XFrame.Modules.Tasks.ITaskModule.TaskTimeout">
-            <summary>
-            任务最大超时时间
-            </summary>
-        </member>
-        <member name="M:XFrame.Modules.Tasks.ITaskModule.Register(XFrame.Core.IUpdater)">
-            <summary>
-            注册可更新的任务
-            </summary>
-            <param name="task">任务</param>
-        </member>
-        <member name="M:XFrame.Modules.Tasks.ITaskModule.UnRegister(XFrame.Core.IUpdater)">
-            <summary>
-            取消任务的注册
-            </summary>
-            <param name="task">任务</param>
-        </member>
-        <member name="T:XFrame.Modules.Tasks.TaskModule">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Tasks.TaskModule.OnInit(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Tasks.TaskModule.OnUpdate(System.Double)">
-            <inheritdoc/>
-        </member>
-        <member name="P:XFrame.Modules.Tasks.TaskModule.ExecCount">
-            <inheritdoc/>
-        </member>
-        <member name="P:XFrame.Modules.Tasks.TaskModule.TaskTimeout">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Tasks.TaskModule.Register(XFrame.Core.IUpdater)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Tasks.TaskModule.UnRegister(XFrame.Core.IUpdater)">
             <inheritdoc/>
         </member>
         <member name="T:XFrame.Modules.Threads.MainSynchronizationContext">

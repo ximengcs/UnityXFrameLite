@@ -5,10 +5,6 @@ using XFrame.Modules.Archives;
 using System.Collections;
 using XFrame.Tasks;
 using XFrame.Modules.Diagnotics;
-using XFrame.Modules.Threads;
-using System.Threading;
-using System;
-using XFrame.Modules.Tasks;
 
 namespace UnityXFrame.Core
 {
@@ -32,8 +28,7 @@ namespace UnityXFrame.Core
             XConfig.TypeChecker = new TypeChecker();
 
             Entry.Init();
-            Entry.GetModule<ITaskModule>().TaskTimeout = -1;
-            Entry.AddModule<MainSynchronizationContext>().ExecTimeout = -1;
+            Global.Fiber.MainFiber.Use();
         }
 
         private void InnerConfigType()

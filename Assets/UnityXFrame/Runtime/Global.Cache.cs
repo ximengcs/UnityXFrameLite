@@ -21,7 +21,6 @@ using XFrame.Modules.Reflection;
 using XFrame.Modules.Resource;
 using XFrame.Modules.Serialize;
 using XFrame.Modules.StateMachine;
-using XFrame.Modules.Tasks;
 using XFrame.Modules.Times;
 
 public static partial class Global
@@ -45,7 +44,6 @@ public static partial class Global
     private static IRandModule m_Rand;
     private static IResModule m_Res;
     private static ISerializeModule m_Serialize;
-    private static ITaskModule m_Task;
     private static ITimeModule m_Time;
 
     private static IResModule m_LocalRes;
@@ -75,7 +73,6 @@ public static partial class Global
         m_Rand = null;
         m_Res = null;
         m_Serialize = null;
-        m_Task = null;
         m_Time = null;
         m_LocalRes = null;
         m_UI = null;

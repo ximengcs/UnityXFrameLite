@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using XFrame.Modules.Tasks;
-using XFrame.Modules.Times;
-using XFrame.Modules.Diagnotics;
 
 namespace UnityXFrame.Core.Diagnotics
 {

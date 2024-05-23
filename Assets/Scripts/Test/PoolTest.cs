@@ -1,13 +1,6 @@
 ﻿using UnityEngine;
-using UnityXFrame.Core;
 using UnityXFrame.Core.Diagnotics;
-using UnityXFrameLib.Diagnotics;
-using UnityXFrameLib.Tasks;
-using XFrame.Core;
 using XFrame.Modules.Diagnotics;
-using XFrame.Modules.Event;
-using XFrame.Modules.Resource;
-using XFrame.Modules.Tasks;
 
 namespace Game.Test
 {
@@ -21,7 +14,6 @@ namespace Game.Test
 
         public void OnDraw()
         {
-            DebugGUI.Label(Global.Task.ExecCount.ToString());
             if (DebugGUI.Button("HandlerInfo Listen"))
             {
 

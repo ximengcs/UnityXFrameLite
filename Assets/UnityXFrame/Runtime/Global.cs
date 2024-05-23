@@ -4,6 +4,7 @@ using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.Resource;
 using UnityXFrame.Core.UIElements;
 using XFrame.Core;
+using XFrame.Core.Threads;
 using XFrame.Modules.Archives;
 using XFrame.Modules.Conditions;
 using XFrame.Modules.Containers;
@@ -23,7 +24,6 @@ using XFrame.Modules.Reflection;
 using XFrame.Modules.Resource;
 using XFrame.Modules.Serialize;
 using XFrame.Modules.StateMachine;
-using XFrame.Modules.Tasks;
 using XFrame.Modules.Times;
 
 public static partial class Global
@@ -47,11 +47,11 @@ public static partial class Global
     public static IRandModule Rand => m_Rand ??= Entry.GetModule<IRandModule>();
     public static IResModule Res => m_Res ??= Entry.GetModule<IResModule>();
     public static ISerializeModule Serialize => m_Serialize ??= Entry.GetModule<ISerializeModule>();
-    public static ITaskModule Task => m_Task ??= Entry.GetModule<ITaskModule>();
     public static ITimeModule Time => m_Time ??= Entry.GetModule<ITimeModule>();
     public static IResModule LocalRes => m_LocalRes ??= Entry.GetModule<IResModule>(Constant.LOCAL_RES_MODULE);
     public static IUIModule UI => m_UI ??= Entry.GetModule<IUIModule>();
     public static IAudioModule Audio => m_Audio ??= Entry.GetModule<IAudioModule>();
     public static IDebugger Debugger => m_Debugger ??= Entry.GetModule<IDebugger>();
     public static ISpriteAtlasModule SpriteAtlas => m_SpriteAtlas ??= Entry.GetModule<ISpriteAtlasModule>();
+    public static FiberModule Fiber => Entry.GetModule<FiberModule>();
 }

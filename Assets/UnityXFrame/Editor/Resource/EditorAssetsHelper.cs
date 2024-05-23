@@ -1,10 +1,6 @@
 ﻿using System;
 using UnityEditor;
-using XFrame.Modules.Tasks;
 using XFrame.Modules.Resource;
-using XFrame.Core;
-using UnityXFrame.Core;
-using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace UnityXFrame.Editor
