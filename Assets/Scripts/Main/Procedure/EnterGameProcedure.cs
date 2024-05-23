@@ -6,6 +6,8 @@ using Assets.Scripts.Test;
 using XFrame.Core.Threads;
 using XFrame.Core;
 using XFrameShare.Network;
+using Unity.VisualScripting;
+using System;
 
 namespace Game.Core.Procedure
 {
@@ -18,7 +20,7 @@ namespace Game.Core.Procedure
             Global.I18N.Parse(langFile);
             Initialize();
 
-            Fiber netFiber = Entry.GetModule<FiberModule>().GetOrNew(1);
+            Fiber netFiber = Global.Fiber.GetOrNew(1);
             netFiber.StartThread();
             Entry.GetModule<NetworkModule>().SetFiber(netFiber);
             //Global.Fiber.GetOrNew(1).StartThread();
