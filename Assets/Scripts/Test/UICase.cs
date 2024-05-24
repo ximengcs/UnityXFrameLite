@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.Test;
 using Test;
 using UnityEngine;
 using UnityXFrame.Core;
@@ -23,6 +24,11 @@ namespace Game.Test
                         new AnimatorTriggerEffect("Open", "Open"),
                         new AnimatorTriggerEffect("Close", "Close"));
                 helper.SetEffect(new AnimatorStateEffect("Open"), new AnimatorStateEffect("Close"));
+            }
+
+            if (DebugGUI.Button("Open Controll"))
+            {
+                Global.UI.Open<ControllerUI>();
             }
 
             if (DebugGUI.Button("Open Layout"))

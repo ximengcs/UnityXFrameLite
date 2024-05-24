@@ -3,8 +3,10 @@ using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityXFrame.Core;
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.UIElements;
+using UnityXFrameLib.UIElements;
 using XFrame.Core;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
@@ -13,6 +15,8 @@ using XFrameShare.Network;
 
 namespace Assets.Scripts.Test
 {
+    [AutoLoadUI]
+    [AutoSpwanUI]
     public class ControllerUI : MonoUI
     {
         public Button m_LeftBtn;
