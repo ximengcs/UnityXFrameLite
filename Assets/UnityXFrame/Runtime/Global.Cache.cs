@@ -2,6 +2,7 @@
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.Resource;
 using UnityXFrame.Core.UIElements;
+using XFrame.Core.Threads;
 using XFrame.Modules.Archives;
 using XFrame.Modules.Conditions;
 using XFrame.Modules.Containers;
@@ -51,6 +52,7 @@ public static partial class Global
     private static IAudioModule m_Audio;
     private static IDebugger m_Debugger;
     private static ISpriteAtlasModule m_SpriteAtlas;
+    private static FiberModule m_Fiber;
 
     public static void Refresh()
     {
@@ -78,5 +80,6 @@ public static partial class Global
         m_UI = null;
         m_Audio = null;
         m_Debugger = null;
+        m_Fiber = null;
     }
 }

@@ -743,16 +743,6 @@
             任务模块
             </summary>
         </member>
-        <member name="P:XFrame.Core.Threads.ITaskModule.ExecCount">
-            <summary>
-            一帧执行最大数量
-            </summary>
-        </member>
-        <member name="P:XFrame.Core.Threads.ITaskModule.TaskTimeout">
-            <summary>
-            任务最大超时时间
-            </summary>
-        </member>
         <member name="M:XFrame.Core.Threads.ITaskModule.Register(XFrame.Core.IUpdater)">
             <summary>
             注册可更新的任务

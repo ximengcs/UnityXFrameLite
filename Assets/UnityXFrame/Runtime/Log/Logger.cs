@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using UnityEngine;
 
 namespace UnityXFrame.Core.Diagnotics
@@ -22,25 +23,77 @@ namespace UnityXFrame.Core.Diagnotics
         public void Debug(params object[] content)
         {
             if (InnerFormat(out string result, content) || !m_MustRegister)
-                UnityEngine.Debug.Log(result);
+            {
+                if (Global.Fiber.CurrentIsMain)
+                {
+                    UnityEngine.Debug.Log(result);
+                }
+                else
+                {
+                    Global.Fiber.MainFiber.Post((state) =>
+                    {
+                        string msg = (string)state;
+                        UnityEngine.Debug.Log(msg);
+                    }, $"[thread-{Thread.CurrentThread.ManagedThreadId}] {result}");
+                }
+            }
         }
 
         public void Error(params object[] content)
         {
             if (InnerFormat(out string result, content) || !m_MustRegister)
-                UnityEngine.Debug.LogError(result);
+            {
+                if (Global.Fiber.CurrentIsMain)
+                {
+                    UnityEngine.Debug.LogError(result);
+                }
+                else
+                {
+                    Global.Fiber.MainFiber.Post((state) =>
+                    {
+                        string msg = (string)state;
+                        UnityEngine.Debug.LogError(msg);
+                    }, $"[thread-{Thread.CurrentThread.ManagedThreadId}] {result}");
+                }
+            }
         }
 
         public void Fatal(params object[] content)
         {
             if (InnerFormat(out string result, content) || !m_MustRegister)
-                UnityEngine.Debug.LogError(result);
+            {
+                if (Global.Fiber.CurrentIsMain)
+                {
+                    UnityEngine.Debug.LogError(result);
+                }
+                else
+                {
+                    Global.Fiber.MainFiber.Post((state) =>
+                    {
+                        string msg = (string)state;
+                        UnityEngine.Debug.LogError(msg);
+                    }, $"[thread-{Thread.CurrentThread.ManagedThreadId}] {result}");
+                }
+            }
         }
 
         public void Warning(params object[] content)
         {
             if (InnerFormat(out string result, content) || !m_MustRegister)
-                UnityEngine.Debug.LogWarning(result);
+            {
+                if (Global.Fiber.CurrentIsMain)
+                {
+                    UnityEngine.Debug.LogWarning(result);
+                }
+                else
+                {
+                    Global.Fiber.MainFiber.Post((state) =>
+                    {
+                        string msg = (string)state;
+                        UnityEngine.Debug.LogWarning(msg);
+                    }, $"[thread-{Thread.CurrentThread.ManagedThreadId}] {result}");
+                }
+            }
         }
 
         private bool InnerFormat(out string result, params object[] content)
@@ -76,7 +129,18 @@ namespace UnityXFrame.Core.Diagnotics
 
         public void Exception(Exception e)
         {
-            UnityEngine.Debug.LogException(e);
+            if (Global.Fiber.CurrentIsMain)
+            {
+                UnityEngine.Debug.LogException(e);
+            }
+            else
+            {
+                Global.Fiber.MainFiber.Post((state) =>
+                {
+                    Exception exp = (Exception)state;
+                    UnityEngine.Debug.LogException(exp);
+                }, e);
+            }
         }
     }
 }

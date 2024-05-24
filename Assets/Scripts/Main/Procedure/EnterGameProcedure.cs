@@ -21,7 +21,8 @@ namespace Game.Core.Procedure
             Initialize();
 
             Fiber netFiber = Global.Fiber.GetOrNew(1);
-            netFiber.StartThread();
+            netFiber.StartThread(1);
+
             Entry.GetModule<NetworkModule>().SetFiber(netFiber);
             //Global.Fiber.GetOrNew(1).StartThread();
             //Entry.AddModule<GCModule>();
