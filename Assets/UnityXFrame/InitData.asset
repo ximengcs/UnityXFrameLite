@@ -54,4 +54,7 @@ MonoBehaviour:
   - Key: Container
     Color: {r: 0.7222806, g: 1, b: 0, a: 0}
     Value: 1
+  - Key: Keepalive
+    Color: {r: 0.3915094, g: 0.7340353, b: 1, a: 0}
+    Value: 1
   AudioMixer: {fileID: 24100000, guid: 3217f33d091aa5540aec6252effe2a8d, type: 2}
