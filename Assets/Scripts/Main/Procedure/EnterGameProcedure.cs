@@ -6,8 +6,6 @@ using Assets.Scripts.Test;
 using XFrame.Core.Threads;
 using XFrame.Core;
 using XFrameShare.Network;
-using Unity.VisualScripting;
-using System;
 
 namespace Game.Core.Procedure
 {

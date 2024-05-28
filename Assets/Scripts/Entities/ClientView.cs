@@ -6,11 +6,12 @@ using XFrame.Core;
 using UnityXFrame.Core.Diagnotics;
 using DG.Tweening;
 using XFrame.Core.Threads;
+using TestGame.Share.Clients;
 
 namespace Assets.Scripts.Entities
 {
     [NetEntityComponent(typeof(Client))]
-    public class ClientView : Entity, INetEntityComponent
+    public class ClientView : Entity, INetEntityComponent, IMovementProxy
     {
         private Client m_Client;
         private IMailBox m_ClientMail;
@@ -45,6 +46,7 @@ namespace Assets.Scripts.Entities
             InnerInit();
 
             PlayerMoveComponent movement = m_Client.AddHandler<PlayerMoveComponent>(true);
+
             m_Client.AddFactory(movement);
 
             if (IsSelf)
@@ -83,6 +85,11 @@ namespace Assets.Scripts.Entities
                 Color.cyan, Color.magenta, Color.red, Color.green, Color.blue, Color.yellow
             }[Random.Range(0, 6)];
             m_Render.sortingOrder = 1;
+        }
+
+        public void Move(System.Numerics.Vector3 target)
+        {
+            Transform.position = target.ToUnityPos();
         }
     }
 }

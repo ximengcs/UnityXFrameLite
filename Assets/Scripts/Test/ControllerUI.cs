@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Entities;
 using System.Net;
+using TestGame.Share.Clients;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -69,7 +70,7 @@ namespace Assets.Scripts.Test
 
                     if (target != Vector3.zero)
                     {
-                        m_MoveComponent.Translate(target);
+                        m_MoveComponent.Translate(target.ToStandardPos());
                     }
                     m_LastPos = Input.mousePosition;
                 }

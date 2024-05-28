@@ -70,8 +70,7 @@ namespace Game.Test
 
         private void InnerConnect(IPAddress address)
         {
-            m_Root = Entry.GetModule<IEntityModule>().Create<XFrameServer.Test.Entities.Game>();
-            m_Root.AddHandler<CreateEntityMessageHandler>();
+
         }
 
         private void InnerTestBeat()
