@@ -35,7 +35,8 @@ public static partial class Global
     public static ICryptoModule Crypto => m_Crypto ??= Entry.GetModule<ICryptoModule>();
     public static IDataModule Data => m_Data ??= Entry.GetModule<IDataModule>();
     public static IDownloadModule Download => m_Download ??= Entry.GetModule<IDownloadModule>();
-    public static IEntityModule Entity => m_Entity ??= Entry.GetModule<IEntityModule>();
+    public static SceneModule Scene => m_Scene ??= Entry.GetModule<SceneModule>();
+    public static IEntityModule Entity => m_Entity ??= Scene.Create(0);
     public static IEventModule Event => m_Event ??= Entry.GetModule<IEventModule>();
     public static IFsmModule Fsm => m_Fsm ??= Entry.GetModule<IFsmModule>();
     public static IIdModule Id => m_Id ??= Entry.GetModule<IIdModule>();

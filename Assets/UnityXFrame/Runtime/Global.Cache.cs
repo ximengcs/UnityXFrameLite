@@ -46,6 +46,7 @@ public static partial class Global
     private static IResModule m_Res;
     private static ISerializeModule m_Serialize;
     private static ITimeModule m_Time;
+    private static SceneModule m_Scene;
 
     private static IResModule m_LocalRes;
     private static IUIModule m_UI;
@@ -81,5 +82,6 @@ public static partial class Global
         m_Audio = null;
         m_Debugger = null;
         m_Fiber = null;
+        m_Scene = null;
     }
 }

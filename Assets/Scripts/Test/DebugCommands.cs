@@ -12,6 +12,7 @@ using UnityXFrameLib.UIElements;
 using XFrame.Modules.Conditions;
 using XFrame.Modules.Reflection;
 using UnityXFrame.Core.Resource;
+using XFrame.Modules.Entities;
 
 namespace Game.Test
 {
@@ -75,7 +76,7 @@ namespace Game.Test
         {
             Debug.LogWarning($"test2 exec => {cmd}");
             //Global.Task.GetOrNew<EmptyTask>().Start();
-            m_Char = Global.Entity.Create<TestChar>();
+            Entry.GetModule<SceneModule>().Create();
         }
 
         [DebugCommand]

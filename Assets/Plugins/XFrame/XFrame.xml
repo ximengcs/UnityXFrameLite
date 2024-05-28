@@ -4856,18 +4856,6 @@
         <member name="M:XFrame.Modules.Containers.ContainerModule.Get(System.Int32)">
             <inheritdoc/>
         </member>
-        <member name="M:XFrame.Modules.Containers.ContainerModule.New``1(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Containers.ContainerModule.New(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Containers.ContainerModule.New(System.Type,System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Containers.ContainerModule.New(System.Type,System.Int32,System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
         <member name="M:XFrame.Modules.Containers.ContainerModule.Remove(XFrame.Modules.Containers.IContainer)">
             <inheritdoc/>
         </member>
@@ -5036,46 +5024,6 @@
             </summary>
             <param name="id">Id</param>
             <returns>容器</returns>
-        </member>
-        <member name="M:XFrame.Modules.Containers.IContainerModule.New``1(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            请求一个新的容器
-            </summary>
-            <typeparam name="T">容器类型</typeparam>
-            <param name="updateTrusteeship">是否需要模块处理更新</param>
-            <param name="master">容器拥有者</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>容器实例</returns>
-        </member>
-        <member name="M:XFrame.Modules.Containers.IContainerModule.New(System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            请求一个新的容器
-            </summary>
-            <param name="updateTrusteeship">是否需要模块处理更新</param>
-            <param name="master">容器拥有者</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>容器实例</returns>
-        </member>
-        <member name="M:XFrame.Modules.Containers.IContainerModule.New(System.Type,System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            请求一个新的容器
-            </summary>
-            <param name="type">容器类型</param>
-            <param name="updateTrusteeship">是否需要模块处理更新</param>
-            <param name="master">容器拥有者</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>容器实例</returns>
-        </member>
-        <member name="M:XFrame.Modules.Containers.IContainerModule.New(System.Type,System.Int32,System.Boolean,XFrame.Modules.Containers.IContainer,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            请求一个新的容器
-            </summary>
-            <param name="type">容器类型</param>
-            <param name="id">容器Id</param>
-            <param name="updateTrusteeship">是否需要模块处理更新</param>
-            <param name="master">容器拥有者</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>容器实例</returns>
         </member>
         <member name="M:XFrame.Modules.Containers.IContainerModule.Remove(XFrame.Modules.Containers.IContainer)">
             <summary>
@@ -5709,71 +5657,6 @@
             实体事件系统
             </summary>
         </member>
-        <member name="T:XFrame.Modules.Entities.EntityModule">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.OnInit(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.OnDestroy">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.RegisterEntity``1">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Get(System.Int32)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Create``1(XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Create(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Create``1(XFrame.Modules.Entities.IEntity,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Create(System.Type,XFrame.Modules.Entities.IEntity,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Create``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Create(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Create``1(XFrame.Modules.Entities.IEntity,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Create(System.Type,XFrame.Modules.Entities.IEntity,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <inheritdoc/>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityModule.Destroy(XFrame.Modules.Entities.IEntity)">
-            <inheritdoc/>
-        </member>
-        <member name="T:XFrame.Modules.Entities.EntityPropAttribute">
-            <summary>
-            实体属性
-            有数据的实体必须声明此属性并提供正确的类型
-            </summary>
-        </member>
-        <member name="P:XFrame.Modules.Entities.EntityPropAttribute.Type">
-            <summary>
-            类型Id
-            </summary>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityPropAttribute.#ctor">
-            <summary>
-            标记实体
-            类型为0
-            </summary>
-        </member>
-        <member name="M:XFrame.Modules.Entities.EntityPropAttribute.#ctor(System.Int32)">
-            <summary>
-            标记实体
-            </summary>
-            <param name="type">实体类型Id</param>
-        </member>
         <member name="T:XFrame.Modules.Entities.IEntity">
             <summary>
             实体
@@ -5800,90 +5683,12 @@
             只有根实体才会接受实体模块的更新生命周期
             </summary>
         </member>
-        <member name="M:XFrame.Modules.Entities.IEntityModule.RegisterEntity``1">
-            <summary>
-            注册实体，创建实体前需要注册实体
-            </summary>
-            <typeparam name="T">实体基类或实体类</typeparam>
-        </member>
         <member name="M:XFrame.Modules.Entities.IEntityModule.Get(System.Int32)">
             <summary>
             根据Id获取实体
             </summary>
             <param name="entityId">实体Id</param>
             <returns>实体</returns>
-        </member>
-        <member name="M:XFrame.Modules.Entities.IEntityModule.Create``1(XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建实体
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="onReady">数据提供委托</param>
-            <returns>创建的实体</returns>
-        </member>
-        <member name="M:XFrame.Modules.Entities.IEntityModule.Create(System.Type,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建实体
-            </summary>
-            <param name="type">实体类型</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>创建的实体</returns>
-        </member>
-        <member name="M:XFrame.Modules.Entities.IEntityModule.Create``1(XFrame.Modules.Entities.IEntity,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建实体
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="parent">父实体</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>创建的实体</returns>
-        </member>
-        <member name="M:XFrame.Modules.Entities.IEntityModule.Create(System.Type,XFrame.Modules.Entities.IEntity,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建实体
-            </summary>
-            <param name="type">实体类型</param>
-            <param name="parent">父实体</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>创建的实体</returns>
-        </member>
-        <member name="M:XFrame.Modules.Entities.IEntityModule.Create``1(System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建实体
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="typeId">类型Id</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>创建的实体</returns>
-        </member>
-        <member name="M:XFrame.Modules.Entities.IEntityModule.Create(System.Type,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建实体
-            </summary>
-            <param name="baseType">实体类型</param>
-            <param name="typeId">类型Id</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>创建的实体</returns>
-        </member>
-        <member name="M:XFrame.Modules.Entities.IEntityModule.Create``1(XFrame.Modules.Entities.IEntity,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建实体
-            </summary>
-            <typeparam name="T">实体类型</typeparam>
-            <param name="parent">父实体</param>
-            <param name="typeId">类型Id</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>创建的实体</returns>
-        </member>
-        <member name="M:XFrame.Modules.Entities.IEntityModule.Create(System.Type,XFrame.Modules.Entities.IEntity,System.Int32,XFrame.Modules.Containers.OnDataProviderReady)">
-            <summary>
-            创建实体
-            </summary>
-            <param name="baseType">实体类型</param>
-            <param name="parent">父实体</param>
-            <param name="typeId">类型Id</param>
-            <param name="onReady">数据提供委托</param>
-            <returns>创建的实体</returns>
         </member>
         <member name="M:XFrame.Modules.Entities.IEntityModule.Destroy(XFrame.Modules.Entities.IEntity)">
             <summary>
