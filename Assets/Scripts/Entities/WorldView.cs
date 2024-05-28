@@ -5,7 +5,7 @@ using XFrameShare.Test;
 
 namespace Assets.Scripts.Entities
 {
-    [NetEntityComponent(typeof(World))]
+    [NetEntityComponent(typeof(World), NetMode.Client)]
     public class WorldView : Entity, INetEntityComponent
     {
         private World m_World;

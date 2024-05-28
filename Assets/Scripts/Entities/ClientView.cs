@@ -10,7 +10,7 @@ using TestGame.Share.Clients;
 
 namespace Assets.Scripts.Entities
 {
-    [NetEntityComponent(typeof(Client))]
+    [NetEntityComponent(typeof(Client), NetMode.Client)]
     public class ClientView : Entity, INetEntityComponent, IMovementProxy
     {
         private Client m_Client;
@@ -46,6 +46,7 @@ namespace Assets.Scripts.Entities
             InnerInit();
 
             PlayerMoveComponent movement = m_Client.AddHandler<PlayerMoveComponent>(true);
+            movement.BindProxy(this);
 
             m_Client.AddFactory(movement);
 
