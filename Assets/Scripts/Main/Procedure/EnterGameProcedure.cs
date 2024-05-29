@@ -6,6 +6,7 @@ using Assets.Scripts.Test;
 using XFrame.Core.Threads;
 using XFrame.Core;
 using XFrameShare.Network;
+using XFrame.Tasks;
 
 namespace Game.Core.Procedure
 {
@@ -17,7 +18,6 @@ namespace Game.Core.Procedure
             string langFile = Global.LocalRes.Load<TextAsset>(Constant.LANG_FILE_PATH).text;
             Global.I18N.Parse(langFile);
             Initialize();
-
             Fiber netFiber = Global.Fiber.GetOrNew(1);
             netFiber.StartThread(1);
 

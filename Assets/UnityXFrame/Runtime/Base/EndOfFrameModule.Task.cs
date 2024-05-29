@@ -1,4 +1,5 @@
 ﻿using XFrame.Core;
+using XFrame.Core.Threads;
 using XFrame.Tasks;
 
 namespace UnityXFrame.Core
@@ -16,7 +17,7 @@ namespace UnityXFrame.Core
         private class TaskHandler : IProTaskHandler
         {
             private bool m_Complete;
-            private IUpdater m_Task;
+            private IFiberUpdate m_Task;
 
             public object Data => null;
 

@@ -743,13 +743,13 @@
             任务模块
             </summary>
         </member>
-        <member name="M:XFrame.Core.Threads.ITaskModule.Register(XFrame.Core.IUpdater)">
+        <member name="M:XFrame.Core.Threads.ITaskModule.Register(XFrame.Core.Threads.IFiberUpdate)">
             <summary>
             注册可更新的任务
             </summary>
             <param name="task">任务</param>
         </member>
-        <member name="M:XFrame.Core.Threads.ITaskModule.UnRegister(XFrame.Core.IUpdater)">
+        <member name="M:XFrame.Core.Threads.ITaskModule.UnRegister(XFrame.Core.Threads.IFiberUpdate)">
             <summary>
             取消任务的注册
             </summary>
@@ -9359,13 +9359,13 @@
             </summary>
             <param name="domain">域</param>
         </member>
-        <member name="M:XFrame.Tasks.XTaskHelper.Register(XFrame.Core.IUpdater)">
+        <member name="M:XFrame.Tasks.XTaskHelper.Register(XFrame.Core.Threads.IFiberUpdate)">
             <summary>
             注册可更新任务
             </summary>
             <param name="task">任务</param>
         </member>
-        <member name="M:XFrame.Tasks.XTaskHelper.UnRegister(XFrame.Core.IUpdater)">
+        <member name="M:XFrame.Tasks.XTaskHelper.UnRegister(XFrame.Core.Threads.IFiberUpdate)">
             <summary>
             取消注册可更新任务
             </summary>
