@@ -25,6 +25,7 @@ using XFrame.Modules.Resource;
 using XFrame.Modules.Serialize;
 using XFrame.Modules.StateMachine;
 using XFrame.Modules.Times;
+using XFrameShare.Network;
 
 public static partial class Global
 {
@@ -55,4 +56,5 @@ public static partial class Global
     public static IDebugger Debugger => m_Debugger ??= Entry.GetModule<IDebugger>();
     public static ISpriteAtlasModule SpriteAtlas => m_SpriteAtlas ??= Entry.GetModule<ISpriteAtlasModule>();
     public static FiberModule Fiber => m_Fiber ??= Entry.GetModule<FiberModule>();
+    public static NetworkModule Net => m_Net ??= Entry.GetModule<NetworkModule>();
 }

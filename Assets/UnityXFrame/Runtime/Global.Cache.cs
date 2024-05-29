@@ -23,6 +23,7 @@ using XFrame.Modules.Resource;
 using XFrame.Modules.Serialize;
 using XFrame.Modules.StateMachine;
 using XFrame.Modules.Times;
+using XFrameShare.Network;
 
 public static partial class Global
 {
@@ -46,6 +47,7 @@ public static partial class Global
     private static IResModule m_Res;
     private static ISerializeModule m_Serialize;
     private static ITimeModule m_Time;
+    private static NetworkModule m_Net;
     private static SceneModule m_Scene;
 
     private static IResModule m_LocalRes;
@@ -83,5 +85,6 @@ public static partial class Global
         m_Debugger = null;
         m_Fiber = null;
         m_Scene = null;
+        m_Net = null;
     }
 }

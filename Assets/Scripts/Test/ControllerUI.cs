@@ -91,7 +91,7 @@ namespace Assets.Scripts.Test
         private void InnerConnect()
         {
             IScene gameScene = Global.Scene.Create();
-            m_Game = Entry.GetModule<NetworkModule>().Create(gameScene, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999, XProtoType.Tcp);
+            m_Game = Global.Net.Create(gameScene, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999, XProtoType.Tcp);
             m_Game.AddHandler<CreateEntityMessageHandler>();
         }
 
