@@ -34,7 +34,7 @@ namespace UnityXFrame.Core.Diagnotics
                     {
                         string msg = (string)state;
                         UnityEngine.Debug.Log(msg);
-                    }, $"[thread-{Thread.CurrentThread.ManagedThreadId}] {result}");
+                    }, result);
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace UnityXFrame.Core.Diagnotics
                     {
                         string msg = (string)state;
                         UnityEngine.Debug.LogError(msg);
-                    }, $"[thread-{Thread.CurrentThread.ManagedThreadId}] {result}");
+                    }, result);
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace UnityXFrame.Core.Diagnotics
                     {
                         string msg = (string)state;
                         UnityEngine.Debug.LogError(msg);
-                    }, $"[thread-{Thread.CurrentThread.ManagedThreadId}] {result}");
+                    }, result);
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace UnityXFrame.Core.Diagnotics
                     {
                         string msg = (string)state;
                         UnityEngine.Debug.LogWarning(msg);
-                    }, $"[thread-{Thread.CurrentThread.ManagedThreadId}] {result}");
+                    }, result);
                 }
             }
         }
@@ -112,7 +112,9 @@ namespace UnityXFrame.Core.Diagnotics
                 {
                     realContent = content[1].ToString();
                 }
-                if (m_Formater.Format(content[0].ToString(), realContent, out result))
+                bool success = m_Formater.Format(content[0].ToString(), realContent, out result);
+                result = $"[{Thread.CurrentThread.ManagedThreadId,5}]" + result;
+                if (success)
                     return true;
                 else
                     return false;
@@ -123,6 +125,7 @@ namespace UnityXFrame.Core.Diagnotics
                     m_Formater.Format(string.Empty, content[0].ToString(), out result);
                 else
                     result = string.Concat(content);
+                result = $"[{Thread.CurrentThread.ManagedThreadId,5}]" + result;
                 return true;
             }
         }
