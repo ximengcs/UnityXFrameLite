@@ -92,7 +92,6 @@ namespace Assets.Scripts.Test
         {
             IScene gameScene = Global.Scene.Create();
             m_Game = Global.Net.Create(gameScene, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999, XProtoType.Tcp);
-            m_Game.AddHandler<CreateEntityMessageHandler>();
         }
 
         private void InnerLeft()
