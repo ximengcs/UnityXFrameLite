@@ -9,6 +9,7 @@ using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.UIElements;
 using UnityXFrameLib.UIElements;
 using XFrame.Core;
+using XFrame.Core.Threads;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
 using XFrame.Modules.Times;
@@ -25,16 +26,17 @@ namespace Assets.Scripts.Test
         public Button m_DownBtn;
         public Button m_UpBtn;
         public Button m_ConnectBtn;
+        public Button m_HostBtn;
         public TextMeshProUGUI m_IPText;
 
         private ClientView m_Client;
-        private IRoot m_Game;
         private PlayerMoveComponent m_MoveComponent;
 
         protected override void OnInit()
         {
             base.OnInit();
             m_ConnectBtn.onClick.AddListener(InnerConnect);
+            m_HostBtn.onClick.AddListener(InnerHost);
             m_LeftBtn.onClick.AddListener(InnerLeft);
             m_RightBtn.onClick.AddListener(InnerRight);
             m_DownBtn.onClick.AddListener(InnerDown);
@@ -91,7 +93,19 @@ namespace Assets.Scripts.Test
         private void InnerConnect()
         {
             IScene gameScene = Global.Scene.Create();
-            m_Game = Global.Net.Create(gameScene, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999, XProtoType.Tcp);
+            Global.Net.Create(gameScene, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999, XProtoType.Tcp);
+        }
+
+        private void InnerHost()
+        {
+            Fiber serverFiber = Global.Fiber.GetOrNew(GameConst.FIBER_ID);
+            serverFiber.StartThread(10);
+            IScene serverScene = Global.Scene.Create(serverFiber);
+            serverScene.Fiber.Post((state) =>
+            {
+                IScene scene = state as IScene;
+                Global.Net.Create(scene, NetMode.Server, 9999, XProtoType.Tcp);
+            }, serverScene);
         }
 
         private void InnerLeft()
