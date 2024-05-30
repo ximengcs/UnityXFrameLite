@@ -57,7 +57,6 @@ namespace Assets.Scripts.Entities
                 Entry.GetModule<Debugger>().AddTitleShower(InnerShowPing);
             }
 
-            m_Client.AddHandler<DestroyEntityMessageHandler>();
             m_ClientMail = m_Client.GetCom<IMailBox>(default, false);
         }
 
