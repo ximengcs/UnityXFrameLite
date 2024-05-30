@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Entities;
+using System;
 using System.Net;
 using TestGame.Share.Clients;
 using TMPro;
@@ -95,9 +96,9 @@ namespace Assets.Scripts.Test
             IScene gameScene = Global.Scene.Create();
             gameScene.Fiber.Post((state) =>
             {
-                IScene scene = state as IScene;
-                Global.Net.Create(scene, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999, XProtoType.Tcp);
-            }, gameScene);
+                var tuple = (ValueTuple<IScene, string>)state;
+                Global.Net.Create(tuple.Item1, NetMode.Client, IPAddress.Parse(tuple.Item2), 9999, XProtoType.Tcp);
+            }, ValueTuple.Create(gameScene, m_IPText.text));
         }
 
         private void InnerHost()
