@@ -93,7 +93,11 @@ namespace Assets.Scripts.Test
         private void InnerConnect()
         {
             IScene gameScene = Global.Scene.Create();
-            Global.Net.Create(gameScene, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999, XProtoType.Tcp);
+            gameScene.Fiber.Post((state) =>
+            {
+                IScene scene = state as IScene;
+                Global.Net.Create(scene, NetMode.Client, IPAddress.Parse(m_IPText.text), 9999, XProtoType.Tcp);
+            }, gameScene);
         }
 
         private void InnerHost()
