@@ -7,6 +7,7 @@ using UnityXFrame.Core;
 using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.UIElements;
 using XFrame.Core;
+using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Procedure;
 using XFrame.Modules.Resource;
 using XFrame.Modules.Threads;

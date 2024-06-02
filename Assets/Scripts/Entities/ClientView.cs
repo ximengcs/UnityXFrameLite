@@ -84,7 +84,7 @@ namespace Assets.Scripts.Entities
         public void Move(System.Numerics.Vector3 target)
         {
             Log.Debug($"move to {target}");
-            Transform.position = target.ToUnityPos();
+            Transform.DOMove(target.ToUnityPos(), 1f);
         }
     }
 }
