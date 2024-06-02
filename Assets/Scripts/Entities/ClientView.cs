@@ -8,11 +8,12 @@ using DG.Tweening;
 using XFrame.Core.Threads;
 using TestGame.Share.Clients;
 using XFrame.Modules.Diagnotics;
+using System.Linq;
 
 namespace Assets.Scripts.Entities
 {
     [NetEntityComponent(typeof(Client), NetMode.Client)]
-    public class ClientView : Entity, INetEntityComponent, IMovementProxy
+    public class ClientView : Entity, IMovementProxy, INetEntityComponent
     {
         private Client m_Client;
         private IMailBox m_ClientMail;
@@ -21,14 +22,6 @@ namespace Assets.Scripts.Entities
         private Tween m_MoveTween;
 
         public Transform Transform => m_Go.transform;
-
-        public bool IsSelf
-        {
-            get
-            {
-                return m_Client.GetCom<MailBoxCom>().Id == m_Client.Master.GetCom<ServerMailBoxCom>().ConnectEntity;
-            }
-        }
 
         public void DoMove(Vector3 target, float duration)
         {
@@ -45,13 +38,13 @@ namespace Assets.Scripts.Entities
             Transform.localScale = Vector3.one * 0.5f;
             m_Render = m_Go.AddComponent<SpriteRenderer>();
             InnerInit();
+        }
 
-            PlayerMoveComponent movement = m_Client.AddHandler<PlayerMoveComponent>(true);
+        public void OnReady()
+        {
+            PlayerMoveComponent movement = m_Client.GetHandlerInstance<PlayerMoveComponent>();
             movement.BindProxy(this);
-
-            m_Client.AddFactory(movement);
-
-            if (IsSelf)
+            if (m_Client.IsSelf())
             {
                 Global.UI.Get<ControllerUI>().Bind(movement, this);
                 Entry.GetModule<Debugger>().AddTitleShower(InnerShowPing);

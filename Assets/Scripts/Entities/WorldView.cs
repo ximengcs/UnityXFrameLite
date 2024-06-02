@@ -6,7 +6,7 @@ using XFrameShare.Test;
 namespace Assets.Scripts.Entities
 {
     [NetEntityComponent(typeof(World), NetMode.Client)]
-    public class WorldView : Entity, INetEntityComponent
+    public class WorldView : Entity
     {
         private World m_World;
         private GameObject m_Go;
