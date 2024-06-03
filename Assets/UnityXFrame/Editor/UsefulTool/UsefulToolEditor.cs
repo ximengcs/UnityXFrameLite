@@ -186,6 +186,11 @@ namespace UnityXFrame.Editor
             return m_Data.XFrameSharePath + "/bin/Debug/netstandard2.1";
         }
 
+        public string XFrameShareDllPath2()
+        {
+            return m_Data.XFrameSharePath + "/bin/Debug/net8.0";
+        }
+
         public void ImportXFrame()
         {
             if (EditorApplication.isCompiling)
