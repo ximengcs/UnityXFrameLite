@@ -133,7 +133,7 @@ namespace UnityXFrame.Editor
                 }
             }
 
-            AssetDatabase.Refresh();
+            EditorApplication.delayCall += AssetDatabase.Refresh;
         }
 
         public void DeleteXFrameCache()
