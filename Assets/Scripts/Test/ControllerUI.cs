@@ -103,7 +103,7 @@ namespace Assets.Scripts.Test
 
         private void InnerHost()
         {
-            Fiber serverFiber = Global.Fiber.GetOrNew(GameConst.FIBER_ID);
+            Fiber serverFiber = Global.Fiber.GetOrNew("Server", GameConst.FIBER_ID);
             serverFiber.StartThread(10);
             IScene serverScene = Global.Scene.Create(serverFiber);
             serverScene.Fiber.Post((state) =>

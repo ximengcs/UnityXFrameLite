@@ -5,6 +5,8 @@ using System.Diagnostics;
 using UnityEditor.Build.Player;
 using System.Collections.Generic;
 using System;
+using UnityEditor.TestTools.TestRunner.Api;
+using static UnityEditor.EditorApplication;
 
 namespace UnityXFrame.Editor
 {
@@ -47,11 +49,11 @@ namespace UnityXFrame.Editor
                 EditorUtility.RevealInFinder(m_Data.XFramePath);
             EditorGUILayout.EndHorizontal();
             if (GUILayout.Button("Compile"))
-                CompileXFrame();
+                DeleteXFrameCache(() => CompileXFrame());
             if (GUILayout.Button("Import"))
                 ImportXFrame();
             if (GUILayout.Button("Compile & Import"))
-                CompileXFrame((s, e) => ImportXFrame());
+                DeleteXFrameCache(() => CompileXFrame((s, e) => ImportXFrame()));
             GUILayout.EndVertical();
 
             GUILayout.BeginVertical(StyleUtility.Style1);
@@ -136,29 +138,39 @@ namespace UnityXFrame.Editor
             EditorApplication.delayCall += AssetDatabase.Refresh;
         }
 
-        public void DeleteXFrameCache()
+        public void DeleteXFrameCache(CallbackFunction callback = null)
         {
-            string targetPath = Path.Combine(m_Data.XFrameProjectPath, "XFrame", "obj");
-            if (Directory.Exists(targetPath))
-                Directory.Delete(targetPath, true);
-            EditorLog.Debug($"delete {targetPath}");
-            targetPath = Path.Combine(m_Data.XFrameProjectPath, "XFrame", "bin");
-            if (Directory.Exists(targetPath))
-                Directory.Delete(targetPath, true);
-            targetPath = XFrameDllPath();
-            if (Directory.Exists(targetPath))
-                Directory.Delete(targetPath, true);
-            EditorLog.Debug($"delete {targetPath}");
+            callback();
+            return;
+            EditorLog.Debug("========================== START CLEAN XFRAME ========================");
+            string fullPath = Path.Combine(m_Data.XFrameProjectPath, "XFrame/XFrame.csproj");
+            string param = "clean " + fullPath;
+            ProcessStartInfo startInfo = new ProcessStartInfo("dotnet", param);
+            startInfo.RedirectStandardOutput = true;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            Process process = Process.Start(startInfo);
+            process.EnableRaisingEvents = true;
+            process.OutputDataReceived += (sender, a) => EditorLog.Debug(a.Data);
+            process.Exited += (sender, e) =>
+            {
+                callback();
+                callback = null;
+            };
+            process.Start();
+            process.BeginOutputReadLine();
+            process.WaitForExit();
+            process.Close();
+            EditorLog.Debug("=======================================================================");
         }
 
         public void CompileXFrame(EventHandler callback = null)
         {
-            DeleteXFrameCache();
             EditorLog.Debug("========================== START COMPILE XFRAME ========================");
             string fullPath = Path.Combine(m_Data.XFrameProjectPath, "XFrame/XFrame.csproj");
             string param = "build ";
             if (m_Data.IsRelease)
-                param += "--configuration Release ";
+                param += "--no-incremental --configuration Release ";
             param += fullPath;
             param += " -o " + XFrameDllPath();
             ProcessStartInfo startInfo = new ProcessStartInfo("dotnet", param);
