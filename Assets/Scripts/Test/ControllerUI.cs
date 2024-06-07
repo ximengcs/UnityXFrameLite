@@ -1,20 +1,16 @@
 ﻿using Assets.Scripts.Entities;
 using System;
 using System.Net;
-using TestGame.Share.Clients;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityXFrame.Core;
-using UnityXFrame.Core.Diagnotics;
 using UnityXFrame.Core.UIElements;
 using UnityXFrameLib.UIElements;
-using XFrame.Core;
 using XFrame.Core.Threads;
-using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
 using XFrame.Modules.Times;
 using XFrameShare.Network;
+using XFrameShare.Network.Tests;
 
 namespace Assets.Scripts.Test
 {

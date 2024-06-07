@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using XFrame.Modules.Entities;
 using XFrameShare.Network;
+using XFrameShare.Network.Tests;
 using XFrameShare.Test;
 
 namespace Assets.Scripts.Entities
 {
-    [NetEntityComponent(typeof(World), NetMode.Client)]
+    [NetChildOf(typeof(World), NetMode.Client)]
     public class WorldView : Entity
     {
         private World m_World;

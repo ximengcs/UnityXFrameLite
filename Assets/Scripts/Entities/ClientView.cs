@@ -6,13 +6,12 @@ using XFrame.Core;
 using UnityXFrame.Core.Diagnotics;
 using DG.Tweening;
 using XFrame.Core.Threads;
-using TestGame.Share.Clients;
 using XFrame.Modules.Diagnotics;
-using System.Linq;
+using XFrameShare.Network.Tests;
 
 namespace Assets.Scripts.Entities
 {
-    [NetEntityComponent(typeof(Client), NetMode.Client)]
+    [NetChildOf(typeof(Client), NetMode.Client)]
     public class ClientView : Entity, IMovementProxy, INetEntityComponent
     {
         private Client m_Client;
@@ -40,7 +39,12 @@ namespace Assets.Scripts.Entities
             InnerInit();
         }
 
-        public void OnReady()
+        void INetEntityComponent.OnFriendReady()
+        {
+            
+        }
+
+        void INetEntityComponent.OnMasterReady()
         {
             PlayerMoveComponent movement = m_Client.GetHandlerInstance<PlayerMoveComponent>();
             movement.BindProxy(this);
