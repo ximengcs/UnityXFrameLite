@@ -18,7 +18,7 @@ namespace Game.Test
     {
         private string m_Content;
         private string m_IP;
-        private XFrameServer.Test.Entities.Game m_Root;
+        private IRoot m_Root;
         private int m_SendTimes;
         private int m_SuccessTimes;
 
