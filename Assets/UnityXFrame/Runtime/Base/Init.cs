@@ -82,6 +82,12 @@ namespace UnityXFrame.Core
             Entry.Trigger<IGUI>();
         }
 
+        private void OnDrawGizmos()
+        {
+            if (Application.isPlaying)
+                Entry.Trigger<IGizmos>();
+        }
+
         private void OnApplicationFocus(bool focus)
         {
             Entry.Trigger<ISaveable>();
