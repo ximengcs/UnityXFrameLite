@@ -13,6 +13,7 @@ using XFrame.Modules.Conditions;
 using XFrame.Modules.Reflection;
 using UnityXFrame.Core.Resource;
 using XFrame.Modules.Entities;
+using MongoDB.Bson.Serialization;
 
 namespace Game.Test
 {
